@@ -14,7 +14,7 @@ import Map from "@/components/map/map";
 import { useEffect, useState } from "react";
 import { log } from "console";
 import { cn } from "@/lib/utils";
-import CustomSwiper, {  CarouselSpacing } from "@/components/Swiper/Swiper";
+import CustomSwiper from "@/components/Swiper/Swiper";
 import ProfileCard from "@/components/Swiper/Card";
 import { Card } from "@/components/ui/card"
 import { Phone } from "../../public/img/phone";
