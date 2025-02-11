@@ -87,12 +87,31 @@ section{
 .primary-bg {
   background: var(--primary-gradient);
 }
+.splide__slide {
+  width: 1130px !important;
+  height: 536px !important;
+}
+.splide__arrow{
+  border-radius: 40px;
+padding: 12px;
+width: 80px;
+height: 80px;
+backdrop-filter: blur(8px);
+background: rgba(0, 0, 0, 0.4);
+transform: rotate(-180deg);
+}
+
 .text-gradient {
   background: linear-gradient(225deg, #cb651c 0%, #813b0a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
- 
+.border-gradient {
+  border: 2px solid transparent;
+  border-radius: 16px;
+  border-image: linear-gradient(225deg, #cb651c 0%, #813b0a 100%) 1;
+  outline: none;
+}
 header{
   z-index: 100;
  

@@ -34,10 +34,6 @@ export const Header = () => {
         <Logo/>
       </div>
       <div className='flex gap-[16px] py-[28px]'>
-        {/* <Button className='bg-[#f6f6f6] hover:bg-[#f6f6f6] hover:cursor-pointer
-        '>
-            <Search/>
-        </Button> */}
         <AnimatedSearchTransform/>
         <Button className='bg-[#f6f6f6] hover:bg-[#f6f6f6] hover:cursor-pointer flex gap-[8px] h-[52px]
         '>

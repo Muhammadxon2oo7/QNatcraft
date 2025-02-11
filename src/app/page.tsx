@@ -14,7 +14,7 @@ import Map from "@/components/map/map";
 import { useEffect, useState } from "react";
 import { log } from "console";
 import { cn } from "@/lib/utils";
-import {  CarouselSpacing } from "@/components/Swiper/Swiper";
+import CustomSwiper, {  CarouselSpacing } from "@/components/Swiper/Swiper";
 import ProfileCard from "@/components/Swiper/Card";
 import { Card } from "@/components/ui/card"
 import { Phone } from "../../public/img/phone";
@@ -333,9 +333,9 @@ export default function Home() {
           </p>
         </div>
       </div>
-      {/* <div className="w-full">
-        <CarouselSpacing/>
-      </div> */}
+      <div className="w-full ">
+        <CustomSwiper/>
+      </div>
     
     </section>
     <section className="max-w-[1360px] mx-auto mb-[140px] " id="aboutus">
