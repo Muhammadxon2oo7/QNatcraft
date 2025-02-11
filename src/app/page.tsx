@@ -188,7 +188,7 @@ export default function Home() {
   // "Zargarlik","Kulolchilik","Duradgorlik","Kiyim-kechak","Kashtachilik"
   return (
     <>
-    <section className="pt-[120px] max-w-[1360px] mx-auto">
+    <section className="pt-[280px] max-w-[1360px] mx-auto">
       <div className="flex justify-between mb-[80px]">
         <div>
         <Badge className="rounded-[24px] mb-[16px] bg-[#fcefe5] cursor-pointer p-[10px_16px] w-[166px] h-[36px] flex gap-[10px] " variant="secondary"><Dot/><p className="font-bold text-[16px] leading-none bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">QQRNATCRAFT</p></Badge>
@@ -208,7 +208,7 @@ export default function Home() {
      
       <PotteryStory/>
     </section>
-    <section className="max-w-[1360px] mx-auto">
+    <section className="max-w-[1360px] mx-auto" id="madaniymeros">
     <div className="flex justify-between mb-[36px]">
         <div>
         <Badge className="rounded-[24px] mb-[16px] bg-[#fcefe5] cursor-pointer p-[10px_16px] w-[191px] h-[36px] flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">MADANIY MEROS</p></Badge>
@@ -224,7 +224,7 @@ export default function Home() {
       </div>
       <AnimatedTimeline/>
     </section>
-    <section className="max-w-[1360px] mx-auto mb-[140px]">
+    <section className="max-w-[1360px] mx-auto mb-[140px]" id="Hunarmandchilikturlari">
     <div className="flex justify-between mb-[36px]">
         <div>
         <Badge className="rounded-[24px] mb-[16px] bg-[#fcefe5] cursor-pointer p-[10px_16px] w-[220px] h-[36px] flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">HUNARMANDCHILIK</p></Badge>
@@ -303,7 +303,7 @@ export default function Home() {
 
 
     </section>
-    <section className="max-w-[1360px] mx-auto">
+    <section className="max-w-[1360px] mx-auto" id="xarita">
     <div className="flex justify-between mb-[36px]">
         <div>
         <Badge className="rounded-[24px] mb-[16px] bg-[#fcefe5] cursor-pointer p-[10px_16px] w-[110px] h-[36px] flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">XARITA</p></Badge>
@@ -338,7 +338,7 @@ export default function Home() {
       </div> */}
     
     </section>
-    <section className="max-w-[1360px] mx-auto mb-[140px]">
+    <section className="max-w-[1360px] mx-auto mb-[140px] " id="aboutus">
     <div className="flex justify-between mb-[36px]">
         <div>
         <Badge className="rounded-[24px] mb-[16px] bg-[#fcefe5] cursor-pointer p-[10px_16px] w-[110px] h-[36px] flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">HAQIDA</p></Badge>

@@ -2,10 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 body {
   font-family: Arial, Helvetica, sans-serif;
+  scroll-behavior: smooth;
 }
-
+html {
+  scroll-behavior: smooth;
+}
+section{
+  scroll-margin-top: 180px;
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -84,7 +92,11 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
+ 
+header{
+  z-index: 100;
+ 
+}
 
 @layer base {
   * {

@@ -37,7 +37,7 @@ export default function RootLayout({
       <body
         style={{ fontFamily: "'Raleway', sans-serif" }}
       >
-        <Header/>
+        <Header  />
         {children}
       </body>
     </html>

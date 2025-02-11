@@ -28,8 +28,8 @@ import Navbar from '../Navbar/Navbar'
   
 export const Header = () => {
   return (
-<>
-<div className='flex flex-wrap max-w-[1360px]  mx-auto justify-between'>
+<header className=' block fixed inset-0 bg-white h-[156px] '>
+<div className='flex flex-wrap max-w-[1360px]  mx-auto justify-between '>
       <div className='py-[28px]'>
         <Logo/>
       </div>
@@ -91,6 +91,6 @@ export const Header = () => {
             <Navbar/>
             </div>
     </div>
-</>
+</header>
   )
 }
