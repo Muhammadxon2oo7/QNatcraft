@@ -29,7 +29,7 @@ import Navbar from '../Navbar/Navbar'
 export const Header = () => {
   return (
 <header className=' block fixed inset-0 bg-white h-[156px] '>
-<div className='flex flex-wrap max-w-[1360px]  mx-auto justify-between '>
+<div className='flex flex-wrap max-w-[1360px]  mx-auto justify-between  z-100'>
       <div className='py-[28px]'>
         <Logo/>
       </div>
@@ -48,11 +48,11 @@ export const Header = () => {
         '>
             <HeartICon/>
         </Button>
-        <Select>
+        <Select >
   <SelectTrigger className="w-[117px] h-[52px]">
     <SelectValue placeholder="Theme" />
   </SelectTrigger>
-  <SelectContent>
+  <SelectContent className='absolute block index  '>
     <SelectItem className='cursor-pointer' value="light">O’zb</SelectItem>
     <SelectItem className='cursor-pointer' value="dark">English</SelectItem>
     <SelectItem className='cursor-pointer' value="system">Ru</SelectItem>

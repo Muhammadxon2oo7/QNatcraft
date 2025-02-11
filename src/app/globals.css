@@ -97,6 +97,9 @@ header{
   z-index: 100;
  
 }
+.index{
+  z-index: 100;
+}
 
 @layer base {
   * {
