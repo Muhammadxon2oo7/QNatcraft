@@ -1,0 +1,75 @@
+{
+    "home": {
+      "mainSection": {
+        "badge": "QQRNATCRAFT",
+        "title": {
+          "first": "Qaraqalpaq hunarmanşılığı –",
+          "second": "tarixiy murası hám nápis sheberliktiń uyğınlığı!"
+        },
+        "description": {
+          "p": "Real'lıq shınayısı márginallaslandırılğan. Reviziya sholları globalizaciya qarıma-qayşılıqları. Kalkulyator yolu menen şeşim qabıllaw inisiativası. Múmkinshilikti aqparatlar arqılı páydağa aylandırıw.",
+          "button": "Dükanga kırıw"
+        }
+      },
+      "secondSection": {
+        "badge": "MÁDANIY MURAS",
+        "title": {
+          "first": "Qaraqalpaqstan hunarmanşılığı -",
+          "second": " mádaniy murası"
+        },
+        "description": "Real'lıq shınayısı márginallaslandırılğan. Reviziya sholları globalizaciya qarıma-qayşılıqları. Kalkulyator yolu menen şeşim qabıllaw inisiativası."
+      },
+      "thirdSection": {
+        "badge": "HUNARMANŞILIQ",
+        "title": "Hunarmanşılıq túrleri",
+        "description": "Real'lıq shınayısı márginallaslandırılğan. Reviziya sholları globalizaciya qarıma-qayşılıqları. Kalkulyator yolu menen şeşim qabıllaw inisiativası."
+      },
+      "fourthSection": {
+        "badge": "XÁRITA",
+        "title": "Interaktiv xarita",
+        "description": "Real'lıq shınayısı márginallaslandırılğan. Reviziya sholları globalizaciya qarıma-qayşılıqları. Kalkulyator yolu menen şeşim qabıllaw inisiativası.",
+        "region": "Hudarlar",
+        "regions": {
+          "first": "Qońırat rayonı",
+          "second": "Moynaq rayonı",
+          "third": "Shomanay rayonı",
+          "fourth": "Taxtakópir rayonı",
+          "fifth": "Amúdárya rayonı",
+          "sixth": "Nókis rayonı",
+          "seventh": "Xójaylı rayonı",
+          "eight": "Taqıyataw rayonı",
+          "nine": "Biruniy rayonı",
+          "ten": "Ellik qal'a rayonı",
+          "eleven": "Tórtkúl rayonı",
+          "twelve": "Shımbay rayonı",
+          "thirteen": "Bozataw rayonı",
+          "fourteen": "Kegeyli rayonı",
+          "fifteen": "Qanlıkól rayonı"
+        },
+        "statistic": {
+            "first": "Hunarmanşılıq ob'ektleri",
+            "second": "Hunarman ustalar",
+            "third": "Hunarmanşılıq túrleri"
+        }
+      },
+      "fifthSection": {
+        "badge": "HUNARMANDLAR",
+        "title": "Hunarman ustalar",
+        "description": "Real'lıq shınayısı márginallaslandırılğan. Reviziya sholları globalizaciya qarıma-qayşılıqları. Kalkulyator yolu menen şeşim qabıllaw inisiativası."
+      },
+      "sixthSection": {
+        "badge": "HAQINDA",
+        "title": "Biz haqqında",
+        "description": "Real'lıq shınayısı márginallaslandırılğan. Reviziya sholları globalizaciya qarıma-qayşılıqları. Kalkulyator yolu menen şeşim qabıllaw inisiativası."
+      }
+    },
+    "header": {
+      "first": "Biz haqqında",
+      "second": "Mádaniy muras",
+      "third": "Hunarmanşılıq túrleri",
+      "fourth": "Hunarmandlar",
+      "fifth": "Kórgazmalar 360",
+      "sixth": "Dükán"
+    }
+  }
+  

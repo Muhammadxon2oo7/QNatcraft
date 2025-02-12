@@ -1,10 +1,3 @@
-import { withNextVideo } from 'next-video/process';
+import withNextIntl from 'next-intl/plugin';
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  images: {
-    domains: ['hebbkx1anhila5yf.public.blob.vercel-storage.com'],
-  },
-};
-
-export default withNextVideo(nextConfig);
+export default withNextIntl();

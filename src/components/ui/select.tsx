@@ -17,18 +17,18 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-10 items-center gap-2 rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-base font-medium text-gray-900 shadow-sm outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500",
+      "flex h-10 items-center gap-2 rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-base font-medium text-gray-900 shadow-sm outline-none focus:border-[#63080b] focus:ring-2 focus:ring-[#63080b] focus:outline-none",
       className
     )}
     {...props}
   >
     {/* Language Icon */}
-    <span className="text-[#cb651c]">
+    <span className="text-[#63080b]">
       <TranslateIcon/>
     </span>
     {children}
     <SelectPrimitive.Icon asChild>
-      <ChevronDown className="h-5 w-5 text-[#cb651c]" />
+      <ChevronDown className="h-5 w-5 text-[#63080b]" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ))
@@ -71,14 +71,14 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex w-full cursor-default select-none cursor-pointer items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-orange-100 focus:text-orange-500",
+      "relative flex w-full  select-none cursor-pointer items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-[#63080b7d] focus:text-white  ",
       className
     )}
     {...props}
   >
     <span className="absolute right-2 flex h-3.5 w-3.5 items-center justify-center">
       <SelectPrimitive.ItemIndicator>
-        <Check className="h-4 w-4 text-orange-500 cursor-pointer" />
+        <Check className="h-4 w-4 text-[#63080b] cursor-pointer" />
       </SelectPrimitive.ItemIndicator>
     </span>
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>

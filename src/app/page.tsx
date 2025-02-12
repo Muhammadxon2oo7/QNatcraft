@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { badgeVariants } from "@/components/ui/badge"
 import Link from "next/link";
 import { Dot } from "@/components/dot/Dot";
-import { Arrow } from "../../public/img/Arrow";
+import { Arrow } from "./../../public/img/Arrow";
 import Video from 'next-video';
 import myVideo from '@/../videos/natcraft.mp4'
 import PotteryStory from "@/components/pottery-story/pottery-story";
@@ -17,14 +17,15 @@ import { cn } from "@/lib/utils";
 import CustomSwiper from "@/components/Swiper/Swiper";
 import ProfileCard from "@/components/Swiper/Card";
 import { Card } from "@/components/ui/card"
-import { Phone } from "../../public/img/phone";
-import { Mail } from "../../public/img/mail";
-import { Location } from "../../public/img/location";
-import { Telegram } from "../../public/img/telegram";
-import { Instagram } from "../../public/img/instagram";
-import { Feacebook } from "../../public/img/feacebook";
-import { Youtube } from "../../public/img/youtube";
+import { Phone } from "./../../public/img/phone";
+import { Mail } from "./../../public/img/mail";
+import { Location } from "./../../public/img/location";
+import { Telegram } from "./../../public/img/telegram";
+import { Instagram } from "./../../public/img/instagram";
+import { Feacebook } from "./../../public/img/feacebook";
+import { Youtube } from "./../../public/img/youtube";
 import { Footer } from "@/components/footer/Footer";
+import { useTranslations } from "next-intl";
 
 const TypeofCrafts = {
   zargarlik: {
@@ -169,6 +170,12 @@ const TypeofCrafts = {
 type CraftType = keyof typeof TypeofCrafts;
 
 export default function Home() {
+  const tmain=useTranslations("home.mainSection")
+  const tsecond=useTranslations("home.secondSection")
+  const tthird=useTranslations("home.thirdSection")
+  const tfourth=useTranslations("home.fourthSection")
+  const tfifth=useTranslations("home.fifthSection")
+  const tsixth=useTranslations("home.sixthSection")
 
   const [selectedCraft, setSelectedCraft] = useState<typeof TypeofCrafts[keyof typeof TypeofCrafts] | null>(null);
   useEffect(() => {
@@ -190,35 +197,42 @@ export default function Home() {
     <>
     <section className="pt-[280px] max-w-[1360px] mx-auto">
       <div className="flex justify-between mb-[80px]">
-        <div>
-        <Badge className="rounded-[24px] mb-[16px] bg-[#fcefe5] cursor-pointer p-[10px_16px] w-[166px] h-[36px] flex gap-[10px] " variant="secondary"><Dot/><p className="font-bold text-[16px] leading-none bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">QQRNATCRAFT</p></Badge>
-        <h1 className="font-custom font-extrabold text-[40px] leading-[130%] bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">
-        Qoraqalpoq hunarmandchiligi – <br /> <span className="text-[#606266]">tarixiy meros va nafis san’atning <br /> uyg‘unligi!</span>
+        <div className="w-[635px]">
+        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] cursor-pointer p-[10px_16px] w-[166px] h-[36px] flex gap-[10px] hover:bg-[#fcdbdb]" variant="secondary"><Dot/><p className="font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">QQRNATCRAFT</p></Badge>
+        <h1 className="font-custom font-extrabold text-[40px] leading-[130%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">
+        {tmain('title.first')} <br /> <span className="text-[#606266]">{tmain('title.second')}</span>
         </h1>
         </div>
         <div>
           <p className="font-medium text-[20px] leading-[160%] text-gray-500 w-[525px] mb-[24px]">
-          Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback. Opportunity accountable files time key you're harvest.
+          {tmain('description.p')}
           </p>
           <Button className="primary-bg rounded-[16px] p-[14px_20px] w-[240px] h-[52px]">
-          Do’konga o’tish <Arrow/>
+          {tmain('description.button')} <Arrow/>
           </Button>
         </div>
       </div>
      
       <PotteryStory/>
     </section>
+
     <section className="max-w-[1360px] mx-auto" id="madaniymeros">
     <div className="flex justify-between mb-[36px]">
         <div>
-        <Badge className="rounded-[24px] mb-[16px] bg-[#fcefe5] cursor-pointer p-[10px_16px] w-[191px] h-[36px] flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">MADANIY MEROS</p></Badge>
+        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] h-[36px]  gap-[10px] inline-flex items-center">
+  <Dot/>
+  <p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">
+    {tsecond('badge')}
+  </p>
+</Badge>
+
         <h1 className="font-sans font-bold text-[32px] leading-[131%] text-[#242b3a]">
-        Qoraqalpog’iston hunarmandchiligi -<br /> <span className="text-[#606266]">madaniy merosi <br /> </span>
+        {tsecond('title.first')}<br /> <span className="text-[#606266]">{tsecond('title.second')}</span>
         </h1>
         </div>
         <div>
           <p className="font-medium text-[20px] leading-[160%] text-gray-500 w-[525px] mb-[24px]">
-          Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback.
+          {tsecond('description')}
           </p>
         </div>
       </div>
@@ -227,14 +241,14 @@ export default function Home() {
     <section className="max-w-[1360px] mx-auto mb-[140px]" id="Hunarmandchilikturlari">
     <div className="flex justify-between mb-[36px]">
         <div>
-        <Badge className="rounded-[24px] mb-[16px] bg-[#fcefe5] cursor-pointer p-[10px_16px] w-[220px] h-[36px] flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">HUNARMANDCHILIK</p></Badge>
+        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] inline-flex h-[36px]  gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tthird('badge')}</p></Badge>
         <h1 className="font-sans font-bold text-[32px] leading-[131%] text-[#242b3a]">
-        Hunarmandchilik turlari
+        {tthird('title')}
         </h1>
         </div>
         <div>
           <p className="font-medium text-[20px] leading-[160%] text-gray-500 w-[525px] mb-[24px]">
-          Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger
+          {tthird('description')}
           </p>
         </div>
       </div>
@@ -256,7 +270,7 @@ export default function Home() {
       ))}
     </div>
 
-    <div className="rounded-[24px] h-[636px] bg-[#fcefe5] flex flex-grow flex-wrap max-w-[1130px] p-[36px]">
+    <div className="rounded-[24px] h-[636px] bg-[#fcdbdb] hover:bg-[#fcdbdb] flex flex-grow flex-wrap max-w-[1130px] p-[36px]">
       {selectedCraft ? (
         <>
           <div className="flex flex-wrap gap-[33px]">
@@ -306,30 +320,31 @@ export default function Home() {
     <section className="max-w-[1360px] mx-auto" id="xarita">
     <div className="flex justify-between mb-[36px]">
         <div>
-        <Badge className="rounded-[24px] mb-[16px] bg-[#fcefe5] cursor-pointer p-[10px_16px] w-[110px] h-[36px] flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">XARITA</p></Badge>
+        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px]  h-[36px] inline-flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tfourth('badge')}</p></Badge>
         <h1 className="font-sans font-bold text-[32px] leading-[131%] text-[#242b3a]">
-        Interaktiv xarita
+        {tfourth('title')}
         </h1>
         </div>
         <div>
           <p className="font-medium text-[20px] leading-[160%] text-gray-500 w-[525px] mb-[24px]">
-          Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger
+          {tfourth('description')}
           </p>
         </div>
       </div>
       <Map/>
     </section>
+
     <section className="mb-[140px]">
     <div className="max-w-[1360px] mx-auto flex justify-between mb-[36px]">
         <div>
-        <Badge className="rounded-[24px] mb-[16px] bg-[#fcefe5] cursor-pointer p-[10px_16px] w-[190px] h-[36px] flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">HUNARMANDLAR</p></Badge>
+        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] h-[36px] inline-flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tfifth('badge')}</p></Badge>
         <h1 className="font-sans font-bold text-[32px] leading-[131%] text-[#242b3a]">
-        Xunarmand ustalar
+        {tfifth('title')}
         </h1>
         </div>
         <div>
           <p className="font-medium text-[20px] leading-[160%] text-gray-500 w-[525px] mb-[24px]">
-          Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger
+          {tfifth('description')}
           </p>
         </div>
       </div>
@@ -338,17 +353,18 @@ export default function Home() {
       </div>
     
     </section>
+
     <section className="max-w-[1360px] mx-auto mb-[140px] " id="aboutus">
     <div className="flex justify-between mb-[36px]">
         <div>
-        <Badge className="rounded-[24px] mb-[16px] bg-[#fcefe5] cursor-pointer p-[10px_16px] w-[110px] h-[36px] flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">HAQIDA</p></Badge>
+        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px]  h-[36px] inline-flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tsixth('badge')}</p></Badge>
         <h1 className="font-sans font-bold text-[32px] leading-[131%] text-[#242b3a]">
-        Biz haqimizda
+        {tsixth('title')}
         </h1>
         </div>
         <div>
           <p className="font-medium text-[20px] leading-[160%] text-gray-500 w-[525px] mb-[24px]">
-          Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger
+          {tsixth('description')}
           </p>
         </div>
       </div>
@@ -362,7 +378,7 @@ export default function Home() {
             className="w-[383px] h-[445px]"
           />
           <div className="w-[294px] translate-x-[-88px] mt-[60px] ">
-            <p className="font-bold text-2xl leading-[133%] bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent">
+            <p className="font-bold text-2xl leading-[133%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">
             Jamshidkhon Imomov
             </p>
             <p className="font-bold text-base leading-[1.37] text-[#242b3a]">
@@ -381,7 +397,7 @@ export default function Home() {
               <li className="font-normal text-base leading-[1.37] text-[#606266] list-disc">Kompaniyamiz 2010 yilda tashkil topdi va shu vaqt mobaynida dunyo bo'ylab o'nlab mijozlarga yuqori sifatli xizmatlar ko'rsatdi. Har bir yilda o'z faoliyatini kengaytirib, innovatsion mahsulotlar yaratish va texnologiyalarni rivojlantirishga alohida e'tibor qaratdik.</li>
             </ul>
           </div>
-          <div className="rounded-[24px] w-[325px] h-[230px] bg-[#fcefe5] p-[24px] flex flex-wrap gap-[20px]">
+          <div className="rounded-[24px] w-[325px] h-[230px] bg-[#fcdbdb] hover:bg-[#fcdbdb] p-[24px] flex flex-wrap gap-[20px]">
             <p className="font-bold text-base leading-[1.37] text-[#242b3a] ">Bizning aloqa manzillarimiz</p>
             <a className="flex gap-[16px] items-center" href='tel:+998933771283'>
             <Phone/> +998 93 377 1283
@@ -394,7 +410,7 @@ export default function Home() {
             <Location/> Chilonzor tumani Islom Karimov ko'chasi 49-uy 100066
             </p>
           </div>
-          <div className="rounded-[24px] w-[325px] h-[230px] bg-[#fcefe5] flex justify-between flex-col p-[24px] flex-wrap">
+          <div className="rounded-[24px] w-[325px] h-[230px] bg-[#fcdbdb] hover:bg-[#fcdbdb] flex justify-between flex-col p-[24px] flex-wrap">
             <p className="font-bold text-base leading-[1.37] text-[#242b3a]">Bizni ijtimoiy tarmoqlarda kuzatib boring!</p>
             <div className="flex gap-[17px]">
               <Button className="w-[56px] h-[56px] bg-white rounded-[100%] hover:bg-white "><a href="https://t.me/uzeinvestment"><Telegram fill="url(#paint0_linear_2111_27)"/></a> </Button>

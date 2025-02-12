@@ -1,0 +1,76 @@
+{
+    "home": {
+      "mainSection": {
+        "badge":"QQRNATCRAFT",
+        "title": {
+          "first": "Qoraqalpoq hunarmandchiligi –",
+          "second": "tarixiy meros va nafis san’atning uyg‘unligi!"
+        },
+        "description": {
+          "p": "Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback. Opportunity accountable files time key you're harvest.",
+          "button": "Do‘konga o‘tish"
+        }
+      },
+      "secondSection":{
+        "badge":"MADANIY MEROS",
+        "title":{
+          "first":"Qoraqalpog’iston hunarmandchiligi -",
+          "second":" madaniy merosi"
+        },
+        "description":"Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
+      },
+      "thirdSection":{
+        "badge":"HUNARMANDCHILIK",
+        "title":"Hunarmandchilik turlari",
+        "description":"Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
+      },
+      "fourthSection":{
+        "badge":"XARITA",
+        "title":"Interaktiv xarita",
+        "description":"Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback.",
+        "region":"Hududlar",
+        "regions":{
+          "first":"Qo`ng`irot tumani",
+          "second":"Mo`ynoq tumani",
+          "third":"Shumanag tumani",
+          "fourth":"Taxtako`pir tumani",
+          "fifth":"Amudaryo tumani",
+          "sixth":"Nukus tumani",
+          "seventh":"Xo`jayli tumani",
+          "eight":"Taxiatosh tumani",
+          "nine":"Beruniy tumani",
+          "ten":"Ellik qal`a tumani",
+          "eleven":"To`rtko`l tumani",
+          "twelve":"Chimboy tumani",
+          "thirteen":"Bo`zatov tumani",
+          "fourteen":"Kegeyli tumani",
+          "fifteen":"Qanliko`l tumani"
+        },
+        "statistic":{
+          "first":"Hunarmandchilik obyektlari",
+          "second":"Hunarmand ustalar",
+          "third":"Hunarmandchilik turlari"
+        }
+        
+      },
+      "fifthSection":{
+        "badge":"HUNARMANDLAR",
+        "title":"Xunarmand ustalar",
+        "description":"Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
+      },
+      "sixthSection":{
+        "badge":"HAQIDA",
+        "title":"Biz haqimizda",
+        "description":"Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
+      }
+    },
+    "header":{
+      "first":"Biz haqimizda",
+      "second":"Madaniy me'ros",
+      "third":"Hunarmandchilik turlari",
+      "fourth":"Hunarmandlar",
+      "fifth":"Ko'rgazmalar 360",
+      "sixth":"Do'kon"
+    }
+  }
+  

@@ -1,0 +1,74 @@
+{
+  "home": {
+    "mainSection": {
+      "badge": "QQRNATCRAFT",
+      "title": {
+        "first": "Karakalpak Handicrafts –",
+        "second": "a harmonious blend of historical heritage and fine arts!"
+      },
+      "description": {
+        "p": "Pole reality assassin with marginalized. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback. Opportunity accountable files time key you're harvest.",
+        "button": "Go to Shop"
+      }
+    },
+    "secondSection": {
+      "badge": "CULTURAL HERITAGE",
+      "title": {
+        "first": "Karakalpakstan Handicrafts -",
+        "second": "cultural heritage"
+      },
+      "description": "Pole reality assassin with marginalized. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
+    },
+    "thirdSection": {
+      "badge": "HANDICRAFTS",
+      "title": "Types of Handicrafts",
+      "description": "Pole reality assassin with marginalized. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
+    },
+    "fourthSection": {
+      "badge": "MAP",
+      "title": "Interactive Map",
+      "description": "Pole reality assassin with marginalized. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback.",
+      "region": "Regions",
+      "regions": {
+        "first": "Kongirat District",
+        "second": "Moynaq District",
+        "third": "Shumanag District",
+        "fourth": "Taxtakopir District",
+        "fifth": "Amudarya District",
+        "sixth": "Nukus District",
+        "seventh": "Khojayli District",
+        "eight": "Taxiatosh District",
+        "nine": "Beruniy District",
+        "ten": "Ellikqala District",
+        "eleven": "Tortkul District",
+        "twelve": "Chimboy District",
+        "thirteen": "Bozatov District",
+        "fourteen": "Kegeyli District",
+        "fifteen": "Kanlikol District"
+      },
+      "statistic": {
+        "first": "Handicraft Objects",
+        "second": "Handicraft Masters",
+        "third": "Types of Handicrafts"
+      }
+    },
+    "fifthSection": {
+      "badge": "ARTISANS",
+      "title": "Handicraft Masters",
+      "description": "Pole reality assassin with marginalized. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
+    },
+    "sixthSection": {
+      "badge": "ABOUT US",
+      "title": "About Us",
+      "description": "Pole reality assassin with marginalized. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
+    }
+  },
+  "header": {
+    "first": "About Us",
+    "second": "Cultural Heritage",
+    "third": "Types of Handicrafts",
+    "fourth": "Artisans",
+    "fifth": "Exhibitions 360",
+    "sixth": "Shop"
+  }
+}

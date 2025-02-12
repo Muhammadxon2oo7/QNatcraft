@@ -25,6 +25,7 @@ import {
 import { Login } from '../../../public/img/header/Login'
 import AnimatedSearchTransform from '../SearchComponent/animated-search-transform'
 import Navbar from '../Navbar/Navbar'
+import LocaleSwitcher from './LocaleSwitcher'
   
 export const Header = () => {
   return (
@@ -44,23 +45,14 @@ export const Header = () => {
         '>
             <HeartICon/>
         </Button>
-        <Select >
-  <SelectTrigger className="w-[117px] h-[52px]">
-    <SelectValue placeholder="Theme" />
-  </SelectTrigger>
-  <SelectContent className='absolute block index  '>
-    <SelectItem className='cursor-pointer' value="light">O’zb</SelectItem>
-    <SelectItem className='cursor-pointer' value="dark">English</SelectItem>
-    <SelectItem className='cursor-pointer' value="system">Ru</SelectItem>
-  </SelectContent>
-</Select>
-
+  <LocaleSwitcher/>
         <Dialog >
         <div className='
         '>
-  <DialogTrigger className='flex justify-center items-center h-[52px] bg-[#fcefe5]  gap-[8px] w-[180px] rounded-[16px]   hover:cursor-pointer hover:bg-[#fcefe5] cursor-pointer'>
+  <DialogTrigger className='flex justify-center items-center h-[52px] bg-[#fcdbdb]  gap-[8px] w-[180px] rounded-[16px]   hover:cursor-pointer hover:bg-[#fcdbdb] cursor-pointer'>
     
-<p className='font-medium text-[18px] leading-[133%] cursor-pointer bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent'>
+<p className='font-medium text-[18px] leading-[133%] cursor-pointer bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent
+'>
             Kirish
             </p>
             <Login/>

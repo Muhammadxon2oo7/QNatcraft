@@ -5,10 +5,12 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 const geoUrl = "/data/qoraqalpogiston.json"; // JSON faylni yuklash
 
 const QoraqalpogistonMap = () => {
+  const tfourth=useTranslations("home.fourthSection")
   const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
   const [geoData, setGeoData] = useState<any>(null);
 
@@ -20,21 +22,21 @@ const QoraqalpogistonMap = () => {
   }, []);
 
   const regions = [
-    { id: "Qo`ng`irot tumani", name: "Qo`ng`irot tumani" },
-    { id: "Mo`ynoq tumani", name: "Mo`ynoq tumani" },
-    { id: "Shumanag tumani", name: "Shumanag tumani" },
-    { id: "Taxtako`pir tumani", name: "Taxtako`pir tumani" },
-    { id: "Amudaryo tumani", name: "Amudaryo tumani" },
-    { id: "Nukus tumani", name: "Nukus tumani" },
-    { id: "Xo`jayli tumani", name: "Xo`jayli tumani" },
-    { id: "Taxiatosh tumani", name: "Taxiatosh tumani" },
-    { id: "Beruniy tumani", name: "Beruniy tumani" },
-    { id: "Ellik qal`a tumani", name: "Ellik qal`a tumani" },
-    { id: "To`rtko`l tumani", name: "To`rtko`l tumani" },
-    { id: "Chimboy tumani", name: "Chimboy tumani" },
-    { id: "Bo`zatov tumani", name: "Bo`zatov tumani" },
-    { id: "Kegeyli tumani", name: "Kegeyli tumani" },
-    { id: "Qanliko`l tumani", name: "Qanliko`l tumani" },
+    { id: "Qo`ng`irot tumani", name: tfourth('regions.first') },
+    { id: "Mo`ynoq tumani", name: tfourth('regions.second') },
+    { id: "Shumanag tumani", name: tfourth('regions.third') },
+    { id: "Taxtako`pir tumani", name: tfourth('regions.fourth') },
+    { id: "Amudaryo tumani", name: tfourth('regions.fifth') },
+    { id: "Nukus tumani", name: tfourth('regions.sixth') },
+    { id: "Xo`jayli tumani", name: tfourth('regions.seventh') },
+    { id: "Taxiatosh tumani", name: tfourth('regions.eight') },
+    { id: "Beruniy tumani", name: tfourth('regions.nine') },
+    { id: "Ellik qal`a tumani", name: tfourth('regions.ten') },
+    { id: "To`rtko`l tumani", name: tfourth('regions.eleven') },
+    { id: "Chimboy tumani", name: tfourth('regions.twelve') },
+    { id: "Bo`zatov tumani", name:tfourth('regions.thirteen') },
+    { id: "Kegeyli tumani", name: tfourth('regions.fourteen') },
+    { id: "Qanliko`l tumani", name: tfourth('regions.fifteen') },
   ];
   const TypeofCrafts=['Zargarlik','Kulolchilik','Duradgorlik','Kiyim-kechak','Kashtachilik']
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
@@ -65,12 +67,12 @@ const QoraqalpogistonMap = () => {
 
       </div>
       <div className="w-full flex flex-wrap gap-[20px]">
-        <div className="rounded-[14px] w-[325px] h-[744px] bg-[#f6f6f6] p-[16px] flex flex-wrap gap-[8px] overflow-hidden">
+        <div className="rounded-[14px] w-[325px] h-[744px] bg-[#f6f6f6] p-[16px] pb-[60px] flex flex-wrap gap-[8px] overflow-hidden">
           <p className="font-semibold text-lg leading-[133%] text-[#242b3a] mb-[16px] border-b border-b-gray-300 w-full pb-[16px]">
             Hududlar
           </p>
          
-          <div className="h-full overflow-y-scroll no-scrollbar">
+          <div className="h-full overflow-y-scroll no-scrollbar pb-[16px] mb-[20px]">
           {regions.map((region) => (
           <Button
             key={region.id}
@@ -106,8 +108,8 @@ const QoraqalpogistonMap = () => {
                     x2="100%"
                     y2="100%"
                   >
-                    <stop offset="0%" stopColor="#cb651c" />
-                    <stop offset="100%" stopColor="#813b0a" />
+                    <stop offset="0%" stopColor="#9E1114" />
+                    <stop offset="100%" stopColor="#530607" />
                   </linearGradient>
                   <linearGradient
                     id="regionGradient-hover"
@@ -116,8 +118,8 @@ const QoraqalpogistonMap = () => {
                     x2="100%"
                     y2="100%"
                   >
-                    <stop offset="0%" stopColor="#d08637" />
-                    <stop offset="100%" stopColor="#9e5c0a" />
+                    <stop offset="0%" stopColor="#9E1114" />
+                    <stop offset="100%" stopColor="#530607" />
                   </linearGradient>
                 </defs>
                 <title data-v-463741c6=""></title>
@@ -125,12 +127,12 @@ const QoraqalpogistonMap = () => {
                   <g
                     data-v-463741c6=""
                     id="Республика_Каракалпакстан"
-                    data-name="Республика Каракалпакстан"
+                    data-name="Республика Каракалпакстан "
                   >
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Qo`ng`irot tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -148,7 +150,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Mo`ynoq tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -165,7 +167,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Shumanag tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -182,7 +184,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Taxtako`pir tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -201,7 +203,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Amudaryo tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -218,7 +220,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Nukus tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -235,7 +237,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Xo`jayli tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -252,7 +254,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Taxiatosh tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -269,7 +271,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Beruniy tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -286,7 +288,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Ellik qal`a tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -305,7 +307,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "To`rtko`l tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -322,7 +324,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Qorao`zak tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -340,7 +342,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Chimboy tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -357,7 +359,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Bo`zatov tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -374,7 +376,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Kegeyli tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -391,7 +393,7 @@ const QoraqalpogistonMap = () => {
                     <path
                       data-v-463741c6=""
                       className={cn(
-                        "fill-[#fcefe5] stroke-[#b65917] ",
+                        "fill-[#fcefe5] stroke-[#570709] ",
                         selectedRegion === "Qanliko`l tumani"
                           ? "fill-[url(#regionGradient)]"
                           : "fill-[#fcefe5]",
@@ -411,21 +413,21 @@ const QoraqalpogistonMap = () => {
             </div>
           </div>
           <div className="w-full flex  gap-[20px] justify-end h-[128px]">
-            <div className="rounded-[14px] px-5 w-[325px] h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent text-center">
+            <div className="rounded-[14px] px-5 w-[325px] h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent text-center">
              100 <br /><span className="font-medium text-[18px] leading-[133%] text-center text-[#242b3a]">
-             Hunarmandchilik obyektlari
+             {tfourth('statistic.first')}
              </span> </p>
              
              </div>
-             <div className="rounded-[14px] px-5 w-[325px] h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent text-center">
+             <div className="rounded-[14px] px-5 w-[325px] h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent text-center">
              80 <br /><span className="font-medium text-[18px] leading-[133%] text-center text-[#242b3a]">
-             Hunarmand ustalar
+             {tfourth('statistic.second')}
              </span> </p>
              
              </div>
-             <div className="rounded-[14px] px-5 w-[325px] h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#cb651c] to-[#813b0a] bg-clip-text text-transparent text-center">
+             <div className="rounded-[14px] px-5 w-[325px] h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent text-center">
              300 <br /><span className="font-medium text-[18px] leading-[133%] text-center text-[#242b3a]">
-             Hunarmandchilik turlari
+             {tfourth('statistic.third')}
              </span> </p>
              
              </div>
