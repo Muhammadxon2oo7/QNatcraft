@@ -70,6 +70,44 @@
       "fourth": "Hunarmandlar",
       "fifth": "Kórgazmalar 360",
       "sixth": "Dükán"
+    },
+"auth": {
+  "register": {
+    "title": "Ro'yxatdan o'tish",
+    "name": "Ism ",
+    "email": "Elektron pochta",
+    "password": "Parolni tanlang",
+    "confirmPassword": "Parolni tasdiqlang",
+    "verificationEntry":"Tizimge kiritilgen emailińizdi tasdyqlan",
+    "codeIsright":"Tirkelý úshın sattiq ayaqtaldı",
+    "codeIswrong":"Tasdiqlaw kódi qate",
+    "codeResended":"Tasdiqlaw kódi qayta jiberildi",
+    "button": "Ro'yxatdan o'tish",
+    "loginRecommidation": {
+      "first": "Akkountingiz bormi?",
+      "second": "Kirish"
+    },
+    "errors": {
+      "input": {
+        "name": {
+          "first": "Ism  zarur",
+          "second": "Kamida 3 ta belgidan iborat bo'lishi kerak"
+        },
+        "email": {
+          "first": "Elektron pochta manzilingizni kiriting",
+          "second": "Iltimos, to'g'ri elektron pochta manzilini kiriting"
+        },
+        "password": {
+          "first": "Parolni kiriting",
+          "second": "Parol kamida 5 ta belgidan iborat bo'lishi kerak"
+        },
+        "confirmPassword": {
+          "first": "Parollar mos bo'lishi kerak"
+        }
+      }
     }
+  }
+}
+
   }
   

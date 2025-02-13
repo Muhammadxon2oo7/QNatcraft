@@ -5,6 +5,7 @@ import { Header } from "@/components/Header/Header";
 import { ReactNode } from "react";
 import {NextIntlClientProvider} from 'next-intl';
 import {getLocale, getMessages} from 'next-intl/server';
+import { Toaster } from "@/components/ui/sonner";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -44,6 +45,7 @@ export default async function RootLayout({children}: Props) {
         <NextIntlClientProvider messages={messages}>
           <Header  />
         {children}
+        <Toaster position="top-center" />
         </NextIntlClientProvider>
         
       </body>

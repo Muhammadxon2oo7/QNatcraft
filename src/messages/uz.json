@@ -71,6 +71,43 @@
       "fourth":"Hunarmandlar",
       "fifth":"Ko'rgazmalar 360",
       "sixth":"Do'kon"
+    },
+    "auth":{
+      "register":{
+        "title":"Ro’yhatdan o’tish",
+        "name":"Ism sharifingiz (Login)",
+        "email":"Elektron pochta",
+        "password":"Parol oylab toping",
+        "confirmPassword":"Parolni takrorlang",
+        "button":"Ro'yhatdan o'tish",
+        "verificationEntry":"Ro'yhatdan o'tish uchun emailingizni tasdiqlang",
+        "codeIsright":"Ro'yhatdan o'tish muvafqiyatli yakunlandi",
+        "codeIswrong":"Tasdiqlash kodi xato",
+        "codeResended":"Tasdiqlash kodi qayta yuborildi",
+        "loginRecommidation":{
+          "first":"Sizda akkaut bormi?",
+          "second":"Kirish"
+        },
+        "errors":{
+          "input":{
+            "name":{
+              "first":"Ism sharifingiz (Login) kerak",
+              "second":"Kamida 3ta belgidan iborat bo'lishi kerak"
+            },
+            "email":{
+              "first":"Elektron pochta manzilingizni kiriting",
+              "second":"Iltimos, to'g'ri elektron pochta kiriting"
+            },
+            "password":{
+              "first":"Parolni kiriting",
+              "second":"Parol kamida 5 ta belgidan iborat bo'lishi kerak"
+            },
+            "confirmPassword":{
+              "first":"Parollar bir xil bo'lishi kerak"
+            }
+          }
+        }
+      }
     }
   }
   

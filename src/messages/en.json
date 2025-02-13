@@ -70,5 +70,43 @@
     "fourth": "Artisans",
     "fifth": "Exhibitions 360",
     "sixth": "Shop"
+  },
+  "auth": {
+  "register": {
+    "title": "Register",
+    "name": "Name",
+    "email": "Email",
+    "password": "Choose a password",
+    "confirmPassword": "Confirm password",
+    "button": "Register",
+    "verificationEntry":"Please verify your email for registration.",
+    "codeIsright":"Registration was successful",
+    "codeIswrong":"Confirmation code is wrong",
+    "codeResended":"Confirmation code was resent",
+    "loginRecommidation": {
+      "first": "Already have an account?",
+      "second": "Login"
+    },
+    "errors": {
+      "input": {
+        "name": {
+          "first": "Name is required",
+          "second": "Must be at least 3 characters"
+        },
+        "email": {
+          "first": "Please enter your email address",
+          "second": "Please enter a valid email address"
+        },
+        "password": {
+          "first": "Please enter a password",
+          "second": "Password must be at least 5 characters"
+        },
+        "confirmPassword": {
+          "first": "Passwords must match"
+        }
+      }
+    }
   }
+}
+
 }
