@@ -1,4 +1,4 @@
-
+// "use client"
 import React from 'react'
 import Image from 'next/image'
 import { Logo } from '../../../public/img/header/Logo'
@@ -6,6 +6,8 @@ import { Button } from '../ui/button'
 import { Search } from '../../../public/img/header/Search'
 import { ChatIcon } from '../../../public/img/header/ChatIcon'
 import { HeartICon } from '../../../public/img/header/HeartICon'
+
+
 import {
     Select,
     SelectContent,
@@ -26,9 +28,13 @@ import { Login } from '../../../public/img/header/Login'
 import AnimatedSearchTransform from '../SearchComponent/animated-search-transform'
 import Navbar from '../Navbar/Navbar'
 import LocaleSwitcher from './LocaleSwitcher'
-  
+import { ClientHeader } from './clientHeader'
+import Link from 'next/link'
+
 export const Header = () => {
+
   return (
+<ClientHeader>
 <header className=' block fixed inset-0 bg-white h-[156px] '>
 <div className='flex flex-wrap max-w-[1360px]  mx-auto justify-between  z-100'>
       <div className='py-[28px]'>
@@ -46,30 +52,20 @@ export const Header = () => {
             <HeartICon/>
         </Button>
   <LocaleSwitcher/>
-        <Dialog >
-        <div className='
-        '>
-  <DialogTrigger className='flex justify-center items-center h-[52px] bg-[#fcdbdb]  gap-[8px] w-[180px] rounded-[16px]   hover:cursor-pointer hover:bg-[#fcdbdb] cursor-pointer'>
+       
+        <div className=''>
+  <Button className='flex justify-center items-center h-[52px] bg-[#fcdbdb]  gap-[8px] w-[180px] rounded-[16px]   hover:cursor-pointer hover:bg-[#fcdbdb] cursor-pointer'>
     
-<p className='font-medium text-[18px] leading-[133%] cursor-pointer bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent
+<Link href={'/register'} className='font-medium text-[18px] leading-[133%] cursor-pointer bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent
 '>
             Kirish
-            </p>
+            </Link>
             <Login/>
         
   
-  </DialogTrigger>
+  </Button>
   </div>
-  <DialogContent>
-    <DialogHeader>
-      <DialogTitle>Are you absolutely sure?</DialogTitle>
-      <DialogDescription>
-        This action cannot be undone. This will permanently delete your account
-        and remove your data from our servers.
-      </DialogDescription>
-    </DialogHeader>
-  </DialogContent>
-</Dialog>
+ 
 
       </div>
       
@@ -80,5 +76,6 @@ export const Header = () => {
             </div>
     </div>
 </header>
+</ClientHeader>
   )
 }

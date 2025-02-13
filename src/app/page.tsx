@@ -208,7 +208,9 @@ export default function Home() {
           {tmain('description.p')}
           </p>
           <Button className="primary-bg rounded-[16px] p-[14px_20px] w-[240px] h-[52px]">
-          {tmain('description.button')} <Arrow/>
+            <Link href={'/shop'} className="w-full flex justify-center items-center ">
+              {tmain('description.button')} <Arrow/>
+            </Link>
           </Button>
         </div>
       </div>
