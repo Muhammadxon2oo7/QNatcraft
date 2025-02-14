@@ -78,6 +78,7 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
     setCode(pasted.split(""));
     inputs.current[5]?.focus();
   };
+  
   useEffect(() => {
     setPreviousURL(document.referrer);
   }, []);
@@ -128,26 +129,27 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
       </div>
 
       <div className="flex justify-center gap-2">
-        {code.map((digit, index) => (
-          <input
-            key={index}
-            ref={(el: HTMLInputElement | null) => {
-              inputs.current[index] = el;
-            }}
-            type="text"
-            inputMode="numeric"
-            maxLength={1}
-            className={`w-12 h-12 text-center border rounded-xl bg-background focus:border-primary focus:ring-1 focus:ring-primary outline-none ${
-              error ? "border-red-500" : ""
-            }`}
-            value={digit}
-            onChange={(e) => handleChange(index, e.target.value)}
-            onKeyDown={(e) => handleKeyDown(index, e)}
-            onPaste={handlePaste}
-            aria-label={`Kod ${index + 1}-raqami`}
-          />
-        ))}
-      </div>
+  {code.map((digit, index) => (
+    <input
+      key={index}
+      ref={(el: HTMLInputElement | null) => {
+        inputs.current[index] = el;
+      }}
+      type="text"
+      inputMode="numeric"
+      maxLength={1}
+      className={`w-12 h-12 text-center border rounded-xl bg-background focus:border-primary focus:ring-1 focus:ring-primary outline-none ${
+        error ? "border-red-500" : ""
+      }`}
+      value={digit}
+      onChange={(e) => handleChange(index, e.target.value)}
+      onKeyDown={(e) => handleKeyDown(index, e)}
+      onPaste={handlePaste}
+      aria-label={`Kod ${index + 1}-raqami`}
+    />
+  ))}
+</div>
+
 
       {error && <p className="text-center text-red-500 font-medium">❌ Noto‘g‘ri kod! Qayta urinib ko‘ring.</p>}
 

@@ -10,8 +10,10 @@ import { User } from "../../../public/img/auth/user"
 import { Lock } from "../../../public/img/auth/lock"
 import { OpenEye } from "../../../public/img/auth/openEye"
 import { Registericon } from "../../../public/img/auth/register-icon"
+import Link from "next/link"
+import { Mail } from "../../../public/img/auth/Mail"
 
-export default function LoginForm() {
+export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword: (value: boolean) => void }) {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
@@ -24,17 +26,17 @@ export default function LoginForm() {
           <Label htmlFor="login" className="font-normal text-xs leading-[120%] text-[#858991]">Login</Label>
           <div className="relative">
           
-          <div className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground">
-          <User />
+          <div className="absolute left-3 top-1/2 h-4 w-4 -translate-y-3 text-muted-foreground">
+          <Mail />
           </div>
             
-            <Input id="login" type="text" className=" rounded-[16px] p-4 w-[420px] pl-9 h-[54px] bg-[#f6f6f6]" required />
+            <Input id="login" type="text" className=" rounded-[16px] p-4 w-[420px] pl-10 h-[54px] bg-[#f6f6f6]" required  placeholder="email"/>
           </div>
         </div>
         <div className="space-y-2">
           <Label htmlFor="password" className="font-normal text-xs leading-[120%] text-[#858991]">Parol</Label>
           <div className="relative">
-            <div className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground">
+            <div className="absolute left-3 top-1/2 h-4 w-4 -translate-y-3 text-muted-foreground">
             <Lock />
             </div>
             <Input id="password" type={showPassword ? "text" : "password"} className="rounded-[16px] p-4 w-[420px] pl-9 h-[54px] bg-[#f6f6f6]" required />
@@ -57,12 +59,12 @@ export default function LoginForm() {
             </Button>
           </div>
           <div className="text-right">
-            <Button variant="link" className="text-sm text-primary p-0 h-auto">
+            <Button variant="link" onClick={() => setIsForgotPassword(true)} className="text-sm text-primary p-0 h-auto">
               Parolni unutdingizmi?
             </Button>
           </div>
         </div>
-        <Button type="submit" className="w-full rounded-[16px] h-[52px] flex justify-center items-center ">
+        <Button type="submit" className="w-full rounded-[16px] h-[52px] flex justify-center items-center  hover:primary-bg">
           Kirish <Registericon/>
         </Button>
         <div className="relative my-8">
@@ -81,16 +83,14 @@ export default function LoginForm() {
           </Button>
           
           <Button  className="rounded-[16px] flex justify-center items-center h-[52px] w-[202px] bg-[#fee] hover:bg-[#fee]">
-            <p className="font-medium text-[18px] leading-[133%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">
+            <p className="font-medium text-[18px] leading-[133%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent  ">
             STIR orqali kirish
             </p>
           </Button>
         </div>
         <div className="text-center text-sm">
           <span className="text-muted-foreground">Tizimda hali yangimisiz?</span>{" "}
-          <Button variant="link" className="p-0 h-auto">
-            Ro'yhatdan o'tish
-          </Button>
+          <Link href={'/register'}>Ro'yhatdan o'tish</Link>
         </div>
       </form>
     </div>
