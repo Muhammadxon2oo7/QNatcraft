@@ -7,7 +7,7 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   scroll-behavior: smooth;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 html {
   scroll-behavior: smooth;
