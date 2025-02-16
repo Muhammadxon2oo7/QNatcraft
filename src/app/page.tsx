@@ -26,6 +26,7 @@ import { Feacebook } from "./../../public/img/feacebook";
 import { Youtube } from "./../../public/img/youtube";
 import { Footer } from "@/components/footer/Footer";
 import { useTranslations } from "next-intl";
+import { Banner } from "@/components/Banner/Banner";
 
 const TypeofCrafts = {
   zargarlik: {
@@ -195,7 +196,7 @@ export default function Home() {
   // "Zargarlik","Kulolchilik","Duradgorlik","Kiyim-kechak","Kashtachilik"
   return (
     <>
-    <section className="pt-[280px] max-w-[1360px] mx-auto">
+    <section className="max-w-[1360px] mx-auto section">
       <div className="flex justify-between mb-[80px]">
         <div className="w-[635px]">
         <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] cursor-pointer p-[10px_16px] w-[166px] h-[36px] flex gap-[10px] hover:bg-[#fcdbdb]" variant="secondary"><Dot/><p className="font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">QQRNATCRAFT</p></Badge>
@@ -215,7 +216,7 @@ export default function Home() {
         </div>
       </div>
      
-      <PotteryStory/>
+      <Banner/>
     </section>
 
     <section className="max-w-[1360px] mx-auto" id="madaniymeros">
@@ -426,5 +427,6 @@ export default function Home() {
     </section>
     <Footer/>
     </>
+
   );
 }

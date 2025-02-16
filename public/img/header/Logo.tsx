@@ -4,7 +4,7 @@ import React from 'react'
 export const Logo = () => {
   return (
     <Link href='/'>
-    <svg width={140} height={50} viewBox="0 0 140 50" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+    <svg width={140} height={50} className='max-w-[140px] sm:max-w-[100px] w-full h-auto' viewBox="0 0 140 50" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
   <mask id="mask0_41_824" style={{maskType: 'alpha'}} maskUnits="userSpaceOnUse" x={0} y={0} width={50} height={50}>
     <rect width={50} height={50} fill="url(#pattern0_41_824)" />
   </mask>
