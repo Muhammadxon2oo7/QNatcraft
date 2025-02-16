@@ -39,19 +39,22 @@ export const Header = () => {
   const t = useTranslations("header");
 
   const [open, setOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false);
-
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth <= 768 : false
+  );
+  
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-
-    // Sahifa yuklanganda va o'lcham o'zgarganda
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
+  
+    if (typeof window !== "undefined") {
+      handleResize(); // Sahifa yuklanganda ham ishlashi uchun
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, []);
+  
   return (
     <ClientHeader>
       {!isMobile && <header className="block fixed inset-0 bg-white min-h-[120px] md:h-[156px] w-full shadow-md ">
