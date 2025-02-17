@@ -44,114 +44,114 @@ export const Header = () => {
 
   
   return isMobile ? <ClientHeader>
-    <header className=" sticky top-0 z-50 w-full border-b bg-white  ">
-    <div className="w-full  flex h-16 items-center justify-between  ">
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <HamburgerIcon/>
-            <span className="sr-only">Toggle menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-full sm:max-w-md p-0">
-          <div className="flex h-full flex-col">
-            <SheetHeader className="border-b p-4">
-              <SheetTitle className="text-left text-2xl">Menyu</SheetTitle>
-            </SheetHeader>
-            <nav className="flex-1">
-              <div className="flex flex-col divide-y">
-                <Link href="#aboutus" className="px-4 py-3 flex items-center justify-between hover:bg-muted">
+<header className="sticky top-0 z-150 w-full border-b bg-white">
+  <div className="w-full flex h-16 items-center justify-between">
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
+        <Button variant="ghost" size="icon" className="md:hidden">
+          <HamburgerIcon />
+          <span className="sr-only">Toggle menu</span>
+        </Button>
+      </SheetTrigger>
+      <SheetContent side="left" className="w-full sm:max-w-md p-0">
+        <div className="flex h-full flex-col">
+          <SheetHeader className="border-b p-4">
+            <SheetTitle className="text-left text-2xl">Menyu</SheetTitle>
+          </SheetHeader>
+          <nav className="flex-1">
+            <div className="flex flex-col divide-y">
+              <Link
+                href="#aboutus"
+                className="px-4 py-3 flex items-center justify-between hover:bg-muted"
+                onClick={() => setOpen(false)} // Bu yerda sheet yopiladi
+              >
                 {t("first")}
-                  <span className="text-muted-foreground">›</span>
-                </Link>
-                <Link href="#madaniymeros" className="px-4 py-3 flex items-center justify-between hover:bg-muted">
+                <span className="text-muted-foreground">›</span>
+              </Link>
+              <Link
+                href="#madaniymeros"
+                className="px-4 py-3 flex items-center justify-between hover:bg-muted"
+                onClick={() => setOpen(false)} // Bu yerda sheet yopiladi
+              >
                 {t("second")}
-                  <span className="text-muted-foreground">›</span>
-                </Link>
-                <Link href="#Hunarmandchilikturlari" className="px-4 py-3 flex items-center justify-between hover:bg-muted">
+                <span className="text-muted-foreground">›</span>
+              </Link>
+              <Link
+                href="#Hunarmandchilikturlari"
+                className="px-4 py-3 flex items-center justify-between hover:bg-muted"
+                onClick={() => setOpen(false)} // Bu yerda sheet yopiladi
+              >
                 {t("third")}
-                  <span className="text-muted-foreground">›</span>
-                </Link>
-                <Link href="#" className="px-4 py-3 flex items-center justify-between hover:bg-muted">
+                <span className="text-muted-foreground">›</span>
+              </Link>
+              <Link
+                href="#"
+                className="px-4 py-3 flex items-center justify-between hover:bg-muted"
+                onClick={() => setOpen(false)} // Bu yerda sheet yopiladi
+              >
                 {t("fourth")}
-                  <span className="text-muted-foreground">›</span>
-                </Link>
-                <Link href="#" className="px-4 py-3 flex items-center justify-between hover:bg-muted">
+                <span className="text-muted-foreground">›</span>
+              </Link>
+              <Link
+                href="#"
+                className="px-4 py-3 flex items-center justify-between hover:bg-muted"
+                onClick={() => setOpen(false)} // Bu yerda sheet yopiladi
+              >
                 {t("fifth")}
-                  <span className="text-muted-foreground">›</span>
-                </Link>
-              </div>
-              <div className="flex flex-col gap-2 p-4 border-t">
-                <Link href="#" className="flex items-center gap-3 ">
-                  <ShoppingBag className="h-5 w-5" />
-                  {t("sixth")}
-                </Link>
-                <Link href="#" className="flex items-center gap-3 ">
-                  <MessageCircle className="h-5 w-5" />
-                  Chat
-                </Link>
-                <Link href="#" className="flex items-center gap-3 ">
-                  <Heart className="h-5 w-5" />
-                  Sevimlilar
-                </Link>
-                <Link href="#" className="flex items-center gap-3 ">
-                  <Search />
-                  Qidirish
-                </Link>
-              </div>
-              <div className="mt-auto p-4 border-t">
-                {/* <div className="flex justify-center gap-4 mb-4">
-                  <Button variant="outline" size="sm" className="w-20">
-                    
-                    En
-                  </Button>
-                  <Button variant="outline" size="sm" className="w-20 border-[#8B4513] text-[#8B4513]">
-                    
-                    Uz
-                  </Button>
-                  <Button variant="outline" size="sm" className="w-20 border-[#8B4513] text-[#8B4513]">
-                    
-                    Qr
-                  </Button>
-                  <Button variant="outline" size="sm" className="w-20">
-                    
-                    Ru
-                  </Button>
-                </div> */}
-                <LocaleSwitcherMobile/>
-                <Button className="w-full  text-white" >
-                  <Link href={'/login'}>Kirish</Link>
-                </Button>
-              </div>
-            </nav>
-          </div>
-        </SheetContent>
-      </Sheet>
+                <span className="text-muted-foreground">›</span>
+              </Link>
+            </div>
+            <div className="flex flex-col gap-2 p-4 border-t">
+              <Link href="#" className="flex items-center gap-3 ">
+                <ShoppingBag className="h-5 w-5" />
+                {t("sixth")}
+              </Link>
+              <Link href="#" className="flex items-center gap-3 ">
+                <MessageCircle className="h-5 w-5" />
+                Chat
+              </Link>
+              <Link href="#" className="flex items-center gap-3 ">
+                <Heart className="h-5 w-5" />
+                Sevimlilar
+              </Link>
+              <Link href="#" className="flex items-center gap-3 ">
+                <Search />
+                Qidirish
+              </Link>
+            </div>
+            <div className="mt-auto p-4 border-t">
+              <LocaleSwitcherMobile />
+              <Button className="w-full text-white">
+                <Link href={'/login'}>Kirish</Link>
+              </Button>
+            </div>
+          </nav>
+        </div>
+      </SheetContent>
+    </Sheet>
 
-      <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2">
       <div className="relative w-[140px] h-[40px] md:h-[30px] ">
-<Link href={'/'}>
-  <Image 
-    src={Logo} 
-    alt="logo" 
-    fill 
-    className="object-contain" 
-  />
-</Link>
-</div>
+        <Link href={'/'}>
+          <Image src={Logo} alt="logo" fill className="object-contain" />
+        </Link>
       </div>
-
-      <Button variant="ghost" size="icon" className="md:hidden">
-        <Link href={'/login'}><LogIn className="h-6 w-6" />
-        <span className="sr-only">Login</span></Link>
-      </Button>
     </div>
-  </header>
+
+    <Button variant="ghost" size="icon" className="md:hidden">
+      <Link href={'/login'}>
+        <LogIn className="h-6 w-6" />
+        <span className="sr-only">Login</span>
+      </Link>
+    </Button>
+  </div>
+</header>
+
   </ClientHeader> :   <ClientHeader>
     
     <header className="block fixed inset-0 bg-white min-h-[120px] md:h-[156px] w-full shadow-md ">
       <div className="flex flex-wrap max-w-[1380px] mx-auto px-[10px] justify-between items-center z-100">
-        {/* Logo */}
+      
         <div className="relative w-[140px] md:w-[120px] sm:w-[100px] h-[50px] md:h-[45px] sm:h-[40px]">
 <Link href={'/'}>
   <Image 
@@ -164,7 +164,7 @@ export const Header = () => {
 </div>
 
 
-        {/* Right Section */}
+       
         <div className="flex gap-[12px] md:gap-[16px] py-[20px] md:py-[28px] flex-wrap flex-grow justify-end items-center">
           <AnimatedSearchTransform />
 
