@@ -105,8 +105,7 @@ const Login = () => {
   };
 
   return (
-    <div className="register py-[20px] pr-[120px] flex flex-wrap pl-[72px] justify-between items-end">
-      <div className="w-[96px] h-[26px] bg-[#C5C5C5] fill-opacity-80 rounded-[40px]"></div>
+    <div className="register py-[20px] pr-[120px] flex flex-wrap pl-[72px] justify-center md:justify-between items-center md:items-end">
       <div className="rounded-[24px] w-[580px] h-full backdrop-blur-[124px] bg-white p-[16px]">
         <div className="flex justify-between h-[52px] overflow-hidden mb-[16px]">
           <Button variant="outline" size="icon" className="h-[42px] w-[52px]" onClick={handleBack}>
