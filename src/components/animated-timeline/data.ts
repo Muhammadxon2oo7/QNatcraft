@@ -14,14 +14,14 @@ export const timelineData: TimelineItem[] = [
     id: 2,
     title: "Milliy hunarmandchilik",
     description:
-      "Qoraqalpoq'iston milliy hunarmandchiligi asrlar davomida shaklanib, o'ziga xos an'analarga ega bo'lib, bugungi kunda xa...",
+      "Qoraqalpoq'iston milliy hunarmandchiligi asrlar davomida shaklanib, o'ziga xos an'analarga ega bo'lib, bugungi kunda ",
     image: "/img/timeline-two.png",
   },
   {
     id: 3,
     title: "Kulolchilik sanati",
     description:
-      "Qoraqalpoq kulolchilik san'ati ham juda mashhur bo'lib, ayniqsa, chinni idishlar va turli xil amaliy san'at buyumlari yasashda usta...",
+      "Qoraqalpoq kulolchilik san'ati ham juda mashhur bo'lib, ayniqsa, chinni idishlar va turli xil amaliy san'at buyumlari yasashda ",
     image: "/img/timeline-three.png",
   },
 ]

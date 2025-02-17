@@ -204,7 +204,7 @@ export default function Home() {
         </h1>
         </div>
         <div className="h-full">
-          <p className="font-medium text-[20px] leading-[160%] text-gray-500 h-auto w-[525px] mb-[24px] res-description">
+          <p className="font-medium text-[20px] leading-[160%] text-gray-500 h-auto  mb-[24px] res-description">
           {tmain('description.p')}
           </p>
           <Button className="primary-bg rounded-[16px] p-[14px_20px] w-[240px] h-[52px] responsive-btn">
@@ -221,29 +221,30 @@ export default function Home() {
     </section>
 
 
-    {/* <section className="max-w-[1360px] mx-auto" id="madaniymeros">
-    <div className="flex justify-between mb-[36px]">
+    <section className="max-w-[1380px] px-[10px] mx-auto" id="madaniymeros">
+    <div className="flex justify-between mb-[36px] section-title">
         <div>
-        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] h-[36px]  gap-[10px] inline-flex items-center">
+        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] h-[36px]  gap-[10px] inline-flex items-center badge">
   <Dot/>
-  <p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">
+  <p className="font-sans  font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">
     {tsecond('badge')}
   </p>
 </Badge>
 
-        <h1 className="font-sans font-bold text-[32px] leading-[131%] text-[#242b3a]">
+        <h1 className="font-sans font-bold text-[32px]  text-[#242b3a] res-title">
         {tsecond('title.first')}<br /> <span className="text-[#606266]">{tsecond('title.second')}</span>
         </h1>
         </div>
-        <div>
-          <p className="font-medium text-[20px] leading-[160%] text-gray-500 w-[525px] mb-[24px]">
+        <div className="overflow-hidden pr-[15px]">
+          <p className="font-medium text-[20px]  h-full text-gray-500  mb-[24px] res-description overflow-wrap break-word ">
           {tsecond('description')}
           </p>
         </div>
       </div>
       <AnimatedTimeline/>
     </section>
-    <section className="max-w-[1360px] mx-auto mb-[140px]" id="Hunarmandchilikturlari">
+
+    {/* <section className="max-w-[1360px] mx-auto mb-[140px]" id="Hunarmandchilikturlari">
     <div className="flex justify-between mb-[36px]">
         <div>
         <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] inline-flex h-[36px]  gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tthird('badge')}</p></Badge>
