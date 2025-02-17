@@ -175,6 +175,9 @@ header{
 .separator {
   display: none;
 }
+.banner{
+  height: 536px;
+}
 
 @media only screen and (max-width: 768px) {
 
@@ -206,6 +209,9 @@ header{
   }
   .badge{
     max-width: 200px;
+  }
+  .banner{
+    height: 230px;
   }
 }
 @media only screen and (max-width: 1279px) {

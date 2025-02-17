@@ -26,14 +26,14 @@ export const Banner: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full h-screen rounded-[24px] mb-[140px]">
+    <div className="w-full  rounded-[24px] mb-[140px] banner">
       <video
         ref={videoRef}
         loop
         playsInline
         
         autoPlay
-        className="w-full h-screen object-cover rounded-[24px]"
+        className="w-full  object-cover rounded-[24px]"
       >
         <source src="videos/natcraft.mp4" type="video/mp4" />
       </video>

@@ -142,8 +142,8 @@ export const Header = () => {
       </div>
 
       <Button variant="ghost" size="icon" className="md:hidden">
-        <LogIn className="h-6 w-6" />
-        <span className="sr-only">Login</span>
+        <Link href={'/login'}><LogIn className="h-6 w-6" />
+        <span className="sr-only">Login</span></Link>
       </Button>
     </div>
   </header>
