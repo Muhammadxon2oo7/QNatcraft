@@ -44,7 +44,7 @@ export const Header = () => {
 
   
   return isMobile ? <ClientHeader>
-<header className="sticky top-0 z-150 w-full border-b bg-white">
+<header className="sticky top-0 z-50 w-full border-b bg-white">
   <div className="w-full flex h-16 items-center justify-between">
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
