@@ -26,7 +26,7 @@ export const Banner: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full  rounded-[24px] mb-[140px] banner">
+    <div className="w-full  rounded-[24px]  banner">
       <video
         ref={videoRef}
         loop
