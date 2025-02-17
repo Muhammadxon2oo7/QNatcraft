@@ -193,22 +193,21 @@ export default function Home() {
     throw new Error("Function not implemented.");
   }
 
-  // "Zargarlik","Kulolchilik","Duradgorlik","Kiyim-kechak","Kashtachilik"
   return (
     <>
-    <section className="max-w-[1360px] mx-auto section">
-      <div className="flex justify-between mb-[80px]">
-        <div className="w-[635px]">
-        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] cursor-pointer p-[10px_16px] w-[166px] h-[36px] flex gap-[10px] hover:bg-[#fcdbdb]" variant="secondary"><Dot/><p className="font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">QQRNATCRAFT</p></Badge>
-        <h1 className="font-custom font-extrabold text-[40px] leading-[130%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">
+    <section className="max-w-[1380px] mx-auto section px-[10px]">
+      <div className="flex justify-between flex-wrap gap-[10px] mb-[80px] section-title ">
+        <div className="max-w-[635px] flex flex-wrap items-end">
+        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] cursor-pointer p-[10px_16px]  h-[36px] badge  gap-[10px] hover:bg-[#fcdbdb] inline-flex items-center" variant="secondary"><Dot/><p className="font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">QQRNATCRAFT</p></Badge>
+        <h1 className="res-title font-custom font-extrabold text-[40px] leading-[130%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">
         {tmain('title.first')} <br /> <span className="text-[#606266]">{tmain('title.second')}</span>
         </h1>
         </div>
-        <div>
-          <p className="font-medium text-[20px] leading-[160%] text-gray-500 w-[525px] mb-[24px]">
+        <div className="h-full">
+          <p className="font-medium text-[20px] leading-[160%] text-gray-500 h-auto w-[525px] mb-[24px] res-description">
           {tmain('description.p')}
           </p>
-          <Button className="primary-bg rounded-[16px] p-[14px_20px] w-[240px] h-[52px]">
+          <Button className="primary-bg rounded-[16px] p-[14px_20px] w-[240px] h-[52px] responsive-btn">
             <Link href={'/shop'} className="w-full flex justify-center items-center ">
               {tmain('description.button')} <Arrow/>
             </Link>
@@ -219,7 +218,8 @@ export default function Home() {
       <Banner/>
     </section>
 
-    <section className="max-w-[1360px] mx-auto" id="madaniymeros">
+
+    {/* <section className="max-w-[1360px] mx-auto" id="madaniymeros">
     <div className="flex justify-between mb-[36px]">
         <div>
         <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] h-[36px]  gap-[10px] inline-flex items-center">
@@ -425,7 +425,7 @@ export default function Home() {
         </div>
       </div>
     </section>
-    <Footer/>
+    <Footer/> */}
     </>
 
   );

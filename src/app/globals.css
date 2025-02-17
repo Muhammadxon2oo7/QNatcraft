@@ -14,6 +14,7 @@ html {
 }
 section{
   scroll-margin-top: 180px;
+  overflow-x: hidden;
 }
 .section{
   padding-top: 200px;
@@ -153,22 +154,58 @@ header{
   font-size: clamp(10px, 1vw, 16px);
   transition: font-size 0.3s ease-in-out;
 }
+.res-title{
+  font-size: clamp(26px, 3vw, 40px);
+}
+.res-description{
+  font-size: clamp(14px, 2vw, 20px);
+}
+@media only screen and (max-width: 1190px) {
+  .section-title{
+    height: auto;
+  }
+  .section-title div:first-child{
+    width: 47%;
+  }
+  .section-title div:last-child{
+    width: 47%;
+  }
+}
 
 .separator {
   display: none;
 }
 
 @media only screen and (max-width: 768px) {
+
   .separator {
     display: inline;
     color: rgba(255, 255, 255, 0.2);
   }
   section{
+    max-width: 100%;
     scroll-margin-top:80px;
     
   }
   .section{
     padding-top:30px;
+  }
+  .section-title{
+    flex-direction: column;
+    height: auto;
+    max-width: 100%;
+  }
+  .section-title div:first-child{
+    width: 100%;
+  }
+  .section-title div:last-child{
+    width: 100%;
+  }
+  .section-title div:last-child p{
+    width: 100%;
+  }
+  .badge{
+    max-width: 200px;
   }
 }
 @media only screen and (max-width: 1279px) {
