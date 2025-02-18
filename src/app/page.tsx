@@ -24,7 +24,7 @@ import { Telegram } from "./../../public/img/telegram";
 import { Instagram } from "./../../public/img/instagram";
 import { Feacebook } from "./../../public/img/feacebook";
 import { Youtube } from "./../../public/img/youtube";
-import { Footer } from "@/components/Header/footer/Footer";
+import { Footer } from "@/components/footer/Footer";
 import { useTranslations } from "next-intl";
 import { Banner } from "@/components/Banner/Banner";
 
