@@ -244,75 +244,104 @@ export default function Home() {
       <AnimatedTimeline/>
     </section>
 
-    {/* <section className="max-w-[1360px] mx-auto mb-[140px]" id="Hunarmandchilikturlari">
-    <div className="flex justify-between mb-[36px]">
+    
+    <section className="max-w-[1380px] px-[10px] mx-auto mb-[140px]" id="Hunarmandchilikturlari">
+    <div className="flex justify-between mb-[36px]  section-title">
         <div>
-        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] inline-flex h-[36px]  gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tthird('badge')}</p></Badge>
-        <h1 className="font-sans font-bold text-[32px] leading-[131%] text-[#242b3a]">
+        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] inline-flex h-[36px]  gap-[10px] badge" variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tthird('badge')}</p></Badge>
+        <h1 className="font-sans font-bold text-[32px] leading-[131%] text-[#242b3a] res-title">
         {tthird('title')}
         </h1>
         </div>
         <div>
-          <p className="font-medium text-[20px] leading-[160%] text-gray-500 w-[525px] mb-[24px]">
+          <p className="font-medium text-[20px] leading-[160%] text-gray-500 w-[525px] mb-[24px] res-description overflow-wrap break-word ">
           {tthird('description')}
           </p>
         </div>
       </div>
 
 
-      <div className="flex flex-wrap gap-[20px]">
-        <div className="w-[210px] flex flex-wrap gap-[20px]">
+      <div className="flex flex-wrap md:flex-nowrap gap-[20px]">
+        <div className="md:w-[210px]  flex md:flex-wrap md:h-[90%] md:border
+          gap-[20px] max-h-[560px] overflow-x-scroll no-scrollbar py-[5px] ">
       {Object.entries(TypeofCrafts).map(([key, item]) => (
         <Button
           className={cn(
-            "rounded-[24px] w-[210px] h-[96px] bg-[#f6f6f6] hover:bg-[#f6f6f6] text-[#242b3a]",
+            "md:rounded-[24px] md:w-full md:h-[96px] bg-[#f6f6f6] hover:bg-[#f6f6f6] responsive-btn text-[#242b3a]",
             selectedCraft === TypeofCrafts[key as CraftType]?'primary-bg text-white':''
           )}
           key={key}
           onClick={() => handleCraftClick(key as CraftType)} 
         >
-          <p className="font-semibold text-2xl leading-[133%]">{item.name}</p>
+        <p
+  style={{ fontSize: "clamp(1rem, 1.5vw, 2.5rem)", lineHeight: "133%" }}
+  className="font-semibold"
+>
+  {item.name}
+</p>
+
+
         </Button>
       ))}
     </div>
 
-    <div className="rounded-[24px] h-[636px] bg-[#fcdbdb] hover:bg-[#fcdbdb] flex flex-grow flex-wrap max-w-[1130px] p-[36px]">
+    <div className="rounded-[24px]  bg-[#fcdbdb] hover:bg-[#fcdbdb] flex flex-grow flex-wrap max-w-[1130px] p-[36px]">
       {selectedCraft ? (
         <>
           <div className="flex flex-wrap gap-[33px]">
           <div className="max-w-[613px]">
-          <h2 className="font-semibold text-2xl leading-[133%] text-[#242b3a] mb-[12px]">{selectedCraft.title}</h2>
-          <p className="font-normal text-lg leading-[133%] text-[#242b3a] mb-[40px]">{selectedCraft.dec}</p>
+          <h2
+  style={{ fontSize: "clamp(1.5rem, 2vw, 2.5rem)", lineHeight: "133%" }}
+  className="font-semibold text-[#242b3a] mb-[12px]"
+>
+  {selectedCraft.title}
+</h2>
+
+<p
+  style={{ fontSize: "clamp(1rem, 1.5vw, 1.5rem)", lineHeight: "133%" }}
+  className="font-normal text-[#242b3a] mb-[40px]"
+>
+  {selectedCraft.dec}
+</p>
+
           
-            <ul>
-              {selectedCraft.types.map((type: any, index: number) => (
-                <li key={index} className="text-[18px] leading-[133%] text-[#242b3a] font-semibold mb-[30px]">
-                  <strong>{type.name}:</strong>
-                  <ul className="pl-[20px]">
-                    {type.type.map((subType: any, idx: number) => (
-                      <li key={idx} className="list-disc">
-                       <p className="text-[18px] leading-[133%] text-[#242b3a] font-semibold">
-                       
-                        {subType.name}  
-                         - 
-                        <span className="font-normal">
-                        {subType.dec}
-                        </span>
-                       </p>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
+<ul>
+  {selectedCraft.types.map((type: any, index: number) => (
+    <li
+      key={index}
+      style={{ fontSize: "clamp(1rem, 1.8vw, 1.125rem)", lineHeight: "133%" }}
+      className="text-[#242b3a] font-semibold mb-[30px]"
+    >
+      <strong>{type.name}:</strong>
+      <ul className="pl-[20px]">
+        {type.type.map((subType: any, idx: number) => (
+          <li key={idx} className="list-disc">
+            <p
+              style={{ fontSize: "clamp(1rem, 1.5vw, 1.125rem)", lineHeight: "133%" }}
+              className="text-[#242b3a] font-semibold"
+            >
+              {subType.name} -  
+              <span className="font-normal">{subType.dec}</span>
+            </p>
+          </li>
+        ))}
+      </ul>
+    </li>
+  ))}
+</ul>
+
           </div>
-          <div className="flex flex-wrap gap-[16px] max-w-[412px]">
-           {
-            selectedCraft.imgs.map((item)=>
-            <img className="w-[412px] rounded-[27px] h-[274px]" src={item} alt="" />
-            )
-           }
-          </div>
+          <div className="flex flex-wrap gap-[16px] max-w-[412px] justify-center md:justify-normal">
+  {selectedCraft.imgs.map((item, index) => (
+    <img
+      key={index}
+      className="w-full sm:w-[clamp(300px, 80vw, 412px)] h-[clamp(200px, 50vw, 274px)] rounded-[27px]"
+      src={item}
+      alt=""
+    />
+  ))}
+</div>
+
           </div>
         </>
       ) : (
@@ -323,6 +352,7 @@ export default function Home() {
 
 
     </section>
+    {/* 
     <section className="max-w-[1360px] mx-auto" id="xarita">
     <div className="flex justify-between mb-[36px]">
         <div>
@@ -428,7 +458,8 @@ export default function Home() {
         </div>
       </div>
     </section>
-    <Footer/> */}
+    <Footer/> 
+    */}
     </>
 
   );
