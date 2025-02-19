@@ -146,9 +146,9 @@ useEffect(() => {
         ))}
       </div>
         </div>
-        <div className="border flex md:max-w-[1015px] md:w-[70%] items-end  flex-wrap">
+        <div className=" flex md:max-w-[1015px] md:w-[70%] items-end  flex-wrap">
           <div className="w-full flex justify-center items-center ">
-            <div className="svg__Wrapper md:w-[650px] w-[300px] border mb-[10px]">
+            <div className="svg__Wrapper md:w-[650px] w-[300px]  mb-[10px]">
               <svg
                 data-v-463741c6=""
                 xmlns="http://www.w3.org/2000/svg"
