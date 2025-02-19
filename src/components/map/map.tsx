@@ -46,6 +46,10 @@ const QoraqalpogistonMap = () => {
   const handleClick = (index: number) => {
     setClickedIndex(index === clickedIndex ? null : index); // Agar shu tugma bosilgan bo'lsa, tanlashni olib tashlash
   };
+  function handleRegionSelect(id: string): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <div className="mb-[140px]">
       <div className="flex gap-[20px] overflow-x-scroll no-scrollbar mb-[20px] py-[5px]">
@@ -55,7 +59,7 @@ const QoraqalpogistonMap = () => {
 
           key={index}
           onClick={() => handleClick(index)}
-          className={`flex items-center justify-start rounded-lg p-2.5 w-[293px] h-[52px] shadow-none 
+          className={`flex items-center justify-start rounded-lg p-2.5 w-[293px] h-[52px] shadow-none  responsive-btn
             ${clickedIndex === index ? 'primary-bg text-white' : 'bg-[#f6f6f6] text-[#242b3a]'} 
             hover:bg-[#f6f6f6]`}
         >
@@ -66,18 +70,23 @@ const QoraqalpogistonMap = () => {
       
 
       </div>
-      <div className="w-full flex flex-wrap gap-[20px]">
-        <div className="rounded-[14px] w-[325px] h-[744px] bg-[#f6f6f6] p-[16px] pb-[60px] flex flex-wrap gap-[8px] overflow-hidden">
-          <p className="font-semibold text-lg leading-[133%] text-[#242b3a] mb-[16px] border-b border-b-gray-300 w-full pb-[16px]">
+      <div className="w-full flex flex-wrap gap-[20px] justify-between">
+        <div className="md:rounded-[14px] md:w-[25%] md:h-[744px] md:bg-[#f6f6f6] md:p-[16px] pb-[60px] flex flex-wrap gap-[8px] overflow-hidden">
+          {/* <p className="font-semibold text-lg leading-[133%] text-[#242b3a] mb-[16px] border-b border-b-gray-300 w-full pb-[16px]">
             Hududlar
-          </p>
+          </p> */}
          
-          <div className="h-full overflow-y-scroll no-scrollbar pb-[16px] mb-[20px]">
+     
+  {/* 768px dan katta ekranlar uchun Hududlar sarlavhasi */}
+  <p className="font-semibold text-lg leading-[133%] text-[#242b3a] mb-[16px] border-b border-b-gray-300 w-full pb-[16px] hidden md:block">
+        Hududlar
+      </p>
+      <div className="h-full overflow-y-scroll w-full no-scrollbar pb-[16px] mb-[20px] hidden md:block">
           {regions.map((region) => (
           <Button
             key={region.id}
             className={cn(
-              "flex items-center justify-start rounded-lg p-2.5 w-[293px] h-[52px]  shadow-none bg-[#f6f6f6]   text-[#242b3a] hover:bg-[#f6f6f6]",
+              "flex items-center justify-start rounded-lg p-2.5 w-full h-[52px]  shadow-none bg-[#f6f6f6]   text-[#242b3a] hover:bg-[#f6f6f6] responsive-btn",
               selectedRegion === region.id
                 ? "primary-bg text-white"
                 : "bg-[#f6f6f6]",
@@ -91,10 +100,31 @@ const QoraqalpogistonMap = () => {
           </Button>
         ))}
           </div>
+
+           {/* 768px dan kichik ekranlar uchun gorizontal joylashgan tugmalar */}
+      <div className="w-full flex gap-2 overflow-x-auto no-scrollbar md:hidden ">
+        {regions.map((region) => (
+          <Button
+          key={region.id}
+          className={cn(
+            "flex items-center justify-start rounded-lg p-2.5 w-[293px] h-[52px]  shadow-none bg-[#f6f6f6]   text-[#242b3a] hover:bg-[#f6f6f6] responsive-btn",
+            selectedRegion === region.id
+              ? "primary-bg text-white"
+              : "bg-[#f6f6f6]",
+            hoveredRegion === region.id ? "bg-red-300" : ""
+          )}
+          onClick={() => setSelectedRegion(region.id)}
+            onMouseEnter={() => setHoveredRegion(region.id)}
+            onMouseLeave={() => setHoveredRegion(null)}
+          >
+            {region.name}
+          </Button>
+        ))}
+      </div>
         </div>
-        <div className="border flex max-w-[1015px] items-end  flex-wrap">
-          <div className="w-full flex justify-center items-center">
-            <div className="svg__Wrapper w-[650px] border">
+        <div className="border flex md:max-w-[1015px] md:w-[70%] items-end  flex-wrap">
+          <div className="w-full flex justify-center items-center ">
+            <div className="svg__Wrapper md:w-[650px] w-[300px] border mb-[10px]">
               <svg
                 data-v-463741c6=""
                 xmlns="http://www.w3.org/2000/svg"
@@ -412,26 +442,48 @@ const QoraqalpogistonMap = () => {
               </svg>
             </div>
           </div>
-          <div className="w-full flex  gap-[20px] justify-end h-[128px]">
-            <div className="rounded-[14px] px-5 w-[325px] h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent text-center">
-             100 <br /><span className="font-medium text-[18px] leading-[133%] text-center text-[#242b3a]">
+          {/* <div className="w-full flex  gap-[20px] justify-center md:h-[128px]">
+            <div className="rounded-[14px] px-5 md:w-[325px] md:h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent text-center res-title">
+             100 <br /><span className="font-medium text-[18px] leading-[133%] text-center text-[#242b3a] res-description">
              {tfourth('statistic.first')}
              </span> </p>
              
              </div>
-             <div className="rounded-[14px] px-5 w-[325px] h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent text-center">
-             80 <br /><span className="font-medium text-[18px] leading-[133%] text-center text-[#242b3a]">
+             <div className="rounded-[14px] px-5 md:w-[325px] md:h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent text-center res-title">
+             80 <br /><span className="font-medium text-[18px] leading-[133%] text-center text-[#242b3a] res-description">
              {tfourth('statistic.second')}
              </span> </p>
              
              </div>
-             <div className="rounded-[14px] px-5 w-[325px] h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent text-center">
-             300 <br /><span className="font-medium text-[18px] leading-[133%] text-center text-[#242b3a]">
+             <div className="rounded-[14px] px-5 md:w-[325px] md:h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent text-center res-title">
+             300 <br /><span className="font-medium text-[18px] leading-[133%] text-center text-[#242b3a] res-description">
              {tfourth('statistic.third')}
              </span> </p>
              
              </div>
-          </div>
+          </div> */}
+          <div className="w-full flex justify-center">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full max-w-[1024px] ">
+    {[
+      { value: "100", label: tfourth("statistic.first") },
+      { value: "80", label: tfourth("statistic.second") },
+      { value: "300", label: tfourth("statistic.third") },
+    ].map((item, index) => (
+      <div
+        key={index}
+        className="rounded-[14px] px-5 py-4 bg-[#f6f6f6] flex flex-col items-center text-center w-full max-w-[325px]"
+      >
+        <p className="font-bold text-[36px] leading-[122%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent res-title">
+          {item.value}
+        </p>
+        <span className="font-medium text-[18px] leading-[133%] text-[#242b3a] res-description">
+          {item.label}
+        </span>
+      </div>
+    ))}
+  </div>
+</div>
+
         </div>
       </div>
     </div>

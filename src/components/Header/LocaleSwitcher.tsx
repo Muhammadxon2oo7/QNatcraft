@@ -24,10 +24,10 @@ export default function LocaleSwitcher() {
         <SelectValue placeholder={t('label') || 'Theme'} />
       </SelectTrigger>
       <SelectContent className="absolute block index">
-      <SelectItem className="cursor-pointer" value="qr">Qr</SelectItem>
-        <SelectItem className="cursor-pointer" value="uz">Uz</SelectItem>
-        <SelectItem className="cursor-pointer" value="en">En</SelectItem>
-        <SelectItem className="cursor-pointer" value="ru">Ru</SelectItem>
+      <SelectItem className="cursor-pointer" value="qr">QQ</SelectItem>
+        <SelectItem className="cursor-pointer" value="uz">UZ</SelectItem>
+        <SelectItem className="cursor-pointer" value="en">EN</SelectItem>
+        <SelectItem className="cursor-pointer" value="ru">RU</SelectItem>
       </SelectContent>
     </Select>
   );
