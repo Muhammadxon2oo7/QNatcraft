@@ -18,7 +18,7 @@ import { Right } from '../../../public/img/right';
 
 const CustomSwiper = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-
+  
   useEffect(() => {
     const splide = new Splide('#splide', {
       type: 'loop',
@@ -29,6 +29,12 @@ const CustomSwiper = () => {
       padding: '5%',
       updateOnMove: true,
       pagination:false,
+      classes: {
+        arrows: 'splide__arrows your-class-arrows',
+        arrow : 'splide__arrow your-class-arrow',
+        prev  : 'splide__arrow--prev your-class-prev',
+        next  : 'splide__arrow--next your-class-next',
+      },
     });
 
     splide.on('moved', () => {
@@ -41,35 +47,39 @@ const CustomSwiper = () => {
       splide.destroy();
     };
   }, []);
+  
 
   return (
     <div className="mx-auto">
       <div id="splide" className="splide">
+      <div className="splide__arrows">
+		<button className="splide__arrow splide__arrow--prev ">
+			<Left />
+		</button>
+		<button className="splide__arrow splide__arrow--next">
+			<Right/>
+		</button>
+  </div>
+
         <div className="splide__track  w-full">
           <ul className="splide__list w-full h-[546px] flex">
             {Array.from({ length: 10 }).map((_, index) => (
               <li
                 key={index}
-                className=' splide__slide static  bg-white rounded-[24px] p-[20px] transition-transform duration-300 '
-                style={{
-                  width: '1130px',
-                  height: '536px',
-                  display:'block',
-                  // transform: index === activeIndex ? 'scale(1)' : 'scale(0.9)',
-                  opacity: index === activeIndex ? 1 : 0.6,
-                  backgroundColor: index === activeIndex ? '#fcefe5' : '',
-                }}
+                className={`splide__slide static bg-white rounded-[24px] w-[300px] p-[20px] md:max-w-[1130px] md:max-h-[536px] block transition-transform duration-300
+                  ${index === activeIndex ? 'opacity-100 bg-[rgb(252,239,229)]' : 'opacity-60'}`}
+                  style={{ backgroundColor: index === activeIndex ? 'rgb(252,239,229)' : 'white' }}
               >
-                <div className=' flex w-[1130px]'>
-                <div className="p-[16px] max-w-[496px] pb-[43px]">
+                <div className=' flex w-full md:max-w-[1130px]'>
+                <div className="p-[16px] max-w-[500px] md:w-[496px] pb-[43px]">
                   <div className="mb-[16px]">
-                    <Badge className="rounded-[24px] primary-bg cursor-pointer p-[10px_16px] w-auto px-[13.5px] py-[6px] h-[36px] flex gap-[10px] text-white" variant="secondary">
+                    <Badge className="rounded-[24px] primary-bg cursor-pointer p-[10px_16px]  px-[13.5px] py-[6px] h-[36px] inline-flex  gap-[10px] text-white badge" variant="secondary">
                       <Dot />
                       <p className="font-medium text-base leading-none text-white">Kulol</p>
                     </Badge>
                   </div>
                   <p className="font-medium text-[24px] text-[#242b3a]">Alisher Zafarovich Polonchiyev</p>
-                  <p className="font-normal text-sm text-gray-500 w-[496px] mb-[28px]">
+                  <p className="font-normal text-sm text-gray-500 md:max-w-[496px] mb-[28px]">
                     Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger
                     solutionize initiative pushback. Opportunity accountable files time key you're harvest. So while socialize
                     cadence optimize baseline closer. Organic usability where goalposts adoption lot lift request
@@ -106,32 +116,14 @@ const CustomSwiper = () => {
                   alt='craftman'
                   width={100}
                   height={100}
-                  className='w-[542px] h-[496px]'
+                  className='md:w-[542px] h-[496px]'
                   />
                 </div>
                 </div>
               </li>
             ))}
           </ul>
-          <div className="splide__arrows splide__arrows--ltr">
-  <button
-    className="splide__arrow splide__arrow--prev l-[100px]"
-    type="button"
-    aria-label="Previous slide"
-    aria-controls="splide01-track"
-  >
-    
-    <Left/>
-  </button>
-  <button
-    className="splide__arrow splide__arrow--next"
-    type="button"
-    aria-label="Next slide"
-    aria-controls="splide01-track"
-  >
-    <Right/>
-  </button>
-</div>
+
         </div>
       </div>
     </div>

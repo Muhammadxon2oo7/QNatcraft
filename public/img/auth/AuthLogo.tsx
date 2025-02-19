@@ -2,7 +2,7 @@ import React from 'react'
 
 export const AuthLogo = () => {
   return (
-<svg width={164} height={88} viewBox="0 0 164 108" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+<svg width={144} height={68} viewBox="0 0 164 108" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
   <mask id="mask0_103_2093" style={{maskType: 'alpha'}} maskUnits="userSpaceOnUse" x={49} y={0} width={66} height={66}>
     <rect x="49.1143" width="65.7718" height="65.7718" fill="url(#pattern0_103_2093)" />
   </mask>

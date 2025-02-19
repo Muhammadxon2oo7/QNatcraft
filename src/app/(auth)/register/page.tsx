@@ -39,8 +39,8 @@ const Register = () => {
   };
 
   return (
-    <div className="register py-[20px] pr-[120px] flex flex-wrap pl-[72px] justify-center md:justify-between items-end">
-      <div className="rounded-[24px] w-[580px]  backdrop-blur-[124px] bg-white p-[16px]">
+    <div className="register py-[10px] md:pr-[120px] flex md:flex flex-wrap  md:justify-end  h-full ">
+      <div className="rounded-[24px] md:w-[580px] w-[90%] mx-auto backdrop-blur-[124px] bg-white p-[16px] md:h-[90%]">
         <div className="flex justify-between h-[52px] overflow-hidden mb-[16px]">
           <Button variant="outline" size="icon" className="h-[42px] w-[52px]" onClick={handleBack}>
             <ChevronLeft />

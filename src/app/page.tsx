@@ -375,27 +375,28 @@ export default function Home() {
       <Map/>
     </section>
 
-    {/* <section className="mb-[140px]">
-    <div className="max-w-[1360px] mx-auto flex justify-between mb-[36px]">
+    <section className="mb-[140px]">
+    <div className="max-w-[1360px] mx-auto flex justify-between mb-[36px] section-title px-[10px]">
         <div>
-        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] h-[36px] inline-flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tfifth('badge')}</p></Badge>
-        <h1 className="font-sans font-bold text-[32px] leading-[131%] text-[#242b3a]">
+        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] h-[36px] inline-flex gap-[10px]  badge" variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tfifth('badge')}</p></Badge>
+        <h1 className="font-sans font-bold text-[32px] text-[#242b3a] res-title">
         {tfifth('title')}
         </h1>
         </div>
-        <div>
-          <p className="font-medium text-[20px] leading-[160%] text-gray-500 w-[525px] mb-[24px]">
+        <div className="overflow-hidden pr-[15px]">
+          <p className="font-medium text-[20px]  h-full text-gray-500  mb-[24px] res-description overflow-wrap break-word">
           {tfifth('description')}
           </p>
         </div>
       </div>
+
       <div className="w-full ">
         <CustomSwiper/>
       </div>
     
     </section>
 
-    <section className="max-w-[1360px] mx-auto mb-[140px] " id="aboutus">
+    {/* <section className="max-w-[1360px] mx-auto mb-[140px] " id="aboutus">
     <div className="flex justify-between mb-[36px]">
         <div>
         <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px]  h-[36px] inline-flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tsixth('badge')}</p></Badge>

@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-const geoUrl = "/data/qoraqalpogiston.json"; // JSON faylni yuklash
+const geoUrl = "/data/qoraqalpogiston.json"; 
 
 const QoraqalpogistonMap = () => {
   const tfourth=useTranslations("home.fourthSection")
@@ -45,7 +45,6 @@ const QoraqalpogistonMap = () => {
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   const selectedButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  // Dynamic ref assignment function
 const setButtonRef = useCallback(
   (node: HTMLButtonElement | null, regionId: string) => {
     if (node && selectedRegion === regionId) {
@@ -55,7 +54,6 @@ const setButtonRef = useCallback(
   [selectedRegion]
 );
 
-// Scroll into view when selectedRegion changes
 useEffect(() => {
   if (selectedButtonRef.current) {
     selectedButtonRef.current.scrollIntoView({
@@ -66,7 +64,7 @@ useEffect(() => {
   }
 }, [selectedRegion]);
   const handleClick = (index: number) => {
-    setClickedIndex(index === clickedIndex ? null : index); // Agar shu tugma bosilgan bo'lsa, tanlashni olib tashlash
+    setClickedIndex(index === clickedIndex ? null : index); 
   };
  
 
@@ -92,12 +90,8 @@ useEffect(() => {
       </div>
       <div className="w-full flex flex-wrap gap-[20px] justify-between">
         <div className="md:rounded-[14px] md:w-[25%] md:h-[744px] md:bg-[#f6f6f6] md:p-[16px] pb-[60px] flex flex-wrap gap-[8px] overflow-hidden">
-          {/* <p className="font-semibold text-lg leading-[133%] text-[#242b3a] mb-[16px] border-b border-b-gray-300 w-full pb-[16px]">
-            Hududlar
-          </p> */}
+        
          
-     
-  {/* 768px dan katta ekranlar uchun Hududlar sarlavhasi */}
   <p className="font-semibold text-lg leading-[133%] text-[#242b3a] mb-[16px] border-b border-b-gray-300 w-full pb-[16px] hidden md:block">
         Hududlar
       </p>
@@ -123,7 +117,7 @@ useEffect(() => {
         ))}
           </div>
 
-           {/* 768px dan kichik ekranlar uchun gorizontal joylashgan tugmalar */}
+         
       <div className="w-full flex gap-2 overflow-x-auto no-scrollbar md:hidden ">
         {regions.map((region) => (
           <Button
@@ -466,26 +460,7 @@ useEffect(() => {
               </svg>
             </div>
           </div>
-          {/* <div className="w-full flex  gap-[20px] justify-center md:h-[128px]">
-            <div className="rounded-[14px] px-5 md:w-[325px] md:h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent text-center res-title">
-             100 <br /><span className="font-medium text-[18px] leading-[133%] text-center text-[#242b3a] res-description">
-             {tfourth('statistic.first')}
-             </span> </p>
-             
-             </div>
-             <div className="rounded-[14px] px-5 md:w-[325px] md:h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent text-center res-title">
-             80 <br /><span className="font-medium text-[18px] leading-[133%] text-center text-[#242b3a] res-description">
-             {tfourth('statistic.second')}
-             </span> </p>
-             
-             </div>
-             <div className="rounded-[14px] px-5 md:w-[325px] md:h-[128px] bg-[#f6f6f6] flex flex-wrap justify-center items-center"><p className="font-bold text-[36px] leading-[122%]  bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent text-center res-title">
-             300 <br /><span className="font-medium text-[18px] leading-[133%] text-center text-[#242b3a] res-description">
-             {tfourth('statistic.third')}
-             </span> </p>
-             
-             </div>
-          </div> */}
+     
           <div className="w-full flex justify-center ">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:w-full max-w-[1024px] w-full place-items-center ">
   {[
