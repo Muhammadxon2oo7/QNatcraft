@@ -146,7 +146,7 @@ useEffect(() => {
         ))}
       </div>
         </div>
-        <div className=" flex md:max-w-[1015px] md:w-[70%] items-end  flex-wrap">
+        <div className=" flex w-full md:max-w-[1015px] md:w-[70%]  items-end  flex-wrap">
           <div className="w-full flex justify-center items-center ">
             <div className="svg__Wrapper md:w-[650px] w-[300px]  mb-[10px]">
               <svg
@@ -486,26 +486,30 @@ useEffect(() => {
              
              </div>
           </div> */}
-          <div className="w-full flex justify-center">
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:w-full max-w-[1024px] ">
-    {[
-      { value: "100", label: tfourth("statistic.first") },
-      { value: "80", label: tfourth("statistic.second") },
-      { value: "300", label: tfourth("statistic.third") },
-    ].map((item, index) => (
-      <div
-        key={index}
-        className="rounded-[14px] px-5 py-4 bg-[#f6f6f6] flex flex-col items-center text-center w-full max-w-[325px]"
-      >
-        <p className="font-bold text-[36px] leading-[122%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent res-title">
-          {item.value}
-        </p>
-        <span className="font-medium text-[18px] leading-[133%] text-[#242b3a] res-description">
-          {item.label}
-        </span>
-      </div>
-    ))}
-  </div>
+          <div className="w-full flex justify-center ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:w-full max-w-[1024px] w-full place-items-center ">
+  {[
+    { value: "100", label: tfourth("statistic.first") },
+    { value: "80", label: tfourth("statistic.second") },
+    { value: "300", label: tfourth("statistic.third") },
+  ].map((item, index, array) => (
+    <div
+      key={index}
+      className={`rounded-[14px] px-5 py-4 bg-[#f6f6f6] flex flex-col items-center text-center w-full ${
+        array.length === 1 ? "max-w-full" : "max-w-[325px]"
+      }`}
+    >
+      <p className="font-bold text-[36px] leading-[122%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent res-title">
+        {item.value}
+      </p>
+      <span className="font-medium text-[18px] leading-[133%] text-[#242b3a] res-description">
+        {item.label}
+      </span>
+    </div>
+  ))}
+</div>
+
+
 </div>
 
         </div>
