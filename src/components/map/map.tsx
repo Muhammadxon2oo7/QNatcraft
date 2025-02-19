@@ -33,10 +33,11 @@ const QoraqalpogistonMap = () => {
     { id: "Beruniy tumani", name: tfourth('regions.nine') },
     { id: "Ellik qal`a tumani", name: tfourth('regions.ten') },
     { id: "To`rtko`l tumani", name: tfourth('regions.eleven') },
-    { id: "Chimboy tumani", name: tfourth('regions.twelve') },
-    { id: "Bo`zatov tumani", name:tfourth('regions.thirteen') },
-    { id: "Kegeyli tumani", name: tfourth('regions.fourteen') },
-    { id: "Qanliko`l tumani", name: tfourth('regions.fifteen') },
+    { id: "Qorao`zak tumani", name: tfourth('regions.twelve') },
+    { id: "Chimboy tumani", name: tfourth('regions.thirteen') },
+    { id: "Bo`zatov tumani", name:tfourth('regions.fourteen') },
+    { id: "Kegeyli tumani", name: tfourth('regions.fifteen') },
+    { id: "Qanliko`l tumani", name: tfourth('regions.sixteen') },
   ];
   const TypeofCrafts=['Zargarlik','Kulolchilik','Duradgorlik','Kiyim-kechak','Kashtachilik']
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
