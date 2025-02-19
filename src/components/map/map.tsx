@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "../ui/button";
@@ -42,13 +42,32 @@ const QoraqalpogistonMap = () => {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
+  const selectedButtonRef = useRef<HTMLButtonElement | null>(null);
 
+  // Dynamic ref assignment function
+const setButtonRef = useCallback(
+  (node: HTMLButtonElement | null, regionId: string) => {
+    if (node && selectedRegion === regionId) {
+      selectedButtonRef.current = node;
+    }
+  },
+  [selectedRegion]
+);
+
+// Scroll into view when selectedRegion changes
+useEffect(() => {
+  if (selectedButtonRef.current) {
+    selectedButtonRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }
+}, [selectedRegion]);
   const handleClick = (index: number) => {
     setClickedIndex(index === clickedIndex ? null : index); // Agar shu tugma bosilgan bo'lsa, tanlashni olib tashlash
   };
-  function handleRegionSelect(id: string): void {
-    throw new Error("Function not implemented.");
-  }
+ 
 
   return (
     <div className="mb-[140px]">
@@ -85,6 +104,8 @@ const QoraqalpogistonMap = () => {
           {regions.map((region) => (
           <Button
             key={region.id}
+            
+            ref={(node) => setButtonRef(node, region.id)}
             className={cn(
               "flex items-center justify-start rounded-lg p-2.5 w-full h-[52px]  shadow-none bg-[#f6f6f6]   text-[#242b3a] hover:bg-[#f6f6f6] responsive-btn",
               selectedRegion === region.id
@@ -105,6 +126,8 @@ const QoraqalpogistonMap = () => {
       <div className="w-full flex gap-2 overflow-x-auto no-scrollbar md:hidden ">
         {regions.map((region) => (
           <Button
+         
+          ref={(node) => setButtonRef(node, region.id)}
           key={region.id}
           className={cn(
             "flex items-center justify-start rounded-lg p-2.5 w-[293px] h-[52px]  shadow-none bg-[#f6f6f6]   text-[#242b3a] hover:bg-[#f6f6f6] responsive-btn",
@@ -463,7 +486,7 @@ const QoraqalpogistonMap = () => {
              </div>
           </div> */}
           <div className="w-full flex justify-center">
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full max-w-[1024px] ">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:w-full max-w-[1024px] ">
     {[
       { value: "100", label: tfourth("statistic.first") },
       { value: "80", label: tfourth("statistic.second") },
