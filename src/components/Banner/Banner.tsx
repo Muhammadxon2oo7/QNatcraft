@@ -33,7 +33,7 @@ export const Banner: React.FC = () => {
         playsInline
         muted={true}
         autoPlay
-        className="w-full  object-cover rounded-[24px]"
+        className="w-full  object-cover rounded-[24px] md:h-[650px]"
       >
         <source src="videos/natcraft.mp4" type="video/mp4" />
       </video>
