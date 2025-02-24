@@ -21,7 +21,7 @@ const CustomSwiper = () => {
   useEffect(() => {
     const splide = new Splide('#splide', {
       type: 'loop',
-      autoplay: false,
+      autoplay: true,
       interval: 3000, 
       speed: 800, 
 pauseOnHover: false,
