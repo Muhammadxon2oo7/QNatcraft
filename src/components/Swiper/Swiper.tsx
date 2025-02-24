@@ -81,10 +81,7 @@ pauseOnFocus: false,
                     backgroundColor: index === activeIndex ? 'rgb(252,239,229)' : 'white',
                     width: '100%',
                     maxWidth: '100%',
-                    '@media (max-width: 768px)': {
-                      width: '100%',
-                      height:'auto'
-                    },
+                    
                   }}
               >
                 <div className="flex  md:flex-row flex-wrap flex-col-reverse w-full
