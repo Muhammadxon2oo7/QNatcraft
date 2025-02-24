@@ -396,75 +396,100 @@ export default function Home() {
     
     </section>
 
-    <section className="max-w-[1360px] mx-auto mb-[140px] " id="aboutus">
-    <div className="flex justify-between mb-[36px]">
+    <section className="max-w-[1380px] mx-auto mb-[140px] px-[10px]" id="aboutus">
+      <div className="max-w-[1360px] mx-auto flex justify-between mb-[36px] section-title px-[10px]">
         <div>
-        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px]  h-[36px] inline-flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tsixth('badge')}</p></Badge>
-        <h1 className="font-sans font-bold text-[32px] leading-[131%] text-[#242b3a]">
+        <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] h-[36px] inline-flex gap-[10px]  badge" variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tsixth('badge')}</p></Badge>
+        <h1 className="font-sans font-bold text-[32px] text-[#242b3a] res-title">
         {tsixth('title')}
         </h1>
         </div>
-        <div>
-          <p className="font-medium text-[20px] leading-[160%] text-gray-500 w-[525px] mb-[24px]">
+        <div className="overflow-hidden pr-[15px]">
+          <p className="font-medium text-[20px]  h-full text-gray-500  mb-[24px] res-description overflow-wrap break-word">
           {tsixth('description')}
           </p>
         </div>
       </div>
-      <div className="flex w-full flex-wrap gap-[20px] ">
-        <div className="rounded-[24px] w-[670px] h-[480px] bg-[#f6f6f6] pt-[35px] pl-[46px] flex ">
-          <Image
-            src='/img/man.png'
-            alt="img"
-            width={100}
-            height={100}
-            className="w-[383px] h-[445px]"
-          />
-          <div className="w-[294px] translate-x-[-88px] mt-[60px] ">
-            <p className="font-bold text-2xl leading-[133%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">
-            Jamshidkhon Imomov
-            </p>
-            <p className="font-bold text-base leading-[1.37] text-[#242b3a]">
-            Asoschi & CEO
-            </p>
-            <p className="font-normal text-base leading-[1.37] text-[#606266] w-[294px]">
-            Bizning asoschimiz Jamshidkhon Imomov, kompaniya boshqaruviga rahbarlik qilib, innovatsion yondashuvlarni qo'llab-quvvatlaydi.
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-grow flex-wrap gap-[20px] max-w-[670px]">
-          <div className="w-full rounded-[24px]  h-[230px] bg-[#f6f6f6] p-[24px]">
-            <p className="font-bold text-base leading-[1.37] text-[#242b3a] mb-[5px]">Bizning Missiya va tariximiz</p>
-            <ul>
-              <li className="font-normal text-base leading-[1.37] text-[#606266] list-disc">Bizning missiyamiz mijozlarga yuqori sifatli xizmatlar va mahsulotlarni taklif qilish, hamda doimiy ravishda yangi texnologiyalarni kiritish orqali ularning ehtiyojlarini qondirishdir.</li>
-              <li className="font-normal text-base leading-[1.37] text-[#606266] list-disc">Kompaniyamiz 2010 yilda tashkil topdi va shu vaqt mobaynida dunyo bo'ylab o'nlab mijozlarga yuqori sifatli xizmatlar ko'rsatdi. Har bir yilda o'z faoliyatini kengaytirib, innovatsion mahsulotlar yaratish va texnologiyalarni rivojlantirishga alohida e'tibor qaratdik.</li>
-            </ul>
-          </div>
-          <div className="rounded-[24px] w-[325px] h-[230px] bg-[#fcdbdb] hover:bg-[#fcdbdb] p-[24px] flex flex-wrap gap-[20px]">
-            <p className="font-bold text-base leading-[1.37] text-[#242b3a] ">Bizning aloqa manzillarimiz</p>
-            <a className="flex gap-[16px] items-center" href='tel:+998933771283'>
-            <Phone/> +998 93 377 1283
-            </a>
-            
-            <a className="flex gap-[16px] items-center" href='mailto:uze.investment@gmail.com'>
-            <Mail/>uze.investment@gmail.com
-            </a>
-            <p className="flex gap-[16px] text-[13px]  items-center">
-            <Location/> Chilonzor tumani Islom Karimov ko'chasi 49-uy 100066
-            </p>
-          </div>
-          <div className="rounded-[24px] w-[325px] h-[230px] bg-[#fcdbdb] hover:bg-[#fcdbdb] flex justify-between flex-col p-[24px] flex-wrap">
-            <p className="font-bold text-base leading-[1.37] text-[#242b3a]">Bizni ijtimoiy tarmoqlarda kuzatib boring!</p>
-            <div className="flex gap-[17px]">
-              <Button className="w-[56px] h-[56px] bg-white rounded-[100%] hover:bg-white "><a href="https://t.me/uzeinvestment"><Telegram fill="url(#paint0_linear_2111_27)"/></a> </Button>
-              <Button className="w-[56px] h-[56px] bg-white rounded-[100%] hover:bg-white text-[url(#paint0_linear_2111_91)]"><Instagram/></Button>
-              <Button className="w-[56px] h-[56px] bg-white rounded-[100%] hover:bg-white text-[url(#paint0_linear_2111_91)]"><Feacebook/></Button>
-              <Button className="w-[56px] h-[56px] bg-white rounded-[100%] hover:bg-white text-[url(#paint0_linear_2111_91)]"><Youtube/></Button>
-            </div>
-          </div>
+      <div className="flex flex-col md:flex-row w-full flex-wrap gap-[20px]">
+  {/* Firma haqida karta */}
+  <div className="rounded-[24px] w-full md:w-[670px] h-auto md:h-[480px] bg-[#f6f6f6d5] pt-[35px] pl-[46px] flex flex-col md:flex-row">
+    <Image
+      src="/img/einvestment.png"
+      alt="firma rasmi"
+      width={100}
+      height={100}
+      className="w-[150px] md:w-[250px] h-auto md:h-[200px] object-cover rounded-[12px]"
+    />
+    <div className="w-full md:w-[294px] mt-4 md:mt-0 ">
+      <p className="font-bold text-2xl leading-[133%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">
+        Kompaniya nomi
+      </p>
+      <p className="font-bold text-base leading-[1.37] text-[#242b3a]">
+        Biz haqimizda
+      </p>
+      <p className="font-normal text-base leading-[1.37] text-[#606266]">
+        Bizning kompaniyamiz innovatsion yechimlar va yuqori sifatli xizmatlarni taqdim etish orqali mijozlar ehtiyojlarini qondirishga intiladi. Biz doimiy rivojlanish va ilg‘or texnologiyalarni qo‘llash orqali bozorda yetakchilik qilamiz.
+      </p>
+    </div>
+  </div>
+
+  {/* Qo‘shimcha ma’lumotlar */}
+  <div className="flex flex-col md:flex-row flex-grow gap-[20px] max-w-full md:max-w-[670px]">
+    <div className="w-full md:w-[calc(100%-350px)] rounded-[24px] h-auto md:h-[230px] bg-[#f6f6f6] p-[24px]">
+      <p className="font-bold text-base leading-[1.37] text-[#242b3a] mb-[5px]">
+        Bizning Missiya va Tariximiz
+      </p>
+      <ul className="list-disc pl-5">
+        <li className="font-normal text-base leading-[1.37] text-[#606266]">
+          Mijozlarga yuqori sifatli xizmatlar va mahsulotlarni taklif qilish.
+        </li>
+        <li className="font-normal text-base leading-[1.37] text-[#606266]">
+          2010 yildan beri innovatsion mahsulotlar yaratish va texnologiyalarni rivojlantirish.
+        </li>
+      </ul>
+    </div>
+    <div className="flex flex-col gap-[20px] w-full md:w-[350px]">
+      <div className="rounded-[24px] w-full h-auto md:h-[230px] bg-[#fcdbdb] p-[24px] flex flex-col justify-between">
+        <p className="font-bold text-base leading-[1.37] text-[#242b3a]">
+          Bizning aloqa manzillarimiz
+        </p>
+        <div className="flex flex-col gap-2">
+          <a className="flex gap-[16px] items-center text-base text-[#242b3a]" href="tel:+998933771283">
+            <Phone /> +998 93 377 1283
+          </a>
+          <a className="flex gap-[16px] items-center text-base text-[#242b3a]" href="mailto:uze.investment@gmail.com">
+            <Mail /> uze.investment@gmail.com
+          </a>
+          <p className="flex gap-[16px] text-[13px] items-center text-[#242b3a]">
+            <Location /> Chilonzor tumani, Islom Karimov ko'chasi 49-uy, 100066
+          </p>
         </div>
       </div>
+      <div className="rounded-[24px] w-full h-auto md:h-[230px] bg-[#fcdbdb] p-[24px] flex flex-col justify-between">
+        <p className="font-bold text-base leading-[1.37] text-[#242b3a]">
+          Bizni ijtimoiy tarmoqlarda kuzatib boring!
+        </p>
+        <div className="flex gap-[17px]">
+          <Button className="w-[56px] h-[56px] bg-white rounded-full hover:bg-white">
+            <a href="https://t.me/uzeinvestment"><Telegram /></a>
+          </Button>
+          <Button className="w-[56px] h-[56px] bg-white rounded-full hover:bg-white">
+            <Instagram />
+          </Button>
+          <Button className="w-[56px] h-[56px] bg-white rounded-full hover:bg-white">
+            <Feacebook />
+          </Button>
+          <Button className="w-[56px] h-[56px] bg-white rounded-full hover:bg-white">
+            <Youtube />
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
     </section>
-    {/* <Footer/>  */}
+    <Footer/> 
    
     </>
 
