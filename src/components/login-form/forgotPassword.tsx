@@ -203,7 +203,8 @@ const ForgotPassword = ({ setIsForgotPassword }: { setIsForgotPassword: (value: 
             {verificationCode.map((digit, index) => (
               <input
                 key={index}
-                ref={(el: HTMLInputElement | null) => (inputs.current[index] = el)}
+                ref={(el: HTMLInputElement | null) => { inputs.current[index] = el; }}
+
                 type="text"
                 inputMode="numeric"
                 maxLength={1}
