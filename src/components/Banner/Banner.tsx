@@ -31,7 +31,7 @@ export const Banner: React.FC = () => {
         ref={videoRef}
         loop
         playsInline
-        
+        muted={true}
         autoPlay
         className="w-full  object-cover rounded-[24px]"
       >

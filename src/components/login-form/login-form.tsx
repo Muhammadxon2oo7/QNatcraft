@@ -1,55 +1,116 @@
-"use client"
+"use client";
 
-import { EyeOff } from "lucide-react"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { User } from "../../../public/img/auth/user"
-import { Lock } from "../../../public/img/auth/lock"
-import { OpenEye } from "../../../public/img/auth/openEye"
-import { Registericon } from "../../../public/img/auth/register-icon"
-import Link from "next/link"
-import { Mail } from "../../../public/img/auth/Mail"
+import { useState } from "react";
+import { EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Lock } from "../../../public/img/auth/lock";
+import { OpenEye } from "../../../public/img/auth/openEye";
+import { Mail } from "../../../public/img/auth/Mail";
+import Link from "next/link";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
+
+// Import login server action
+import { login as loginAction } from "@/services/auth/login";
 
 export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword: (value: boolean) => void }) {
-  const [showPassword, setShowPassword] = useState(false)
+  const tauth = useTranslations("auth");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      // Serverga login so'rovini yuboramiz
+      const result = await loginAction(loginData);
+
+      // Misol uchun, shunday qilib localStorage-ga tokenlarni yozish ham mumkin:
+      if (result.access && result.refresh) {
+        localStorage.setItem('accessToken', result.access);
+        localStorage.setItem('refreshToken', result.refresh);
+        window.location.href = '/'; 
+      } else {
+        toast.error("Invalid login");
+      }
+      toast.success(tauth("login.successMessage") || "Tizimga kirish muvaffaqiyatli!");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div className="w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto p-6 space-y-8">
       <div className="space-y-2 text-center">
         <h1 className="text-2xl font-semibold tracking-tight">Tizimga kirish</h1>
       </div>
-      <form className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="login" className="font-normal text-xs md:text-sm text-[#858991]">Login</Label>
+          <Label htmlFor="login" className="font-normal text-xs md:text-sm text-[#858991]">
+            Login
+          </Label>
           <div className="relative">
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-              <Mail  />
+              <Mail />
             </div>
-            <Input id="login" type="text" className="rounded-xl p-4 w-full pl-12 h-12 bg-[#f6f6f6]" required placeholder="Email" />
+            <Input
+              id="login"
+              name="email"
+              type="text"
+              value={loginData.email}
+              onChange={handleInputChange}
+              className="rounded-xl p-4 w-full pl-12 h-12 bg-[#f6f6f6]"
+              required
+              placeholder="Email"
+            />
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password" className="font-normal text-xs md:text-sm text-[#858991]">Parol</Label>
+          <Label htmlFor="password" className="font-normal text-xs md:text-sm text-[#858991]">
+            Parol
+          </Label>
           <div className="relative">
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-              <Lock  />
+              <Lock />
             </div>
-            <Input id="password" type={showPassword ? "text" : "password"} className="rounded-xl p-4 w-full pl-12 h-12 bg-[#f6f6f6]" required />
-            <Button type="button" variant="ghost" size="icon" className="absolute right-3 top-1/2 transform -translate-y-1/2" onClick={() => setShowPassword(!showPassword)}>
+            <Input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              value={loginData.password}
+              onChange={handleInputChange}
+              className="rounded-xl p-4 w-full pl-12 h-12 bg-[#f6f6f6]"
+              required
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2"
+              onClick={() => setShowPassword(!showPassword)}
+            >
               {showPassword ? <EyeOff className="h-5 w-5" /> : <OpenEye  />}
               <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
             </Button>
           </div>
           <div className="text-right">
-            <Button variant="link" onClick={() => setIsForgotPassword(true)} className="text-sm text-primary p-0 h-auto">
+            <Button
+              variant="link"
+              onClick={() => setIsForgotPassword(true)}
+              className="text-sm text-primary p-0 h-auto"
+            >
               Parolni unutdingizmi?
             </Button>
           </div>
         </div>
         <Button type="submit" className="w-full rounded-xl h-12 flex justify-center items-center hover:bg-primary">
-          Kirish <Registericon />
+          Kirish
         </Button>
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
@@ -73,9 +134,11 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
         </div>
         <div className="text-center text-sm">
           <span className="text-muted-foreground">Tizimda hali yangimisiz?</span>{" "}
-          <Link href={'/register'} className="text-primary">Ro'yhatdan o'tish</Link>
+          <Link href={'/register'} className="text-primary">
+            Ro'yhatdan o'tish
+          </Link>
         </div>
       </form>
     </div>
-  )
+  );
 }

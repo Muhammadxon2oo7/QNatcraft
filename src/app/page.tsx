@@ -262,7 +262,7 @@ export default function Home() {
 
 
       <div className="flex flex-wrap md:flex-nowrap gap-[20px]">
-        <div className="md:w-[210px]  flex md:flex-wrap md:h-[90%] md:border
+        <div className="md:w-[210px]  flex md:flex-wrap md:h-[90%] 
           gap-[20px] max-h-[560px] overflow-x-scroll no-scrollbar py-[5px] ">
       {Object.entries(TypeofCrafts).map(([key, item]) => (
         <Button
@@ -390,13 +390,13 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="w-full ">
+      <div className="w-full  h-auto">
         <CustomSwiper/>
       </div>
     
     </section>
 
-    {/* <section className="max-w-[1360px] mx-auto mb-[140px] " id="aboutus">
+    <section className="max-w-[1360px] mx-auto mb-[140px] " id="aboutus">
     <div className="flex justify-between mb-[36px]">
         <div>
         <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px]  h-[36px] inline-flex gap-[10px] " variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tsixth('badge')}</p></Badge>
@@ -464,7 +464,7 @@ export default function Home() {
         </div>
       </div>
     </section>
-    <Footer/>  */}
+    {/* <Footer/>  */}
    
     </>
 

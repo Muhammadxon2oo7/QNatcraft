@@ -1,16 +1,17 @@
 "use client";
 
-
 import { useState, useEffect, useRef } from "react";
 import { Check, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import type React from "react";
 import { useTranslations } from "next-intl";
 import { Mail } from "../../../public/img/auth/Mail";
 import Celebrate from "../../../public/img/auth/celebrate";
 import { Resend } from "../../../public/img/auth/resend";
 import { useRouter } from "next/navigation";
+
+
+import { confirmEmail } from "@/services/auth/confirm-email";
 
 interface VerificationProps {
   setIsFormSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,11 +29,10 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
   const inputs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
-    // localStorage'dan email ma'lumotini olish
     const userData = localStorage.getItem("userData");
     if (userData) {
       const parsedData = JSON.parse(userData);
-      setEmail(parsedData.email); // Agar email bo'lmasa, default qiymatni yozamiz
+      setEmail(parsedData.email);
     }
   }, []);
 
@@ -60,7 +60,6 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
   const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace") {
       const newCode = [...code];
-
       if (!newCode[index] && index > 0) {
         inputs.current[index - 1]?.focus();
       } else {
@@ -78,10 +77,11 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
     setCode(pasted.split(""));
     inputs.current[5]?.focus();
   };
-  
+
   useEffect(() => {
     setPreviousURL(document.referrer);
   }, []);
+
   const handleBack = () => {
     if (previousURL) {
       router.back();
@@ -90,16 +90,22 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
     }
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     const enteredCode = code.join("");
-    const correctCode = "123456";
-
-    if (enteredCode === correctCode) {
-        localStorage.removeItem("userData");
-      toast(<span className="flex items-center gap-2">{<Celebrate />} {tauth("register.codeIsright")}</span>);
-      handleBack()
-    } else {
+    try {
+      // Email va kodni serverga yuborish
+      await confirmEmail({ confirmation_code: enteredCode, email });
+      localStorage.removeItem("userData");
+      toast(
+        <span className="flex items-center gap-2">
+          {<Celebrate />} {tauth("register.codeIsright")}
+        </span>
+      );
+      // Agar kerak bo'lsa, keyingi sahifaga yo'naltirish
+      handleBack();
+    } catch (error: any) {
       setError(true);
+      toast.error(error.message);
     }
   };
 
@@ -109,13 +115,16 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
     setCanResend(false);
     setError(false);
     inputs.current[0]?.focus();
-    toast(<span className="flex items-center gap-2">{<Resend />} {tauth("register.codeResended")}</span>);
+    toast(
+      <span className="flex items-center gap-2">
+        {<Resend />} {tauth("register.codeResended")}
+      </span>
+    );
   };
 
   const handleChangeEmail = () => {
     setIsFormSubmitted(false);
   };
-
 
   return (
     <div className="max-w-md mx-auto p-6 space-y-6">
@@ -129,29 +138,32 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
       </div>
 
       <div className="flex justify-center gap-2">
-  {code.map((digit, index) => (
-    <input
-      key={index}
-      ref={(el: HTMLInputElement | null) => {
-        inputs.current[index] = el;
-      }}
-      type="text"
-      inputMode="numeric"
-      maxLength={1}
-      className={`w-12 h-12 text-center border rounded-xl bg-background focus:border-primary focus:ring-1 focus:ring-primary outline-none ${
-        error ? "border-red-500" : ""
-      }`}
-      value={digit}
-      onChange={(e) => handleChange(index, e.target.value)}
-      onKeyDown={(e) => handleKeyDown(index, e)}
-      onPaste={handlePaste}
-      aria-label={`Kod ${index + 1}-raqami`}
-    />
-  ))}
-</div>
+        {code.map((digit, index) => (
+          <input
+            key={index}
+            ref={(el: HTMLInputElement | null) => {
+              inputs.current[index] = el;
+            }}
+            type="text"
+            inputMode="numeric"
+            maxLength={1}
+            className={`w-12 h-12 text-center border rounded-xl bg-background focus:border-primary focus:ring-1 focus:ring-primary outline-none ${
+              error ? "border-red-500" : ""
+            }`}
+            value={digit}
+            onChange={(e) => handleChange(index, e.target.value)}
+            onKeyDown={(e) => handleKeyDown(index, e)}
+            onPaste={handlePaste}
+            aria-label={`Kod ${index + 1}-raqami`}
+          />
+        ))}
+      </div>
 
-
-      {error && <p className="text-center text-red-500 font-medium">❌ Noto‘g‘ri kod! Qayta urinib ko‘ring.</p>}
+      {error && (
+        <p className="text-center text-red-500 font-medium">
+          ❌ Noto‘g‘ri kod! Qayta urinib ko‘ring.
+        </p>
+      )}
 
       <div className="text-center text-xl font-medium">
         {canResend ? (
@@ -160,7 +172,9 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
             <RefreshCw className="ml-2 h-5 w-5" />
           </Button>
         ) : (
-          `${String(Math.floor(timeLeft / 60)).padStart(2, "0")}:${String(timeLeft % 60).padStart(2, "0")}`
+          `${String(Math.floor(timeLeft / 60)).padStart(2, "0")}:${String(
+            timeLeft % 60
+          ).padStart(2, "0")}`
         )}
       </div>
 

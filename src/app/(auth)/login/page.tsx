@@ -1,4 +1,3 @@
-
 "use client";
 
 import LocaleSwitcher from "@/components/Header/LocaleSwitcher";
@@ -7,31 +6,19 @@ import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AuthLogo } from "../../../../public/img/auth/AuthLogo";
-import RegisterForm from "@/components/register-form/register-form";
-import { useTranslations } from "next-intl";
-import { Verification } from "@/components/register-form/Verification";
 import LoginForm from "@/components/login-form/login-form";
 import ForgotPassword from "@/components/login-form/forgotPassword";
+import { useTranslations } from "next-intl";
 
 const Login = () => {
   const tauth = useTranslations("auth");
   const router = useRouter();
   const [previousURL, setPreviousURL] = useState<string | null>(null);
-  const [isVerified, setIsVerified] = useState(false);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   
   useEffect(() => {
     setPreviousURL(document.referrer);
   }, []);
-
-  const handleFormSubmit = () => {
-    setIsFormSubmitted(true);
-  };
-
-  const handleVerification = () => {
-    setIsVerified(true);
-  };
 
   const handleBack = () => {
     if (previousURL) {
@@ -53,11 +40,14 @@ const Login = () => {
         <div className="w-full flex justify-center flex-wrap gap-[16px] ">
           <AuthLogo />
         </div>
-        {isForgotPassword ? <ForgotPassword  setIsForgotPassword={setIsForgotPassword}/> : <LoginForm setIsForgotPassword={setIsForgotPassword} />}
+        {isForgotPassword ? (
+          <ForgotPassword setIsForgotPassword={setIsForgotPassword} />
+        ) : (
+          <LoginForm setIsForgotPassword={setIsForgotPassword} />
+        )}
       </div>
     </div>
   );
 };
 
 export default Login;
-
