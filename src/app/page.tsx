@@ -375,7 +375,7 @@ export default function Home() {
       <Map/>
     </section>
 
-    <section className="mb-[140px]">
+    <section className="md:mb-[140px] mg-[80px]">
     <div className="max-w-[1360px] mx-auto flex justify-between mb-[36px] section-title px-[10px]">
         <div>
         <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] h-[36px] inline-flex gap-[10px]  badge" variant="secondary"><Dot/><p className="font-sans font-bold text-[16px] leading-none bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{tfifth('badge')}</p></Badge>
