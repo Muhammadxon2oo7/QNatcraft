@@ -421,9 +421,9 @@ export default function Home() {
       className="w-[150px] md:w-[250px] h-auto md:h-[200px] object-cover rounded-[12px]"
     />
     <div className="w-full md:w-[294px] mt-4 md:mt-0 ">
-      <p className="font-bold text-2xl leading-[133%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">
-        Kompaniya nomi
-      </p>
+      <a href='https://e-investment.uz' className="font-bold text-2xl leading-[133%] bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">
+        E-investment
+      </a>
       <p className="font-bold text-base leading-[1.37] text-[#242b3a]">
         Biz haqimizda
       </p>
