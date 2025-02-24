@@ -1,0 +1,170 @@
+Date : 2025-02-24 17:43:54
+Directory : /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app
+Total : 103 files,  14279 codes, 165 comments, 706 blanks, all 15150 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          9 |      8,818 |          0 |         11 |      8,829 |
+| TypeScript JSX     |         68 |      4,632 |        128 |        535 |      5,295 |
+| TypeScript         |         20 |        517 |         34 |        120 |        671 |
+| CSS                |          1 |        238 |          2 |         20 |        260 |
+| JSON with Comments |          1 |         26 |          0 |          1 |         27 |
+| JavaScript         |          2 |         24 |          1 |          5 |         30 |
+| Markdown           |          1 |         23 |          0 |         14 |         37 |
+| Properties         |          1 |          1 |          0 |          0 |          1 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                       | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                          |        103 |     14,279 |        165 |        706 |     15,150 |
+| . (Files)                                                                                                                  |         10 |      8,485 |          2 |         26 |      8,513 |
+| public                                                                                                                     |         29 |        569 |          0 |         93 |        662 |
+| public/img                                                                                                                 |         29 |        569 |          0 |         93 |        662 |
+| public/img (Files)                                                                                                         |         13 |        250 |          0 |         38 |        288 |
+| public/img/auth                                                                                                            |          9 |        169 |          0 |         34 |        203 |
+| public/img/header                                                                                                          |          7 |        150 |          0 |         21 |        171 |
+| src                                                                                                                        |         62 |      5,203 |        163 |        586 |      5,952 |
+| src/app                                                                                                                    |          7 |        877 |          4 |         82 |        963 |
+| src/app (Files)                                                                                                            |          3 |        746 |          4 |         63 |        813 |
+| src/app/(auth)                                                                                                             |          2 |        108 |          0 |         15 |        123 |
+| src/app/(auth)/login                                                                                                       |          1 |         47 |          0 |          7 |         54 |
+| src/app/(auth)/register                                                                                                    |          1 |         61 |          0 |          8 |         69 |
+| src/app/korgazmalar                                                                                                        |          1 |         16 |          0 |          2 |         18 |
+| src/app/shop                                                                                                               |          1 |          7 |          0 |          2 |          9 |
+| src/components                                                                                                             |         35 |      3,455 |        126 |        386 |      3,967 |
+| src/components/Banner                                                                                                      |          1 |         36 |          0 |          8 |         44 |
+| src/components/Header                                                                                                      |          4 |        284 |          1 |         23 |        308 |
+| src/components/Navbar                                                                                                      |          1 |         26 |          0 |          8 |         34 |
+| src/components/SearchComponent                                                                                             |          2 |        141 |          1 |         17 |        159 |
+| src/components/Swiper                                                                                                      |          2 |        219 |          0 |         25 |        244 |
+| src/components/animated-timeline                                                                                           |          3 |        122 |         92 |         21 |        235 |
+| src/components/dot                                                                                                         |          1 |         14 |          0 |          4 |         18 |
+| src/components/footer                                                                                                      |          1 |        103 |          6 |          3 |        112 |
+| src/components/login-form                                                                                                  |          2 |        406 |         11 |         31 |        448 |
+| src/components/map                                                                                                         |          1 |        455 |          0 |         42 |        497 |
+| src/components/pottery-story                                                                                               |          1 |         94 |          0 |          6 |        100 |
+| src/components/register-form                                                                                               |          2 |        414 |         14 |         40 |        468 |
+| src/components/ui                                                                                                          |         14 |      1,141 |          1 |        158 |      1,300 |
+| src/hooks                                                                                                                  |          2 |        174 |          3 |         38 |        215 |
+| src/i18n                                                                                                                   |          2 |         12 |          0 |          3 |         15 |
+| src/lib                                                                                                                    |          1 |          5 |          0 |          2 |          7 |
+| src/messages                                                                                                               |          4 |        450 |          0 |          8 |        458 |
+| src/services                                                                                                               |         11 |        230 |         30 |         67 |        327 |
+| src/services (Files)                                                                                                       |          3 |         91 |          6 |         24 |        121 |
+| src/services/auth                                                                                                          |          8 |        139 |         24 |         43 |        206 |
+| videos                                                                                                                     |          2 |         22 |          0 |          1 |         23 |
++----------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                                   | language           | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/.env                                                         | Properties         |          1 |          0 |          0 |          1 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/README.md                                                    | Markdown           |         23 |          0 |         14 |         37 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/components.json                                              | JSON               |         21 |          0 |          0 |         21 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/next.config.mjs                                              | JavaScript         |         18 |          0 |          3 |         21 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/package-lock.json                                            | JSON               |      8,269 |          0 |          1 |      8,270 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/package.json                                                 | JSON               |         56 |          0 |          1 |         57 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/postcss.config.mjs                                           | JavaScript         |          6 |          1 |          2 |          9 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/Arrow.tsx                                         | TypeScript JSX     |          8 |          0 |          3 |         11 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/AuthLogo.tsx                                 | TypeScript JSX     |         33 |          0 |          4 |         37 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/Mail.tsx                                     | TypeScript JSX     |         19 |          0 |          4 |         23 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/celebrate.tsx                                | TypeScript JSX     |          9 |          0 |          7 |         16 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/lock.tsx                                     | TypeScript JSX     |         29 |          0 |          3 |         32 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/openEye.tsx                                  | TypeScript JSX     |         19 |          0 |          3 |         22 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/phone.tsx                                    | TypeScript JSX     |         24 |          0 |          3 |         27 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/register-icon.tsx                            | TypeScript JSX     |          9 |          0 |          3 |         12 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/resend.tsx                                   | TypeScript JSX     |          8 |          0 |          4 |         12 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/user.tsx                                     | TypeScript JSX     |         19 |          0 |          3 |         22 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/cube.tsx                                          | TypeScript JSX     |         24 |          0 |          3 |         27 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/feacebook.tsx                                     | TypeScript JSX     |         17 |          0 |          2 |         19 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/group.tsx                                         | TypeScript JSX     |         39 |          0 |          3 |         42 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/ChatIcon.tsx                               | TypeScript JSX     |         34 |          0 |          3 |         37 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/HamburgerIcon.tsx                          | TypeScript JSX     |         14 |          0 |          4 |         18 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/HeartICon.tsx                              | TypeScript JSX     |         14 |          0 |          3 |         17 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/Login.tsx                                  | TypeScript JSX     |         19 |          0 |          3 |         22 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/Logo.tsx                                   | TypeScript JSX     |         36 |          0 |          2 |         38 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/Search.tsx                                 | TypeScript JSX     |         19 |          0 |          3 |         22 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/TranslateIcon.tsx                          | TypeScript JSX     |         14 |          0 |          3 |         17 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/instagram.tsx                                     | TypeScript JSX     |         19 |          0 |          2 |         21 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/left.tsx                                          | TypeScript JSX     |          8 |          0 |          4 |         12 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/litsense.tsx                                      | TypeScript JSX     |         34 |          0 |          3 |         37 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/location.tsx                                      | TypeScript JSX     |         14 |          0 |          3 |         17 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/mail.tsx                                          | TypeScript JSX     |         14 |          0 |          3 |         17 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/phone.tsx                                         | TypeScript JSX     |         24 |          0 |          3 |         27 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/right.tsx                                         | TypeScript JSX     |          8 |          0 |          4 |         12 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/telegram.tsx                                      | TypeScript JSX     |         22 |          0 |          3 |         25 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/youtube.tsx                                       | TypeScript JSX     |         19 |          0 |          2 |         21 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/(auth)/login/page.tsx                                | TypeScript JSX     |         47 |          0 |          7 |         54 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/(auth)/register/page.tsx                             | TypeScript JSX     |         61 |          0 |          8 |         69 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/globals.css                                          | CSS                |        238 |          2 |         20 |        260 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/korgazmalar/page.tsx                                 | TypeScript JSX     |         16 |          0 |          2 |         18 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/layout.tsx                                           | TypeScript JSX     |         50 |          0 |          5 |         55 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/page.tsx                                             | TypeScript JSX     |        458 |          2 |         38 |        498 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/shop/page.tsx                                        | TypeScript JSX     |          7 |          0 |          2 |          9 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Banner/Banner.tsx                             | TypeScript JSX     |         36 |          0 |          8 |         44 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Header/Header.tsx                             | TypeScript JSX     |        205 |          1 |          8 |        214 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Header/LocaleSwitcher.tsx                     | TypeScript JSX     |         30 |          0 |          5 |         35 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Header/LocaleSwitcherMobile.tsx               | TypeScript JSX     |         38 |          0 |          6 |         44 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Header/clientHeader.tsx                       | TypeScript JSX     |         11 |          0 |          4 |         15 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Navbar/Navbar.tsx                             | TypeScript JSX     |         26 |          0 |          8 |         34 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/SearchComponent/animated-search-button.tsx    | TypeScript JSX     |         52 |          0 |          7 |         59 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/SearchComponent/animated-search-transform.tsx | TypeScript JSX     |         89 |          1 |         10 |        100 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Swiper/Card.tsx                               | TypeScript JSX     |         49 |          0 |          9 |         58 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Swiper/Swiper.tsx                             | TypeScript JSX     |        170 |          0 |         16 |        186 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/animated-timeline/animated-timeline.tsx       | TypeScript JSX     |         91 |         92 |         15 |        198 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/animated-timeline/data.ts                     | TypeScript         |         25 |          0 |          4 |         29 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/animated-timeline/types.ts                    | TypeScript         |          6 |          0 |          2 |          8 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/dot/Dot.tsx                                   | TypeScript JSX     |         14 |          0 |          4 |         18 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/footer/Footer.tsx                             | TypeScript JSX     |        103 |          6 |          3 |        112 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/login-form/forgotPassword.tsx                 | TypeScript JSX     |        271 |         10 |         23 |        304 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/login-form/login-form.tsx                     | TypeScript JSX     |        135 |          1 |          8 |        144 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/map/map.tsx                                   | TypeScript JSX     |        455 |          0 |         42 |        497 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/pottery-story/pottery-story.tsx               | TypeScript JSX     |         94 |          0 |          6 |        100 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/register-form/Verification.tsx                | TypeScript JSX     |        172 |          2 |         24 |        198 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/register-form/register-form.tsx               | TypeScript JSX     |        242 |         12 |         16 |        270 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/avatar.tsx                                 | TypeScript JSX     |         44 |          0 |          7 |         51 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/badge.tsx                                  | TypeScript JSX     |         31 |          0 |          6 |         37 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/button.tsx                                 | TypeScript JSX     |         52 |          0 |          6 |         58 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/card.tsx                                   | TypeScript JSX     |         68 |          0 |          9 |         77 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/carousel.tsx                               | TypeScript JSX     |        232 |          0 |         31 |        263 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/dialog.tsx                                 | TypeScript JSX     |        109 |          0 |         14 |        123 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/form.tsx                                   | TypeScript JSX     |        153 |          0 |         26 |        179 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/input.tsx                                  | TypeScript JSX     |         19 |          0 |          4 |         23 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/label.tsx                                  | TypeScript JSX     |         21 |          0 |          6 |         27 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/select.tsx                                 | TypeScript JSX     |        113 |          1 |          9 |        123 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/sheet.tsx                                  | TypeScript JSX     |        125 |          0 |         16 |        141 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/sonner.tsx                                 | TypeScript JSX     |         26 |          0 |          6 |         32 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/toast.tsx                                  | TypeScript JSX     |        116 |          0 |         14 |        130 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/toaster.tsx                                | TypeScript JSX     |         32 |          0 |          4 |         36 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/hooks/use-toast.ts                                       | TypeScript         |        160 |          3 |         32 |        195 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/hooks/useMediaQuery.ts                                   | TypeScript         |         14 |          0 |          6 |         20 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/i18n/config.ts                                           | TypeScript         |          3 |          0 |          1 |          4 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/i18n/request.ts                                          | TypeScript         |          9 |          0 |          2 |         11 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/lib/utils.ts                                             | TypeScript         |          5 |          0 |          2 |          7 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/messages/en.json                                         | JSON               |        112 |          0 |          2 |        114 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/messages/qr.json                                         | JSON               |        113 |          0 |          2 |        115 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/messages/ru.json                                         | JSON               |        113 |          0 |          2 |        115 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/messages/uz.json                                         | JSON               |        112 |          0 |          2 |        114 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/confirm-email.ts                           | TypeScript         |         20 |          0 |          5 |         25 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/forgotPassword.ts                          | TypeScript         |         15 |          0 |          4 |         19 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/getUserInfo.ts                             | TypeScript         |         13 |          0 |          5 |         18 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/login.ts                                   | TypeScript         |         23 |         23 |         10 |         56 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/logout.ts                                  | TypeScript         |         10 |          1 |          5 |         16 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/register.ts                                | TypeScript         |         22 |          0 |          5 |         27 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/resetPassword.ts                           | TypeScript         |         18 |          0 |          4 |         22 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/verifyCode.ts                              | TypeScript         |         18 |          0 |          5 |         23 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/fetchwrapper.ts                                 | TypeScript         |         68 |          2 |         20 |         90 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/locale.ts                                       | TypeScript         |         10 |          2 |          4 |         16 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/session.ts                                      | TypeScript         |         13 |          2 |          0 |         15 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/tailwind.config.ts                                           | TypeScript         |         65 |          0 |          3 |         68 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/tsconfig.json                                                | JSON with Comments |         26 |          0 |          1 |         27 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/video.d.ts                                                   | TypeScript         |          0 |          1 |          1 |          2 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/videos/get-started.mp4.json                                  | JSON               |         21 |          0 |          1 |         22 |
+| /Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/videos/natcraft.mp4.json                                     | JSON               |          1 |          0 |          0 |          1 |
+| Total                                                                                                                      |                    |     14,279 |        165 |        706 |     15,150 |
++----------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

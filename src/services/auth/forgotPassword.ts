@@ -11,7 +11,7 @@ export const forgotPassword = async (email: string) => {
 
   if (!res.ok) {
     const err = await res.json();
-    throw new Error(err.message || "Serverda xato yuz berdi");
+    throw new Error(err.email);
   }
 
   return await res.json();

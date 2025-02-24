@@ -28,10 +28,7 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Serverga login so'rovini yuboramiz
       const result = await loginAction(loginData);
-
-      // Misol uchun, shunday qilib localStorage-ga tokenlarni yozish ham mumkin:
       if (result.access && result.refresh) {
         localStorage.setItem('accessToken', result.access);
         localStorage.setItem('refreshToken', result.refresh);
@@ -41,6 +38,8 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
       }
       toast.success(tauth("login.successMessage") || "Tizimga kirish muvaffaqiyatli!");
     } catch (error: any) {
+      console.log(error);
+      
       toast.error(error.message);
     }
   };

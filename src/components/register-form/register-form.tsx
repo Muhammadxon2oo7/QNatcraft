@@ -103,11 +103,11 @@ export default function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
         };
         // Serverga soʻrov yuborish:
         const result = await registerAction(registerData);
-        toast(
-          <span className="flex items-center gap-2">
-            {<Mail />} {tauth("register.verificationEntry")}
-          </span>
-        );
+        // toast(
+        //   <span className="flex items-center gap-2">
+        //     {<Mail />} {tauth("register.verificationEntry")}
+        //   </span>
+        // );
         localStorage.setItem("userData", JSON.stringify(registerData));
         onSubmit();
       } catch (error: any) {
@@ -263,7 +263,7 @@ export default function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
           {tauth("register.loginRecommidation.second")}
         </Link>
       </p>
-      <Toaster />
+
     </div>
   );
 }

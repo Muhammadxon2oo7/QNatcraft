@@ -24,6 +24,7 @@ export const Banner: React.FC = () => {
       }
     }
   }, []);
+  
 
   return (
     <div className="w-full  rounded-[24px]  banner">

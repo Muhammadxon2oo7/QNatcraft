@@ -14,6 +14,7 @@ import { useTranslations } from "next-intl";
 // Import server actions
 import { forgotPassword } from "@/services/auth/forgotPassword";
 import { resetPassword } from "@/services/auth/resetPassword";
+import { verifyCode } from "@/services/auth/verifyCode"; // server action import qilinadi
 
 const ForgotPassword = ({ setIsForgotPassword }: { setIsForgotPassword: (value: boolean) => void }) => {
   // Bosqichlar: "email" -> "verify" -> "reset"
@@ -55,8 +56,6 @@ const ForgotPassword = ({ setIsForgotPassword }: { setIsForgotPassword: (value: 
     try {
       // Serverga forgotPassword so'rovini yuboramiz
       const response = await forgotPassword(email);
-      // Backenddan kelayotgan kodni generatedCode ga o'rnatamiz
-      // Backend javobi formatida { code: "123456", ... } deb kelishi kutiladi
       setGeneratedCode(response.code);
       toast.success("Tasdiqlash kodi yuborildi!");
       setStep("verify");
@@ -97,45 +96,49 @@ const ForgotPassword = ({ setIsForgotPassword }: { setIsForgotPassword: (value: 
     inputs.current[5]?.focus();
   };
 
-  const handleCodeSubmit = () => {
-    const entered = verificationCode.join("").trim();
-    const generated = String(generatedCode || "").trim();
-    console.log("Entered code:", entered);
-    console.log("Generated code:", generated);
-    if (entered === generated) {
-      setStep("reset");
-    } else {
-      toast.error("Noto‘g‘ri kod! Qayta urinib ko‘ring.");
-    }
-  };
-
-  // Bosqich 3: Yangi parolni o'rnatish
-  const handlePasswordReset = async () => {
-    if (newPassword.length < 6) {
-      toast.error("Parol kamida 6 ta belgidan iborat bo‘lishi kerak!");
+  const handleCodeSubmit = async () => {
+    const enteredCode = verificationCode.join("").trim();
+  
+    if (enteredCode.length !== 6) {
+      toast.error("Iltimos, 6 xonali kodni kiriting!");
       return;
     }
-    if (newPassword !== confirmPassword) {
-      toast.error("Parollar mos kelmadi!");
-      return;
-    }
+  
     setLoading(true);
     try {
-      // Serverga resetPassword so'rovini yuboramiz
-      const response = await resetPassword({
-        email,
-        code: String(generatedCode).trim(),
-        newPassword,
-      });
-      toast.success("Parolingiz muvaffaqiyatli yangilandi!");
-      // Yangi parol muvaffaqiyatli o'rnatilgandan keyin login sahifasiga yo'naltirish yoki jarayonni tugatish
-      // Misol: window.location.href = "/login";
-      setIsForgotPassword(false);
+      await verifyCode(email, enteredCode); // Serverga tasdiqlash so‘rovi yuboriladi
+      toast.success("Kod tasdiqlandi!");
+      setStep("reset"); // Parolni tiklash bosqichiga o'tamiz
     } catch (error: any) {
       toast.error(error.message);
     }
     setLoading(false);
   };
+
+  // Bosqich 3: Yangi parolni o'rnatish
+const handlePasswordReset = async () => {
+  if (newPassword.length < 6) {
+    toast.error("Parol kamida 6 ta belgidan iborat bo‘lishi kerak!");
+    return;
+  }
+  if (newPassword !== confirmPassword) {
+    toast.error("Parollar mos kelmadi!");
+    return;
+  }
+  setLoading(true);
+  try {
+    const response = await resetPassword({
+      email,
+      new_password: newPassword,
+    });
+    toast.success("Parolingiz muvaffaqiyatli yangilandi!");
+    setIsForgotPassword(false);
+  } catch (error: any) {
+    toast.error(error.message);
+  }
+  setLoading(false);
+};
+
 
   const isCodeValid = verificationCode.join("").length === 6;
   const isPasswordValid = newPassword.length >= 6 && newPassword === confirmPassword;

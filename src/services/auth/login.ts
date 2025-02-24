@@ -18,7 +18,7 @@ export const login = async (loginData: { email: string; password: string }) => {
 
   if (!res.ok) {
     const err = await res.json(); 
-    throw new Error(err.message);
+    throw new Error(err.detail);
   }
 
   const data: LoginDataR = await res.json();

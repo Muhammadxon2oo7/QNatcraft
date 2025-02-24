@@ -12,10 +12,9 @@ export interface ErrorData {
   error?: {
     message?: string;
   };
-  message?: string; // Fallback for generic error responses
+  message?: string; 
 }
 
-// Define a generic FetchWrapper type
 type FetchWrapper = <T>(
   url: string,
   options?: FetchOptions,

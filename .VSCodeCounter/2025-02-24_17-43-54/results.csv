@@ -1,0 +1,105 @@
+"filename", "language", "TypeScript", "TypeScript JSX", "JSON", "JSON with Comments", "Properties", "CSS", "Markdown", "JavaScript", "comment", "blank", "total"
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/.env", "Properties", 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/README.md", "Markdown", 0, 0, 0, 0, 0, 0, 23, 0, 0, 14, 37
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/components.json", "JSON", 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 21
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/next.config.mjs", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 18, 0, 3, 21
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/package-lock.json", "JSON", 0, 0, 8269, 0, 0, 0, 0, 0, 0, 1, 8270
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/package.json", "JSON", 0, 0, 56, 0, 0, 0, 0, 0, 0, 1, 57
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/postcss.config.mjs", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 6, 1, 2, 9
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/Arrow.tsx", "TypeScript JSX", 0, 8, 0, 0, 0, 0, 0, 0, 0, 3, 11
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/AuthLogo.tsx", "TypeScript JSX", 0, 33, 0, 0, 0, 0, 0, 0, 0, 4, 37
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/Mail.tsx", "TypeScript JSX", 0, 19, 0, 0, 0, 0, 0, 0, 0, 4, 23
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/celebrate.tsx", "TypeScript JSX", 0, 9, 0, 0, 0, 0, 0, 0, 0, 7, 16
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/lock.tsx", "TypeScript JSX", 0, 29, 0, 0, 0, 0, 0, 0, 0, 3, 32
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/openEye.tsx", "TypeScript JSX", 0, 19, 0, 0, 0, 0, 0, 0, 0, 3, 22
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/phone.tsx", "TypeScript JSX", 0, 24, 0, 0, 0, 0, 0, 0, 0, 3, 27
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/register-icon.tsx", "TypeScript JSX", 0, 9, 0, 0, 0, 0, 0, 0, 0, 3, 12
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/resend.tsx", "TypeScript JSX", 0, 8, 0, 0, 0, 0, 0, 0, 0, 4, 12
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/auth/user.tsx", "TypeScript JSX", 0, 19, 0, 0, 0, 0, 0, 0, 0, 3, 22
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/cube.tsx", "TypeScript JSX", 0, 24, 0, 0, 0, 0, 0, 0, 0, 3, 27
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/feacebook.tsx", "TypeScript JSX", 0, 17, 0, 0, 0, 0, 0, 0, 0, 2, 19
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/group.tsx", "TypeScript JSX", 0, 39, 0, 0, 0, 0, 0, 0, 0, 3, 42
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/ChatIcon.tsx", "TypeScript JSX", 0, 34, 0, 0, 0, 0, 0, 0, 0, 3, 37
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/HamburgerIcon.tsx", "TypeScript JSX", 0, 14, 0, 0, 0, 0, 0, 0, 0, 4, 18
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/HeartICon.tsx", "TypeScript JSX", 0, 14, 0, 0, 0, 0, 0, 0, 0, 3, 17
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/Login.tsx", "TypeScript JSX", 0, 19, 0, 0, 0, 0, 0, 0, 0, 3, 22
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/Logo.tsx", "TypeScript JSX", 0, 36, 0, 0, 0, 0, 0, 0, 0, 2, 38
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/Search.tsx", "TypeScript JSX", 0, 19, 0, 0, 0, 0, 0, 0, 0, 3, 22
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/header/TranslateIcon.tsx", "TypeScript JSX", 0, 14, 0, 0, 0, 0, 0, 0, 0, 3, 17
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/instagram.tsx", "TypeScript JSX", 0, 19, 0, 0, 0, 0, 0, 0, 0, 2, 21
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/left.tsx", "TypeScript JSX", 0, 8, 0, 0, 0, 0, 0, 0, 0, 4, 12
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/litsense.tsx", "TypeScript JSX", 0, 34, 0, 0, 0, 0, 0, 0, 0, 3, 37
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/location.tsx", "TypeScript JSX", 0, 14, 0, 0, 0, 0, 0, 0, 0, 3, 17
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/mail.tsx", "TypeScript JSX", 0, 14, 0, 0, 0, 0, 0, 0, 0, 3, 17
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/phone.tsx", "TypeScript JSX", 0, 24, 0, 0, 0, 0, 0, 0, 0, 3, 27
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/right.tsx", "TypeScript JSX", 0, 8, 0, 0, 0, 0, 0, 0, 0, 4, 12
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/telegram.tsx", "TypeScript JSX", 0, 22, 0, 0, 0, 0, 0, 0, 0, 3, 25
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/public/img/youtube.tsx", "TypeScript JSX", 0, 19, 0, 0, 0, 0, 0, 0, 0, 2, 21
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/(auth)/login/page.tsx", "TypeScript JSX", 0, 47, 0, 0, 0, 0, 0, 0, 0, 7, 54
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/(auth)/register/page.tsx", "TypeScript JSX", 0, 61, 0, 0, 0, 0, 0, 0, 0, 8, 69
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/globals.css", "CSS", 0, 0, 0, 0, 0, 238, 0, 0, 2, 20, 260
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/korgazmalar/page.tsx", "TypeScript JSX", 0, 16, 0, 0, 0, 0, 0, 0, 0, 2, 18
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/layout.tsx", "TypeScript JSX", 0, 50, 0, 0, 0, 0, 0, 0, 0, 5, 55
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/page.tsx", "TypeScript JSX", 0, 458, 0, 0, 0, 0, 0, 0, 2, 38, 498
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/app/shop/page.tsx", "TypeScript JSX", 0, 7, 0, 0, 0, 0, 0, 0, 0, 2, 9
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Banner/Banner.tsx", "TypeScript JSX", 0, 36, 0, 0, 0, 0, 0, 0, 0, 8, 44
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Header/Header.tsx", "TypeScript JSX", 0, 205, 0, 0, 0, 0, 0, 0, 1, 8, 214
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Header/LocaleSwitcher.tsx", "TypeScript JSX", 0, 30, 0, 0, 0, 0, 0, 0, 0, 5, 35
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Header/LocaleSwitcherMobile.tsx", "TypeScript JSX", 0, 38, 0, 0, 0, 0, 0, 0, 0, 6, 44
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Header/clientHeader.tsx", "TypeScript JSX", 0, 11, 0, 0, 0, 0, 0, 0, 0, 4, 15
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Navbar/Navbar.tsx", "TypeScript JSX", 0, 26, 0, 0, 0, 0, 0, 0, 0, 8, 34
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/SearchComponent/animated-search-button.tsx", "TypeScript JSX", 0, 52, 0, 0, 0, 0, 0, 0, 0, 7, 59
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/SearchComponent/animated-search-transform.tsx", "TypeScript JSX", 0, 89, 0, 0, 0, 0, 0, 0, 1, 10, 100
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Swiper/Card.tsx", "TypeScript JSX", 0, 49, 0, 0, 0, 0, 0, 0, 0, 9, 58
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/Swiper/Swiper.tsx", "TypeScript JSX", 0, 170, 0, 0, 0, 0, 0, 0, 0, 16, 186
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/animated-timeline/animated-timeline.tsx", "TypeScript JSX", 0, 91, 0, 0, 0, 0, 0, 0, 92, 15, 198
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/animated-timeline/data.ts", "TypeScript", 25, 0, 0, 0, 0, 0, 0, 0, 0, 4, 29
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/animated-timeline/types.ts", "TypeScript", 6, 0, 0, 0, 0, 0, 0, 0, 0, 2, 8
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/dot/Dot.tsx", "TypeScript JSX", 0, 14, 0, 0, 0, 0, 0, 0, 0, 4, 18
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/footer/Footer.tsx", "TypeScript JSX", 0, 103, 0, 0, 0, 0, 0, 0, 6, 3, 112
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/login-form/forgotPassword.tsx", "TypeScript JSX", 0, 271, 0, 0, 0, 0, 0, 0, 10, 23, 304
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/login-form/login-form.tsx", "TypeScript JSX", 0, 135, 0, 0, 0, 0, 0, 0, 1, 8, 144
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/map/map.tsx", "TypeScript JSX", 0, 455, 0, 0, 0, 0, 0, 0, 0, 42, 497
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/pottery-story/pottery-story.tsx", "TypeScript JSX", 0, 94, 0, 0, 0, 0, 0, 0, 0, 6, 100
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/register-form/Verification.tsx", "TypeScript JSX", 0, 172, 0, 0, 0, 0, 0, 0, 2, 24, 198
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/register-form/register-form.tsx", "TypeScript JSX", 0, 242, 0, 0, 0, 0, 0, 0, 12, 16, 270
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/avatar.tsx", "TypeScript JSX", 0, 44, 0, 0, 0, 0, 0, 0, 0, 7, 51
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/badge.tsx", "TypeScript JSX", 0, 31, 0, 0, 0, 0, 0, 0, 0, 6, 37
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/button.tsx", "TypeScript JSX", 0, 52, 0, 0, 0, 0, 0, 0, 0, 6, 58
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/card.tsx", "TypeScript JSX", 0, 68, 0, 0, 0, 0, 0, 0, 0, 9, 77
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/carousel.tsx", "TypeScript JSX", 0, 232, 0, 0, 0, 0, 0, 0, 0, 31, 263
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/dialog.tsx", "TypeScript JSX", 0, 109, 0, 0, 0, 0, 0, 0, 0, 14, 123
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/form.tsx", "TypeScript JSX", 0, 153, 0, 0, 0, 0, 0, 0, 0, 26, 179
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/input.tsx", "TypeScript JSX", 0, 19, 0, 0, 0, 0, 0, 0, 0, 4, 23
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/label.tsx", "TypeScript JSX", 0, 21, 0, 0, 0, 0, 0, 0, 0, 6, 27
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/select.tsx", "TypeScript JSX", 0, 113, 0, 0, 0, 0, 0, 0, 1, 9, 123
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/sheet.tsx", "TypeScript JSX", 0, 125, 0, 0, 0, 0, 0, 0, 0, 16, 141
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/sonner.tsx", "TypeScript JSX", 0, 26, 0, 0, 0, 0, 0, 0, 0, 6, 32
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/toast.tsx", "TypeScript JSX", 0, 116, 0, 0, 0, 0, 0, 0, 0, 14, 130
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/components/ui/toaster.tsx", "TypeScript JSX", 0, 32, 0, 0, 0, 0, 0, 0, 0, 4, 36
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/hooks/use-toast.ts", "TypeScript", 160, 0, 0, 0, 0, 0, 0, 0, 3, 32, 195
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/hooks/useMediaQuery.ts", "TypeScript", 14, 0, 0, 0, 0, 0, 0, 0, 0, 6, 20
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/i18n/config.ts", "TypeScript", 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/i18n/request.ts", "TypeScript", 9, 0, 0, 0, 0, 0, 0, 0, 0, 2, 11
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/lib/utils.ts", "TypeScript", 5, 0, 0, 0, 0, 0, 0, 0, 0, 2, 7
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/messages/en.json", "JSON", 0, 0, 112, 0, 0, 0, 0, 0, 0, 2, 114
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/messages/qr.json", "JSON", 0, 0, 113, 0, 0, 0, 0, 0, 0, 2, 115
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/messages/ru.json", "JSON", 0, 0, 113, 0, 0, 0, 0, 0, 0, 2, 115
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/messages/uz.json", "JSON", 0, 0, 112, 0, 0, 0, 0, 0, 0, 2, 114
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/confirm-email.ts", "TypeScript", 20, 0, 0, 0, 0, 0, 0, 0, 0, 5, 25
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/forgotPassword.ts", "TypeScript", 15, 0, 0, 0, 0, 0, 0, 0, 0, 4, 19
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/getUserInfo.ts", "TypeScript", 13, 0, 0, 0, 0, 0, 0, 0, 0, 5, 18
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/login.ts", "TypeScript", 23, 0, 0, 0, 0, 0, 0, 0, 23, 10, 56
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/logout.ts", "TypeScript", 10, 0, 0, 0, 0, 0, 0, 0, 1, 5, 16
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/register.ts", "TypeScript", 22, 0, 0, 0, 0, 0, 0, 0, 0, 5, 27
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/resetPassword.ts", "TypeScript", 18, 0, 0, 0, 0, 0, 0, 0, 0, 4, 22
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/auth/verifyCode.ts", "TypeScript", 18, 0, 0, 0, 0, 0, 0, 0, 0, 5, 23
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/fetchwrapper.ts", "TypeScript", 68, 0, 0, 0, 0, 0, 0, 0, 2, 20, 90
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/locale.ts", "TypeScript", 10, 0, 0, 0, 0, 0, 0, 0, 2, 4, 16
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/src/services/session.ts", "TypeScript", 13, 0, 0, 0, 0, 0, 0, 0, 2, 0, 15
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/tailwind.config.ts", "TypeScript", 65, 0, 0, 0, 0, 0, 0, 0, 0, 3, 68
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/tsconfig.json", "JSON with Comments", 0, 0, 0, 26, 0, 0, 0, 0, 0, 1, 27
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/video.d.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/videos/get-started.mp4.json", "JSON", 0, 0, 21, 0, 0, 0, 0, 0, 0, 1, 22
+"/Users/muhammadxon/Desktop/SMART QNAT CRAFT WITH FIGMA/my-app/videos/natcraft.mp4.json", "JSON", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
+"Total", "-", 517, 4632, 8818, 26, 1, 238, 23, 24, 165, 706, 15150

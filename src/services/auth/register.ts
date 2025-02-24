@@ -1,5 +1,7 @@
 "use server";
 
+import { parse } from "path";
+
 export interface RegisterType {
   first_name: string;
   email: string;
@@ -17,7 +19,7 @@ export const register = async (registerData: RegisterType) => {
 
   if (!res.ok) {
     const err = await res.json();
-    throw new Error(err.message);
+    throw new Error("bu email allaqachon ro'yhatdan o'tgan");
   }
   const data = await res.json();
   return data;
