@@ -34,7 +34,7 @@ import { HamburgerIcon } from "../../../public/img/header/HamburgerIcon";
 import { useTranslations } from "next-intl";
 import LocaleSwitcherMobile from "./LocaleSwitcherMobile";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { getUserInfo } from "@/services/auth/getuserinfo"; // Servis funksiyasini import qilamiz
+import { getUserInfo } from "@/services/auth/getUserInfo"; // Servis funksiyasini import qilamiz
 
 export const Header = () => {
   const t = useTranslations("header");
@@ -110,7 +110,7 @@ export const Header = () => {
                       <span className="text-muted-foreground">›</span>
                     </Link>
                     <Link
-                      href="#"
+                      href="/korgazmalar"
                       className="px-4 py-3 flex items-center justify-between hover:bg-muted"
                       onClick={() => setOpen(false)}
                     >
