@@ -35,15 +35,7 @@ export default function Filter() {
         { id: "toqimachilik", label: "To'qimachilik", count: 2, checked: false },
       ],
     },
-    {
-      id: "workshops",
-      title: "Hunarmandchilik ustaxonalari",
-      expanded: false,
-      options: [
-        { id: "buxoro", label: "Buxoro ustaxonalari", count: 5, checked: false },
-        { id: "xiva", label: "Xiva ustaxonalari", count: 3, checked: false },
-      ],
-    },
+    
   ])
 
   const toggleSection = useCallback((sectionId: string) => {
@@ -112,8 +104,8 @@ export default function Filter() {
                       <motion.div key={option.id} className="flex items-center space-x-3 p-[5px]">
                         <button
                           onClick={() => toggleOption(section.id, option.id)}
-                          className={`h-6 w-6 border rounded flex items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-red-500 ${
-                            option.checked ? "bg-red-600 border-red-600" : "border-gray-300"
+                          className={`h-6 w-6 border rounded flex items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-primary ${
+                            option.checked ? "bg-primary border-primary" : "border-gray-300"
                           }`}
                           role="checkbox"
                           aria-checked={option.checked}

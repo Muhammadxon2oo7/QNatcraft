@@ -19,7 +19,7 @@ const Page = () => {
       </section>
       <main className='max-w-[1380px] mx-auto px-[10px]'>
         <Header/>
-        <section className='flex  gap-[20px] '>
+        <section className='flex  gap-[20px] flex-wrap'>
           <Filter/>
           <div className='min-h-screen  '>
           <Product/>
