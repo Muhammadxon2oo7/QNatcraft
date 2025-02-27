@@ -9,94 +9,81 @@ export default function AnimatedTimeline() {
   const [activeId, setActiveId] = useState(1)
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-[20px] p-0 max-w-[1360px] mx-auto bg-white rounded-xl mb-[140px]">
-  {/* Left Column: Timeline */}
-  <div className="space-y-8 relative bg-[#f6f6f6] rounded-[24px] p-[40px] overflow-hidden order-2 md:order-1">
-    {/* Progress bar */}
-    <motion.div
-      className="absolute left-[55px] top-[80px] w-[4px] bg-primary rounded-full"
-      style={{
-        height: "calc(100% - 4rem)",
-        originY: 0,
-      }}
-      initial={{ scaleY: 0 }}
-      animate={{ scaleY: (activeId - 1) / (timelineData.length - 1) }}
-      transition={{ duration: 0.5 }}
-    />
-  
-    {timelineData.map((item) => (
-      <motion.div
-        key={item.id}
-        className="flex gap-4 items-start relative z-10"
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: item.id * 0.1 }}
-      >
-        <button
-          onClick={() => setActiveId(item.id)}
-          className="flex-none group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full"
-        >
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-6 max-w-[1360px] mx-auto bg-white rounded-xl mb-36 shadow-lg">
+      {/* Timeline Section */}
+      <div className="space-y-8 relative bg-[#f6f6f6] rounded-2xl p-10 overflow-hidden order-2 md:order-1">
+        {/* Progress Bar */}
+        <motion.div
+          className="absolute left-[55px] top-[80px] w-[4px] bg-primary rounded-full"
+          style={{ height: "calc(100% - 4rem)", transformOrigin: "top" }}
+          initial={{ scaleY: 0 }}
+          animate={{ scaleY: activeId / timelineData.length }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        />
+
+        {timelineData.map((item) => (
           <motion.div
-            className={`w-8 h-8 rounded-full flex items-center justify-center font-medium transition-colors duration-200 ${
-              item.id <= activeId
-                ? "bg-primary text-white"
-                : "bg-[#FCDBDB] text-amber-700 group-hover:bg-[#FCDBDB]"
-            }`}
-            whileTap={{ scale: 0.95 }}
+            key={item.id}
+            className="flex gap-4 items-start relative z-10"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: item.id * 0.15 }}
           >
-            {item.id}
-          </motion.div>
-        </button>
-        <div
-          className={`space-y-2 transition-colors duration-200 ${
-            activeId >= item.id ? "opacity-100" : "opacity-60"
-          }`}
-        >
-          <h2
-            className="text-xl font-semibold cursor-pointer"
-            onClick={() => setActiveId(item.id)}
-            style={{
-              color: item.id <= activeId ? "#71090D" : "#4B5563",
-            }}
-          >
-            {item.title}
-          </h2>
-          <p className="text-gray-600 leading-relaxed">{item.description}</p>
-        </div>
-      </motion.div>
-    ))}
-  </div>
-
-  {/* Right Column: Image */}
-  <div className="relative h-[230px] md:h-auto overflow-hidden rounded-[24px] order-1 md:order-2">
-    <AnimatePresence mode="wait">
-      {timelineData.map(
-        (item) =>
-          activeId === item.id && (
-            <motion.div
-              key={item.id}
-              className="absolute inset-0"
-              initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.4 }}
+            <button
+              onClick={() => setActiveId(item.id)}
+              className="flex-none focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full"
             >
-              <Image
-                src={item.image || "/placeholder.svg"}
-                alt={item.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority={item.id === 1}
-              />
-            </motion.div>
-          )
-      )}
-    </AnimatePresence>
-  </div>
-</div>
+              <motion.div
+                className={`w-8 h-8 rounded-full flex items-center justify-center font-medium transition-all duration-200 shadow-md ${
+                  item.id <= activeId ? "bg-primary text-white" : "bg-gray-300 text-gray-700"
+                }`}
+                whileTap={{ scale: 0.9 }}
+              >
+                {item.id}
+              </motion.div>
+            </button>
+            <div className={`space-y-2 transition-opacity duration-300 ${activeId >= item.id ? "opacity-100" : "opacity-60"}`}>
+              <h2
+                className="text-xl font-semibold cursor-pointer"
+                onClick={() => setActiveId(item.id)}
+                style={{ color: item.id <= activeId ? "#71090D" : "#4B5563" }}
+              >
+                {item.title}
+              </h2>
+              <p className="text-gray-600 leading-relaxed">{item.description}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
 
-  
+      {/* Image Section */}
+      <div className="relative h-[230px] md:h-auto overflow-hidden rounded-2xl order-1 md:order-2 shadow-lg">
+        <AnimatePresence mode="wait" initial={false}>
+          {timelineData.map(
+            (item) =>
+              activeId === item.id && (
+                <motion.div
+                  key={item.id}
+                  className="absolute inset-0"
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                >
+                  <Image
+                    src={item.image || "/placeholder.svg"}
+                    alt={item.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority={activeId === 1}
+                  />
+                </motion.div>
+              )
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
   )
 }
 
