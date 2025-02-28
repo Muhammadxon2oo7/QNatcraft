@@ -271,3 +271,14 @@ header{
   font-size: clamp(14px, 1.5vw, 18px); /* Matn o‘lchami dinamik */
 }
 
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+

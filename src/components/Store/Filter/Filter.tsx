@@ -239,7 +239,7 @@ export default function Filter({ onFilterChange }: FilterProps) {
   }, [onFilterChange])
 
   return (
-    <Card className="w-[325px] p-[24px] bg-white shadow-md rounded-xl max-h-[500px]">
+    <Card className="w-[325px] p-[24px] bg-white shadow-md rounded-xl max-h-auto">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Filter</h2>
         <Button variant="ghost" onClick={clearAll} className="text-red-600">

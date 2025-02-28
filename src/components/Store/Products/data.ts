@@ -1,125 +1,319 @@
 export type Product = {
-    id: string
-    image: string
-    category: string
-    title: string
-    workshop: string
-    currentPrice: number
-    originalPrice: number | null
-    isFavorite: boolean,
-    discount:number,
-  }
+  id: string
+  image: string
+  category: string
+  title: string
+  workshop: string
+  currentPrice: number
+  originalPrice: number | null
+  isFavorite: boolean
+  discount: number
+  description: string
+  artisans: string[]
+  images: string[]  // Add images array for product detail images
+  thumbnails: string[]  // Add thumbnails for image previews
+}
+export const products: Product[] = [
+  {
+    id: "1",
+    image: "/store/products/first.png",
+    category: "Kulolchilik",
+    title: "Qo‘l mehnati bilan ishlangan sopol choynak va piyolalar to‘plami",
+    workshop: "Qoriyev ota kulolchilik ustaxonasi",
+    currentPrice: 525000,
+    originalPrice: 750000,
+    isFavorite: false,
+    discount: 10,
+    description:
+      "Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback. Opportunity accountable files time key you're harvest. So while socialize cadence optimize baseline closer. Organic usabiltiy where goalposts adoption lot lift request.",
+    artisans: ["Abdullayev Javohir", "Usmonov Shaxrizod", "Abobakirov Zuhriddin", "Ahlidinov Jamshidbek"],
+    images: [
+      "/store/products/first.png",
+      "/store/products/second.png",
+      "/store/products/third.png",
+    ],
+    thumbnails: [
+      "/store/products/second.png",
+      "/store/products/first.png",
+      "/store/products/third.png",
+    ],
+  },
+  {
+    id: "2",
+    image: "/store/products/second.png",
+    category: "Metallga ishlov berish",
+    title: "Noyob metall naqshli bezak buyumlari",
+    workshop: "Rustamovlar hunarmandchilik uyi",
+    currentPrice: 450000,
+    originalPrice: null,
+    isFavorite: false,
+    discount: 0,
+    description: "Benzersiz metall naqshlar bilan ishlangan bezak buyumlari.",
+    artisans: ["Rustamovlar hunarmandchilik uyi"],
+    images: [
+      "/store/products/first.png",
+      "/store/products/second.png",
+      "/store/products/third.png",
+    ],
+    thumbnails: [
+      "/store/products/third.png",
+      "/store/products/second.png",
+      "/store/products/first.png",
+    ],
+  },
+  {
+    id: "3",
+    image: "/store/products/third.png",
+    category: "Kashtachilik",
+    title: "Qo‘lda tikilgan milliy do‘ppi",
+    workshop: "O‘zbekiston hunarmandchilik markazi",
+    currentPrice: 320000,
+    originalPrice: 400000,
+    isFavorite: false,
+    discount: 60,
+    description:
+      "Bu milliy do‘ppi, qo‘lda tikilgan va O‘zbekistonning an'anaviy hunarmandchiligini aks ettiradi.",
+    artisans: ["O‘zbekiston hunarmandchilik markazi"],
+    images: [
+      "/store/products/third.png",
+      "/store/products/first.png",
+      "/store/products/second.png",
+    ],
+    thumbnails: [
+      "/store/products/second.png",
+      "/store/products/first.png",
+      "/store/products/third.png",
+    ],
+  },
+  {
+    id: "4",
+    image: "/store/products/fourth.png",
+    category: "Zargarlik",
+    title: "Noyob yasalgan zar bo'ynidagi bilaguzuk",
+    workshop: "Sayfullaev Zargarlik ustaxonasi",
+    currentPrice: 200000,
+    originalPrice: 350000,
+    isFavorite: false,
+    discount: 43,
+    description: "Yuqori sifatli, o'ziga xos dizayndagi zar bo'ynidagi bilaguzuk.",
+    artisans: ["Sayfullaev Dostonbek", "Mirzajonova Farhida"],
+    images: [
+      "/store/products/second.png",
+      "/store/products/third.png",
+      "/store/products/first.png",
+    ],
+    thumbnails: [
+      "/store/products/first.png",
+      "/store/products/second.png",
+      "/store/products/third.png",
+    ],
+  },
+  {
+    id: "5",
+    image: "/store/products/fifth.png",
+    category: "Sanoat va ishlab chiqarish",
+    title: "Uyg'otuvchi san'at asari bo'yoq jarayonlari",
+    workshop: "Barakxanov san'ati",
+    currentPrice: 800000,
+    originalPrice: 1200000,
+    isFavorite: false,
+    discount: 33,
+    description: "Bir nechta uslublarda o'yilgan va bo'yalgan san'at asari.",
+    artisans: ["Barakxanov G'ulom", "Umarov Ismoil"],
+    images: [
+      "/store/products/fifth.png",
+      "/store/products/fourth.png",
+      "/store/products/sixth.png",
+    ],
+    thumbnails: [
+      "/store/products/fifth_thumb_1.png",
+      "/store/products/fifth_thumb_2.png",
+      "/store/products/fifth_thumb_3.png",
+    ],
+  },
+  {
+    id: "6",
+    image: "/store/products/sixth.png",
+    category: "Matbaa",
+    title: "San'atli naqshli matbaa nashri",
+    workshop: "Matbuot uyi",
+    currentPrice: 150000,
+    originalPrice: 200000,
+    isFavorite: false,
+    discount: 25,
+    description: "Matbaa naqshlari bilan nashr qilingan san'at asari.",
+    artisans: ["Matbuot uyi"],
+    images: [
+      "/store/products/sixth_large_1.png",
+      "/store/products/sixth_large_2.png",
+      "/store/products/sixth_large_3.png",
+    ],
+    thumbnails: [
+      "/store/products/sixth_thumb_1.png",
+      "/store/products/sixth_thumb_2.png",
+      "/store/products/sixth_thumb_3.png",
+    ],
+  },
+  {
+    id: "6",
+    image: "/store/products/sixth.png",
+    category: "Matbaa",
+    title: "San'atli naqshli matbaa nashri",
+    workshop: "Matbuot uyi",
+    currentPrice: 150000,
+    originalPrice: 200000,
+    isFavorite: false,
+    discount: 25,
+    description: "Matbaa naqshlari bilan nashr qilingan san'at asari.",
+    artisans: ["Matbuot uyi"],
+    images: [
+      "/store/products/sixth_large_1.png",
+      "/store/products/sixth_large_2.png",
+      "/store/products/sixth_large_3.png",
+    ],
+    thumbnails: [
+      "/store/products/sixth_thumb_1.png",
+      "/store/products/sixth_thumb_2.png",
+      "/store/products/sixth_thumb_3.png",
+    ],
+  },
+  {
+    id: "7",
+    image: "/store/products/third.png",
+    category: "Mebel yasash",
+    title: "Qo‘lda ishlangan yog‘och stol",
+    workshop: "Yoshlik mebel ustaxonasi",
+    currentPrice: 600000,
+    originalPrice: 800000,
+    isFavorite: false,
+    discount: 25,
+    description: "Tabiiy yog‘ochdan tayyorlangan, estetik va mustahkam stol.",
+    artisans: ["Yoshlik mebel ustaxonasi"],
+    images: [
+      "/store/products/seventh_large_1.png",
+      "/store/products/seventh_large_2.png",
+      "/store/products/seventh_large_3.png",
+    ],
+    thumbnails: [
+      "/store/products/seventh_thumb_1.png",
+      "/store/products/seventh_thumb_2.png",
+      "/store/products/seventh_thumb_3.png",
+    ],
+  },
+  {
+    id: "8",
+    image: "/store/products/first.png",
+    category: "Badiiy qo‘llanmalar",
+    title: "Chiroyli rasmda yaratilgan san'at qo‘llanmasi",
+    workshop: "San'at va dizayn markazi",
+    currentPrice: 350000,
+    originalPrice: 500000,
+    isFavorite: false,
+    discount: 30,
+    description: "Qo‘lda chizilgan rasmda yaratilgan san'at qo‘llanmasi.",
+    artisans: ["San'at va dizayn markazi"],
+    images: [
+      "/store/products/eighth_large_1.png",
+      "/store/products/eighth_large_2.png",
+      "/store/products/eighth_large_3.png",
+    ],
+    thumbnails: [
+      "/store/products/eighth_thumb_1.png",
+      "/store/products/eighth_thumb_2.png",
+      "/store/products/eighth_thumb_3.png",
+    ],
+  },
+  {
+    id: "9",
+    image: "/store/products/sixth.png",
+    category: "Rasm chizish",
+    title: "Qo‘lda chizilgan rasm",
+    workshop: "San'at asarlari studiyasi",
+    currentPrice: 450000,
+    originalPrice: 600000,
+    isFavorite: false,
+    discount: 25,
+    description: "Har bir detalini qo‘lda chizilgan rasm asari.",
+    artisans: ["San'at asarlari studiyasi"],
+    images: [
+      "/store/products/ninth_large_1.png",
+      "/store/products/ninth_large_2.png",
+      "/store/products/ninth_large_3.png",
+    ],
+    thumbnails: [
+      "/store/products/ninth_thumb_1.png",
+      "/store/products/ninth_thumb_2.png",
+      "/store/products/ninth_thumb_3.png",
+    ],
+  },
+  {
+    id: "10",
+    image: "/store/products/fourth.png",
+    category: "Zarqadochilik",
+    title: "Noyob zar tuflasi",
+    workshop: "Zarqadochilik markazi",
+    currentPrice: 1000000,
+    originalPrice: 1200000,
+    isFavorite: false,
+    discount: 16,
+    description: "Noyob zar tuflasi, yuqori sifatli materiallardan tayyorlangan.",
+    artisans: ["Zarqadochilik markazi"],
+    images: [
+      "/store/products/tenth_large_1.png",
+      "/store/products/tenth_large_2.png",
+      "/store/products/tenth_large_3.png",
+    ],
+    thumbnails: [
+      "/store/products/tenth_thumb_1.png",
+      "/store/products/tenth_thumb_2.png",
+      "/store/products/tenth_thumb_3.png",
+    ],
+  },
+  {
+    id: "11",
+    image: "/store/products/fifth.png",
+    category: "Kiyim-kechak",
+    title: "Qo‘lda tikilgan milliy ko‘ylak",
+    workshop: "Milliy kiyim markazi",
+    currentPrice: 250000,
+    originalPrice: 350000,
+    isFavorite: false,
+    discount: 28,
+    description: "O‘zbekistonning an'anaviy uslubida tikilgan milliy ko‘ylak.",
+    artisans: ["Milliy kiyim markazi"],
+    images: [
+      "/store/products/eleventh_large_1.png",
+      "/store/products/eleventh_large_2.png",
+      "/store/products/eleventh_large_3.png",
+    ],
+    thumbnails: [
+      "/store/products/eleventh_thumb_1.png",
+      "/store/products/eleventh_thumb_2.png",
+      "/store/products/eleventh_thumb_3.png",
+    ],
+  },
+  {
+    id: "12",
+    image: "/store/products/fourth.png",
+    category: "Badiiy buyumlar",
+    title: "Qo‘lda yasalgan badiiy gurohlik",
+    workshop: "Guroh badiiy ustaxonasi",
+    currentPrice: 300000,
+    originalPrice: 450000,
+    isFavorite: false,
+    discount: 33,
+    description: "Qo‘lda yasalgan badiiy gurohlik, san'at asari sifatida ishlab chiqarilgan.",
+    artisans: ["Guroh badiiy ustaxonasi"],
+    images: [
+      "/store/products/twelfth_large_1.png",
+      "/store/products/twelfth_large_2.png",
+      "/store/products/twelfth_large_3.png",
+    ],
+    thumbnails: [
+      "/store/products/twelfth_thumb_1.png",
+      "/store/products/twelfth_thumb_2.png",
+      "/store/products/twelfth_thumb_3.png",
+    ],
+  },
   
-  export const products: Product[] = [
-    {
-      id: "1",
-      image: "/store/products/first.png",
-      category: "Kulolchilik",
-      title: "Qo‘l mehnati bilan ishlangan sopol choynak va piyolalar to‘plami",
-      workshop: "Qoriyev ota kulolchilik ustaxonasi",
-      currentPrice: 525000,
-      originalPrice: 750000,
-      isFavorite: false,
-      discount:10
-    },
-    {
-      id: "2",
-      image: "/store/products/second.png",
-      category: "Metallga ishlov berish",
-      title: "Noyob metall naqshli bezak buyumlari",
-      workshop: "Rustamovlar hunarmandchilik uyi",
-      currentPrice: 450000,
-      originalPrice: null,
-      isFavorite: false,
-      discount:0
-    },
-    {
-      id: "3",
-      image: "/store/products/third.png",
-      category: "Kashtachilik",
-      title: "Qo‘lda tikilgan milliy do‘ppi",
-      workshop: "O‘zbekiston hunarmandchilik markazi",
-      currentPrice: 320000,
-      originalPrice: 400000,
-      isFavorite: false,
-      discount:60
-    },
-    {
-      id: "4",
-      image: "/store/products/fourth.png",
-      category: "Kulolchilik",
-      title: "Qo‘l mehnati bilan ishlangan milliy naqshli lagan",
-      workshop: "Sharipovlar kulolchilik uyi",
-      currentPrice: 280000,
-      originalPrice: 350000,
-      isFavorite: false,
-      discount:1
-    },
-    {
-      id: "5",
-      image: "/store/products/fifth.png",
-      category: "Metallga ishlov berish",
-      title: "O‘zbek an’anaviy naqshlari tushirilgan qozon",
-      workshop: "Rustamovlar hunarmandchilik uyi",
-      currentPrice: 750000,
-      originalPrice: 900000,
-      isFavorite: false,
-      discount:0
-    },
-    {
-      id: "6",
-      image: "/store/products/sixth.png",
-      category: "Kashtachilik",
-      title: "Qo‘lda tikilgan milliy jiyakli chopon",
-      workshop: "O‘zbekiston hunarmandchilik markazi",
-      currentPrice: 680000,
-      originalPrice: null,
-      isFavorite: false,
-      discount:2
-    },
-    {
-      id: "7",
-      image: "/store/products/first.png",
-      category: "Kulolchilik",
-      title: "Qo‘l mehnati bilan ishlangan sopol piyolalar to‘plami",
-      workshop: "Qoriyev ota kulolchilik ustaxonasi",
-      currentPrice: 450000,
-      originalPrice: 500000,
-      isFavorite: false,
-      discount:0
-    },
-    {
-      id: "8",
-      image: "/store/products/third.png",
-      category: "Metallga ishlov berish",
-      title: "O‘zbek milliy naqshli mis patnis",
-      workshop: "Rustamovlar hunarmandchilik uyi",
-      currentPrice: 500000,
-      originalPrice: 600000,
-      isFavorite: false,
-      discount:0
-    },
-    {
-      id: "9",
-      image: "/store/products/second.png",
-      category: "Kashtachilik",
-      title: "Qo‘lda tikilgan gul naqshli sumka",
-      workshop: "O‘zbekiston hunarmandchilik markazi",
-      currentPrice: 380000,
-      originalPrice: 450000,
-      isFavorite: false,
-      discount:20
-    },
-    {
-      id: "10",
-      image: "/store/products/fifth.png",
-      category: "Kulolchilik",
-      title: "Qo‘l mehnati bilan ishlangan sopol kosa to‘plami",
-      workshop: "Qoriyev ota kulolchilik ustaxonasi",
-      currentPrice: 420000,
-      originalPrice: 480000,
-      isFavorite: false,
-      discount:1
-    },
-  ]
-  
+];
