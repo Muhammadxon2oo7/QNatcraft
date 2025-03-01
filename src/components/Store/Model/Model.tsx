@@ -18,8 +18,8 @@ export default function Model(props: any) {
     <primitive
       ref={modelRef}
       object={scene}
-      scale={[0.3, 0.3, 0.3]} // Modelni kichraytirish
-      position={[0, -0.5, 0]} // Modelni biroz pastga tushirish
+      scale={[0.1, 0.1, 0.1]}
+      position={[0, -1.5, 0]} 
       {...props}
     />
   );
