@@ -5,7 +5,7 @@ import { workshops } from "./data";
 
 const WorkshopsPage = () => {
   return (
-   <section className="mt-[200px]">
+   <section className="">
    <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold text-center my-6">
         Biz bilan san’at olamini virtual sayohat qiling!

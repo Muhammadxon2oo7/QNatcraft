@@ -26,7 +26,7 @@ const Page = () => {
   }
 
   return (
-    <div className='pt-[224px]'>
+    <div className='pt-[64px]'>
       <div className='w-full flex justify-center items-center mb-[36px]'>
         <p className='text-[32px] font-[700] text-[#242b3a]'>
           Hunarmandchilik do’konimizga xush kelibsiz!

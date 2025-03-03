@@ -15,6 +15,7 @@ body {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
+
 }
 
 html, body {
@@ -23,12 +24,13 @@ html, body {
   scroll-behavior: smooth;
 } 
 section{
-  scroll-margin-top: 380px;
+  
   overflow-x: hidden;
-  margin-bottom: 140px;
 }
 .section{
-  padding-top: 200px;
+  scroll-margin-top: 340px;
+  margin-bottom: 140px;
+  display: flex;
 }
 @layer utilities {
   .text-balance {

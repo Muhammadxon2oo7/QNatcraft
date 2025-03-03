@@ -61,7 +61,7 @@ export const Header = () => {
 
   return isMobile ? (
     <ClientHeader>
-      <header className="sticky top-0 z-50 w-full border-b bg-white">
+      <header className="sticky top-0 z-50 w-full border-b bg-white ">
         <div className="w-full flex h-16 items-center justify-between">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
@@ -168,7 +168,7 @@ export const Header = () => {
     </ClientHeader>
   ) : (
     <ClientHeader>
-      <header className="block fixed inset-0 bg-white min-h-[120px] md:h-[156px] w-full shadow-md ">
+      <header className=" fixed inset-0 bg-white min-h-[120px] md:h-[156px] w-full shadow-md inline-block">
         <div className="flex flex-wrap max-w-[1380px] mx-auto px-[10px] justify-between items-center z-100">
           <div className="relative w-[140px] md:w-[120px] sm:w-[100px] h-[50px] md:h-[45px] sm:h-[40px]">
             <Link href="/">

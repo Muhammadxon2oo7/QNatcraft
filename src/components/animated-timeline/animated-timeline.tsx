@@ -9,7 +9,7 @@ export default function AnimatedTimeline() {
   const [activeId, setActiveId] = useState(1)
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-6 max-w-[1360px] mx-auto bg-white rounded-xl mb-36 shadow-lg">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-6 max-w-[1360px] mx-auto bg-white rounded-xl  shadow-lg">
       {/* Timeline Section */}
       <div className="space-y-8 relative bg-[#f6f6f6] rounded-2xl p-10 overflow-hidden order-2 md:order-1">
         {/* Progress Bar */}

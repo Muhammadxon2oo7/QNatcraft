@@ -8,33 +8,24 @@ export const Banner: React.FC = () => {
 
     if (video) {
       video.muted = true;
-
+      
       video.play().catch((error) => {
         console.warn('Autoplay failed:', error);
       });
 
-      if (video.requestFullscreen) {
-        video.requestFullscreen().catch((error) => {
-          console.warn('Fullscreen request failed:', error);
-        });
-      } else if ((video as any).webkitRequestFullscreen) {
-        (video as any).webkitRequestFullscreen();
-      } else if ((video as any).mozRequestFullScreen) {
-        (video as any).mozRequestFullScreen();
-      }
+      // requestFullscreen() ni olib tashlaymiz yoki qo'lda ishga tushirish variantini qo'shamiz
     }
   }, []);
-  
 
   return (
-    <div className="w-full  rounded-[24px]  banner">
+    <div className="w-full rounded-[24px] banner">
       <video
         ref={videoRef}
         loop
         playsInline
-        muted={true}
+        muted
         autoPlay
-        className="w-full  object-cover rounded-[24px] md:h-[650px]"
+        className="w-full object-cover rounded-[24px] md:h-[650px]"
       >
         <source src="videos/natcraft.mp4" type="video/mp4" />
       </video>

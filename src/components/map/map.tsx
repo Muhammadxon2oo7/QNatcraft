@@ -69,7 +69,7 @@ useEffect(() => {
  
 
   return (
-    <div className="md:mb-[140px] ">
+    <div className="">
       <div className="flex gap-[20px] overflow-x-scroll no-scrollbar mb-[20px] py-[5px]">
         {
           TypeofCrafts.map((item,index)=>

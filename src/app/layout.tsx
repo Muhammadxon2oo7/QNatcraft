@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Header } from "@/components/Header/Header";
 import { ReactNode } from "react";
-import {NextIntlClientProvider} from 'next-intl';
-import {getLocale, getMessages} from 'next-intl/server';
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { Toaster } from "@/components/ui/sonner";
+import { HeaderWithPadding } from "@/components/HeaderWithPadding/HeaderWithPadding";
+
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -26,28 +28,25 @@ type Props = {
   children: ReactNode;
 };
 
-export default async function RootLayout({children}: Props) {
+export default async function RootLayout({ children }: Props) {
   const locale = await getLocale();
   const messages = await getMessages();
+
   return (
     <html lang={locale}>
-     <head>
-     <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet"
         />
-     </head>
-      <body
-        style={{ fontFamily: "'Raleway', sans-serif" }}
-      >
+      </head>
+      <body style={{ fontFamily: "'Raleway', sans-serif" }}>
         <NextIntlClientProvider messages={messages}>
-          <Header  />
-        {children}
-        <Toaster position="top-center" />
+          <HeaderWithPadding>{children}</HeaderWithPadding>
+          <Toaster position="top-center" />
         </NextIntlClientProvider>
-        
       </body>
     </html>
   );

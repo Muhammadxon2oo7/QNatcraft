@@ -14,7 +14,7 @@ const WorkshopDetailPage = () => {
   }
 
   return (
-  <section className="mt-[200px]">
+  <section className="">
   <div className="container mx-auto p-6">
       <h1 className="text-center text-3xl font-bold">{workshop.title}</h1>
 
