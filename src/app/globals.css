@@ -30,7 +30,7 @@ section{
 .section{
   scroll-margin-top: 340px;
   margin-bottom: 140px;
-  display: flex;
+
 }
 @layer utilities {
   .text-balance {
