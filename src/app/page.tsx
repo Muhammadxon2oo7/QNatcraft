@@ -275,7 +275,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="max-w-[1380px] mx-auto section px-[10px] section scroll-mt-[240px]">
+      <section className="max-w-[1380px] mx-auto section px-[10px] section scroll-mt-[240px] mt-[40px]">
         <div className="flex justify-between flex-wrap gap-[10px] mb-[80px] section-title ">
           <div className="max-w-[635px] flex flex-wrap items-end">
             <Badge
