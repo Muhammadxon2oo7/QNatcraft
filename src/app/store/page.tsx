@@ -38,7 +38,7 @@ const Page = () => {
       <main className='max-w-[1380px] mx-auto px-[10px]'>
         <Header />
         <section className='flex gap-[20px]'>
-            <Product products={products} />
+            <Product/>
         </section>
       </main>
     </div>
