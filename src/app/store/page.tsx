@@ -2,7 +2,6 @@
 
 import Carousel from '@/components/Store/Banner/Carousel'
 import Filter from '@/components/Store/Filter/Filter'
-import Header from '@/components/Store/Header/Header'
 import Product from '@/components/Store/Products/Product'
 import React, { useEffect, useState } from 'react'
 import { products as staticProducts, type Product as ProductType } from "@/components/Store/Products/data"
@@ -36,7 +35,7 @@ const Page = () => {
         <Carousel />
       </section>
       <main className='max-w-[1380px] mx-auto px-[10px]'>
-        <Header />
+       
         <section className='flex gap-[20px]'>
             <Product/>
         </section>

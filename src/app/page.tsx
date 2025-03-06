@@ -27,6 +27,7 @@ import { Youtube } from "./../../public/img/youtube";
 import { Footer } from "@/components/footer/Footer";
 import { useTranslations } from "next-intl";
 import { Banner } from "@/components/Banner/Banner";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const TypeofCrafts = {
   zargarlik: {
@@ -255,6 +256,7 @@ export default function Home() {
   const tfourth = useTranslations("home.fourthSection");
   const tfifth = useTranslations("home.fifthSection");
   const tsixth = useTranslations("home.sixthSection");
+  const queryClient = new QueryClient();
 
   const [selectedCraft, setSelectedCraft] = useState<
     (typeof TypeofCrafts)[keyof typeof TypeofCrafts] | null
@@ -275,6 +277,7 @@ export default function Home() {
 
   return (
     <>
+    <QueryClientProvider client={queryClient}>
       <section className="max-w-[1380px] mx-auto section px-[10px] section scroll-mt-[240px] mt-[40px]">
         <div className="flex justify-between flex-wrap gap-[10px] mb-[80px] section-title ">
           <div className="max-w-[635px] flex flex-wrap items-end">
@@ -641,6 +644,7 @@ export default function Home() {
         </div>
       </section>
       <Footer />
+      </QueryClientProvider>
     </>
   );
 }

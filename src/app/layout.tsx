@@ -6,7 +6,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { Toaster } from "@/components/ui/sonner";
 import { HeaderWithPadding } from "@/components/HeaderWithPadding/HeaderWithPadding";
-
+import ClientLayout from "@/components/ClientLayout";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,12 +42,14 @@ export default async function RootLayout({ children }: Props) {
           rel="stylesheet"
         />
       </head>
+      <ClientLayout >
       <body style={{ fontFamily: "'Raleway', sans-serif" }}>
         <NextIntlClientProvider messages={messages}>
           <HeaderWithPadding>{children}</HeaderWithPadding>
           <Toaster position="top-center" />
         </NextIntlClientProvider>
       </body>
+      </ClientLayout>
     </html>
   );
 }
