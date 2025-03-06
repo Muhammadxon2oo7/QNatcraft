@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef } from "react"
+import { useState, useEffect, useCallback, useRef, useMemo } from "react"
 import Image from "next/image"
 import { ArrowRight, AlertCircle, RefreshCw } from "lucide-react"
 import { motion } from "framer-motion"
@@ -82,27 +82,33 @@ export default function ProductList() {
     isProcessingFilterChangeRef.current = true
 
     try {
+      console.log("Filter changed:", { categories, sortDiscount })
       setSelectedCategories(categories)
       setSortByDiscount(sortDiscount)
-      setCurrentPage(1)
+      setCurrentPage(1) // Reset to first page when filters change
     } finally {
       isProcessingFilterChangeRef.current = false
     }
   }, [])
 
   // Compute filtered products
-  const filteredProducts = allProducts
-    .filter((product) => {
-      // If no categories selected, show all products
-      if (selectedCategories.length === 0) return true
-      return selectedCategories.includes(product.category.id)
-    })
-    .sort((a, b) => {
-      if (sortByDiscount) {
-        return (b.discount || 0) - (a.discount || 0)
-      }
-      return 0
-    })
+  const filteredProducts = useMemo(() => {
+    console.log("Filtering products with categories:", selectedCategories)
+    return allProducts
+      .filter((product) => {
+        // If no categories selected, show all products
+        if (selectedCategories.length === 0) return true
+        // Check if the product's category is in the selected categories
+        return selectedCategories.includes(product.category.id)
+      })
+      .sort((a, b) => {
+        if (sortByDiscount) {
+          // Sort by discount (highest first)
+          return (b.discount || 0) - (a.discount || 0)
+        }
+        return 0
+      })
+  }, [allProducts, selectedCategories, sortByDiscount])
 
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
   const displayedProducts = filteredProducts.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
@@ -175,7 +181,7 @@ export default function ProductList() {
           <>
             <div className="mb-4 flex flex-wrap gap-2">
               {selectedCategories.length > 0 && (
-                <div className="p-2 bg-gray-50 rounded-md">
+                <div className="p-2 bg-gray-50 rounded-md border-gray-200 border cursor-pointer">
                   <p className="text-sm text-gray-600">Tanlangan kategoriyalar: {selectedCategories.length}</p>
                 </div>
               )}
@@ -233,9 +239,7 @@ export default function ProductList() {
                             : `${formatPrice(product.price)} so'm`}
                         </p>
                         {product.discount && (
-                          <p className="text-xs text-gray-500 line-through">
-                            {formatPrice(product.price)} so'm
-                          </p>
+                          <p className="text-xs text-gray-500 line-through">{formatPrice(product.price)} so'm</p>
                         )}
                       </div>
                     </div>
@@ -279,7 +283,6 @@ export default function ProductList() {
     </div>
   )
 }
-
 
 
 
