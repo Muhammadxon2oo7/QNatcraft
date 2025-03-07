@@ -2,7 +2,6 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useParams } from "next/navigation";
-import Image from "next/image";
 import {
   Heart,
   Minus,
@@ -20,10 +19,9 @@ import { OrbitControls } from "@react-three/drei";
 import Model from "@/components/Store/Model/Model";
 import { Html } from "@react-three/drei";
 import { Cube } from "../../../../../public/store/model/Cube";
-
+import { Group } from "../../../../../public/img/group";
 import { Componay } from "../../../../../public/store/pdp/Componay";
 import fetchWrapper from "@/services/fetchwrapper";
-import { Group } from "../../../../../public/store/pdp/Group";
 
 interface RawProductType {
   id: number;
@@ -82,7 +80,8 @@ export default function ProductDetail() {
   const [show3D, setShow3D] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [zoomPosition, setZoomPosition] = useState<{ x: number; y: number } | null>(null);
+  const [scale, setScale] = useState(1); // Zoom darajasi
+  const [position, setPosition] = useState({ x: 0, y: 0 }); // Harakat pozitsiyasi
 
   const params = useParams();
   const productId = params?.id as string | undefined;
@@ -145,6 +144,8 @@ export default function ProductDetail() {
     if (index >= 0 && index < images.length) {
       setActiveImage(index);
       setShow3D(false);
+      setScale(1); // Zoomni reset qilish
+      setPosition({ x: 0, y: 0 }); // Pozitsiyani reset qilish
     }
   };
 
@@ -157,20 +158,66 @@ export default function ProductDetail() {
     return price !== undefined ? price.toLocaleString("uz-UZ") + " so‘m" : "Narx yo‘q";
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  // Sichqoncha bilan harakat
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const startX = e.clientX - position.x;
+    const startY = e.clientY - position.y;
 
-    if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-      setZoomPosition({ x, y });
-    } else {
-      setZoomPosition(null);
-    }
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      setPosition({
+        x: moveEvent.clientX - startX,
+        y: moveEvent.clientY - startY,
+      });
+    };
+
+    const handleMouseUp = () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
   };
 
-  const handleMouseLeave = () => {
-    setZoomPosition(null);
+  // Sichqoncha g‘ildiragi bilan zoom
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const delta = e.deltaY * -0.01; // Zoom sezgirligi
+    setScale((prev) => Math.min(Math.max(prev + delta, 1), 3)); // 1x dan 3x gacha
+  };
+
+  // Mobil uchun pinch-to-zoom
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length === 2) {
+      const touch1 = e.touches[0];
+      const touch2 = e.touches[1];
+      const initialDistance = Math.hypot(
+        touch1.pageX - touch2.pageX,
+        touch1.pageY - touch2.pageY
+      );
+
+      const handleTouchMove = (moveEvent: TouchEvent) => {
+        if (moveEvent.touches.length === 2) {
+          const newTouch1 = moveEvent.touches[0];
+          const newTouch2 = moveEvent.touches[1];
+          const newDistance = Math.hypot(
+            newTouch1.pageX - newTouch2.pageX,
+            newTouch1.pageY - newTouch2.pageY
+          );
+          setScale((prev) =>
+            Math.min(Math.max(prev * (newDistance / initialDistance), 1), 3)
+          );
+        }
+      };
+
+      const handleTouchEnd = () => {
+        document.removeEventListener("touchmove", handleTouchMove);
+        document.removeEventListener("touchend", handleTouchEnd);
+      };
+
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
+    }
   };
 
   if (isLoading) {
@@ -207,48 +254,24 @@ export default function ProductDetail() {
         <div className="space-y-4 w-full max-w-[670px] relative">
           {!show3D ? (
             <div
-              className="relative w-full h-[486px] rounded-lg overflow-hidden"
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              className="relative w-full h-[486px] rounded-lg overflow-hidden bg-gray-100 cursor-move"
+              onMouseDown={handleMouseDown}
+              onWheel={handleWheel}
+              onTouchStart={handleTouchStart}
             >
-              <Image
-                src={images[activeImage] || "/placeholder.svg"}
-                alt={product.name}
-                width={670}
-                height={486}
-                className="w-full h-full object-cover cursor-none transition-transform duration-200 ease-in-out"
+              <div
+                className="absolute transition-transform duration-200 ease-in-out"
                 style={{
-                  transform: zoomPosition ? "scale(1.2)" : "scale(1)", // Ozgina kattalashtirish
-                  transformOrigin: zoomPosition
-                    ? `${zoomPosition.x}px ${zoomPosition.y}px`
-                    : "center",
+                  transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+                  transformOrigin: "center",
                 }}
-                priority
-              />
-              {zoomPosition && (
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    backgroundImage: `radial-gradient(circle 100px at ${zoomPosition.x}px ${zoomPosition.y}px, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%) `,
-                  }}
-                >
-                  <div
-                    className="absolute rounded-full shadow-lg transition-all duration-100 ease-in-out cursor-none"
-                    style={{
-                      width: "200px",
-                      height: "200px",
-                      top: `${zoomPosition.y - 100}px`,
-                      left: `${zoomPosition.x - 100}px`,
-                      backgroundImage: `url(${images[activeImage] || "/placeholder.svg"})`,
-                      backgroundSize: `${670 * 2.5}px ${486 * 2.5}px`, // 2.5x zoom
-                      backgroundPosition: `-${zoomPosition.x * 2.5 - 100}px -${zoomPosition.y * 2.5 - 100}px`,
-                      border: "2px solid rgba(255, 255, 255, 0.8)",
-                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
-                      cursor:"none",
-                    }}
-                  />
-                </div>
-              )}
+              >
+                <img
+                  src={images[activeImage] || "/placeholder.svg"}
+                  alt={product.name}
+                  className="w-[670px] h-[486px] object-cover"
+                />
+              </div>
             </div>
           ) : (
             <div className="w-full h-[500px] shadow-lg rounded-md">
@@ -278,12 +301,10 @@ export default function ProductDetail() {
                   }`}
                   onClick={() => handleThumbnailClick(index)}
                 >
-                  <Image
+                  <img
                     src={thumb || "/placeholder.svg"}
                     alt={`Thumbnail ${index + 1}`}
-                    width={100}
-                    height={100}
-                    className="object-cover aspect-square"
+                    className="w-[100px] h-[100px] object-cover"
                   />
                 </div>
               ))
@@ -337,7 +358,7 @@ export default function ProductDetail() {
               </div>
               <span className="font-medium text-[#242b3a]">{product.workshop}</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-start gap-2">
               <div className="rounded-full flex justify-center items-center w-10 h-10 bg-[#f6f6f6]">
                 <Group />
               </div>
@@ -397,7 +418,7 @@ export default function ProductDetail() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button className="bg-primary hover:bg-primary text-white py-6 px-8 rounded-md w-full">
+            <Button className="bg-primary hover:bg-primary/90 text-white py-6 px-8 rounded-md w-full">
               <ShoppingBag className="w-4 h-4 mr-2" />
               Savatchaga qo‘shish
             </Button>
