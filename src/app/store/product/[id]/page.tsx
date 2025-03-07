@@ -13,7 +13,7 @@ import { OrbitControls } from "@react-three/drei"
 import Model from "@/components/Store/Model/Model"
 import { Html } from "@react-three/drei"
 import { Cube } from "../../../../../public/store/model/Cube"
-import { Group } from "../../../../../public/img/group"
+import { Group } from "../../../../../public/store/pdp/Group"
 import { Componay } from "../../../../../public/store/pdp/Componay"
 import fetchWrapper from "@/services/fetchwrapper"
 
@@ -278,9 +278,9 @@ export default function ProductDetail() {
                     onMouseLeave={handleControlsMouseLeave}
                   >
                     <button
-                      onClick={() => setZoomLevel((prev) => Math.max(2, prev - 0.5))}
+                      onClick={() => setZoomLevel((prev) => Math.max(1.5, prev - 0.5))}
                       className="text-white hover:text-primary transition-colors"
-                      disabled={zoomLevel <= 2}
+                      disabled={zoomLevel <= 1.5}
                     >
                       <Minus className="w-4 h-4" />
                     </button>
@@ -298,7 +298,7 @@ export default function ProductDetail() {
                 {/* Magnifying glass - only show when zoom is active and not hovering over controls */}
                 {zoomPosition && isZoomActive && !isHoveringControls && (
                   <div
-                    className="absolute pointer-events-none transition-all duration-75 ease-in-out z-10 "
+                    className="absolute pointer-events-none transition-all duration-75 ease-in-out z-10  cursor-none"
                     style={{
                       width: "150px",
                       height: "150px",
@@ -436,7 +436,7 @@ export default function ProductDetail() {
               </div>
               <span className="font-medium text-[#242b3a]">{product.workshop}</span>
             </div>
-            <div className="flex items-start gap-2">
+            <div className="flex items-center gap-2">
               <div className="rounded-full flex justify-center items-center w-10 h-10 bg-[#f6f6f6]">
                 <Group />
               </div>
@@ -488,7 +488,7 @@ export default function ProductDetail() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button className="bg-primary hover:bg-primary/90 text-white py-6 px-8 rounded-md w-full">
+            <Button className="bg-primary  text-white py-6 px-8 rounded-md w-full">
               <ShoppingBag className="w-4 h-4 mr-2" />
               Savatchaga qo'shish
             </Button>

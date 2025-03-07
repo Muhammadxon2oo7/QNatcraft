@@ -1,64 +1,46 @@
 "use client";
 
-import LocaleSwitcher from "@/components/Header/LocaleSwitcher";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import LocaleSwitcher from "@/components/Header/LocaleSwitcher";
 import { AuthLogo } from "../../../../public/img/auth/AuthLogo";
 import RegisterForm from "@/components/register-form/register-form";
-import { useTranslations } from "next-intl";
 import { Verification } from "@/components/register-form/Verification";
+import { useTranslations } from "next-intl";
 
 const Register = () => {
   const tauth = useTranslations("auth");
   const router = useRouter();
-  const [previousURL, setPreviousURL] = useState<string | null>(null);
-  const [isVerified, setIsVerified] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
-  useEffect(() => {
-    setPreviousURL(document.referrer);
-  }, []);
-
-  const handleFormSubmit = () => {
-    setIsFormSubmitted(true);
-  };
-
   const handleBack = () => {
-    if (previousURL) {
-      router.back();
-    } else {
-      router.push("/login");
-    }
+    router.push("/login");
   };
 
   return (
-    <div className=" py-[10px] md:pr-[120px] flex md:flex flex-wrap w-full md:justify-end register">
-      <div className="rounded-[24px] md:w-[580px] w-[90%]  backdrop-blur-[124px] bg-white p-[16px] md:h-[90%]">
-        <div className="flex justify-between h-[52px] overflow-hidden mb-[16px]">
+    <div className=" py-4 px-4 md:px-0 flex items-center justify-center md:justify-end bg-gray-50 register absolute inset-0  h-auto">
+      <div className="rounded-3xl w-full max-w-[580px] bg-white/90 backdrop-blur-md p-4 md:p-6 shadow-lg m-[5px]">
+        <div className="flex justify-between items-center h-12 mb-4">
           <Button
             variant="outline"
             size="icon"
-            className="h-[42px] w-[52px]"
+            className="h-10 w-10"
             onClick={handleBack}
+            aria-label="Back"
           >
-            <ChevronLeft />
+            <ChevronLeft className="h-5 w-5" />
           </Button>
           <LocaleSwitcher />
         </div>
-        <div className="w-full flex justify-center flex-wrap gap-[16px]">
+        <div className="flex justify-center mb-6">
           <AuthLogo />
         </div>
         {!isFormSubmitted ? (
-          <RegisterForm onSubmit={handleFormSubmit} />
+          <RegisterForm onSubmit={() => setIsFormSubmitted(true)} />
         ) : (
           <Verification setIsFormSubmitted={setIsFormSubmitted} />
-        )}
-        {isVerified && (
-          <p className="text-center text-green-500 mt-4">
-            {tauth("register.successMessage")}
-          </p>
         )}
       </div>
     </div>
