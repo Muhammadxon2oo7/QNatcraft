@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import {
   Heart,
@@ -8,7 +9,7 @@ import {
   Plus,
   ShoppingBag,
   Star,
-  Loader,
+  Loader2,
   LoaderPinwheel,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,25 +20,59 @@ import { OrbitControls } from "@react-three/drei";
 import Model from "@/components/Store/Model/Model";
 import { Html } from "@react-three/drei";
 import { Cube } from "../../../../../public/store/model/Cube";
-import { Group } from "../../../../../public/img/group";
+
 import { Componay } from "../../../../../public/store/pdp/Componay";
+import fetchWrapper from "@/services/fetchwrapper";
+import { Group } from "../../../../../public/store/pdp/Group";
+
+interface RawProductType {
+  id: number;
+  category: {
+    id: number;
+    product_count: number;
+    name: string;
+    description: string;
+    image: string | null;
+  };
+  product_images: { id: number; image: string; product: number }[];
+  name: string;
+  description: string;
+  price: string;
+  threed_model: string | null;
+  discount: string;
+  address: string;
+  view_count: number;
+  created_at: string;
+  updated_at: string;
+}
 
 interface ProductType {
-  id: string;
-  image: string;
-  category: string;
-  title: string;
-  workshop: string;
-  currentPrice: number;
-  originalPrice: number | null;
-  isFavorite: boolean;
-  discount: number;
+  id: number;
+  category: {
+    id: number;
+    product_count: number;
+    name: string;
+    description: string;
+    image: string | null;
+  };
+  product_images: { id: number; image: string; product: number }[];
+  name: string;
   description: string;
-  artisans: string[];
-  images: string[];
-  thumbnails: string[];
-  rating: number;
-  totalRatings: number;
+  price: number;
+  threed_model: string | null;
+  discount: number;
+  address: string;
+  view_count: number;
+  created_at: string;
+  updated_at: string;
+  originalPrice?: number | null;
+  workshop?: string;
+  artisans?: string[];
+  images?: string[];
+  thumbnails?: string[];
+  rating?: number;
+  totalRatings?: number;
+  isFavorite?: boolean;
 }
 
 export default function ProductDetail() {
@@ -45,91 +80,200 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [show3D, setShow3D] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [zoomPosition, setZoomPosition] = useState<{ x: number; y: number } | null>(null);
+
+  const params = useParams();
+  const productId = params?.id as string | undefined;
 
   useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        const savedProduct = localStorage.getItem("selectedProduct");
-        if (savedProduct) {
-          setProduct(JSON.parse(savedProduct));
-        }
-      }
-    } catch (error) {
-      console.error("Mahsulotni yuklashda xatolik:", error);
+    if (!productId || typeof productId !== "string") {
+      setError("Noto‘g‘ri mahsulot ID");
+      setIsLoading(false);
+      return;
     }
-  }, []);
+
+    const fetchProduct = async () => {
+      try {
+        setIsLoading(true);
+        const rawData = await fetchWrapper(`/api/products/${productId}`);
+        console.log("API javobi:", rawData);
+        const data = rawData as RawProductType;
+
+        const transformedData: ProductType = {
+          id: data.id,
+          category: data.category,
+          product_images: data.product_images,
+          name: data.name,
+          description: data.description,
+          price: Number(data.price),
+          threed_model: data.threed_model,
+          discount: Number(data.discount),
+          address: data.address,
+          view_count: data.view_count,
+          created_at: data.created_at,
+          updated_at: data.updated_at,
+          originalPrice: null,
+          workshop: data.address || "Noma’lum",
+          artisans: [],
+          images: data.product_images.map((img) => img.image),
+          thumbnails: data.product_images.map((img) => img.image),
+          rating: 0,
+          totalRatings: 0,
+          isFavorite: false,
+        };
+        setProduct(transformedData);
+      } catch (err) {
+        console.error("Mahsulotni yuklashda xatolik:", err);
+        setError("Mahsulotni yuklashda xato yuz berdi");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [productId]);
 
   const images = product?.images || [];
   const thumbnails = product?.thumbnails || [];
 
   const incrementQuantity = () => setQuantity((prev) => prev + 1);
-  const decrementQuantity = () =>
-    quantity > 1 && setQuantity((prev) => prev - 1);
+  const decrementQuantity = () => quantity > 1 && setQuantity((prev) => prev - 1);
 
   const handleThumbnailClick = (index: number) => {
-    setActiveImage(index);
-    setShow3D(false); // Thumbnail bosilganda 3D ni o‘chirish
+    if (index >= 0 && index < images.length) {
+      setActiveImage(index);
+      setShow3D(false);
+    }
   };
 
   const handleCubeClick = () => {
     setShow3D(true);
-    setActiveImage(-1); // Cube bosilganda hech qaysi thumbnail aktiv bo‘lmasligi uchun
+    setActiveImage(-1);
   };
 
-  if (!product) {
+  const formatPrice = (price?: number) => {
+    return price !== undefined ? price.toLocaleString("uz-UZ") + " so‘m" : "Narx yo‘q";
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+      setZoomPosition({ x, y });
+    } else {
+      setZoomPosition(null);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setZoomPosition(null);
+  };
+
+  if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-20">Loading...</div>
+      <div className="flex justify-center items-center py-20">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <div className="flex justify-center items-center py-20 text-red-500">
+        {error || "Mahsulot topilmadi"}
+      </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 ">
-      <div className="flex items-center text-sm text-muted-foreground mb-6">
+    <div className="container mx-auto px-4 py-8">
+      <nav className="flex items-center text-sm text-muted-foreground mb-6">
         <Link href="/" className="hover:text-primary">
           Bosh sahifa
         </Link>
         <span className="mx-2">/</span>
         <Link href="/store" className="hover:text-primary">
-          Dokon
+          Do‘kon
         </Link>
         <span className="mx-2">/</span>
-        <span className="text-foreground">{product.title}</span>
-      </div>
+        <span className="text-foreground">{product.name}</span>
+      </nav>
 
-      <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-8">
-        <div className="space-y-4 w-[670px]">
+      <div className="grid md:grid-cols-2 gap-8">
+        <div className="space-y-4 w-full max-w-[670px] relative">
           {!show3D ? (
-            <Image
-              src={images[activeImage] || "/placeholder.svg"}
-              alt="Product image"
-              width={670}
-              height={486}
-              className="w-full max-w-[670px] h-auto cursor-pointer"
-            />
+            <div
+              className="relative w-full h-[486px] rounded-lg overflow-hidden"
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <Image
+                src={images[activeImage] || "/placeholder.svg"}
+                alt={product.name}
+                width={670}
+                height={486}
+                className="w-full h-full object-cover cursor-none transition-transform duration-200 ease-in-out"
+                style={{
+                  transform: zoomPosition ? "scale(1.2)" : "scale(1)", // Ozgina kattalashtirish
+                  transformOrigin: zoomPosition
+                    ? `${zoomPosition.x}px ${zoomPosition.y}px`
+                    : "center",
+                }}
+                priority
+              />
+              {zoomPosition && (
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    backgroundImage: `radial-gradient(circle 100px at ${zoomPosition.x}px ${zoomPosition.y}px, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%) `,
+                  }}
+                >
+                  <div
+                    className="absolute rounded-full shadow-lg transition-all duration-100 ease-in-out cursor-none"
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      top: `${zoomPosition.y - 100}px`,
+                      left: `${zoomPosition.x - 100}px`,
+                      backgroundImage: `url(${images[activeImage] || "/placeholder.svg"})`,
+                      backgroundSize: `${670 * 2.5}px ${486 * 2.5}px`, // 2.5x zoom
+                      backgroundPosition: `-${zoomPosition.x * 2.5 - 100}px -${zoomPosition.y * 2.5 - 100}px`,
+                      border: "2px solid rgba(255, 255, 255, 0.8)",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+                      cursor:"none",
+                    }}
+                  />
+                </div>
+              )}
+            </div>
           ) : (
             <div className="w-full h-[500px] shadow-lg rounded-md">
               <Canvas className="w-full h-full">
                 <Suspense
                   fallback={
-                    <Html>
-                      <LoaderPinwheel />
+                    <Html center>
+                      <LoaderPinwheel className="w-8 h-8 animate-spin" />
                     </Html>
                   }
                 >
                   <OrbitControls enableZoom enablePan enableRotate />
                   <ambientLight intensity={2} />
-                  <directionalLight position={[10, 10, 10]} />
+                  <directionalLight position={[10, 10, 10]} intensity={1} />
                   <Model />
                 </Suspense>
               </Canvas>
             </div>
           )}
-          <div className="flex space-x-2 overflow-x-auto p-[5px] ">
+          <div className="flex space-x-2 overflow-x-auto p-2">
             {thumbnails.length > 0 ? (
               thumbnails.map((thumb, index) => (
                 <div
                   key={index}
-                  className={`border rounded-lg overflow-hidden cursor-pointer min-w-[50px] ${
+                  className={`border rounded-lg overflow-hidden cursor-pointer min-w-[60px] max-w-[100px] flex-shrink-0 ${
                     activeImage === index ? "ring-2 ring-primary" : ""
                   }`}
                   onClick={() => handleThumbnailClick(index)}
@@ -139,7 +283,7 @@ export default function ProductDetail() {
                     alt={`Thumbnail ${index + 1}`}
                     width={100}
                     height={100}
-                    className=" object-cover aspect-square"
+                    className="object-cover aspect-square"
                   />
                 </div>
               ))
@@ -147,12 +291,10 @@ export default function ProductDetail() {
               <p className="text-muted-foreground">Rasmlar mavjud emas</p>
             )}
             <div
-              className={`border rounded-lg overflow-hidden cursor-pointer w-[100px] flex items-center justify-center bg-gray-300 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-20 border border-gray-100 ${
+              className={`border rounded-lg overflow-hidden cursor-pointer w-[100px] flex items-center justify-center bg-gray-300 bg-opacity-20 backdrop-blur-xl border-gray-100 ${
                 show3D ? "ring-2 ring-primary" : ""
-              } ${activeImage === -1 ? "ring-0" : ""}`}
-              onClick={() => {
-                setShow3D(true), setActiveImage(-1);
-              }}
+              }`}
+              onClick={handleCubeClick}
             >
               <Cube />
             </div>
@@ -160,262 +302,112 @@ export default function ProductDetail() {
         </div>
 
         <div className="space-y-6">
-            <h1 className="text-2xl font-bold md:text-3xl">{product.title}</h1>
+          <h1 className="text-2xl font-bold md:text-3xl">{product.name}</h1>
 
-            {/* Ratings */}
-            <div className="flex items-center">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`w-5 h-5 ${
-                      i < product.rating
-                        ? "fill-primary text-primary"
-                        : "fill-primary primary"
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="ml-2 font-medium">{product.rating}</span>
-              <span className="ml-2 text-muted-foreground">
-                ({product.totalRatings} ta baho)
-              </span>
+          {/* Ratings */}
+          <div className="flex items-center gap-2">
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`w-5 h-5 ${
+                    i < Math.round(product.rating || 0)
+                      ? "fill-primary text-primary"
+                      : "text-gray-300"
+                  }`}
+                />
+              ))}
             </div>
+            <span className="font-medium">
+              {product.rating !== undefined ? product.rating.toFixed(1) : "N/A"}
+            </span>
+            <span className="text-muted-foreground">
+              ({product.totalRatings} baho)
+            </span>
+          </div>
 
-            {/* Description */}
-            <p className="text-muted-foreground">{product.description}</p>
+          {/* Description */}
+          <p className="text-muted-foreground">{product.description}</p>
 
-            {/* Artisan Info */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <div className="rounded-[46px] flex justify-center items-center w-[40px] h-[40px] backdrop-blur-[44px] bg-[#f6f6f6]">
-                  <Componay />
-                </div>
-                <span className="font-medium text-[#242b3a]">{product.workshop}</span>
+          {/* Artisan Info */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <div className="rounded-full flex justify-center items-center w-10 h-10 bg-[#f6f6f6]">
+                <Componay />
               </div>
-
-              <div className="flex items-start gap-2">
-                <div className="rounded-[46px] flex justify-center items-center w-[40px] h-[40px] backdrop-blur-[44px] bg-[#f6f6f6]">
-                  <Group />
-                </div>
-                <div>
-                  <span className="font-medium text-[#242b3a]">Hunarmand ustalar: </span>
-                  <span className="text-muted-foreground">
-                    {Array.isArray(product.artisans)
-                      ? product.artisans.join(", ")
-                      : "No artisans available"}
-                  </span>
-                </div>
-              </div>
+              <span className="font-medium text-[#242b3a]">{product.workshop}</span>
             </div>
-
-            <Separator />
-
-            {/* Price */}
-            <div className="flex items-center gap-4">
-              <span className="text-3xl font-bold text-primary">
-                {product.currentPrice} so'm
-              </span>
-              {product.originalPrice && (
-                <span className="text-muted-foreground line-through">
-                  {product.originalPrice} so'm
+            <div className="flex items-center gap-2">
+              <div className="rounded-full flex justify-center items-center w-10 h-10 bg-[#f6f6f6]">
+                <Group />
+              </div>
+              <div>
+                <span className="font-medium text-[#242b3a]">Hunarmand ustalar: </span>
+                <span className="text-muted-foreground">
+                  {Array.isArray(product.artisans) && product.artisans.length > 0
+                    ? product.artisans.join(", ")
+                    : "Ma’lumot yo‘q"}
                 </span>
-              )}
-              {product.discount && (
-                <span className="text-sm text-red-500">
-                  {product.discount}% chegirma
-                </span>
-              )}
-            </div>
-
-            {/* Quantity */}
-            <div className="flex items-center gap-[4px]">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={decrementQuantity}
-                disabled={quantity <= 1}
-                className="rounded-full"
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
-              <div className="w-12 h-[40px] flex justify-center items-center text-center rounded-[20px] bg-[#f6f6f6] font-medium">{quantity}</div>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={incrementQuantity}
-                className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button className="bg-primary hover:bg-primary text-white py-6 px-8 rounded-md w-full">
-                <ShoppingBag className="w-4 h-4 mr-2" />
-                Savatchaga qo‘shish
-              </Button>
-              <Button variant="outline" className="w-full py-6 px-8 rounded-md">
-                <Heart className="w-4 h-4 mr-2" />
-                Sevimlilarga qo‘shish
-              </Button>
+              </div>
             </div>
           </div>
+
+          <Separator />
+
+          {/* Price */}
+          <div className="flex items-center gap-4">
+            <span className="text-3xl font-bold text-primary">
+              {formatPrice(product.price)}
+            </span>
+            {product.originalPrice !== undefined && product.originalPrice !== null && (
+              <span className="text-muted-foreground line-through">
+                {formatPrice(product.originalPrice)}
+              </span>
+            )}
+            {product.discount > 0 && (
+              <span className="text-sm text-red-500">
+                {product.discount}% chegirma
+              </span>
+            )}
+          </div>
+
+          {/* Quantity */}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={decrementQuantity}
+              disabled={quantity <= 1}
+              className="rounded-full"
+            >
+              <Minus className="h-4 w-4" />
+            </Button>
+            <div className="w-12 h-10 flex justify-center items-center text-center rounded-xl bg-[#f6f6f6] font-medium">
+              {quantity}
+            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={incrementQuantity}
+              className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button className="bg-primary hover:bg-primary text-white py-6 px-8 rounded-md w-full">
+              <ShoppingBag className="w-4 h-4 mr-2" />
+              Savatchaga qo‘shish
+            </Button>
+            <Button variant="outline" className="w-full py-6 px-8 rounded-md">
+              <Heart className="w-4 h-4 mr-2" />
+              Sevimlilarga qo‘shish
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
-// "use client";
-
-// import { useState, useEffect } from "react";
-// import Image from "next/image";
-// import { Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react";
-// import { Button } from "@/components/ui/button";
-// import { Separator } from "@/components/ui/separator";
-// import Link from "next/link";
-// import { Componay } from "../../../../../public/store/pdp/Componay";
-// import { Group } from "../../../../../public/store/pdp/Group";
-
-// interface ProductType {
-//   id: string;
-//   image: string;
-//   category: string;
-//   title: string;
-//   workshop: string;
-//   currentPrice: number;
-//   originalPrice: number | null;
-//   isFavorite: boolean;
-//   discount: number;
-//   description: string;
-//   artisans: string[];
-//   images: string[];
-//   thumbnails: string[];
-//   rating: number;
-//   totalRatings: number;
-// }
-
-// export default function ProductDetail() {
-//   const [product, setProduct] = useState<ProductType | null>(null);
-//   const [quantity, setQuantity] = useState(1);
-//   const [activeImage, setActiveImage] = useState(0);
-//   const [isModalOpen, setModalOpen] = useState(false);
-
-//   // For image zoom and cursor tracking
-//   const [zoom, setZoom] = useState(false);
-//   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-
-//   useEffect(() => {
-//     const savedProduct = localStorage.getItem("selectedProduct");
-//     if (savedProduct) {
-//       setProduct(JSON.parse(savedProduct));
-//     }
-//   }, []);
-
-//   const images = product?.images || [];
-//   const thumbnails = product?.thumbnails || [];
-
-//   const incrementQuantity = () => {
-//     setQuantity((prev) => prev + 1);
-//   };
-
-//   const decrementQuantity = () => {
-//     if (quantity > 1) {
-//       setQuantity((prev) => prev - 1);
-//     }
-//   };
-
-//   const handleImageClick = () => {
-//     setModalOpen(true);
-//   };
-
-//   const closeModal = () => {
-//     setModalOpen(false);
-//   };
-
-//   // Handle zoom effect on mouse move
-//   const handleMouseMove = (e: React.MouseEvent) => {
-//     if (zoom) {
-//       const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-//       const x = ((e.clientX - left) / width) * 100;
-//       const y = ((e.clientY - top) / height) * 100;
-//       setCursorPosition({ x, y });
-//     }
-//   };
-
-//   // Loading state
-//   if (!product) {
-//     return (
-//       <div className="flex justify-center items-center py-20">
-//         Loading...
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <>
-//       <div className="container mx-auto px-4 py-8 pt-[224px]">
-//         {/* Breadcrumb */}
-//         <div className="flex items-center text-sm text-muted-foreground mb-6">
-//           <Link href={"/"} className="hover:text-primary">
-//             Bosh sahifa
-//           </Link>
-//           <span className="mx-2">/</span>
-//           <Link href={"/store"} className="hover:text-primary">
-//             Dokon
-//           </Link>
-//           <span className="mx-2">/</span>
-//           <span className="text-foreground">{product.title}</span>
-//         </div>
-
-//         <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-8">
-//           {/* Product Images */}
-//           <div className="space-y-4">
-//             <div
-//               className="rounded-lg overflow-hidden bg-white relative"
-//               onMouseEnter={() => setZoom(true)}
-//               onMouseLeave={() => setZoom(false)}
-//               onMouseMove={handleMouseMove}
-//             >
-//               <Image
-//                 src={images[activeImage] || "/placeholder.svg"}
-//                 alt="Product image"
-//                 width={100}
-//                 height={100}
-//                 className="w-[670px] h-[486px] cursor-pointer transition-transform duration-300 ease-in-out"
-//                 style={{
-//                   transformOrigin: `${cursorPosition.x}% ${cursorPosition.y}%`,
-//                   transform: zoom ? 'scale(2)' : 'scale(1)',
-//                 }}
-//                 onClick={handleImageClick}
-//               />
-//             </div>
-//             <div className="flex space-x-2 overflow-x-auto p-[5px]">
-//               {thumbnails.map((thumb, index) => (
-//                 <div
-//                   key={index}
-//                   className={`border rounded-lg overflow-hidden cursor-pointer min-w-[80px] ${
-//                     activeImage === index ? "ring-2 ring-primary" : ""
-//                   }`}
-//                   onClick={() => setActiveImage(index)}
-//                 >
-//                   <Image
-//                     src={thumb || "/placeholder.svg"}
-//                     alt={`Thumbnail ${index + 1}`}
-//                     width={100}
-//                     height={100}
-//                     className="w-full h-auto object-cover aspect-square"
-//                   />
-//                 </div>
-//               ))}
-//             </div>
-//           </div>
-
-//           {/* Product Info */}
-
-//         </div>
-//       </div>
-//     </>
-//   );
-// }

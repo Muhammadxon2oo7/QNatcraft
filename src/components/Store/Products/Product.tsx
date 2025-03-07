@@ -512,6 +512,7 @@ import Link from "next/link"
 import fetchWrapper from "@/services/fetchwrapper"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
+import { PriceTag } from "../../../../public/store/PriceTag"
 
 const ITEMS_PER_PAGE = 8
 
@@ -672,7 +673,7 @@ export default function ProductList() {
   }, [])
 
   return (
-    <div className="flex flex-col md:flex-row gap-[20px] p-[20px]">
+    <div className="flex flex-col max-w-[100%] md:flex-row gap-[20px] p-[20px]">
       <Filter
         categories={categories.map((cat) => ({ id: cat.id, name: cat.name, product_count: cat.product_count || 0 }))}
         onFilterChange={handleFilterChange}
@@ -701,7 +702,7 @@ export default function ProductList() {
             
 
             {displayedProducts.length === 0 ? (
-              <div className="text-center py-10 bg-gray-50 rounded-lg border border-gray-100">
+              <div className="text-center w-full h-full py-10 bg-gray-50 rounded-lg border border-gray-100">
                 {searchTerm ? (
                   <div className="flex flex-col items-center justify-center gap-2 p-8">
                     <Search size={40} className="text-gray-300" />
@@ -713,7 +714,7 @@ export default function ProductList() {
                 )}
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[20px]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[20px] ">
                 {displayedProducts.map((product) => (
                   <motion.div
                     key={product.id}
@@ -721,9 +722,9 @@ export default function ProductList() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
                     whileHover={{ y: -5 }}
-                    className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100"
+                    className="bg-white  overflow-hidden shadow-sm border border-gray-100 p-[4px] rounded-[20px]"
                   >
-                    <div className="relative">
+                    <div className="relative ">
                       <div className="absolute top-2 left-2 z-10 flex flex-col">
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-white/90 text-gray-700">
                           • {product.category.name}
@@ -734,23 +735,24 @@ export default function ProductList() {
                           </div>
                         )}
                       </div>
-                      <div className="aspect-square relative overflow-hidden">
+                      <div className="aspect-square relative overflow-hidden mb-[12px]">
                         <Image
                           src={product.product_images[0]?.image || "/placeholder.svg"}
                           alt={product.name}
                           fill
-                          className="object-cover transition-transform duration-300 hover:scale-105"
+                          className="object-cover transition-transform duration-300  rounded-[20px]"
                         />
                       </div>
                     </div>
 
-                    <div className="p-4">
-                      <h3 className="text-sm font-medium text-gray-900 line-clamp-2">{product.name}</h3>
+                    <div className="px-[12px]">
+                      <h3 className="text-[18px]  font-[500] text-[#242b3a] line-clamp-2">{product.name}</h3>
 
                       <div className="flex justify-between mt-2">
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-600 flex gap-[4px] text-[18px] text-primary ">
+                          <PriceTag/>
                           {product.discount
-                            ? `${formatPrice(calculateOriginalPrice(product.price, product.discount))} so'm`
+                            ? ` ${formatPrice(calculateOriginalPrice(product.price, product.discount))} so'm`
                             : `${formatPrice(product.price)} so'm`}
                         </p>
                         {product.discount && (
@@ -759,13 +761,13 @@ export default function ProductList() {
                       </div>
                     </div>
 
-                    <div className="p-4 flex justify-between items-center">
-                      <Link href={`/products/${product.id}`} onClick={() => handleSaveProductToLocal(product)}>
-                        <Button variant="link" className="text-sm text-primary font-medium">
+                    
+                      <Link href={`store/product/${product.id}`} onClick={() => handleSaveProductToLocal(product)}>
+                        <Button variant="default" className="text-sm text-primary font-medium bg-transparent w-full h-[52px] rounded-[16px] border border-primary my-[16px]">
                           Batafsil <ArrowRight />
                         </Button>
                       </Link>
-                    </div>
+                    
                   </motion.div>
                 ))}
               </div>
