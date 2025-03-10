@@ -33,7 +33,7 @@ const crafts: Craft[] = [
   {
     id: 2,
     image: "/workshop/second.png",
-    panoramaImage: "/workshop/workshop2.jpg",
+    panoramaImage: "/workshop/workshop1.jpg",
     title: "Qoriniyoz ota kulolchilik ustaxonasi",
     category: "HAQIDA",
     description: "Craftsmen working together...",

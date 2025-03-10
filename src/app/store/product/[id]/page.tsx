@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useEffect, Suspense, useRef } from "react"
 import { useParams } from "next/navigation"
-import { Heart, Minus, Plus, ShoppingBag, Star, Loader2, LoaderPinwheel, Search } from "lucide-react"
+import { Heart, Minus, Plus, ShoppingBag, Star, Loader2, LoaderPinwheel } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
@@ -14,8 +14,14 @@ import Model from "@/components/Store/Model/Model"
 import { Html } from "@react-three/drei"
 import { Cube } from "../../../../../public/store/model/Cube"
 import { Group } from "../../../../../public/store/pdp/Group"
-import { Componay } from "../../../../../public/store/pdp/Componay"
 import fetchWrapper from "@/services/fetchwrapper"
+import { ContactDialog } from "@/components/Store/ContactModal/Contact-Modal"
+
+
+// Dummy component to replace Componay
+const Componay = () => {
+  return <div>C</div>
+}
 
 interface RawProductType {
   id: number
@@ -78,6 +84,7 @@ export default function ProductDetail() {
   const [zoomLevel, setZoomLevel] = useState(3) // Default 3x zoom
   const [isZoomActive, setIsZoomActive] = useState(false)
   const [isHoveringControls, setIsHoveringControls] = useState(false)
+  const [isContactDialogOpen, setIsContactDialogOpen] = useState(false)
   const controlsRef = useRef<HTMLDivElement>(null)
 
   const params = useParams()
@@ -266,8 +273,6 @@ export default function ProductDetail() {
                   alt={product.name}
                   className="w-full h-full object-cover cursor-crosshair"
                 />
-
-              
 
                 {/* Zoom controls - always visible when zoom is active */}
                 {isZoomActive && (
@@ -488,17 +493,27 @@ export default function ProductDetail() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button className="bg-primary  text-white py-6 px-8 rounded-md w-full">
+            <Button
+              className="bg-primary text-white py-6 px-8 rounded-md w-full"
+              onClick={() => setIsContactDialogOpen(true)}
+            >
               <ShoppingBag className="w-4 h-4 mr-2" />
-              Savatchaga qo'shish
+              Bog'lanish
             </Button>
             <Button variant="outline" className="w-full py-6 px-8 rounded-md">
               <Heart className="w-4 h-4 mr-2" />
               Sevimlilarga qo'shish
             </Button>
+            <Button variant="outline" className="w-full py-6 px-8 rounded-md">
+              <Heart className="w-4 h-4 mr-2" />
+              Sotib olish
+            </Button>
           </div>
         </div>
       </div>
+
+      {/* Contact Modal */}
+      <ContactDialog isOpen={isContactDialogOpen} onOpenChange={setIsContactDialogOpen} />
     </div>
   )
 }

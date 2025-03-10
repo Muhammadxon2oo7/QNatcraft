@@ -35,6 +35,7 @@ import { useTranslations } from "next-intl";
 import LocaleSwitcherMobile from "./LocaleSwitcherMobile";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { getUserInfo } from "@/services/auth/getUserInfo"; // Servis funksiyasini import qilamiz
+import { CartIcon } from "../../../public/img/header/CartIcon";
 
 export const Header = () => {
   const t = useTranslations("header");
@@ -182,7 +183,7 @@ export const Header = () => {
               <p className="responsive-text">Chat</p>
             </Button>
             <Button className="responsive-btn bg-[#f6f6f6] hover:bg-primary">
-              <HeartICon />
+              <CartIcon />
             </Button>
             <LocaleSwitcher />
             <div>
