@@ -31,7 +31,18 @@ const sidebarItems = [
 ]
 
 // Mock user data
-const userData = {
+interface UserData {
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+  experience: string;
+  followers: string;
+  achievements: string;
+  avatar: string;
+}
+
+const userData: UserData = {
   name: "Abdujabbor Ahmedov",
   email: "Emailpochta@gmail.com",
   phone: "+998 90 000 00 00",
@@ -40,7 +51,7 @@ const userData = {
   followers: "300+",
   achievements: "Xalqaro musobaqalar sovrindori",
   avatar: "/img/craftman.png",
-}
+};
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("profile")
@@ -104,7 +115,7 @@ export default function ProfilePage() {
   )
 }
 
-function ProfileContent({ userData }: { userData: typeof userData }) {
+function ProfileContent({ userData }: { userData: UserData }) {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold  mb-8">Mening profilim</h1>
@@ -123,7 +134,7 @@ function ProfileContent({ userData }: { userData: typeof userData }) {
             <div>
               <p className="text-sm text-gray-500 mb-1">Ism familiya</p>
               <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
-                <User  />
+                <User />
                 <span>{userData.name}</span>
               </div>
             </div>
@@ -157,7 +168,7 @@ function ProfileContent({ userData }: { userData: typeof userData }) {
             <div>
               <p className="text-sm text-gray-500 mb-1">Joylashuv</p>
               <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
-                <Pin  />
+                <Pin />
                 <span>{userData.location}</span>
               </div>
             </div>
@@ -165,7 +176,7 @@ function ProfileContent({ userData }: { userData: typeof userData }) {
             <div>
               <p className="text-sm text-gray-500 mb-1">Shogirtlar</p>
               <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
-                <User  />
+                <User />
                 <span>{userData.followers}</span>
               </div>
             </div>
@@ -188,9 +199,8 @@ function ProfileContent({ userData }: { userData: typeof userData }) {
         </button>
       </div>
     </div>
-  )
+  );
 }
-
 function WorkshopContent() {
   return (
     <div className="space-y-6">
