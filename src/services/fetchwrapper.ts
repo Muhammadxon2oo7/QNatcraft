@@ -31,7 +31,7 @@ const fetchWrapper: FetchWrapper = async <T>(
   };
 
   // Retrieve token from cookies
-  const token = (await cookies()).get("token")?.value;
+  const token = cookies().get("accessToken")?.value;
   if (token) {
     defaultHeaders["Authorization"] = `Bearer ${token}`;
   }

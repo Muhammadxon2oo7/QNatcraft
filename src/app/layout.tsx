@@ -41,6 +41,7 @@ export default async function RootLayout({ children }: Props) {
           href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet"
         />
+        <meta name="algolia-site-verification"  content="6E50DF5984B38F60" />
       </head>
       <ClientLayout >
       <body style={{ fontFamily: "'Raleway', sans-serif" }}>
