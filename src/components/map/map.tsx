@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,13 +13,7 @@ const QoraqalpogistonMap = () => {
   const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
   const [geoData, setGeoData] = useState<any>(null);
 
-  useEffect(() => {
-    fetch(geoUrl)
-      .then((response) => response.json())
-      .then((data) => setGeoData(data))
-      .catch((error) => console.error("Xaritani yuklashda xatolik:", error));
-  }, []);
-
+  
   const regions = [
     { id: "Qo`ng`irot tumani", name: tfourth('regions.first') },
     { id: "Mo`ynoq tumani", name: tfourth('regions.second') },

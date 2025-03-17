@@ -43,14 +43,16 @@ export default async function RootLayout({ children }: Props) {
         />
         <meta name="algolia-site-verification"  content="6E50DF5984B38F60" />
       </head>
-      <ClientLayout >
+      
       <body style={{ fontFamily: "'Raleway', sans-serif" }}>
+      <ClientLayout >
         <NextIntlClientProvider messages={messages}>
           <HeaderWithPadding>{children}</HeaderWithPadding>
           <Toaster position="top-center" />
         </NextIntlClientProvider>
+        </ClientLayout>
       </body>
-      </ClientLayout>
+      
     </html>
   );
 }

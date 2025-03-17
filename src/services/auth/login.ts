@@ -8,25 +8,61 @@ interface LoginDataR {
 }
 
 export const login = async (loginData: { email: string; password: string }) => {
+  // Eski cookie’larni tozalash (agar mavjud bo‘lsa)
+  cookies().delete("accessToken");
+  cookies().delete("refreshToken");
+
   const res = await fetch("https://qqrnatcraft.uz/accounts/login/", {
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Accept": "application/json",
     },
     method: "POST",
     body: JSON.stringify(loginData),
+    cache: "no-store", // Keshni o‘chirish
   });
 
   if (!res.ok) {
-    const err = await res.json(); 
-    throw new Error(err.detail);
+    const err = await res.json();
+    throw new Error(err.detail || "Login xatoligi: Noto‘g‘ri email yoki parol");
   }
 
   const data: LoginDataR = await res.json();
-  cookies().set('accessToken', data.access);
-  cookies().set('refreshToken', data.refresh);
+  console.log("Login javobi:", data); // Debugging uchun
+
+  // Cookie’larni yangi tokenlar bilan sozlash
+  cookies().set("accessToken", data.access, {
+    path: "/", // Butun sayt uchun mavjud bo‘lishi
+    httpOnly: true, // Xavfsizlik uchun
+    secure: process.env.NODE_ENV === "production", // HTTPS’da ishlaydi (production’da)
+    sameSite: "strict", // CSRF himoyasi
+  });
+  cookies().set("refreshToken", data.refresh, {
+    path: "/",
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+
+  console.log("Cookie’lar sozlandi:", { accessToken: data.access, refreshToken: data.refresh });
 
   return data;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // document.getElementById('login-form').addEventListener('submit', function(e) {

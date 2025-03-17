@@ -30,8 +30,7 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
     try {
       const result = await loginAction(loginData);
       if (result.access && result.refresh) {
-        localStorage.setItem('accessToken', result.access);
-        localStorage.setItem('refreshToken', result.refresh);
+
         window.location.href = '/'; 
       } else {
         toast.error("Invalid login");

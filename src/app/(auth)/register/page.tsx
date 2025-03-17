@@ -20,9 +20,9 @@ const Register = () => {
   };
 
   return (
-    <div className=" py-4 px-4 md:px-0 flex items-center justify-center md:justify-end bg-gray-50 register absolute inset-0  h-auto">
-      <div className="rounded-3xl w-full max-w-[580px] bg-white/90 backdrop-blur-md p-4 md:p-6 shadow-lg m-[5px]">
-        <div className="flex justify-between items-center h-12 mb-4">
+    <div className="absolute inset-0  w-full px-4 md:px-6 lg:px-8 flex items-center  md:justify-end justify-center bg-gray-50 register  ">
+      <div className="rounded-3xl w-full max-w-[580px] bg-white/90 backdrop-blur-md p-6 md:p-8 shadow-lg  my-[20px]">
+        <div className="flex justify-between items-center h-12 mb-6">
           <Button
             variant="outline"
             size="icon"
@@ -34,7 +34,7 @@ const Register = () => {
           </Button>
           <LocaleSwitcher />
         </div>
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-8">
           <AuthLogo />
         </div>
         {!isFormSubmitted ? (
