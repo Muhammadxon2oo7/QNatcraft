@@ -18,8 +18,15 @@ const nextConfig = {
         hostname: 'qqrnatcraft.uz',
         pathname: '/media/product_images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'qqrnatcraft.uz',
+        pathname: '/media/profile_images/**', // Profile images uchun qo‘shildi
+      },
     ],
   },
 };
+
+
 
 export default withNextIntl()(nextConfig);

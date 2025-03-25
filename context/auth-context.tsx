@@ -44,6 +44,7 @@ interface AuthContextType {
   user: UserData | null;
   loading: boolean;
   logout: () => void;
+  refreshUser: () => Promise<void>; // Yangi qo'shilgan refreshUser funksiyasi
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -66,6 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const token = getCookie("accessToken");
     if (!token) {
       setLoading(false);
+      setUser(null); // Token yo'q bo'lsa, user null qilib qo'yiladi
       return;
     }
     try {
@@ -83,6 +85,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } finally {
       setLoading(false);
     }
+  };
+
+  // refreshUser funksiyasi qo'shildi
+  const refreshUser = async () => {
+    setLoading(true); // Yangilash jarayonida yuklanish holatini ko'rsatish
+    await fetchUserData(); // Foydalanuvchi ma'lumotlarini qayta yuklash
   };
 
   useEffect(() => {
@@ -116,7 +124,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, logout }}>
+    <AuthContext.Provider value={{ user, loading, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,9 +1,8 @@
-'use client';
+"use client"
 
 import { Splide, SplideSlide, SplideRef } from '@splidejs/react-splide';
-
 import '@splidejs/react-splide/css';
-import { useState, useRef, SetStateAction } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dot } from '@/components/dot/Dot';
 
@@ -51,19 +50,17 @@ const slides = [
     category: 'Kulolchilik',
   },
 ];
-
 export default function Carousel() {
-    const splideRef = useRef<SplideRef | null>(null);
-
+  const splideRef = useRef<SplideRef | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className="relative w-full mx-auto ">
+    <div className="relative w-full mx-auto">
       <Splide
         ref={splideRef}
         options={{
           type: 'loop',
-          perPage: 3,
+          perPage: 1, // Default mobil uchun 1
           perMove: 1,
           focus: 'center',
           autoplay: true,
@@ -71,28 +68,40 @@ export default function Carousel() {
           arrows: false,
           pagination: false,
           drag: true,
-          gap: '1rem',
+          gap: '0.5rem',
+          breakpoints: {
+            640: { perPage: 1, gap: '0.5rem' }, // sm: mobil
+            1024: { perPage: 2, gap: '1rem' },  // md: planshet
+            1280: { perPage: 3, gap: '1rem' },  // lg: katta ekran
+          },
         }}
-        onMoved={(splide: { index: SetStateAction<number> }) => setActiveIndex(splide.index)}
+        onMoved={(splide) => setActiveIndex(splide.index)}
       >
-        {slides.map((slide,index) => (
+        {slides.map((slide, index) => (
           <SplideSlide key={slide.id}>
             <div
-              className={`relative flex h-[460px] bg-[#f9f6f1] rounded-xl shadow-md overflow-hidden w-full md:max-w-[1130px] pl-[48px] pt-[48px]  ${index === activeIndex ? 'opacity-100 ' : 'opacity-60'}`}
+              className={`relative flex h-[300px] sm:h-[400px] md:h-[460px] bg-[#f9f6f1] rounded-xl shadow-md overflow-hidden w-full ${index === activeIndex ? 'opacity-100' : 'opacity-60'}`}
               style={{
                 backgroundImage: `url(${slide.image})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}
             >
-              <div className="flex flex-col   w-[50%]">
-                <span className="flex items-center gap-[8px] text-sm font-medium text-gray-600 bg-gray-200 px-3 py-1 rounded-full w-fit mb-[16px]">
-                   <Dot/>{slide.category}
+              <div className="flex flex-col w-full sm:w-[50%] p-4 md:p-12">
+                <span className="flex items-center gap-2 text-xs md:text-sm font-medium text-gray-600 bg-gray-200 px-2 py-1 rounded-full w-fit mb-2 md:mb-4">
+                  <Dot /> {slide.category}
                 </span>
-                <h2 className="text-[36px] font-[700] text-[#242b3a]  leading-tight ">{slide.title}</h2>
-                <p className=" text-[18px] text-[#242b3a]  flex gap-[8px] mb-[46px] ">{slide.description}</p>
-                <Button variant={'default'} className=" text-white max-w-[260px] rounded-[16px] h-[52px] justify-center px-[14px]">
-                  Mahsulotlarni ko‘rish 
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#242b3a] leading-tight">
+                  {slide.title}
+                </h2>
+                <p className="text-sm md:text-lg text-[#242b3a] mb-4 md:mb-12">
+                  {slide.description}
+                </p>
+                <Button
+                  variant={'default'}
+                  className="text-white w-full sm:w-[260px] rounded-[16px] h-10 md:h-[52px] px-4 text-sm md:text-base"
+                >
+                  Mahsulotlarni ko‘rish
                 </Button>
               </div>
             </div>
@@ -100,14 +109,11 @@ export default function Carousel() {
         ))}
       </Splide>
 
-      {/* Custom Pagination */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 bg-gray-300 rounded-full px-4 py-2">
+      <div className="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1 md:gap-2 bg-gray-300 rounded-full px-2 py-1 md:px-4 md:py-2">
         {slides.map((_, index) => (
           <button
             key={index}
-            className={`h-3 rounded-full transition-all duration-500 ease-in-out w-[12px] ${
-              activeIndex === index ? 'bg-[#8B0000] opacity-100 w-[16px]' : 'bg-white opacity-50'
-            }`}
+            className={`h-2 w-2 md:h-3 md:w-3 rounded-full transition-all duration-500 ease-in-out ${activeIndex === index ? 'bg-[#8B0000] opacity-100 md:w-4' : 'bg-white opacity-50'}`}
             onClick={() => splideRef.current?.go(index)}
           />
         ))}

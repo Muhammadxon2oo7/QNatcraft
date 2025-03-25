@@ -25,18 +25,17 @@ const Page = () => {
   }
 
   return (
-    <div className='pt-[64px]'>
-      <div className='w-full flex justify-center items-center mb-[36px]'>
-        <p className='text-[32px] font-[700] text-[#242b3a]'>
+    <div className="pt-[64px] md:pt-[156px] min-h-screen"> {/* Header balandligiga moslash */}
+      <div className="w-full flex justify-center items-center mb-4 md:mb-9 px-4">
+        <p className="text-lg md:text-3xl lg:text-4xl font-bold text-[#242b3a] text-center">
           Hunarmandchilik do’konimizga xush kelibsiz!
         </p>
       </div>
-      <section className='w-full mb-[64px]'>
+      <section className="w-full mb-8 md:mb-16 px-4 md:px-0">
         <Carousel />
       </section>
-      <main className='max-w-[1380px] mx-auto px-[10px]'>
-       
-      <Product/>
+      <main className="max-w-[1380px] mx-auto px-4 md:px-10">
+        <Product />
       </main>
     </div>
   )

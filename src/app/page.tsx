@@ -283,7 +283,7 @@ export default function Home() {
       const target = document.querySelector(hash) as HTMLElement | null;
       const header = document.querySelector("header") as HTMLElement | null;
       const headerHeight = header ? header.offsetHeight : 160;
-      const extraOffset = 100; // Qo‘shimcha masofa
+      const extraOffset = 20; // Qo‘shimcha masofa
 
       if (target) {
         window.scrollTo({
@@ -319,7 +319,7 @@ export default function Home() {
             </p>
             <Button className="primary-bg rounded-[16px] p-[14px_20px] w-[240px] h-[52px] responsive-btn">
               <Link
-                href={"/shop"}
+                href={"/store"}
                 className="w-full flex justify-center items-center "
               >
                 {tmain("description.button")} <Arrow />

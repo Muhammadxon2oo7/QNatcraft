@@ -53,7 +53,7 @@ export const Header = () => {
             
           >
             <Image
-             src={user.profile.profile_image || "/img/user.png"}
+            src={`https://qqrnatcraft.uz${user?.profile.profile_image}`|| "/img/user.png"}
              alt={user.profile.user_first_name || "User"}
               height={100}
               width={100}

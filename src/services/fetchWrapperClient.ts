@@ -1,6 +1,3 @@
-// src/services/fetchWrapperClient.ts
-// "use server" olib tashlandi, client-side uchun moslashtirildi
-
 interface FetchOptions extends RequestInit {
   headers?: HeadersInit;
 }
@@ -10,16 +7,18 @@ export interface ErrorData {
     message?: string;
   };
   message?: string;
+  [key: string]: any;
 }
 
 const fetchWrapperClient = async <T>(url: string, options: FetchOptions = {}): Promise<T> => {
-  const BASE_URL = "https://qqrnatcraft.uz"; // To'g'ri backend URL
+  const BASE_URL = "https://qqrnatcraft.uz";
 
-  const defaultHeaders: HeadersInit = {
-    "Content-Type": "application/json",
-  };
+  const defaultHeaders: HeadersInit = {};
+  // Agar body FormData bo‘lmasa, Content-Type qo‘shiladi
+  if (!(options.body instanceof FormData)) {
+    defaultHeaders["Content-Type"] = "application/json";
+  }
 
-  // Tokenni cookie'dan olish (client-side)
   const token = document.cookie.match(/accessToken=([^;]+)/)?.[1];
   if (token) {
     defaultHeaders["Authorization"] = `Bearer ${token}`;
@@ -37,11 +36,13 @@ const fetchWrapperClient = async <T>(url: string, options: FetchOptions = {}): P
 
   if (!response.ok) {
     let errorMessage = `Request failed with status ${response.status}.`;
+    let errorDetails = {};
 
     try {
       if (contentType && contentType.includes("application/json")) {
         const errorData = (await response.json()) as ErrorData;
-        errorMessage = errorData.error?.message || errorData.message || errorMessage;
+        errorMessage = errorData.error?.message || errorData.message || JSON.stringify(errorData);
+        errorDetails = errorData;
       } else {
         errorMessage = await response.text();
       }
@@ -49,8 +50,10 @@ const fetchWrapperClient = async <T>(url: string, options: FetchOptions = {}): P
       errorMessage = `Failed to parse error response. Status: ${response.status}.`;
     }
 
+    console.error("Server xato xabari:", { errorMessage, errorDetails });
+
     if (response.status === 401) {
-      window.location.href = "/login"; // Client-side redirect
+      window.location.href = "/login";
     }
 
     throw new Error(errorMessage);
@@ -64,6 +67,3 @@ const fetchWrapperClient = async <T>(url: string, options: FetchOptions = {}): P
 };
 
 export default fetchWrapperClient;
-
-
-;

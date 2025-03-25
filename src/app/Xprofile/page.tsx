@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BarChart3,
@@ -11,6 +11,7 @@ import {
   Package,
   ShoppingBag,
   Save,
+  Upload,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -32,7 +33,6 @@ const sidebarItems = [
   { id: "logout", icon: LogOut, label: "Profildan chiqish" },
 ];
 
-// Interfeyslar
 interface Profession {
   id: number;
   name: string;
@@ -70,7 +70,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("profile");
   const { user, loading, logout } = useAuth();
 
-  console.log("useAuth user:", user); // user strukturasini tekshirish uchun
+  console.log("useAuth user:", user);
 
   if (loading) {
     return <div className="text-center p-8">Yuklanmoqda...</div>;
@@ -137,6 +137,8 @@ export default function ProfilePage() {
 function ProfileContent({ userData }: { userData: UserData | null }) {
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [profileData, setProfileData] = useState<ProfileData | undefined>(userData?.profile);
   const [editedData, setEditedData] = useState({
     user_first_name: userData?.profile.user_first_name || "",
     phone_number: userData?.profile.phone_number || "",
@@ -144,48 +146,171 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
     experience: String(userData?.profile.experience || ""),
     mentees: String(userData?.profile.mentees || ""),
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const { refreshUser } = useAuth();
+
+  // Matnli maydonlar uchun o‘zgarishlarni boshqarish
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setEditedData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Drag-and-drop eventlari
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (!isEditing) return;
+    const file = e.dataTransfer.files[0];
+    handleImageChange(file);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (isEditing) setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    handleImageChange(file);
+  };
+
+  const handleImageChange = (file?: File) => {
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setError("Fayl hajmi 5MB dan kichik bo‘lishi kerak!");
+        return;
+      }
+      if (!file.type.startsWith("image/")) {
+        setError("Faqat rasm fayllarini yuklash mumkin!");
+        return;
+      }
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSave = async () => {
     setError("");
+    setSuccessMessage("");
     try {
       if (!userData?.profile.id) throw new Error("Profil ID topilmadi");
 
-      const response = await fetchWrapperClient(`accounts/profiles/${userData.user_id}/`, {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(editedData),
+      const formData = new FormData();
+      Object.entries(editedData).forEach(([key, value]) => {
+        if (key === "experience" || key === "mentees") {
+          formData.append(key, value ? String(Number(value)) : "");
+        } else {
+          formData.append(key, value);
+        }
+      });
+      if (imageFile) {
+        formData.append("profile_image", imageFile);
+        setIsUploading(true);
+      }
+
+      console.log("Yuborilayotgan FormData:");
+      Array.from(formData.entries()).forEach(([key, value]) => {
+        console.log(`${key}: ${value}`);
       });
 
-      if (response) {
-        setIsEditing(false);
-        console.log("Ma'lumotlar muvaffaqiyatli saqlandi:", response);
-      }
+      const updatedProfile = await fetchWrapperClient<ProfileData>(
+        `/accounts/profiles/${userData.profile.id}/`,
+        {
+          method: "PATCH",
+          body: formData,
+        }
+      );
+
+      setProfileData(updatedProfile);
+      setIsUploading(false);
+      setImageFile(null);
+      setImagePreview(null);
+      setIsEditing(false);
+      setSuccessMessage("Ma'lumotlar muvaffaqiyatli yangilandi!");
+      console.log("Ma'lumotlar muvaffaqiyatli saqlandi:", updatedProfile);
+
+      await refreshUser();
+
+      setTimeout(() => setSuccessMessage(""), 3000);
     } catch (error: any) {
       setError(`Ma'lumotlarni saqlashda xatolik yuz berdi: ${error.message}`);
-      console.error("Ma'lumotlarni saqlashda xatolik:", error);
+      setIsUploading(false);
+      console.error("Xatolik detallari:", error);
     }
   };
 
   return (
-    <div className="space-y-6">
+    <div
+      className="space-y-6 relative"
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+    >
       <h1 className="text-2xl font-bold mb-8">Mening profilim</h1>
       {error && <div className="text-red-500 text-center">{error}</div>}
+      {successMessage && (
+        <div className="text-green-600 text-center">{successMessage}</div>
+      )}
+
+      {isDragging && isEditing && (
+        <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">
+          <p className="text-white text-lg">Rasmni bu yerga tashlang</p>
+        </div>
+      )}
 
       <div className="flex flex-col md:flex-row gap-8">
         <div className="flex-shrink-0">
-          <img
-            src={userData?.profile.profile_image || "/img/user.png"}
-            alt="Profile"
-            className="w-[146px] h-[146px]  rounded-md object-cover"
+          <div
+            className={cn(
+              "w-[146px] h-[146px] rounded-md border border-gray-300 flex items-center justify-center relative overflow-hidden",
+              isEditing && "cursor-pointer hover:bg-gray-100",
+              isUploading && "opacity-50"
+            )}
+            onClick={isEditing ? () => fileInputRef.current?.click() : undefined}
+          >
+            <img
+              src={
+                imagePreview ||
+                (profileData?.profile_image
+                  ? `https://qqrnatcraft.uz${profileData.profile_image}`
+                  : "/img/user.png")
+              }
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
+            {isEditing && !isUploading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                <Upload className="h-6 w-6 text-white" />
+              </div>
+            )}
+            {isUploading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <span className="text-white">Yuklanmoqda...</span>
+              </div>
+            )}
+          </div>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileInputChange}
+            className="hidden"
+            accept="image/*"
           />
+          {isEditing && (
+            <p className="text-xs text-gray-500 mt-2">
+              Drag-and-drop yoki tanlash orqali rasm yuklang (max 5MB)
+            </p>
+          )}
         </div>
 
         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -203,7 +328,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
               ) : (
                 <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                   <User />
-                  <span>{userData?.profile.user_first_name}</span>
+                  <span>{profileData?.user_first_name}</span>
                 </div>
               )}
             </div>
@@ -212,7 +337,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
               <p className="text-sm text-gray-500 mb-1">Email</p>
               <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                 <Mail />
-                <span>{userData?.profile.user_email}</span>
+                <span>{profileData?.user_email}</span>
               </div>
             </div>
 
@@ -229,7 +354,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
               ) : (
                 <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                   <Phone />
-                  <span>{userData?.profile.phone_number || "Noma'lum"}</span>
+                  <span>{profileData?.phone_number || "Noma'lum"}</span>
                 </div>
               )}
             </div>
@@ -249,7 +374,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
               ) : (
                 <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                   <Pin />
-                  <span>{userData?.profile.address || "Noma'lum"}</span>
+                  <span>{profileData?.address || "Noma'lum"}</span>
                 </div>
               )}
             </div>
@@ -267,7 +392,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
               ) : (
                 <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                   <CartIcon />
-                  <span>{userData?.profile.experience || "Noma'lum"}</span>
+                  <span>{profileData?.experience || "Noma'lum"}</span>
                 </div>
               )}
             </div>
@@ -285,7 +410,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
               ) : (
                 <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                   <User />
-                  <span>{userData?.profile.mentees || "Noma'lum"}</span>
+                  <span>{profileData?.mentees || "Noma'lum"}</span>
                 </div>
               )}
             </div>
@@ -297,7 +422,11 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
         {isEditing ? (
           <button
             onClick={handleSave}
-            className="bg-green-600 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-green-700 transition-colors"
+            disabled={isUploading}
+            className={cn(
+              "bg-green-600 text-white px-6 py-2 rounded-md flex items-center gap-2 transition-colors",
+              isUploading ? "opacity-50 cursor-not-allowed" : "hover:bg-green-700"
+            )}
           >
             <Save className="h-4 w-4" />
             Saqlash
@@ -315,7 +444,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
     </div>
   );
 }
-
+// Boshqa komponentlar o‘zgarmagan holda qoladi
 function WorkshopContent() {
   return (
     <div className="space-y-6">
