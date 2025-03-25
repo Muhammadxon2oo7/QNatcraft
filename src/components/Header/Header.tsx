@@ -25,7 +25,7 @@ import LocaleSwitcher from "./LocaleSwitcher";
 import LocaleSwitcherMobile from "./LocaleSwitcherMobile";
 import { useAuth } from "../../../context/auth-context";
 
-
+import { ClientHeader } from "./clientHeader";
 interface UserData {
   id: number;
   user_email: string;
@@ -105,7 +105,8 @@ export const Header = () => {
 
   if (isMobile) {
     return (
-      <header className="sticky top-0 z-50 w-full border-b bg-white">
+      <ClientHeader>
+<header className="sticky top-0 z-50 w-full border-b bg-white">
         <div className="w-full flex h-16 items-center justify-between px-4">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
@@ -186,11 +187,14 @@ export const Header = () => {
           </Button>
         </div>
       </header>
+      </ClientHeader>
+      
     );
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white min-h-[120px] md:h-[156px] w-full shadow-md z-50">
+    <ClientHeader>
+<header className="fixed top-0 left-0 right-0 bg-white min-h-[120px] md:h-[156px] w-full shadow-md z-50">
       <div className="flex flex-wrap max-w-[1380px] mx-auto px-[10px] justify-between items-center">
         <div className="relative w-[140px] md:w-[120px] h-[50px] md:h-[45px]">
           <Link href="/">
@@ -216,5 +220,7 @@ export const Header = () => {
         </div>
       </div>
     </header>
+    </ClientHeader>
+    
   );
 };
