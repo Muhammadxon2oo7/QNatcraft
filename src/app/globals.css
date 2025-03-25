@@ -32,6 +32,7 @@ section{
   margin-bottom: 140px;
 
 }
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -283,3 +284,8 @@ header{
   }
 }
 
+#aboutus,
+#madaniymeros,
+#Hunarmandchilikturlari {
+  scroll-margin-top: 256px; /* Header balandligiga moslang */
+}

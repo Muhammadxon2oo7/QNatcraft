@@ -28,6 +28,7 @@ import { Footer } from "@/components/footer/Footer";
 import { useTranslations } from "next-intl";
 import { Banner } from "@/components/Banner/Banner";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useRouter } from "next/navigation";
 
 const TypeofCrafts = {
   zargarlik: {
@@ -275,6 +276,23 @@ export default function Home() {
     throw new Error("Function not implemented.");
   }
 
+  const router = useRouter()
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const target = document.querySelector(hash) as HTMLElement | null;
+      const header = document.querySelector("header") as HTMLElement | null;
+      const headerHeight = header ? header.offsetHeight : 160;
+      const extraOffset = 100; // Qo‘shimcha masofa
+
+      if (target) {
+        window.scrollTo({
+          top: target.offsetTop - (headerHeight + extraOffset),
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [router]);
   return (
     <>
     <QueryClientProvider client={queryClient}>
