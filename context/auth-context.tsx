@@ -1,4 +1,3 @@
-// auth-context.tsx
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
@@ -7,20 +6,37 @@ import { useRouter } from "next/navigation";
 
 const BACKEND_URL = "https://qqrnatcraft.uz";
 
-interface UserData {
-  mentees: string;
-  phone_number: string;
-  address: string;
-  profile_image: string;
+interface Profession {
   id: number;
-  user_first_name: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface ProfileData {
+  id: number | string;
   user_email: string;
-  phone?: string;
-  location?: string;
-  experience?: string;
-  followers?: string;
-  achievements?: string;
-  avatar?: string;
+  user_first_name: string;
+  phone_number?: string | null;
+  address?: string | null;
+  profile_image?: string | null;
+  experience?: number | null;
+  mentees?: number | null;
+  profession?: Profession | null;
+  bio?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  award?: string | null;
+  created_at?: string;
+  updated_at?: string;
+  user?: number | string;
+}
+
+interface UserData {
+  email: string;
+  message?: string;
+  profile: ProfileData;
+  user_id: number | string;
 }
 
 interface AuthContextType {
@@ -59,7 +75,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           Authorization: `Bearer ${token}`,
         },
       });
-      setUser(response); // response[0] emas, to'g'ridan-to'g'ri obyekt
+      setUser(response);
     } catch (error) {
       console.error("Error fetching user data:", error);
       setUser(null);

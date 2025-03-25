@@ -1,4 +1,3 @@
-// app/profile/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -21,7 +20,6 @@ import { CartIcon } from "../../../public/img/header/CartIcon";
 import { Phone } from "../../../public/img/auth/phone";
 import { Pin } from "../../../public/img/auth/Pin";
 import { useAuth } from "../../../context/auth-context";
-import fetchWrapper from "@/services/fetchwrapper";
 import fetchWrapperClient from "@/services/fetchWrapperClient";
 
 const sidebarItems = [
@@ -34,9 +32,45 @@ const sidebarItems = [
   { id: "logout", icon: LogOut, label: "Profildan chiqish" },
 ];
 
+// Interfeyslar
+interface Profession {
+  id: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface ProfileData {
+  id: number | string;
+  user_email: string;
+  user_first_name: string;
+  phone_number?: string | null;
+  address?: string | null;
+  profile_image?: string | null;
+  experience?: number | null;
+  mentees?: number | null;
+  profession?: Profession | null;
+  bio?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  award?: string | null;
+  created_at?: string;
+  updated_at?: string;
+  user?: number | string;
+}
+
+interface UserData {
+  email: string;
+  message?: string;
+  profile: ProfileData;
+  user_id: number | string;
+}
+
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("profile");
   const { user, loading, logout } = useAuth();
+
+  console.log("useAuth user:", user); // user strukturasini tekshirish uchun
 
   if (loading) {
     return <div className="text-center p-8">Yuklanmoqda...</div>;
@@ -100,15 +134,15 @@ export default function ProfilePage() {
   );
 }
 
-function ProfileContent({ userData }: { userData: ReturnType<typeof useAuth>["user"] }) {
+function ProfileContent({ userData }: { userData: UserData | null }) {
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState<string>("");
   const [editedData, setEditedData] = useState({
     user_first_name: userData?.profile.user_first_name || "",
     phone_number: userData?.profile.phone_number || "",
     address: userData?.profile.address || "",
-    experience: userData?.profile.experience || "",
-    mentees: userData?.profile.mentees || "",
+    experience: String(userData?.profile.experience || ""),
+    mentees: String(userData?.profile.mentees || ""),
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,12 +151,12 @@ function ProfileContent({ userData }: { userData: ReturnType<typeof useAuth>["us
   };
 
   const handleSave = async () => {
-    setError(""); // Avvalgi xatoni tozalash
+    setError("");
     try {
       if (!userData?.profile.id) throw new Error("Profil ID topilmadi");
 
       const response = await fetchWrapperClient(`accounts/profiles/${userData.user_id}/`, {
-        method: "PATCH", // PATCH metodi
+        method: "PATCH",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -281,7 +315,7 @@ function ProfileContent({ userData }: { userData: ReturnType<typeof useAuth>["us
     </div>
   );
 }
-// Qolgan komponentlar (WorkshopContent, ProductsContent, va hokazo) o'zgarmagan
+
 function WorkshopContent() {
   return (
     <div className="space-y-6">

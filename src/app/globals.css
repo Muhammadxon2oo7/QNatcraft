@@ -162,11 +162,13 @@ header{
 
 .register{
   width: 100%;
+  height: 100%;
   background-image: url('../../public/img/auth/authBg.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
  
+  margin-top: 160px;
 }
 
 .splide__arrows button{
