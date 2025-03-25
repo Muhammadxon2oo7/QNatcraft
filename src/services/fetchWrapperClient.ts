@@ -1,45 +1,36 @@
-"use client";
+// src/services/fetchWrapperClient.ts
+// "use server" olib tashlandi, client-side uchun moslashtirildi
 
 interface FetchOptions extends RequestInit {
   headers?: HeadersInit;
 }
 
 export interface ErrorData {
-  error?: { message?: string };
+  error?: {
+    message?: string;
+  };
   message?: string;
 }
 
-type FetchWrapperClient = <T>(url: string, options?: FetchOptions) => Promise<T>;
+const fetchWrapperClient = async <T>(url: string, options: FetchOptions = {}): Promise<T> => {
+  const BASE_URL = "https://qqrnatcraft.uz"; // To'g'ri backend URL
 
-const fetchWrapperClient: FetchWrapperClient = async <T>(
-  url: string,
-  options: FetchOptions = {}
-): Promise<T> => {
   const defaultHeaders: HeadersInit = {
     "Content-Type": "application/json",
   };
 
-  // Cookie’dan tokenni olish
-  const token = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("accessToken="))
-    ?.split("=")[1];
-
+  // Tokenni cookie'dan olish (client-side)
+  const token = document.cookie.match(/accessToken=([^;]+)/)?.[1];
   if (token) {
     defaultHeaders["Authorization"] = `Bearer ${token}`;
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_BASE_URL?.endsWith("/")
-    ? process.env.NEXT_PUBLIC_BACKEND_BASE_URL
-    : `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/`;
-
-  const response = await fetch(`${baseUrl}${url.startsWith("/") ? url.slice(1) : url}`, {
+  const response = await fetch(`${BASE_URL}/${url.startsWith("/") ? url.slice(1) : url}`, {
     ...options,
     headers: {
       ...defaultHeaders,
       ...options.headers,
     },
-    credentials: "include", // Cookie’lar bilan birga yuborish uchun
   });
 
   const contentType = response.headers.get("content-type");
@@ -59,7 +50,7 @@ const fetchWrapperClient: FetchWrapperClient = async <T>(
     }
 
     if (response.status === 401) {
-      window.location.href = "/login";
+      window.location.href = "/login"; // Client-side redirect
     }
 
     throw new Error(errorMessage);
@@ -73,3 +64,6 @@ const fetchWrapperClient: FetchWrapperClient = async <T>(
 };
 
 export default fetchWrapperClient;
+
+
+;

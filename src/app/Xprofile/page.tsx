@@ -1,6 +1,7 @@
+// app/profile/page.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BarChart3,
@@ -10,6 +11,7 @@ import {
   Clock,
   Package,
   ShoppingBag,
+  Save,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -18,8 +20,9 @@ import { Mail } from "../../../public/img/auth/Mail";
 import { CartIcon } from "../../../public/img/header/CartIcon";
 import { Phone } from "../../../public/img/auth/phone";
 import { Pin } from "../../../public/img/auth/Pin";
+import { useAuth } from "../../../context/auth-context";
 import fetchWrapper from "@/services/fetchwrapper";
-import { useRouter } from "next/navigation";
+import fetchWrapperClient from "@/services/fetchWrapperClient";
 
 const sidebarItems = [
   { id: "profile", icon: User, label: "Mening profilim" },
@@ -31,92 +34,17 @@ const sidebarItems = [
   { id: "logout", icon: LogOut, label: "Profildan chiqish" },
 ];
 
-interface UserData {
-  mentees: string;
-  phone_number: string;
-  address: string;
-  profile_image: string;
-  id: number;
-  user_first_name: string;
-  user_email: string;
-  phone?: string;
-  location?: string;
-  experience?: string;
-  followers?: string;
-  achievements?: string;
-  avatar?: string;
-}
-
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("profile");
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+  const { user, loading, logout } = useAuth();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetchWrapper<UserData[]>("/accounts/profile/me/", {
-          method: "GET",
-          credentials: "include",
-          
-        });
-        if (Array.isArray(response) && response.length > 0) {
-          setUserData(response[0]);
-        } else {
-          setUserData(null);
-        }
-      } catch (err) {
-        setUserData(null);
-        setError("Ma'lumotlarni yuklashda xatolik yuz berdi.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchUserData();
-  }, [router]);
-
-  const handleLogout = async () => {
-    console.log("Logout boshlandi, cookie’lar oldin:", document.cookie); // Debugging
-    try {
-      const response = await fetchWrapper("accounts/logout/", {
-        method: "POST",
-        credentials: "include",
-       
-        headers: {
-          "Authorization": `Bearer ${document.cookie.match(/accessToken=([^;]+)/)?.[1] || ""}`,
-        },
-      });
-      console.log("Logout API javobi:", response); // Server javobini tekshirish
-    } catch (error) {
-      console.error("Logout xatoligi:", error);
-    } finally {
-      // Cookie’ni turli path’lar uchun o‘chirish
-      const deleteCookie = (name: string, path: string) => {
-        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}; SameSite=Strict;`;
-      };
-      deleteCookie("accessToken", "/");
-      deleteCookie("refreshToken", "/");
-      deleteCookie("accessToken", "/accounts");
-      deleteCookie("refreshToken", "/accounts");
-
-      console.log("Cookie holati (logout’dan keyin):", document.cookie); // Debugging
-      setUserData(null);
-      router.push("/login");
-      router.refresh();
-    }
-  };  
-
-  if (isLoading) {
+  if (loading) {
     return <div className="text-center p-8">Yuklanmoqda...</div>;
   }
 
-  if (error || !userData) {
-    return <div className="text-center p-8 text-red-500">{error || "Ma'lumotlar mavjud emas"}</div>;
+  if (!user) {
+    return <div className="text-center p-8 text-red-500">Ma'lumotlar mavjud emas yoki tizimga kirmagansiz</div>;
   }
-  console.log(userData);
 
   return (
     <div className="flex flex-wrap max-w-[1380px] px-[10px] mx-auto">
@@ -157,13 +85,13 @@ export default function ProfilePage() {
               transition={{ duration: 0.3 }}
               className="bg-white rounded-lg border p-6 min-h-[500px]"
             >
-              {activeTab === "profile" && <ProfileContent userData={userData} />}
+              {activeTab === "profile" && <ProfileContent userData={user} />}
               {activeTab === "workshop" && <WorkshopContent />}
               {activeTab === "products" && <ProductsContent />}
               {activeTab === "payments" && <PaymentsContent />}
               {activeTab === "statistics" && <StatisticsContent />}
               {activeTab === "orders" && <OrdersContent />}
-              {activeTab === "logout" && <LogoutContent onLogout={handleLogout} />}
+              {activeTab === "logout" && <LogoutContent onLogout={logout} />}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -172,18 +100,55 @@ export default function ProfilePage() {
   );
 }
 
-function ProfileContent({ userData }: { userData: UserData }) {
-  
+function ProfileContent({ userData }: { userData: ReturnType<typeof useAuth>["user"] }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [error, setError] = useState<string>("");
+  const [editedData, setEditedData] = useState({
+    user_first_name: userData?.profile.user_first_name || "",
+    phone_number: userData?.profile.phone_number || "",
+    address: userData?.profile.address || "",
+    experience: userData?.profile.experience || "",
+    mentees: userData?.profile.mentees || "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditedData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = async () => {
+    setError(""); // Avvalgi xatoni tozalash
+    try {
+      if (!userData?.profile.id) throw new Error("Profil ID topilmadi");
+
+      const response = await fetchWrapperClient(`accounts/profiles/${userData.user_id}/`, {
+        method: "PATCH", // PATCH metodi
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedData),
+      });
+
+      if (response) {
+        setIsEditing(false);
+        console.log("Ma'lumotlar muvaffaqiyatli saqlandi:", response);
+      }
+    } catch (error: any) {
+      setError(`Ma'lumotlarni saqlashda xatolik yuz berdi: ${error.message}`);
+      console.error("Ma'lumotlarni saqlashda xatolik:", error);
+    }
+  };
+
   return (
     <div className="space-y-6">
-      
-     
       <h1 className="text-2xl font-bold mb-8">Mening profilim</h1>
+      {error && <div className="text-red-500 text-center">{error}</div>}
 
       <div className="flex flex-col md:flex-row gap-8">
         <div className="flex-shrink-0">
           <img
-            src={userData.profile_image || "/placeholder.svg"}
+            src={userData?.profile.profile_image || "/placeholder.svg"}
             alt="Profile"
             className="w-40 h-40 rounded-md object-cover"
           />
@@ -193,68 +158,130 @@ function ProfileContent({ userData }: { userData: UserData }) {
           <div className="space-y-4">
             <div>
               <p className="text-sm text-gray-500 mb-1">Ism familiya</p>
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
-                <User />
-                <span>{userData.user_first_name}</span>
-              </div>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="user_first_name"
+                  value={editedData.user_first_name}
+                  onChange={handleInputChange}
+                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800"
+                />
+              ) : (
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
+                  <User />
+                  <span>{userData?.profile.user_first_name}</span>
+                </div>
+              )}
             </div>
 
             <div>
               <p className="text-sm text-gray-500 mb-1">Email</p>
               <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                 <Mail />
-                <span>{userData.user_email}</span>
+                <span>{userData?.profile.user_email}</span>
               </div>
             </div>
 
             <div>
               <p className="text-sm text-gray-500 mb-1">Telefon raqam</p>
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
-                <Phone />
-                <span>{userData.phone_number
- || "Noma'lum"}</span>
-              </div>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="phone_number"
+                  value={editedData.phone_number}
+                  onChange={handleInputChange}
+                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800"
+                />
+              ) : (
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
+                  <Phone />
+                  <span>{userData?.profile.phone_number || "Noma'lum"}</span>
+                </div>
+              )}
             </div>
           </div>
 
           <div className="space-y-4">
             <div>
               <p className="text-sm text-gray-500 mb-1">Joylashuv</p>
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
-                <Pin />
-                <span>{userData.address || "Noma'lum"}</span>
-              </div>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="address"
+                  value={editedData.address}
+                  onChange={handleInputChange}
+                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800"
+                />
+              ) : (
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
+                  <Pin />
+                  <span>{userData?.profile.address || "Noma'lum"}</span>
+                </div>
+              )}
             </div>
 
             <div>
               <p className="text-sm text-gray-500 mb-1">Tajriba</p>
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
-                <CartIcon />
-                <span>{userData.experience || "Noma'lum"}</span>
-              </div>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="experience"
+                  value={editedData.experience}
+                  onChange={handleInputChange}
+                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800"
+                />
+              ) : (
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
+                  <CartIcon />
+                  <span>{userData?.profile.experience || "Noma'lum"}</span>
+                </div>
+              )}
             </div>
 
             <div>
               <p className="text-sm text-gray-500 mb-1">Shogirtlar</p>
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
-                <User />
-                <span>{userData.mentees || "Noma'lum"}</span>
-              </div>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="mentees"
+                  value={editedData.mentees}
+                  onChange={handleInputChange}
+                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800"
+                />
+              ) : (
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
+                  <User />
+                  <span>{userData?.profile.mentees || "Noma'lum"}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="flex justify-end mt-8">
-        <button className="bg-red-800 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-red-900 transition-colors">
-          <Edit className="h-4 w-4" />
-          Tahrirlash
-        </button>
+      <div className="flex justify-end mt-8 gap-4">
+        {isEditing ? (
+          <button
+            onClick={handleSave}
+            className="bg-green-600 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-green-700 transition-colors"
+          >
+            <Save className="h-4 w-4" />
+            Saqlash
+          </button>
+        ) : (
+          <button
+            onClick={() => setIsEditing(true)}
+            className="bg-red-800 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-red-900 transition-colors"
+          >
+            <Edit className="h-4 w-4" />
+            Tahrirlash
+          </button>
+        )}
       </div>
     </div>
   );
 }
-
+// Qolgan komponentlar (WorkshopContent, ProductsContent, va hokazo) o'zgarmagan
 function WorkshopContent() {
   return (
     <div className="space-y-6">

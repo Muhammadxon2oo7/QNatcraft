@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Logo from "../../../public/img/header/Logo.png";
 import { Button } from "../ui/button";
@@ -18,12 +18,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
-import { Menu, LogIn, ShoppingBag, MessageCircle, Heart } from "lucide-react";
+import { Menu, LogIn, ShoppingBag, MessageCircle, Heart, LogOut } from "lucide-react";
 import AnimatedSearchTransform from "../SearchComponent/animated-search-transform";
 import Navbar from "../Navbar/Navbar";
 import LocaleSwitcher from "./LocaleSwitcher";
 import LocaleSwitcherMobile from "./LocaleSwitcherMobile";
-import fetchWrapperClient from "@/services/fetchWrapperClient";
+import { useAuth } from "../../../context/auth-context";
+
 
 interface UserData {
   id: number;
@@ -37,58 +38,67 @@ export const Header = () => {
   const t = useTranslations("header");
   const [open, setOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [user, setUser] = useState<UserData | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { user, loading, logout } = useAuth();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      setIsLoading(true);
-      try {
-        const token = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("accessToken="))
-          ?.split("=")[1];
-
-        if (!token) {
-          setUser(null);
-          setError(null);
-          setIsLoading(false);
-          return;
-        }
-
-        // Faqat bitta UserData obyekti kelayotganini faraz qilamiz
-        const response = await fetchWrapperClient<UserData>("/accounts/profile/me/", {
-          method: "GET",
-          credentials: "include",
-        });
-
-        console.log("Foydalanuvchi ma'lumotlari:", response);
-        setUser(response); // response[0] o‘rniga to‘g‘ridan-to‘g‘ri response
-        setError(null);
-      } catch (error: any) {
-        console.error("Foydalanuvchi ma'lumotlarini olishda xatolik:", error);
-        setUser(null);
-        setError(error.message || "Ma'lumotlarni yuklashda xatolik yuz berdi.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  const renderUserButton = () => {
-    if (isLoading) {
-      return <Button disabled>Yuklanmoqda...</Button>;
+  const renderAuthButton = () => {
+    if (loading) {
+      return <span className="text-gray-500">Yuklanmoqda...</span>;
     }
-    return user ? (
-      <Button className="w-full text-white flex items-center gap-2">
-        <Link href="/profile">{user.user_first_name}</Link>
+
+    if (user) {
+      return (
+        <div className="flex items-center gap-2">
+          <Button
+            className="responsive-btn bg-primary w-[clamp(140px, 10vw, 180px)] rounded-[16px]"
+            asChild
+          >
+            <Link href="/Xprofile" className="responsive-text text-white">
+              {user.profile.user_first_name}
+            </Link>
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hover:bg-red-100"
+            onClick={logout}
+          >
+            <LogOut className="h-5 w-5 text-red-500" />
+          </Button>
+        </div>
+      );
+    }
+
+    return (
+      <Button
+        className="responsive-btn bg-primary w-[clamp(140px, 10vw, 180px)] rounded-[16px]"
+        asChild
+      >
+        <Link href="/login" className="responsive-text text-white">
+          Kirish
+        </Link>
       </Button>
-    ) : (
-      <Button className="w-full text-white">
-        <Link href="/login">{"Kirish"}</Link>
+    );
+  };
+
+  const renderMobileAuthButton = () => {
+    if (loading) return null;
+
+    if (user) {
+      return (
+        <div className="flex flex-col gap-2">
+          <Button className="w-full text-white" asChild>
+            <Link href="/profile">{user.user_first_name}</Link>
+          </Button>
+          <Button className="w-full bg-red-500 text-white" onClick={logout}>
+            Chiqish
+          </Button>
+        </div>
+      );
+    }
+
+    return (
+      <Button className="w-full text-white" asChild>
+        <Link href="/login">Kirish</Link>
       </Button>
     );
   };
@@ -149,8 +159,7 @@ export const Header = () => {
                   </div>
                   <div className="mt-auto p-4 border-t">
                     <LocaleSwitcherMobile />
-                    {renderUserButton()}
-                    {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+                    {renderMobileAuthButton()}
                   </div>
                 </nav>
               </div>
@@ -164,10 +173,16 @@ export const Header = () => {
             </div>
           </div>
           <Button variant="ghost" size="icon" className="md:hidden">
-            <Link href="/login">
-              <LogIn className="h-6 w-6" />
-              <span className="sr-only">Login</span>
-            </Link>
+            {user ? (
+              <Link href="/profile">
+                <span className="text-sm font-medium">{user.user_first_name}</span>
+              </Link>
+            ) : (
+              <Link href="/login">
+                <LogIn className="h-6 w-6" />
+                <span className="sr-only">Login</span>
+              </Link>
+            )}
           </Button>
         </div>
       </header>
@@ -192,22 +207,7 @@ export const Header = () => {
             <CartIcon />
           </Button>
           <LocaleSwitcher />
-          {isLoading ? (
-            <Button disabled>Yuklanmoqda...</Button>
-          ) : user ? (
-            <Button className="responsive-btn bg-primary w-[clamp(140px, 10vw, 180px)] rounded-[16px] flex items-center gap-2">
-              <Link href="/profile" className="truncate text-white">
-                {user.user_first_name}
-              </Link>
-            </Button>
-          ) : (
-            <Button className="responsive-btn bg-primary w-[clamp(140px, 10vw, 180px)] rounded-[16px]">
-              <Link href="/login" className="responsive-text text-white">
-                {t("login") || "Kirish"}
-              </Link>
-            </Button>
-          )}
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          {renderAuthButton()}
         </div>
       </div>
       <div className="w-full primary-bg h-[56px]">

@@ -33,13 +33,13 @@ export const login = async (loginData: { email: string; password: string }) => {
   // Cookie’larni yangi tokenlar bilan sozlash
   cookies().set("accessToken", data.access, {
     path: "/", // Butun sayt uchun mavjud bo‘lishi
-    httpOnly: true, // Xavfsizlik uchun
+    httpOnly: false, // Xavfsizlik uchun
     secure: process.env.NODE_ENV === "production", // HTTPS’da ishlaydi (production’da)
     sameSite: "strict", // CSRF himoyasi
   });
   cookies().set("refreshToken", data.refresh, {
     path: "/",
-    httpOnly: true,
+    httpOnly: false,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
   });
