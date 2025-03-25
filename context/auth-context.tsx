@@ -33,6 +33,7 @@ interface ProfileData {
 }
 
 interface UserData {
+  user_first_name: ReactNode;
   email: string;
   message?: string;
   profile: ProfileData;
