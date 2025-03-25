@@ -49,10 +49,18 @@ export const Header = () => {
       return (
         <div className="flex items-center gap-2">
           <Button
-            className="responsive-btn bg-primary w-[clamp(140px, 10vw, 180px)] rounded-[16px]"
-            asChild
+            className="responsive-btn  w-[clamp(140px, 10vw, 180px)] rounded-[16px]  bg-[#fadee0] "
+            
           >
-            <Link href="/Xprofile" className="responsive-text text-white">
+            <Image
+             src={user.profile.profile_image || "/img/user.png"}
+             alt={user.profile.user_first_name || "User"}
+              height={100}
+              width={100}
+              className="w-[24px] h-[24px] rounded-full"
+              />
+            <Link href="/Xprofile" className="responsive-text  font-medium text-[18px]  text-[#820C0F]">
+              
               {user.profile.user_first_name}
             </Link>
           </Button>

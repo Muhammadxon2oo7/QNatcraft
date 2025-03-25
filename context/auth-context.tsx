@@ -19,7 +19,7 @@ interface ProfileData {
   user_first_name: string;
   phone_number?: string | null;
   address?: string | null;
-  profile_image?: string | null;
+  profile_image?: "/img/user.png";
   experience?: number | null;
   mentees?: number | null;
   profession?: Profession | null;

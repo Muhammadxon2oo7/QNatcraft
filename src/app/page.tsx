@@ -315,7 +315,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="max-w-[1380px] px-[10px] mx-auto section scroll-mt-[240px]" id="madaniymeros">
+      <section className="max-w-[1380px] px-[10px] mx-auto section scroll-mt-[240px] " id="madaniymeros" >
         <div className="flex justify-between mb-[36px] section-title">
           <div>
             <Badge className="rounded-[24px] mb-[16px] bg-[#fcdbdb] hover:bg-[#fcdbdb] cursor-pointer p-[10px_16px] h-[36px]  gap-[10px] inline-flex items-center badge">

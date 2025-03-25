@@ -182,9 +182,9 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
       <div className="flex flex-col md:flex-row gap-8">
         <div className="flex-shrink-0">
           <img
-            src={userData?.profile.profile_image || "/placeholder.svg"}
+            src={userData?.profile.profile_image || "/img/user.png"}
             alt="Profile"
-            className="w-40 h-40 rounded-md object-cover"
+            className="w-[146px] h-[146px]  rounded-md object-cover"
           />
         </div>
 
