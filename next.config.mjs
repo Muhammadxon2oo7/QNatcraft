@@ -1,6 +1,6 @@
 import withNextIntl from 'next-intl/plugin';
 
-const nextConfig = {
+const nextConfig = withNextIntl()({
   images: {
     remotePatterns: [
       {
@@ -21,12 +21,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'qqrnatcraft.uz',
-        pathname: '/media/profile_images/**', // Profile images uchun qo‘shildi
+        pathname: '/media/profile_images/**',
       },
     ],
   },
-};
+});
 
-
-
-export default withNextIntl()(nextConfig);
+export default nextConfig;
