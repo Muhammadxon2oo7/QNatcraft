@@ -15,7 +15,7 @@ const Login = () => {
   const router = useRouter();
   const [previousURL, setPreviousURL] = useState<string | null>(null);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
-  
+
   useEffect(() => {
     setPreviousURL(document.referrer);
   }, []);
@@ -29,15 +29,21 @@ const Login = () => {
   };
 
   return (
-    <div className="register py-[10px] md:pr-[120px] flex flex-wrap md:pl-[72px] justify-center md:justify-end items-center md:items-end max-h-[100vh] absolute top-0 left-0 right-0 bottom-0">
-      <div className="rounded-[24px] md:w-[580px] h-full backdrop-blur-[124px] bg-white p-[16px] w-[90%]">
-        <div className="flex justify-between h-[52px] overflow-hidden mb-[16px]">
-          <Button variant="outline" size="icon" className="h-[42px] w-[52px]" onClick={handleBack}>
-            <ChevronLeft />
+    <div className="register">
+      <div className="inner-container rounded-3xl w-full max-w-[580px] bg-white/90 backdrop-blur-md p-6 md:p-8 shadow-lg my-[20px]">
+        <div className="flex justify-between items-center h-12 mb-6">
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-10 w-10"
+            onClick={handleBack}
+            aria-label="Back"
+          >
+            <ChevronLeft className="h-5 w-5" />
           </Button>
           <LocaleSwitcher />
         </div>
-        <div className="w-full flex justify-center flex-wrap gap-[16px] ">
+        <div className="flex justify-center mb-8">
           <AuthLogo />
         </div>
         {isForgotPassword ? (

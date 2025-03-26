@@ -108,7 +108,16 @@
         }
       }
     }
-  }
+  },
+  "confirm": {
+      "verifyTitle": "Подтверждение",
+      "verifyText": "Введите код, отправленный на ваш email:",
+      "wrongCode": "Введен неверный код",
+      "resend": "Отправить снова",
+      "verifyButton": "Подтвердить",
+      "changeEmail": "Изменить email",
+      "codeResended": "Код отправлен повторно"
+    }
 }
 
 }

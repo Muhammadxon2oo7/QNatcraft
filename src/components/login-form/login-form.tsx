@@ -50,9 +50,7 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="login" className="font-normal text-xs md:text-sm text-[#858991]">
-            Login
-          </Label>
+          
           <div className="relative">
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
               <Mail />
@@ -70,9 +68,7 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password" className="font-normal text-xs md:text-sm text-[#858991]">
-            Parol
-          </Label>
+          
           <div className="relative">
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
               <Lock />
@@ -84,6 +80,7 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
               value={loginData.password}
               onChange={handleInputChange}
               className="rounded-xl p-4 w-full pl-12 h-12 bg-[#f6f6f6]"
+              placeholder="parol"
               required
             />
             <Button

@@ -107,7 +107,16 @@
         }
       }
     }
-  }
+  },
+  "confirm": {
+      "verifyTitle": "Verification",
+      "verifyText": "Enter the code sent to your email:",
+      "wrongCode": "Incorrect code entered",
+      "resend": "Resend",
+      "verifyButton": "Verify",
+      "changeEmail": "Change email",
+      "codeResended": "Code resent"
+    }
 }
 
 }

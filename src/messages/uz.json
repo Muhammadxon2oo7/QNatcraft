@@ -108,6 +108,15 @@
             }
           }
         }
+      },
+      "confirm":{
+        "verifyTitle": "Tasdiqlash",
+      "verifyText": "Emailingizga yuborilgan kodni kiriting:",
+      "wrongCode": "Noto‘g‘ri kod kiritildi",
+      "resend": "Qayta yuborish",
+      "verifyButton": "Tasdiqlash",
+      "changeEmail": "Emailni o‘zgartirish",
+      "codeResended": "Kod qayta yuborildi"
       }
     }
   }

@@ -15,7 +15,7 @@ interface VerificationProps {
 }
 
 export function Verification({ setIsFormSubmitted }: VerificationProps) {
-  const tauth = useTranslations("auth");
+  const tauth = useTranslations("auth.confirm"); // "auth.confirm" obyektiga o‘tdik
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [timeLeft, setTimeLeft] = useState(34);
   const [error, setError] = useState(false);
@@ -77,11 +77,11 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
     try {
       await confirmEmail({ confirmation_code: enteredCode, email });
       localStorage.removeItem("userData");
-      toast.success(tauth("register.codeIsright"), { icon: <Celebrate /> });
+      toast.success(tauth("codeIsright"), { icon: <Celebrate /> }); // "auth.confirm" dan emas, "auth" dan olingan
       setTimeout(() => window.location.assign("/login"), 1500);
     } catch (error: any) {
       setError(true);
-      toast.error(error.message);
+      toast.error(tauth("wrongCode")); // "auth.confirm.wrongCode" ishlatildi
     } finally {
       setLoading(false);
     }
@@ -93,7 +93,7 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
     setCanResend(false);
     setError(false);
     inputs.current[0]?.focus();
-    toast.success(tauth("register.codeResended"), { icon: <Resend /> });
+    toast.success(tauth("codeResended"), { icon: <Resend /> });
   };
 
   const handleChangeEmail = () => {
@@ -104,9 +104,9 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
   return (
     <div className="max-w-md mx-auto p-6 space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-2xl font-semibold">{tauth("register.verifyTitle")}</h1>
+        <h1 className="text-2xl font-semibold">{tauth("verifyTitle")}</h1>
         <p className="text-gray-600">
-          {tauth("register.verifyText")}{" "}
+          {tauth("verifyText")}{" "}
           <span className="font-medium">{email}</span>
         </p>
       </div>
@@ -135,7 +135,7 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
       </div>
 
       {error && (
-        <p className="text-center text-red-500">{tauth("register.wrongCode")}</p>
+        <p className="text-center text-red-500">{tauth("wrongCode")}</p>
       )}
 
       <div className="text-center">
@@ -145,7 +145,7 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
             className="bg-red-800 hover:bg-red-900 text-white"
             disabled={loading}
           >
-            {tauth("register.resend")}
+            {tauth("resend")}
             <RefreshCw className="ml-2 h-4 w-4" />
           </Button>
         ) : (
@@ -161,7 +161,7 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
         className="w-full h-12 bg-red-800 hover:bg-red-900 text-white rounded-xl"
         disabled={code.some((digit) => !digit) || loading}
       >
-        {loading ? "Tasdiqlanmoqda..." : tauth("register.verifyButton")}
+        {loading ? "Tasdiqlanmoqda..." : tauth("verifyButton")}
         <Check className="ml-2 h-5 w-5" />
       </Button>
 
@@ -171,7 +171,7 @@ export function Verification({ setIsFormSubmitted }: VerificationProps) {
           className="text-red-800 hover:underline"
           disabled={loading}
         >
-          {tauth("register.changeEmail")}
+          {tauth("changeEmail")}
         </button>
       </p>
     </div>

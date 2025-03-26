@@ -108,7 +108,16 @@
         }
       }
     }
-  }
+  },
+  "confirm": {
+      "verifyTitle": "Tastıyıqlaw",
+      "verifyText": "Emailińizge jiberilgen kodty kiritiń:",
+      "wrongCode": "Qáte kod kiritildi",
+      "resend": "Qayta jiberiw",
+      "verifyButton": "Tastıyıqlaw",
+      "changeEmail": "Emaildi ózgertiw",
+      "codeResended": "Kod qayta jiberildi"
+    }
 }
 
   }

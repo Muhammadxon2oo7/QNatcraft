@@ -1,27 +1,22 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { User, Lock, Mail, CheckCircle } from "lucide-react";
+import { User, Lock, Mail } from "lucide-react";
 import { EyeOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { toast } from "sonner";
 import { register as registerAction, RegisterType } from "@/services/auth/register";
 import { OpenEye } from "../../../public/img/auth/openEye";
-import { motion } from "framer-motion";
 
 export default function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
   const tauth = useTranslations("auth");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [showTermsModal, setShowTermsModal] = useState(false);
-  const [isAgreed, setIsAgreed] = useState(false);
-  const [scrolledToBottom, setScrolledToBottom] = useState(false);
-  const termsRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -46,16 +41,6 @@ export default function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
       }));
     }
   }, []);
-
-  // Scroll tekshiruvi
-  const handleScroll = () => {
-    if (termsRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = termsRef.current;
-      if (scrollTop + clientHeight >= scrollHeight - 5) {
-        setScrolledToBottom(true);
-      }
-    }
-  };
 
   const validateField = (name: keyof typeof formData, value: string) => {
     let error = "";
@@ -88,26 +73,19 @@ export default function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
   };
 
   const isFormValid = useMemo(
-    () => Object.values(errors).every((error) => !error) && Object.values(formData).every((field) => field),
+    () =>
+      Object.values(errors).every((error) => !error) &&
+      Object.values(formData).every((field) => field),
     [errors, formData]
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid) {
       toast.error(tauth("register.fillAllFields"));
       return;
     }
-    setShowTermsModal(true);
-  };
 
-  const handleAgree = async () => {
-    if (!scrolledToBottom) {
-      toast.error("Iltimos, qoidalarni oxirigacha o‘qing!");
-      return;
-    }
-    setIsAgreed(true);
-    setShowTermsModal(false);
     setLoading(true);
     try {
       const registerData: RegisterType = {
@@ -129,14 +107,11 @@ export default function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
   const handleReset = () => {
     setFormData({ username: "", email: "", password: "", confirmPassword: "" });
     setErrors({ username: "", email: "", password: "", confirmPassword: "" });
-    setIsAgreed(false);
-    setShowTermsModal(false);
-    setScrolledToBottom(false);
     localStorage.removeItem("userData");
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-4">
+    <div className="w-full max-w-md mx-auto p-4 ">
       <h2 className="text-xl font-bold text-center text-gray-800 mb-4">
         {tauth("register.title")}
       </h2>
@@ -272,66 +247,6 @@ export default function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
           </Button>
         </div>
       </form>
-
-      {/* Terms Modal */}
-      {showTermsModal && (
-        <motion.div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <motion.div
-            className="bg-white rounded-xl p-6 max-w-lg w-full h-[80vh] flex flex-col"
-            initial={{ scale: 0.8, y: 50 }}
-            animate={{ scale: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          >
-            <h3 className="text-lg font-bold text-gray-800 mb-4">
-              Sayt Qoidalariga Rozilik
-            </h3>
-            <div
-              ref={termsRef}
-              onScroll={handleScroll}
-              className="flex-1 overflow-y-auto text-sm text-gray-700 mb-4 border border-gray-200 p-2 rounded"
-            >
-              <p>
-                Bu saytga ro‘yxatdan o‘tish orqali siz quyidagi shartlarga rozilik bildirasiz:
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                <br /><br />
-                Qoidalarni oxirigacha o‘qib chiqishingizni so‘raymiz, chunki bu yerda hamma narsa adolatli va qiziqarli bo‘ladi!
-                <br /><br />
-                {/* Qo‘shimcha uzun matn scrollni sinash uchun */}
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Button
-                onClick={handleAgree}
-                className="w-full h-12 bg-red-800 hover:bg-red-900 text-white rounded-xl"
-                disabled={!scrolledToBottom || loading}
-              >
-                {loading ? "Yuborilmoqda..." : "Roziman"}
-              </Button>
-              <Button
-                onClick={() => setShowTermsModal(false)}
-                variant="outline"
-                className="w-full h-12 rounded-xl"
-                disabled={loading}
-              >
-                Bekor qilish
-              </Button>
-            </div>
-            {!scrolledToBottom && (
-              <p className="text-red-500 text-xs mt-2 text-center">
-                Iltimos, qoidalarni oxirigacha o‘qing!
-              </p>
-            )}
-          </motion.div>
-        </motion.div>
-      )}
-
       <p className="text-center text-gray-600 mt-4">
         {tauth("register.loginRecommidation.first")}{" "}
         <Link href="/login" className="text-red-800 underline">
