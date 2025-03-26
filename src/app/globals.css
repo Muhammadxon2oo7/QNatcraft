@@ -161,16 +161,45 @@ header{
   background: #fff;
 }
 
-.register{
+.register {
+  position: fixed; /* Ekranga nisbatan joylashadi */
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100vh; /* Minimal balandlik ekran o‘lchamida */
+  height: auto; /* Kontentga qarab uzayadi */
   background-image: url('../../public/img/auth/authBg.png');
-  background-size: cover;
+  background-size: cover; /* Rasm ekran yoki kontentni to‘liq qoplaydi */
   background-position: center;
   background-repeat: no-repeat;
-
+  display: flex;
+  align-items: center; /* Vertikal markazlash */
+  justify-content: center; /* Gorizontal markazlash (mobil uchun) */
+  padding: 20px 4px; /* Mobil uchun padding */
+  box-sizing: border-box;
 }
 
+/* Ichki konteyner uchun */
+.inner-container {
+  width: 100%;
+  max-width: 580px; /* Maksimal kenglik */
+}
+
+/* Desktop uchun media query */
+@media (min-width: 768px) {
+  .register {
+    justify-content: flex-end; /* Desktopda o‘ngga surish */
+    padding: 0 6px; /* Desktop padding */
+  }
+}
+
+/* Agar kontent uzun bo‘lsa, fonni takrorlash yoki cho‘zish */
+@media (min-height: 100vh) {
+  .register {
+    background-attachment: scroll; /* Kontent bilan birga harakatlanadi */
+    background-repeat: repeat-y; /* Agar rasm yetmasa, vertikal takrorlanadi */
+  }
+}
 .splide__arrows button{
   border-radius: 40px;
   /* padding: 12px; */

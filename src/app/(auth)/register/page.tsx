@@ -20,8 +20,8 @@ const Register = () => {
   };
 
   return (
-    <div className="absolute inset-0  w-full px-4 md:px-6 lg:px-8 flex items-center  md:justify-end justify-center bg-gray-50 register  ">
-      <div className="rounded-3xl w-full max-w-[580px] bg-white/90 backdrop-blur-md p-6 md:p-8 shadow-lg  my-[20px]">
+    <div className="register">
+      <div className="inner-container rounded-3xl w-full max-w-[580px] bg-white/90 backdrop-blur-md p-6 md:p-8 shadow-lg my-[20px]">
         <div className="flex justify-between items-center h-12 mb-6">
           <Button
             variant="outline"
