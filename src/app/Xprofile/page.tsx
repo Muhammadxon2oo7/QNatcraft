@@ -30,6 +30,7 @@ import { toast } from "sonner";
 import { OrbitControls, useTexture } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const sidebarItems = [
   { id: "profile", icon: User, label: "Mening profilim" },
@@ -89,6 +90,7 @@ export default function ProfilePage() {
   }
 
   return (
+    <ProtectedRoute>
     <div className="flex flex-wrap max-w-[1380px] px-[10px] mx-auto">
       <nav className="flex items-center text-sm text-muted-foreground h-[56px] mb-[70px]">
         <Link href="/" className="hover:text-primary">
@@ -139,6 +141,7 @@ export default function ProfilePage() {
         </div>
       </div>
     </div>
+    </ProtectedRoute>
   );
 }
 
@@ -453,16 +456,14 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
   );
 }
 
-// 
 
 
 
-// Foydalanuvchi ma'lumotlari uchun interfeys
+
 interface UserData {
   user_id: number | string;
 }
 
-// API javobiga mos interfeys
 interface WorkshopData {
   id?: number | string;
   name: string;
@@ -477,14 +478,13 @@ interface WorkshopData {
   virtual_tours?: string[];
 }
 
-// Virtual ko‘rgazma uchun rasm va preview ma'lumotlari
 interface VirtualTourItem {
   file: File | null;
   preview: string | null;
   url: string | null;
 }
 
-// Panorama komponenti
+
 const Panorama = ({ image, onLoad }: { image: string; onLoad: () => void }) => {
   let texture;
   try {
@@ -518,12 +518,6 @@ const Panorama = ({ image, onLoad }: { image: string; onLoad: () => void }) => {
     </Canvas>
   );
 };
-
-
-
-
-
-
 
 function WorkshopContent({ userData }: { userData: UserData | null }) {
   const [workshopData, setWorkshopData] = useState<WorkshopData | null>(null);

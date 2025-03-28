@@ -512,7 +512,7 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      {/* Contact Modal */}
+ 
       <ContactDialog isOpen={isContactDialogOpen} onOpenChange={setIsContactDialogOpen} />
     </div>
   )

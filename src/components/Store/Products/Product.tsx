@@ -6,7 +6,6 @@ import { ArrowRight, AlertCircle, RefreshCw, Search } from "lucide-react"
 import { motion } from "framer-motion"
 import Filter from "../Filter/Filter"
 import Link from "next/link"
-import fetchWrapper from "@/services/fetchwrapper"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { PriceTag } from "../../../../public/store/PriceTag"
@@ -51,7 +50,6 @@ export default function ProductList() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
-
   const isProcessingFilterChangeRef = useRef(false)
 
   useEffect(() => {
@@ -60,16 +58,33 @@ export default function ProductList() {
         setLoading(true)
         setError(null)
 
-        const [categoriesData, productsData] = await Promise.all([
-          fetchWrapper<Category[]>("/api/categories/"),
-          fetchWrapper<Product[]>("/api/products/"),
+        const [categoriesResponse, productsResponse] = await Promise.all([
+          fetch("https://qqrnatcraft.uz/api/categories/", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }),
+          fetch("https://qqrnatcraft.uz/api/products/", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }),
         ])
 
-        setCategories(categoriesData)
-        setAllProducts(productsData)
+        if (!categoriesResponse.ok || !productsResponse.ok) {
+          throw new Error(
+            `Failed to fetch data: Categories (${categoriesResponse.status}), Products (${productsResponse.status})`
+          )
+        }
+
+        const categoriesData = await categoriesResponse.json()
+        const productsData = await productsResponse.json()
+
+        setCategories(Array.isArray(categoriesData) ? categoriesData : [])
+        setAllProducts(Array.isArray(productsData) ? productsData : [])
       } catch (error) {
         console.error("Error fetching data:", error)
-        setError("Ma'lumotlarni yuklashda xatolik yuz berdi.")
+        setError("Ma'lumotlarni yuklashda xatolik yuz berdi. Iltimos, keyinroq qayta urinib ko'ring.")
+        setAllProducts([])
+        setCategories([])
       } finally {
         setLoading(false)
       }
@@ -78,48 +93,42 @@ export default function ProductList() {
     fetchData()
   }, [])
 
-  const handleFilterChange = useCallback((categories: number[], sortDiscount: boolean, search?: string) => {
-    if (isProcessingFilterChangeRef.current) return
+  const handleFilterChange = useCallback(
+    (categories: number[], sortDiscount: boolean, search?: string) => {
+      if (isProcessingFilterChangeRef.current) return
 
-    isProcessingFilterChangeRef.current = true
-
-    try {
-      console.log("Filter changed:", { categories, sortDiscount, search })
-      setSelectedCategories(categories)
-      setSortByDiscount(sortDiscount)
-      setCurrentPage(1) // Reset to first page when filters change
-
-      // Update search term if provided
-      if (search !== undefined) {
-        setSearchTerm(search)
+      isProcessingFilterChangeRef.current = true
+      try {
+        setSelectedCategories(categories)
+        setSortByDiscount(sortDiscount)
+        setCurrentPage(1)
+        if (search !== undefined) setSearchTerm(search)
+      } finally {
+        isProcessingFilterChangeRef.current = false
       }
-    } finally {
-      isProcessingFilterChangeRef.current = false
-    }
-  }, [])
+    },
+    []
+  )
 
-  // Filter products based on search term, categories, and discount
   const filteredProducts = useMemo(() => {
-    // Start with all products
+    if (!Array.isArray(allProducts)) return []
+
     let filtered = [...allProducts]
 
-    // Apply search filter
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase()
       filtered = filtered.filter(
         (product) =>
-          product.name.toLowerCase().includes(searchLower) ||
-          product.category.name.toLowerCase().includes(searchLower) ||
-          (product.description && product.description.toLowerCase().includes(searchLower)),
+          product.name?.toLowerCase().includes(searchLower) ||
+          product.category?.name?.toLowerCase().includes(searchLower) ||
+          (product.description && product.description.toLowerCase().includes(searchLower))
       )
     }
 
-    // Apply category filter
     if (selectedCategories.length > 0) {
-      filtered = filtered.filter((product) => selectedCategories.includes(product.category.id))
+      filtered = filtered.filter((product) => product.category?.id && selectedCategories.includes(product.category.id))
     }
 
-    // Apply discount sort
     if (sortByDiscount) {
       filtered = filtered.sort((a, b) => (b.discount || 0) - (a.discount || 0))
     }
@@ -136,9 +145,9 @@ export default function ProductList() {
     }
   }, [])
 
-  const calculateOriginalPrice = useCallback((price: number, discount: number) => {
+  const calculateOriginalPrice = useCallback((price: number, discount?: number) => {
     if (!discount) return price
-    return price / (1 - discount / 100)
+    return Math.round(price / (1 - discount / 100))
   }, [])
 
   const formatPrice = useCallback((price: number) => {
@@ -151,16 +160,33 @@ export default function ProductList() {
         setLoading(true)
         setError(null)
 
-        const [categoriesData, productsData] = await Promise.all([
-          fetchWrapper<Category[]>("/api/categories/"),
-          fetchWrapper<Product[]>("/api/products/"),
+        const [categoriesResponse, productsResponse] = await Promise.all([
+          fetch("/api/categories/", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }),
+          fetch("/api/products/", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }),
         ])
 
-        setCategories(categoriesData)
-        setAllProducts(productsData)
+        if (!categoriesResponse.ok || !productsResponse.ok) {
+          throw new Error(
+            `Failed to fetch data: Categories (${categoriesResponse.status}), Products (${productsResponse.status})`
+          )
+        }
+
+        const categoriesData = await categoriesResponse.json()
+        const productsData = await productsResponse.json()
+
+        setCategories(Array.isArray(categoriesData) ? categoriesData : [])
+        setAllProducts(Array.isArray(productsData) ? productsData : [])
       } catch (error) {
         console.error("Error fetching data:", error)
-        setError("Ma'lumotlarni yuklashda xatolik yuz berdi.")
+        setError("Ma'lumotlarni yuklashda xatolik yuz berdi. Iltimos, keyinroq qayta urinib ko'ring.")
+        setAllProducts([])
+        setCategories([])
       } finally {
         setLoading(false)
       }
@@ -172,16 +198,25 @@ export default function ProductList() {
   return (
     <div className="flex flex-col max-w-[100%] md:flex-row gap-[20px] p-[20px]">
       <Filter
-        categories={categories.map((cat) => ({ id: cat.id, name: cat.name, product_count: cat.product_count || 0 }))}
+        categories={categories.map((cat) => ({
+          id: cat.id,
+          name: cat.name,
+          product_count: cat.product_count || 0,
+        }))}
         onFilterChange={handleFilterChange}
       />
-
       <div className="w-full">
         {error && (
           <Alert variant="destructive" className="mb-4">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>{error}</AlertDescription>
-            <Button variant="outline" size="sm" onClick={retryFetch} className="mt-2" aria-label="Qayta urinib ko'rish">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={retryFetch}
+              className="mt-2"
+              aria-label="Qayta urinib ko'rish"
+            >
               <RefreshCw className="h-4 w-4 mr-2" />
               Qayta urinib ko'rish
             </Button>
@@ -191,13 +226,11 @@ export default function ProductList() {
         {loading ? (
           <div className="flex justify-center items-center h-40" aria-live="polite" aria-busy="true">
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
-            <span className="sr-only">Loading...</span>
-            <p className="ml-3">Loading...</p>
+            <span className="sr-only">Yuklanmoqda...</span>
+            <p className="ml-3">Yuklanmoqda...</p>
           </div>
         ) : (
           <>
-            
-
             {displayedProducts.length === 0 ? (
               <div className="text-center w-full h-full py-10 bg-gray-50 rounded-lg border border-gray-100">
                 {searchTerm ? (
@@ -211,7 +244,7 @@ export default function ProductList() {
                 )}
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[20px] ">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[20px]">
                 {displayedProducts.map((product) => (
                   <motion.div
                     key={product.id}
@@ -219,9 +252,9 @@ export default function ProductList() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
                     whileHover={{ y: -5 }}
-                    className="bg-white  overflow-hidden shadow-sm border border-gray-100 p-[4px] rounded-[20px]"
+                    className="bg-white overflow-hidden shadow-sm border border-gray-100 p-[4px] rounded-[20px]"
                   >
-                    <div className="relative ">
+                    <div className="relative">
                       <div className="absolute top-2 left-2 z-10 flex flex-col">
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-white/90 text-gray-700">
                           • {product.category.name}
@@ -237,34 +270,36 @@ export default function ProductList() {
                           src={product.product_images[0]?.image || "/placeholder.svg"}
                           alt={product.name}
                           fill
-                          className="object-cover transition-transform duration-300  rounded-[20px]"
+                          className="object-cover transition-transform duration-300 rounded-[20px]"
                         />
                       </div>
                     </div>
 
                     <div className="px-[12px]">
-                      <h3 className="text-[18px]  font-[500] text-[#242b3a] line-clamp-2">{product.name}</h3>
-
+                      <h3 className="text-[18px] font-[500] text-[#242b3a] line-clamp-2">{product.name}</h3>
                       <div className="flex justify-between mt-2">
-                        <p className="text-sm text-gray-600 flex gap-[4px] text-[18px] text-primary ">
-                          <PriceTag/>
+                        <p className="text-sm text-gray-600 flex gap-[4px] text-[18px] text-primary">
+                          <PriceTag />
                           {product.discount
-                            ? ` ${formatPrice(calculateOriginalPrice(product.price, product.discount))} so'm`
+                            ? `${formatPrice(product.price)} so'm`
                             : `${formatPrice(product.price)} so'm`}
                         </p>
                         {product.discount && (
-                          <p className="text-xs text-gray-500 line-through">{formatPrice(product.price)} so'm</p>
+                          <p className="text-xs text-gray-500 line-through">
+                            {formatPrice(calculateOriginalPrice(product.price, product.discount))} so'm
+                          </p>
                         )}
                       </div>
                     </div>
 
-                    
-                      <Link href={`store/product/${product.id}`} onClick={() => handleSaveProductToLocal(product)}>
-                        <Button variant="default" className="text-sm text-primary font-medium bg-transparent w-full h-[52px] rounded-[16px] border border-primary my-[16px]">
-                          Batafsil <ArrowRight />
-                        </Button>
-                      </Link>
-                    
+                    <Link href={`store/product/${product.id}`} onClick={() => handleSaveProductToLocal(product)}>
+                      <Button
+                        variant="default"
+                        className="text-sm text-primary font-medium bg-transparent w-full h-[52px] rounded-[16px] border border-primary my-[16px]"
+                      >
+                        Batafsil <ArrowRight />
+                      </Button>
+                    </Link>
                   </motion.div>
                 ))}
               </div>
@@ -281,11 +316,9 @@ export default function ProductList() {
             >
               Oldingi
             </Button>
-
             <span className="mx-4 text-gray-600">
               {currentPage} / {totalPages}
             </span>
-
             <Button
               variant="outline"
               disabled={currentPage === totalPages}
@@ -299,5 +332,3 @@ export default function ProductList() {
     </div>
   )
 }
-
-
