@@ -17,6 +17,7 @@ import {
   Plus,
   X,
 } from "lucide-react";
+import { Disciples } from '../../../public/img/profile/Disciples';
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { User } from "../../../public/img/auth/user";
@@ -31,15 +32,18 @@ import { OrbitControls, useTexture } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import StatsComponent from "@/components/StatsComponent/StatsComponent";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useTranslations } from "next-intl";
 
 const sidebarItems = [
-  { id: "profile", icon: User, label: "Mening profilim" },
-  { id: "workshop", icon: CartIcon, label: "Mening ustaxonam" },
-  { id: "products", icon: CartIcon, label: "Mening mahsulotlarim" },
-  { id: "payments", icon: Clock, label: "Tolovlar tarixi" },
-  { id: "statistics", icon: BarChart3, label: "Statistikalar" },
-  { id: "orders", icon: Settings, label: "Buyurmalarni boshqarish" },
-  { id: "logout", icon: LogOut, label: "Profildan chiqish" },
+  { id: "profile", icon: User },
+  { id: "workshop", icon: CartIcon },
+  { id: "products", icon: CartIcon },
+  { id: "payments", icon: Clock },
+  { id: "statistics", icon: BarChart3 },
+  { id: "orders", icon: Settings },
+  { id: "logout", icon: LogOut },
 ];
 
 interface Profession {
@@ -76,76 +80,78 @@ interface UserData {
 }
 
 export default function ProfilePage() {
+  const t = useTranslations("profile");
   const [activeTab, setActiveTab] = useState("profile");
   const { user, loading, logout } = useAuth();
 
   console.log("useAuth user:", user);
 
   if (loading) {
-    return <div className="text-center p-8">Yuklanmoqda...</div>;
+    return <div className="text-center p-8">{t("loading")}</div>;
   }
 
   if (!user) {
-    return <div className="text-center p-8 text-red-500">Ma'lumotlar mavjud emas yoki tizimga kirmagansiz</div>;
+    return <div className="text-center p-8 text-red-500">{t("noData")}</div>;
   }
 
   return (
     <ProtectedRoute>
-    <div className="flex flex-wrap max-w-[1380px] px-[10px] mx-auto">
-      <nav className="flex items-center text-sm text-muted-foreground h-[56px] mb-[70px]">
-        <Link href="/" className="hover:text-primary">
-          Bosh sahifa
-        </Link>
-        <span className="mx-2">/</span>
-        <span className="text-foreground">Profile</span>
-      </nav>
+      <div className="flex flex-wrap max-w-[1380px] px-[10px] mx-auto">
+        <nav className="flex items-center text-sm text-muted-foreground h-[56px] mb-[70px]">
+          <Link href="/" className="hover:text-primary">
+            {t("breadcrumbs.home")}
+          </Link>
+          <span className="mx-2">/</span>
+          <span className="text-foreground">{t("breadcrumbs.profile")}</span>
+        </nav>
 
-      <div className="flex w-full">
-        <div className="border rounded-lg h-fit bg-white overflow-hidden">
-          <nav className="flex flex-col">
-            {sidebarItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={cn(
-                  "flex items-center gap-3 px-4 py-3 text-sm transition-colors hover:bg-red-50",
-                  activeTab === item.id ? "bg-red-50 text-red-800" : "text-gray-700"
-                )}
+        <div className="flex w-full">
+          <div className="border rounded-lg h-fit bg-white overflow-hidden">
+            <nav className="flex flex-col">
+              {sidebarItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={cn(
+                    "flex items-center gap-3 px-4 py-3 text-sm transition-colors hover:bg-red-50",
+                    activeTab === item.id ? "bg-red-50 text-red-800" : "text-gray-700"
+                  )}
+                >
+                  <item.icon className="h-5 w-5" />
+                  <span>{t(`sidebar.${item.id}`)}</span>
+                </button>
+              ))}
+            </nav>
+          </div>
+
+          <div className="flex-1 pl-[20px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white rounded-lg border p-6 min-h-[500px]"
               >
-                <item.icon className="h-5 w-5" />
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </nav>
-        </div>
-
-        <div className="flex-1 pl-[20px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white rounded-lg border p-6 min-h-[500px]"
-            >
-              {activeTab === "profile" && <ProfileContent userData={user} />}
-              {activeTab === "workshop" && <WorkshopContent userData={user} />}
-              {activeTab === "products" && <ProductsContent />}
-              {activeTab === "payments" && <PaymentsContent />}
-              {activeTab === "statistics" && <StatisticsContent />}
-              {activeTab === "orders" && <OrdersContent />}
-              {activeTab === "logout" && <LogoutContent onLogout={logout} />}
-            </motion.div>
-          </AnimatePresence>
+                {activeTab === "profile" && <ProfileContent userData={user} />}
+                {activeTab === "workshop" && <WorkshopContent userData={user} />}
+                {activeTab === "products" && <ProductsContent />}
+                {activeTab === "payments" && <PaymentsContent />}
+                {activeTab === "statistics" && <StatisticsContent />}
+                {activeTab === "orders" && <OrdersContent />}
+                {activeTab === "logout" && <LogoutContent onLogout={logout} />}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
-    </div>
     </ProtectedRoute>
   );
 }
 
 function ProfileContent({ userData }: { userData: UserData | null }) {
+  const t = useTranslations("profile.profileContent");
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
@@ -157,6 +163,12 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
     experience: String(userData?.profile.experience || ""),
     mentees: String(userData?.profile.mentees || ""),
   });
+  const [inputErrors, setInputErrors] = useState({
+    user_first_name: "",
+    phone_number: "",
+    experience: "",
+    mentees: "",
+  });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -165,13 +177,44 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
 
   const { refreshUser } = useAuth();
 
-  // Matnli maydonlar uchun o‘zgarishlarni boshqarish
+  const validateInput = (name: string, value: string) => {
+    switch (name) {
+      case "user_first_name":
+        if (!/^[A-Za-z\s]+$/.test(value) && value !== "") {
+          return t("fields.user_first_name.errors.second");
+        }
+        return "";
+      case "phone_number":
+        if (!/^\+998[0-9]{9}$/.test(value) && value !== "") {
+          return t("fields.phone_number.errors.second");
+        }
+        return "";
+      case "experience":
+        if (!/^[0-9]+$/.test(value) && value !== "") {
+          return t("fields.experience.errors.second");
+        }
+        return "";
+      case "mentees":
+        if (!/^[0-9]+$/.test(value) && value !== "") {
+          return t("fields.mentees.errors.second");
+        }
+        return "";
+      default:
+        return "";
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setEditedData((prev) => ({ ...prev, [name]: value }));
+    const errorMessage = validateInput(name, value);
+    setInputErrors((prev) => ({ ...prev, [name]: errorMessage }));
   };
 
-  // Drag-and-drop eventlari
+  const handleSelectChange = (value: string) => {
+    setEditedData((prev) => ({ ...prev, address: value }));
+  };
+
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
@@ -198,11 +241,11 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
   const handleImageChange = (file?: File) => {
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
-        setError("Fayl hajmi 10MB dan kichik bo‘lishi kerak!");
+        setError(t("image.errors.size"));
         return;
       }
       if (!file.type.startsWith("image/")) {
-        setError("Faqat rasm fayllarini yuklash mumkin!");
+        setError(t("image.errors.type"));
         return;
       }
       setImageFile(file);
@@ -213,6 +256,13 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
   const handleSave = async () => {
     setError("");
     setSuccessMessage("");
+
+    const hasErrors = Object.values(inputErrors).some((err) => err !== "");
+    if (hasErrors) {
+      setError(t("messages.validationError"));
+      return;
+    }
+
     try {
       if (!userData?.profile.id) throw new Error("Profil ID topilmadi");
 
@@ -229,11 +279,6 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
         setIsUploading(true);
       }
 
-      console.log("Yuborilayotgan FormData:");
-      Array.from(formData.entries()).forEach(([key, value]) => {
-        console.log(`${key}: ${value}`);
-      });
-
       const updatedProfile = await fetchWrapperClient<ProfileData>(
         `/accounts/profiles/${userData.profile.id}/`,
         {
@@ -247,35 +292,23 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
       setImageFile(null);
       setImagePreview(null);
       setIsEditing(false);
-      setSuccessMessage("Ma'lumotlar muvaffaqiyatli yangilandi!");
-      console.log("Ma'lumotlar muvaffaqiyatli saqlandi:", updatedProfile);
-
+      setSuccessMessage(t("messages.success"));
       await refreshUser();
-
       setTimeout(() => setSuccessMessage(""), 3000);
     } catch (error: any) {
-      setError(`Ma'lumotlarni saqlashda xatolik yuz berdi: ${error.message}`);
+      setError(`${t("messages.error")}: ${error.message}`);
       setIsUploading(false);
-      console.error("Xatolik detallari:", error);
     }
   };
 
   return (
-    <div
-      className="space-y-6 relative"
-      onDrop={handleDrop}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-    >
-      <h1 className="text-2xl font-bold mb-8">Mening profilim</h1>
+    <div className="space-y-6 relative" onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave}>
+      <h1 className="text-2xl font-bold mb-8">{t("title")}</h1>
       {error && <div className="text-red-500 text-center">{error}</div>}
-      {successMessage && (
-        <div className="text-green-600 text-center">{successMessage}</div>
-      )}
-
+      {successMessage && <div className="text-green-600 text-center">{successMessage}</div>}
       {isDragging && isEditing && (
         <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">
-          <p className="text-white text-lg">Rasmni bu yerga tashlang</p>
+          <p className="text-white text-lg">{t("dragDrop")}</p>
         </div>
       )}
 
@@ -292,9 +325,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
             <img
               src={
                 imagePreview ||
-                (profileData?.profile_image
-                  ? `https://qqrnatcraft.uz${profileData.profile_image}`
-                  : "/img/user.png")
+                (profileData?.profile_image ? `https://qqrnatcraft.uz${profileData.profile_image}` : "/img/user.png")
               }
               alt="Profile"
               className="w-full h-full object-cover"
@@ -306,36 +337,35 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
             )}
             {isUploading && (
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                <span className="text-white">Yuklanmoqda...</span>
+                <span className="text-white">{t("image.uploading")}</span>
               </div>
             )}
           </div>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileInputChange}
-            className="hidden"
-            accept="image/*"
-          />
-          {isEditing && (
-            <p className="text-xs text-gray-500 mt-2">
-              Drag-and-drop yoki tanlash orqali rasm yuklang (max 5MB)
-            </p>
-          )}
+          <input type="file" ref={fileInputRef} onChange={handleFileInputChange} className="hidden" accept="image/*" />
+          {isEditing && <p className="text-xs text-gray-500 mt-2">{t("image.upload")}</p>}
         </div>
 
         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <div>
-              <p className="text-sm text-gray-500 mb-1">Ism familiya</p>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.user_first_name.label")}</p>
               {isEditing ? (
-                <input
-                  type="text"
-                  name="user_first_name"
-                  value={editedData.user_first_name}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800"
-                />
+                <div>
+                  <input
+                    type="text"
+                    name="user_first_name"
+                    value={editedData.user_first_name}
+                    onChange={handleInputChange}
+                    className={cn(
+                      "w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800",
+                      inputErrors.user_first_name && "border-red-500"
+                    )}
+                    required
+                  />
+                  {inputErrors.user_first_name && (
+                    <p className="text-red-500 text-xs mt-1">{inputErrors.user_first_name}</p>
+                  )}
+                </div>
               ) : (
                 <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                   <User />
@@ -345,7 +375,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
             </div>
 
             <div>
-              <p className="text-sm text-gray-500 mb-1">Email</p>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.email.label")}</p>
               <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                 <Mail />
                 <span>{profileData?.user_email}</span>
@@ -353,19 +383,28 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
             </div>
 
             <div>
-              <p className="text-sm text-gray-500 mb-1">Telefon raqam</p>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.phone_number.label")}</p>
               {isEditing ? (
-                <input
-                  type="text"
-                  name="phone_number"
-                  value={editedData.phone_number}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800"
-                />
+                <div>
+                  <input
+                    type="text"
+                    name="phone_number"
+                    value={editedData.phone_number}
+                    onChange={handleInputChange}
+                    className={cn(
+                      "w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800",
+                      inputErrors.phone_number && "border-red-500"
+                    )}
+                    required
+                  />
+                  {inputErrors.phone_number && (
+                    <p className="text-red-500 text-xs mt-1">{inputErrors.phone_number}</p>
+                  )}
+                </div>
               ) : (
                 <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                   <Phone />
-                  <span>{profileData?.phone_number || "Noma'lum"}</span>
+                  <span>{profileData?.phone_number || t("unknown")}</span>
                 </div>
               )}
             </div>
@@ -373,55 +412,88 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
 
           <div className="space-y-4">
             <div>
-              <p className="text-sm text-gray-500 mb-1">Joylashuv</p>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.address.label")}</p>
               {isEditing ? (
-                <input
-                  type="text"
-                  name="address"
-                  value={editedData.address}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800"
-                />
+                <Select value={editedData.address} onValueChange={handleSelectChange}>
+                  <SelectTrigger className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800">
+                    <SelectValue placeholder={t("fields.address.placeholder")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Qo`ng`irot">Qo`ng`irot</SelectItem>
+                    <SelectItem value="Mo`ynoq">Mo`ynoq</SelectItem>
+                    <SelectItem value="Shumanag">Shumanag</SelectItem>
+                    <SelectItem value="Taxtako`pir">Taxtako`pir</SelectItem>
+                    <SelectItem value="Amudaryo">Amudaryo</SelectItem>
+                    <SelectItem value="Nukus">Nukus</SelectItem>
+                    <SelectItem value="Xo`jayli">Xo`jayli</SelectItem>
+                    <SelectItem value="Taxiatosh">Taxiatosh</SelectItem>
+                    <SelectItem value="Beruniy">Beruniy</SelectItem>
+                    <SelectItem value="Ellik qal`a">Ellik qal`a</SelectItem>
+                    <SelectItem value="To`rtko`l">To`rtko`l</SelectItem>
+                    <SelectItem value="Qorao`zak">Qorao`zak</SelectItem>
+                    <SelectItem value="Chimboy">Chimboy</SelectItem>
+                    <SelectItem value="Bo`zatov">Bo`zatov</SelectItem>
+                    <SelectItem value="Kegeyli">Kegeyli</SelectItem>
+                  </SelectContent>
+                </Select>
               ) : (
                 <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                   <Pin />
-                  <span>{profileData?.address || "Noma'lum"}</span>
+                  <span>{profileData?.address || t("unknown")}</span>
                 </div>
               )}
             </div>
 
             <div>
-              <p className="text-sm text-gray-500 mb-1">Tajriba</p>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.experience.label")}</p>
               {isEditing ? (
-                <input
-                  type="text"
-                  name="experience"
-                  value={editedData.experience}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800"
-                />
+                <div>
+                  <input
+                    type="text"
+                    name="experience"
+                    value={editedData.experience}
+                    onChange={handleInputChange}
+                    className={cn(
+                      "w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800",
+                      inputErrors.experience && "border-red-500"
+                    )}
+                    required
+                  />
+                  {inputErrors.experience && (
+                    <p className="text-red-500 text-xs mt-1">{inputErrors.experience}</p>
+                  )}
+                </div>
               ) : (
                 <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                   <CartIcon />
-                  <span>{profileData?.experience || "Noma'lum"}</span>
+                  <span>{profileData?.experience || t("unknown")}</span>
                 </div>
               )}
             </div>
 
             <div>
-              <p className="text-sm text-gray-500 mb-1">Shogirtlar</p>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.mentees.label")}</p>
               {isEditing ? (
-                <input
-                  type="text"
-                  name="mentees"
-                  value={editedData.mentees}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800"
-                />
+                <div>
+                  <input
+                    type="text"
+                    name="mentees"
+                    value={editedData.mentees}
+                    onChange={handleInputChange}
+                    className={cn(
+                      "w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800",
+                      inputErrors.mentees && "border-red-500"
+                    )}
+                    required
+                  />
+                  {inputErrors.mentees && (
+                    <p className="text-red-500 text-xs mt-1">{inputErrors.mentees}</p>
+                  )}
+                </div>
               ) : (
                 <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                   <User />
-                  <span>{profileData?.mentees || "Noma'lum"}</span>
+                  <span>{profileData?.mentees || t("unknown")}</span>
                 </div>
               )}
             </div>
@@ -433,14 +505,14 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
         {isEditing ? (
           <button
             onClick={handleSave}
-            disabled={isUploading}
+            disabled={isUploading || Object.values(inputErrors).some((err) => err !== "")}
             className={cn(
               "bg-green-600 text-white px-6 py-2 rounded-md flex items-center gap-2 transition-colors",
-              isUploading ? "opacity-50 cursor-not-allowed" : "hover:bg-green-700"
+              (isUploading || Object.values(inputErrors).some((err) => err !== "")) ? "opacity-50 cursor-not-allowed" : "hover:bg-green-700"
             )}
           >
             <Save className="h-4 w-4" />
-            Saqlash
+            {t("buttons.save")}
           </button>
         ) : (
           <button
@@ -448,20 +520,12 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
             className="bg-red-800 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-red-900 transition-colors"
           >
             <Edit className="h-4 w-4" />
-            Tahrirlash
+            {t("buttons.edit")}
           </button>
         )}
       </div>
     </div>
   );
-}
-
-
-
-
-
-interface UserData {
-  user_id: number | string;
 }
 
 interface WorkshopData {
@@ -484,14 +548,13 @@ interface VirtualTourItem {
   url: string | null;
 }
 
-
 const Panorama = ({ image, onLoad }: { image: string; onLoad: () => void }) => {
   let texture;
   try {
     texture = useTexture(image);
   } catch (err) {
     console.error(`Panorama tasvirini yuklashda xatolik (${image}):`, err);
-    return <div className="text-red-500">Tasvirni yuklashda xatolik</div>;
+    return <div className="text-red-500">{t("workshopContent.messages.error")}</div>;
   }
 
   useEffect(() => {
@@ -500,7 +563,7 @@ const Panorama = ({ image, onLoad }: { image: string; onLoad: () => void }) => {
 
   return (
     <Canvas style={{ width: "100%", height: "100%" }}>
-      <Suspense fallback={<div className="text-white text-center">Yuklanmoqda...</div>}>
+      <Suspense fallback={<div className="text-white text-center">{t("workshopContent.messages.loading")}</div>}>
         <mesh>
           <sphereGeometry args={[500, 60, 40]} />
           <meshBasicMaterial map={texture} side={THREE.BackSide} />
@@ -520,6 +583,7 @@ const Panorama = ({ image, onLoad }: { image: string; onLoad: () => void }) => {
 };
 
 function WorkshopContent({ userData }: { userData: UserData | null }) {
+  const t = useTranslations("profile.workshopContent");
   const [workshopData, setWorkshopData] = useState<WorkshopData | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -542,22 +606,17 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [virtualTours, setVirtualTours] = useState<VirtualTourItem[]>([]);
 
-  // Sync tourFileInputRefs with virtualTours length
   useEffect(() => {
     tourFileInputRefs.current = Array(virtualTours.length).fill(null);
   }, [virtualTours.length]);
 
-  // Fetch workshop data from API
   useEffect(() => {
     const fetchWorkshopData = async () => {
       setLoading(true);
       try {
-        const data = await fetchWrapperClient<WorkshopData[]>(
-          "/workshop/workshops/",
-          {
-            method: "GET",
-          }
-        );
+        const data = await fetchWrapperClient<WorkshopData[]>("/workshop/workshops/", {
+          method: "GET",
+        });
         if (data && data.length > 0) {
           const workshop = data[0];
           setWorkshopData(workshop);
@@ -570,23 +629,15 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
             rating: workshop.rating || 4.8,
             reviews: workshop.reviews || 364,
           });
-          if (workshop.image_360) {
-            setImagePreview(workshop.image_360);
-          }
+          if (workshop.image_360) setImagePreview(workshop.image_360);
           if (workshop.virtual_tours) {
-            setVirtualTours(
-              workshop.virtual_tours.map((url) => ({
-                file: null,
-                preview: url,
-                url,
-              }))
-            );
+            setVirtualTours(workshop.virtual_tours.map((url) => ({ file: null, preview: url, url })));
           }
         } else {
           setWorkshopData(null);
         }
       } catch (err: any) {
-        setError("Ustaxona ma'lumotlarini yuklashda xatolik yuz berdi");
+        setError(t("messages.error"));
         console.error(err);
       } finally {
         setLoading(false);
@@ -596,34 +647,23 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
     fetchWorkshopData();
   }, []);
 
-  // Handle input changes for editing
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setEditedData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setEditedData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle virtual tour image change
   const handleTourImageChange = (index: number, file?: File) => {
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
-        setError(`Virtual ko‘rgazma ${index + 1}: Fayl hajmi 10MB dan kichik bo‘lishi kerak!`);
+        setError(t("image.errors.tourSize").replace("{index}", String(index + 1)));
         return;
       }
       if (!file.type.startsWith("image/")) {
-        setError(`Virtual ko‘rgazma ${index + 1}: Faqat rasm fayllarini yuklash mumkin!`);
+        setError(t("image.errors.tourType").replace("{index}", String(index + 1)));
         return;
       }
       const updatedTours = [...virtualTours];
-      updatedTours[index] = {
-        ...updatedTours[index],
-        file,
-        preview: URL.createObjectURL(file),
-      };
+      updatedTours[index] = { ...updatedTours[index], file, preview: URL.createObjectURL(file) };
       setVirtualTours(updatedTours);
     }
   };
@@ -651,10 +691,7 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
   };
 
   const addVirtualTour = () => {
-    setVirtualTours((prev) => [
-      ...prev,
-      { file: null, preview: null, url: null },
-    ]);
+    setVirtualTours((prev) => [...prev, { file: null, preview: null, url: null }]);
   };
 
   const removeVirtualTour = (index: number) => {
@@ -663,7 +700,6 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
     setVirtualTours(updatedTours);
   };
 
-  // Drag-and-drop for image_360
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(true);
@@ -680,16 +716,14 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
     const file = e.dataTransfer.files[0];
     handleImageChange(file);
   };
-
-  // Handle image_360 change
   const handleImageChange = (file?: File) => {
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
-        setError("Fayl hajmi 10MB dan kichik bo‘lishi kerak!");
+        setError(t("image.errors.size"));
         return;
       }
       if (!file.type.startsWith("image/")) {
-        setError("Faqat rasm fayllarini yuklash mumkin!");
+        setError(t("image.errors.type"));
         return;
       }
       setImageFile(file);
@@ -702,14 +736,13 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
     handleImageChange(file);
   };
 
-  // Save changes
   const handleSave = async () => {
     setError("");
     setSuccessMessage("");
 
     if (!userData || !userData.user_id) {
-      setError("Foydalanuvchi autentifikatsiya qilinmagan. Iltimos, tizimga kiring.");
-      toast.error("Foydalanuvchi autentifikatsiya qilinmagan.");
+      setError(t("messages.authError"));
+      toast.error(t("messages.authError"));
       return;
     }
 
@@ -719,61 +752,41 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
       formData.append("description", editedData.description);
       formData.append("address", editedData.address);
       formData.append("user", String(userData.user_id));
-      if (imageFile) {
-        formData.append("image_360", imageFile);
-      }
+      if (imageFile) formData.append("image_360", imageFile);
       virtualTours.forEach((tour, index) => {
-        if (tour.file) {
-          console.log(`Virtual tour ${index} fayli:`, tour.file);
-          formData.append(`virtual_tours[${index}]`, tour.file);
-        } else if (tour.url) {
-          console.log(`Virtual tour ${index} URL:`, tour.url);
-          formData.append(`virtual_tours[${index}]`, tour.url);
-        }
+        if (tour.file) formData.append(`virtual_tours[${index}]`, tour.file);
+        else if (tour.url) formData.append(`virtual_tours[${index}]`, tour.url);
       });
 
       let updatedWorkshop;
       if (workshopData?.id) {
         try {
-          await fetchWrapperClient(`/workshop/workshops/${workshopData.id}/`, {
-            method: "DELETE",
-          });
+          await fetchWrapperClient(`/workshop/workshops/${workshopData.id}/`, { method: "DELETE" });
         } catch (deleteErr: any) {
           console.warn("DELETE so‘rovi muvaffaqiyatsiz: ", deleteErr.message);
         }
       }
 
-      updatedWorkshop = await fetchWrapperClient<WorkshopData>(
-        "/workshop/workshops/",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      console.log("Serverdan qaytgan virtual_tours:", updatedWorkshop.virtual_tours);
+      updatedWorkshop = await fetchWrapperClient<WorkshopData>("/workshop/workshops/", {
+        method: "POST",
+        body: formData,
+      });
 
       setWorkshopData(updatedWorkshop);
       setIsEditing(false);
       setImageFile(null);
       setImagePreview(updatedWorkshop.image_360 || null);
-      setVirtualTours(
-        (updatedWorkshop.virtual_tours || []).map((url) => ({
-          file: null,
-          preview: url,
-          url,
-        }))
-      );
-      setSuccessMessage("Ma'lumotlar muvaffaqiyatli saqlandi!");
-      toast.success("Ustaxona ma'lumotlari saqlandi!");
+      setVirtualTours((updatedWorkshop.virtual_tours || []).map((url) => ({ file: null, preview: url, url })));
+      setSuccessMessage(t("messages.success"));
+      toast.success(t("messages.success"));
       setTimeout(() => setSuccessMessage(""), 3000);
     } catch (err: any) {
-      setError("Ma'lumotlarni saqlashda xatolik yuz berdi: " + (err.message || "Noma'lum xatolik"));
-      toast.error("Ma'lumotlarni saqlashda xatolik yuz berdi");
+      setError(`${t("messages.error")}: ${err.message || "Unknown error"}`);
+      toast.error(t("messages.error"));
       console.error(err);
     }
   };
 
-  // Cancel editing
   const handleCancel = () => {
     setIsEditing(false);
     setImageFile(null);
@@ -787,23 +800,15 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
       rating: workshopData?.rating || 4.8,
       reviews: workshopData?.reviews || 364,
     });
-    setVirtualTours(
-      (workshopData?.virtual_tours || []).map((url) => ({
-        file: null,
-        preview: url,
-        url,
-      }))
-    );
+    setVirtualTours((workshopData?.virtual_tours || []).map((url) => ({ file: null, preview: url, url })));
   };
 
-  if (loading) {
-    return <div className="text-center p-8">Yuklanmoqda...</div>;
-  }
+  if (loading) return <div className="text-center p-8">{t("messages.loading")}</div>;
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Mening ustaxonam</h1>
+        <h1 className="text-2xl font-bold">{t("title")}</h1>
         {!isEditing && (
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -812,7 +817,7 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
             className="bg-red-800 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-red-900 transition-colors"
           >
             <Edit className="h-4 w-4" />
-            Tahrirlash
+            {t("buttons.edit")}
           </motion.button>
         )}
       </div>
@@ -838,7 +843,6 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
 
       {workshopData ? (
         <div className="space-y-6">
-          {/* Workshop name and rating */}
           <div className="flex flex-col md:flex-row gap-6">
             <div
               className="w-full md:w-1/3 relative"
@@ -848,22 +852,14 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
             >
               {isEditing && isDragging && (
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-md">
-                  <p className="text-white">Rasmni bu yerga tashlang</p>
+                  <p className="text-white">{t("virtualTours.dragDrop")}</p>
                 </div>
               )}
               {isEditing ? (
-                <div
-                  className="relative cursor-pointer"
-                  onClick={() => fileInputRef.current?.click()}
-                >
+                <div className="relative cursor-pointer" onClick={() => fileInputRef.current?.click()}>
                   <img
-                    src={
-                      imagePreview ||
-                      (workshopData.image_360
-                        ? workshopData.image_360
-                        : "/placeholder-workshop.jpg")
-                    }
-                    alt="Ustaxona"
+                    src={imagePreview || (workshopData.image_360 ? workshopData.image_360 : "/placeholder-workshop.jpg")}
+                    alt="Workshop"
                     className="w-full h-48 object-cover rounded-md"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
@@ -872,27 +868,16 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                 </div>
               ) : (
                 <img
-                  src={
-                    imagePreview ||
-                    (workshopData.image_360
-                      ? workshopData.image_360
-                      : "/placeholder-workshop.jpg")
-                  }
-                  alt="Ustaxona"
+                  src={imagePreview || (workshopData.image_360 ? workshopData.image_360 : "/placeholder-workshop.jpg")}
+                  alt="Workshop"
                   className="w-full h-48 object-cover rounded-md"
                 />
               )}
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileInputChange}
-                accept="image/*"
-                className="hidden"
-              />
+              <input type="file" ref={fileInputRef} onChange={handleFileInputChange} accept="image/*" className="hidden" />
             </div>
             <div className="flex-1">
               <div className="mb-4">
-                <label className="text-sm text-gray-500">Ustaxona nomi</label>
+                <label className="text-sm text-gray-500">{t("fields.name.label")}</label>
                 {isEditing ? (
                   <input
                     type="text"
@@ -900,7 +885,7 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                     value={editedData.name}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800 mt-1"
-                    placeholder="Ustaxona nomini kiriting"
+                    placeholder={t("fields.name.placeholder")}
                   />
                 ) : (
                   <h2 className="text-xl font-bold">{workshopData.name}</h2>
@@ -912,16 +897,13 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                     <Star
                       key={i}
                       className={`h-5 w-5 ${
-                        i < (workshopData.rating || 4.8)
-                          ? "text-yellow-400 fill-yellow-400"
-                          : "text-gray-300"
+                        i < (workshopData.rating || 4.8) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
                       }`}
                     />
                   ))}
                 </div>
                 <span className="text-gray-600">
-                  {workshopData.rating || 4.8} ({workshopData.reviews || 364}{" "}
-                  ta baho)
+                  {workshopData.rating || 4.8} ({workshopData.reviews || 364} {t("fields.reviews")})
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -933,7 +915,7 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                     value={editedData.address}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800"
-                    placeholder="Joylashuvni kiriting"
+                    placeholder={t("fields.address.placeholder")}
                   />
                 ) : (
                   <span className="text-gray-600">{workshopData.address}</span>
@@ -942,9 +924,8 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
             </div>
           </div>
 
-          {/* Bio (description) */}
           <div>
-            <label className="text-sm text-gray-500">Ustaxona haqida</label>
+            <label className="text-sm text-gray-500">{t("fields.description.label")}</label>
             {isEditing ? (
               <textarea
                 name="description"
@@ -952,16 +933,15 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                 onChange={handleInputChange}
                 className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800 mt-1"
                 rows={5}
-                placeholder="Ustaxona haqida ma'lumot kiriting"
+                placeholder={t("fields.description.placeholder")}
               />
             ) : (
               <p className="text-gray-600 mt-1">{workshopData.description}</p>
             )}
           </div>
 
-          {/* Virtual tours */}
           <div>
-            <h3 className="text-lg font-semibold mb-2">Virtual ko‘rgazmalar</h3>
+            <h3 className="text-lg font-semibold mb-2">{t("virtualTours.title")}</h3>
             {isEditing ? (
               <div className="space-y-2">
                 {virtualTours.map((tour, index) => (
@@ -977,18 +957,16 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                         {tour.preview ? (
                           <img
                             src={tour.preview}
-                            alt={`Virtual ko‘rgazma ${index + 1}`}
+                            alt={`Virtual tour ${index + 1}`}
                             className="w-full h-full object-cover rounded-md"
                           />
                         ) : (
-                          <p className="text-gray-500 text-center text-xs">
-                            Rasmni bu yerga tashlang yoki tanlang
-                          </p>
+                          <p className="text-gray-500 text-center text-xs">{t("virtualTours.placeholder")}</p>
                         )}
                       </div>
                       {isDraggingTour === index && (
                         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-md">
-                          <p className="text-white text-xs">Rasmni bu yerga tashlang</p>
+                          <p className="text-white text-xs">{t("virtualTours.dragDrop")}</p>
                         </div>
                       )}
                       <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
@@ -1021,7 +999,7 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                   className="text-red-800 hover:underline flex items-center gap-1"
                 >
                   <Plus className="h-4 w-4" />
-                  Yangi ko‘rgazma qo‘shish
+                  {t("buttons.addTour")}
                 </motion.button>
               </div>
             ) : (
@@ -1036,9 +1014,7 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                 ))}
                 {(workshopData.virtual_tours || []).length === 0 && (
                   <div className="border border-dashed border-gray-300 rounded-md p-4 text-center">
-                    <button className="text-red-800 hover:underline">
-                      Virtual ko‘rgazma qo‘shish
-                    </button>
+                    <button className="text-red-800 hover:underline">{t("virtualTours.addPrompt")}</button>
                   </div>
                 )}
               </div>
@@ -1047,44 +1023,44 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
         </div>
       ) : (
         <div className="p-8 text-center text-gray-500">
-          <p>Ustaxona ma'lumotlari mavjud emas</p>
+          <p>{t("messages.noData")}</p>
           {isEditing ? (
             <div className="space-y-4">
               <div>
-                <label className="text-sm text-gray-500">Ustaxona nomi</label>
+                <label className="text-sm text-gray-500">{t("fields.name.label")}</label>
                 <input
                   type="text"
                   name="name"
                   value={editedData.name}
                   onChange={handleInputChange}
                   className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800 mt-1"
-                  placeholder="Ustaxona nomini kiriting"
+                  placeholder={t("fields.name.placeholder")}
                 />
               </div>
               <div>
-                <label className="text-sm text-gray-500">Joylashuv</label>
+                <label className="text-sm text-gray-500">{t("fields.address.label")}</label>
                 <input
                   type="text"
                   name="address"
                   value={editedData.address}
                   onChange={handleInputChange}
                   className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800 mt-1"
-                  placeholder="Joylashuvni kiriting"
+                  placeholder={t("fields.address.placeholder")}
                 />
               </div>
               <div>
-                <label className="text-sm text-gray-500">Ustaxona haqida</label>
+                <label className="text-sm text-gray-500">{t("fields.description.label")}</label>
                 <textarea
                   name="description"
                   value={editedData.description}
                   onChange={handleInputChange}
                   className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800 mt-1"
                   rows={5}
-                  placeholder="Ustaxona haqida ma'lumot kiriting"
+                  placeholder={t("fields.description.placeholder")}
                 />
               </div>
               <div>
-                <label className="text-sm text-gray-500">Rasm yuklash</label>
+                <label className="text-sm text-gray-500">{t("image.upload")}</label>
                 <div
                   className="relative cursor-pointer mt-1"
                   onClick={() => fileInputRef.current?.click()}
@@ -1094,30 +1070,18 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                 >
                   <div className="w-full h-48 bg-gray-50 rounded-md border border-gray-300 flex items-center justify-center">
                     {imagePreview ? (
-                      <img
-                        src={imagePreview}
-                        alt="Preview"
-                        className="w-full h-full object-cover rounded-md"
-                      />
+                      <img src={imagePreview} alt="Preview" className="w-full h-full object-cover rounded-md" />
                     ) : (
-                      <p className="text-gray-500">
-                        Rasmni bu yerga tashlang yoki tanlang
-                      </p>
+                      <p className="text-gray-500">{t("image.upload")}</p>
                     )}
                   </div>
                   {isDragging && (
                     <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-md">
-                      <p className="text-white">Rasmni bu yerga tashlang</p>
+                      <p className="text-white">{t("virtualTours.dragDrop")}</p>
                     </div>
                   )}
                 </div>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleFileInputChange}
-                  accept="image/*"
-                  className="hidden"
-                />
+                <input type="file" ref={fileInputRef} onChange={handleFileInputChange} accept="image/*" className="hidden" />
               </div>
             </div>
           ) : (
@@ -1127,7 +1091,7 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
               onClick={() => setIsEditing(true)}
               className="mt-4 text-red-800 hover:underline"
             >
-              Ustaxona qo‘shish
+              {t("buttons.addWorkshop")}
             </motion.button>
           )}
         </div>
@@ -1142,7 +1106,7 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
             className="bg-gray-500 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-gray-600 transition-colors"
           >
             <X className="h-4 w-4" />
-            Bekor qilish
+            {t("buttons.cancel")}
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -1151,7 +1115,7 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
             className="bg-green-600 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-green-700 transition-colors"
           >
             <Save className="h-4 w-4" />
-            Saqlash
+            {t("buttons.save")}
           </motion.button>
         </div>
       )}
@@ -1159,68 +1123,67 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
   );
 }
 
-
-
 function ProductsContent() {
+  const t = useTranslations("profile.productsContent");
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-center">Mening mahsulotlarim</h1>
+      <h1 className="text-2xl font-bold text-center">{t("title")}</h1>
       <div className="p-8 text-center text-gray-500">
         <ShoppingBag className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-        <p>Mahsulotlar ro'yxati bu yerda ko'rsatiladi</p>
+        <p>{t("placeholder")}</p>
       </div>
     </div>
   );
 }
 
 function PaymentsContent() {
+  const t = useTranslations("profile.paymentsContent");
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-center">Tolovlar tarixi</h1>
+      <h1 className="text-2xl font-bold text-center">{t("title")}</h1>
       <div className="p-8 text-center text-gray-500">
         <Clock className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-        <p>To'lovlar tarixi bu yerda ko'rsatiladi</p>
+        <p>{t("placeholder")}</p>
       </div>
     </div>
   );
 }
 
 function StatisticsContent() {
+  const t = useTranslations("profile.statisticsContent");
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-center">Statistikalar</h1>
-      <div className="p-8 text-center text-gray-500">
-        <BarChart3 className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-        <p>Statistika ma'lumotlari bu yerda ko'rsatiladi</p>
-      </div>
+      <StatsComponent />
     </div>
   );
 }
 
 function OrdersContent() {
+  const t = useTranslations("profile.ordersContent");
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-center">Buyurmalarni boshqarish</h1>
+      <h1 className="text-2xl font-bold text-center">{t("title")}</h1>
       <div className="p-8 text-center text-gray-500">
         <Settings className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-        <p>Buyurtmalar boshqaruvi bu yerda ko'rsatiladi</p>
+        <p>{t("placeholder")}</p>
       </div>
     </div>
   );
 }
 
 function LogoutContent({ onLogout }: { onLogout: () => void }) {
+  const t = useTranslations("profile.logoutContent");
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-center">Profildan chiqish</h1>
+      <h1 className="text-2xl font-bold text-center">{t("title")}</h1>
       <div className="p-8 text-center text-gray-500">
         <LogOut className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-        <p>Hisobdan chiqish uchun tasdiqlash</p>
+        <p>{t("prompt")}</p>
         <button
           onClick={onLogout}
           className="mt-4 bg-red-800 text-white px-6 py-2 rounded-md hover:bg-red-900 transition-colors"
         >
-          Chiqishni tasdiqlash
+          {t("confirm")}
         </button>
       </div>
     </div>

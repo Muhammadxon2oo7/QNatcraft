@@ -117,6 +117,150 @@
       "changeEmail": "Change email",
       "codeResended": "Code resent"
     }
-}
+},
+  "profile": {
+    "sidebar": {
+      "profile": "My Profile",
+      "workshop": "My Workshop",
+      "products": "My Products",
+      "payments": "Payment History",
+      "statistics": "Statistics",
+      "orders": "Order Management",
+      "logout": "Log Out"
+    },
+    "breadcrumbs": {
+      "home": "Home",
+      "profile": "Profile"
+    },
+    "loading": "Loading...",
+    "noData": "No data available or you are not logged in",
+    "profileContent": {
+      "title": "My Profile",
+      "fields": {
+        "user_first_name": {
+          "label": "First Name and Last Name",
+          "errors": {
+            "first": "First name and last name are required",
+            "second": "Must consist only of letters and spaces"
+          }
+        },
+        "email": {
+          "label": "Email"
+        },
+        "phone_number": {
+          "label": "Phone Number",
+          "errors": {
+            "first": "Phone number is required",
+            "second": "Phone number must start with +998 and consist of 9 digits"
+          }
+        },
+        "address": {
+          "label": "Location",
+          "placeholder": "Select location"
+        },
+        "experience": {
+          "label": "Experience",
+          "errors": {
+            "first": "Experience is required",
+            "second": "Must consist only of numbers"
+          }
+        },
+        "mentees": {
+          "label": "Mentees",
+          "errors": {
+            "first": "Number of mentees is required",
+            "second": "Must consist only of numbers"
+          }
+        }
+      },
+      "image": {
+        "upload": "Upload an image via drag-and-drop or selection (max 5MB)",
+        "uploading": "Uploading...",
+        "errors": {
+          "size": "File size must be less than 10MB!",
+          "type": "Only image files can be uploaded!"
+        }
+      },
+      "buttons": {
+        "edit": "Edit",
+        "save": "Save"
+      },
+      "messages": {
+        "success": "Data successfully updated!",
+        "error": "An error occurred while saving the data",
+        "validationError": "Please fill all fields correctly!"
+      },
+      "dragDrop": "Drop the image here",
+      "unknown": "Unknown"
+    },
+    "workshopContent": {
+      "title": "My Workshop",
+      "buttons": {
+        "edit": "Edit",
+        "save": "Save",
+        "cancel": "Cancel",
+        "addTour": "Add New Tour",
+        "addWorkshop": "Add Workshop"
+      },
+      "fields": {
+        "name": {
+          "label": "Workshop Name",
+          "placeholder": "Enter workshop name"
+        },
+        "description": {
+          "label": "About Workshop",
+          "placeholder": "Enter information about the workshop"
+        },
+        "address": {
+          "label": "Location",
+          "placeholder": "Enter location"
+        },
+        "rating": "Rating",
+        "reviews": "reviews"
+      },
+      "virtualTours": {
+        "title": "Virtual Tours",
+        "dragDrop": "Drop the image here",
+        "placeholder": "Drop the image here or select",
+        "addPrompt": "Add virtual tour"
+      },
+      "image": {
+        "upload": "Drop the image here or select",
+        "errors": {
+          "size": "File size must be less than 10MB!",
+          "type": "Only image files can be uploaded!",
+          "tourSize": "Virtual tour {index}: File size must be less than 10MB!",
+          "tourType": "Virtual tour {index}: Only image files can be uploaded!"
+        }
+      },
+      "messages": {
+        "loading": "Loading...",
+        "noData": "Workshop data is not available",
+        "success": "Data successfully saved!",
+        "error": "An error occurred while saving the data",
+        "authError": "User is not authenticated. Please log in."
+      }
+    },
+    "productsContent": {
+      "title": "My Products",
+      "placeholder": "Product list will be displayed here"
+    },
+    "paymentsContent": {
+      "title": "Payment History",
+      "placeholder": "Payment history will be displayed here"
+    },
+    "statisticsContent": {
+      "title": "Statistics"
+    },
+    "ordersContent": {
+      "title": "Order Management",
+      "placeholder": "Order management will be displayed here"
+    },
+    "logoutContent": {
+      "title": "Log Out",
+      "prompt": "Confirm logout from your account",
+      "confirm": "Confirm Logout"
+    }
+  }
 
 }

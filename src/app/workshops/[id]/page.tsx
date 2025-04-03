@@ -120,7 +120,7 @@ export default async function CraftDetail({ params }: { params: { id: string } }
 
       <div className="flex-1 flex flex-col">
         {/* Rasm qismi */}
-        <div className="relative w-full aspect-video max-w-5xl mx-auto mb-8 rounded-lg overflow-hidden">
+        <div className="relative w-full aspect-video  mx-auto mb-8 rounded-lg overflow-hidden">
           <Image
             src={craft.image}
             alt={craft.title}
@@ -130,7 +130,7 @@ export default async function CraftDetail({ params }: { params: { id: string } }
             placeholder="blur"
             blurDataURL="/placeholder.svg"
           />
-          <Link href="/profile">
+          <Link href="/xprofile">
             <button className="absolute top-4 right-4 flex items-center gap-2 px-5 py-2 bg-red-800 text-white rounded-md hover:bg-red-900 transition-colors">
               <span>Profilga o'tish</span>
             </button>

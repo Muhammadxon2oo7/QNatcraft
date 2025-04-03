@@ -20,7 +20,7 @@ export default function LocaleSwitcher() {
 
   return (
     <Select defaultValue={locale} onValueChange={onChange} disabled={isPending} >
-      <SelectTrigger className="responsive-btn">
+      <SelectTrigger language className="responsive-btn">
         <SelectValue placeholder={t('label') || 'Theme'} />
       </SelectTrigger>
       <SelectContent className="absolute block index">

@@ -2,29 +2,37 @@
 
 import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
-import { Check, ChevronDown, ChevronUp } from "lucide-react"
+import { Check, ChevronDown, ChevronUp } from "lucide-react" // Pin ikonini qo'shdim
 import { cn } from "@/lib/utils"
 import { TranslateIcon } from "../../../public/img/header/TranslateIcon"
-
+import { Pin } from "../../../public/img/auth/Pin";
 const Select = SelectPrimitive.Root
 const SelectGroup = SelectPrimitive.Group
 const SelectValue = SelectPrimitive.Value
 
+// SelectTrigger komponentini yangilash
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & {
+    language?: boolean; // language prop qo'shildi
+    region?: boolean;  // region prop qo'shildi
+  }
+>(({ className, children, language, region, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-10 items-center gap-2 rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-base font-medium text-gray-900 shadow-sm outline-none  ",
+      "flex h-10 items-center gap-2 rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-base font-medium text-gray-900 shadow-sm outline-none",
       className
     )}
     {...props}
   >
-    {/* Language Icon */}
+    {/* Ikonka shartli ravishda ko'rsatiladi */}
     <span className="text-[#63080b]">
-      <TranslateIcon/>
+      {language ? (
+        <TranslateIcon />
+      ) : region ? (
+        <Pin/> // Region uchun Pin ikonasi
+      ) : null}
     </span>
     {children}
     <SelectPrimitive.Icon asChild>
@@ -71,7 +79,7 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex w-full  select-none cursor-pointer items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-[#63080b7d] focus:text-white  ",
+      "relative flex w-full select-none cursor-pointer items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-[#63080b7d] focus:text-white",
       className
     )}
     {...props}

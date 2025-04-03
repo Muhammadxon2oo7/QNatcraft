@@ -44,7 +44,7 @@ export default async function RootLayout({ children }: Props) {
         <meta name="algolia-site-verification"  content="6E50DF5984B38F60" />
       </head>
       
-      <body style={{ fontFamily: "'Raleway', sans-serif" }}>
+      <body style={{ fontFamily: "'Raleway', sans-serif" }} >
         <AuthProvider>
         <ClientLayout >
         <NextIntlClientProvider messages={messages}>

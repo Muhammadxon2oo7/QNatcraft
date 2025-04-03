@@ -118,6 +118,150 @@
       "changeEmail": "Emailni o‘zgartirish",
       "codeResended": "Kod qayta yuborildi"
       }
+    },
+    "profile": {
+        "sidebar": {
+          "profile": "Mening profilim",
+          "workshop": "Mening ustaxonam",
+          "products": "Mening mahsulotlarim",
+          "payments": "Tolovlar tarixi",
+          "statistics": "Statistikalar",
+          "orders": "Buyurmalarni boshqarish",
+          "logout": "Profildan chiqish"
+        },
+        "breadcrumbs": {
+          "home": "Bosh sahifa",
+          "profile": "Profile"
+        },
+        "loading": "Yuklanmoqda...",
+        "noData": "Ma'lumotlar mavjud emas yoki tizimga kirmagansiz",
+        "profileContent": {
+          "title": "Mening profilim",
+          "fields": {
+            "user_first_name": {
+              "label": "Ism familiya",
+              "errors": {
+                "first": "Ism familiya kerak",
+                "second": "Faqat harflar va bo‘shliqlardan iborat bo‘lishi kerak"
+              }
+            },
+            "email": {
+              "label": "Email"
+            },
+            "phone_number": {
+              "label": "Telefon raqam",
+              "errors": {
+                "first": "Telefon raqami kerak",
+                "second": "Telefon raqami +998 bilan boshlanib, 9 ta raqamdan iborat bo‘lishi kerak"
+              }
+            },
+            "address": {
+              "label": "Joylashuv",
+              "placeholder": "Joylashuvni tanlang"
+            },
+            "experience": {
+              "label": "Tajriba",
+              "errors": {
+                "first": "Tajriba kerak",
+                "second": "Faqat raqamlardan iborat bo‘lishi kerak"
+              }
+            },
+            "mentees": {
+              "label": "Shogirtlar",
+              "errors": {
+                "first": "Shogirtlar soni kerak",
+                "second": "Faqat raqamlardan iborat bo‘lishi kerak"
+              }
+            }
+          },
+          "image": {
+            "upload": "Drag-and-drop yoki tanlash orqali rasm yuklang (max 5MB)",
+            "uploading": "Yuklanmoqda...",
+            "errors": {
+              "size": "Fayl hajmi 10MB dan kichik bo‘lishi kerak!",
+              "type": "Faqat rasm fayllarini yuklash mumkin!"
+            }
+          },
+          "buttons": {
+            "edit": "Tahrirlash",
+            "save": "Saqlash"
+          },
+          "messages": {
+            "success": "Ma'lumotlar muvaffaqiyatli yangilandi!",
+            "error": "Ma'lumotlarni saqlashda xatolik yuz berdi",
+            "validationError": "Iltimos, barcha maydonlarni to‘g‘ri to‘ldiring!"
+          },
+          "dragDrop": "Rasmni bu yerga tashlang",
+          "unknown": "Noma'lum"
+        },
+        "workshopContent": {
+          "title": "Mening ustaxonam",
+          "buttons": {
+            "edit": "Tahrirlash",
+            "save": "Saqlash",
+            "cancel": "Bekor qilish",
+            "addTour": "Yangi ko‘rgazma qo‘shish",
+            "addWorkshop": "Ustaxona qo‘shish"
+          },
+          "fields": {
+            "name": {
+              "label": "Ustaxona nomi",
+              "placeholder": "Ustaxona nomini kiriting"
+            },
+            "description": {
+              "label": "Ustaxona haqida",
+              "placeholder": "Ustaxona haqida ma'lumot kiriting"
+            },
+            "address": {
+              "label": "Joylashuv",
+              "placeholder": "Joylashuvni kiriting"
+            },
+            "rating": "Baho",
+            "reviews": "ta baho"
+          },
+          "virtualTours": {
+            "title": "Virtual ko‘rgazmalar",
+            "dragDrop": "Rasmni bu yerga tashlang",
+            "placeholder": "Rasmni bu yerga tashlang yoki tanlang",
+            "addPrompt": "Virtual ko‘rgazma qo‘shish"
+          },
+          "image": {
+            "upload": "Rasmni bu yerga tashlang yoki tanlang",
+            "errors": {
+              "size": "Fayl hajmi 10MB dan kichik bo‘lishi kerak!",
+              "type": "Faqat rasm fayllarini yuklash mumkin!",
+              "tourSize": "Virtual ko‘rgazma {index}: Fayl hajmi 10MB dan kichik bo‘lishi kerak!",
+              "tourType": "Virtual ko‘rgazma {index}: Faqat rasm fayllarini yuklash mumkin!"
+            }
+          },
+          "messages": {
+            "loading": "Yuklanmoqda...",
+            "noData": "Ustaxona ma'lumotlari mavjud emas",
+            "success": "Ma'lumotlar muvaffaqiyatli saqlandi!",
+            "error": "Ma'lumotlarni saqlashda xatolik yuz berdi",
+            "authError": "Foydalanuvchi autentifikatsiya qilinmagan. Iltimos, tizimga kiring."
+          }
+        },
+        "productsContent": {
+          "title": "Mening mahsulotlarim",
+          "placeholder": "Mahsulotlar ro'yxati bu yerda ko'rsatiladi"
+        },
+        "paymentsContent": {
+          "title": "Tolovlar tarixi",
+          "placeholder": "To'lovlar tarixi bu yerda ko'rsatiladi"
+        },
+        "statisticsContent": {
+          "title": "Statistikalar"
+        },
+        "ordersContent": {
+          "title": "Buyurmalarni boshqarish",
+          "placeholder": "Buyurtmalar boshqaruvi bu yerda ko'rsatiladi"
+        },
+        "logoutContent": {
+          "title": "Profildan chiqish",
+          "prompt": "Hisobdan chiqish uchun tasdiqlash",
+          "confirm": "Chiqishni tasdiqlash"
+        }
     }
   }
   

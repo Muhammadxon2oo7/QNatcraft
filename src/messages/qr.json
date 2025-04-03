@@ -118,7 +118,153 @@
       "changeEmail": "Emaildi ózgertiw",
       "codeResended": "Kod qayta jiberildi"
     }
-}
+},
+
+  "profile": {
+    "sidebar": {
+      "profile": "Meniń profilim",
+      "workshop": "Meniń ustaxanam",
+      "products": "Meniń óinimderim",
+      "payments": "Tólem tarıyxı",
+      "statistics": "Statistikalar",
+      "orders": "Buyırmalardı basqarıw",
+      "logout": "Profilen shıgıw"
+    },
+    "breadcrumbs": {
+      "home": "Bas bet",
+      "profile": "Profil"
+    },
+    "loading": "Júklewde...",
+    "noData": "Málimatlar joq yamasa siz sistemaga kirmegensiz",
+    "profileContent": {
+      "title": "Meniń profilim",
+      "fields": {
+        "user_first_name": {
+          "label": "Atı familiya",
+          "errors": {
+            "first": "Atı familiya kerek",
+            "second": "Tek harplar hám bóshlıqlardan ibarat bolıwı kerek"
+          }
+        },
+        "email": {
+          "label": "Elektron pochta"
+        },
+        "phone_number": {
+          "label": "Telefon nomeri",
+          "errors": {
+            "first": "Telefon nomeri kerek",
+            "second": "Telefon nomeri +998 benen baslanıp, 9 sanlı bolıwı kerek"
+          }
+        },
+        "address": {
+          "label": "Ornalasıw",
+          "placeholder": "Ornalasıwdı saylań"
+        },
+        "experience": {
+          "label": "Tájiriyba",
+          "errors": {
+            "first": "Tájiriyba kerek",
+            "second": "Tek sanlardan ibarat bolıwı kerek"
+          }
+        },
+        "mentees": {
+          "label": "Shákirtler",
+          "errors": {
+            "first": "Shákirtler sanı kerek",
+            "second": "Tek sanlardan ibarat bolıwı kerek"
+          }
+        }
+      },
+      "image": {
+        "upload": "Drag-and-drop yamasa saylaw arqalı rásim júkleń (maksimum 5MB)",
+        "uploading": "Júklewde...",
+        "errors": {
+          "size": "Fayl kólemi 10MB dan kishi bolıwı kerek!",
+          "type": "Tek rásim faylların júklewge boladı!"
+        }
+      },
+      "buttons": {
+        "edit": "Ózgertiw",
+        "save": "Saqlaw"
+      },
+      "messages": {
+        "success": "Málimatlar tabıslı jańalandı!",
+        "error": "Málimatlardı saqlawda qátelik júz berdi",
+        "validationError": "Ótinish, barlıq maydanlardı dúrıs toltırıń!"
+      },
+      "dragDrop": "Rásimdi bul jerge tasıń",
+      "unknown": "Belgisiz"
+    },
+    "workshopContent": {
+      "title": "Meniń ustaxanam",
+      "buttons": {
+        "edit": "Ózgertiw",
+        "save": "Saqlaw",
+        "cancel": "Bolmasqa qaldırıw",
+        "addTour": "Jańa kórgizbe qosıw",
+        "addWorkshop": "Ustaxana qosıw"
+      },
+      "fields": {
+        "name": {
+          "label": "Ustaxana atı",
+          "placeholder": "Ustaxana atın kiritin"
+        },
+        "description": {
+          "label": "Ustaxana haqqında",
+          "placeholder": "Ustaxana haqqında málimat kiritin"
+        },
+        "address": {
+          "label": "Ornalasıw",
+          "placeholder": "Ornalasıwdı kiritin"
+        },
+        "rating": "Baha",
+        "reviews": "baha"
+      },
+      "virtualTours": {
+        "title": "Virtual kórgizbeler",
+        "dragDrop": "Rásimdi bul jerge tasıń",
+        "placeholder": "Rásimdi bul jerge tasıń yamasa saylań",
+        "addPrompt": "Virtual kórgizbe qosıw"
+      },
+      "image": {
+        "upload": "Rásimdi bul jerge tasıń yamasa saylań",
+        "errors": {
+          "size": "Fayl kólemi 10MB dan kishi bolıwı kerek!",
+          "type": "Tek rásim faylların júklewge boladı!",
+          "tourSize": "Virtual kórgizbe {index}: Fayl kólemi 10MB dan kishi bolıwı kerek!",
+          "tourType": "Virtual kórgizbe {index}: Tek rásim faylların júklewge boladı!"
+        }
+      },
+      "messages": {
+        "loading": "Júklewde...",
+        "noData": "Ustaxana málimatları joq",
+        "success": "Málimatlar tabıslı saqlandı!",
+        "error": "Málimatlardı saqlawda qátelik júz berdi",
+        "authError": "Paydalanıwshı autentifikatsiyalanbaǵan. Ótinish, sistemaǵa kiriń."
+      }
+    },
+    "productsContent": {
+      "title": "Meniń óinimderim",
+      "placeholder": "Óinimder dizimi bul jerde kórsetiledi"
+    },
+    "paymentsContent": {
+      "title": "Tólem tarıyxı",
+      "placeholder": "Tólem tarıyxı bul jerde kórsetiledi"
+    },
+    "statisticsContent": {
+      "title": "Statistikalar"
+    },
+    "ordersContent": {
+      "title": "Buyırmalardı basqarıw",
+      "placeholder": "Buyırmalar basqarılıwı bul jerde kórsetiledi"
+    },
+    "logoutContent": {
+      "title": "Profilen shıgıw",
+      "prompt": "Hisaptan shıgıw ushın tasdiqlaw",
+      "confirm": "Shıgıwdı tasdiqlaw"
+    }
+  }
+
 
   }
   
