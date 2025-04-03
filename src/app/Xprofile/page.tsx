@@ -549,12 +549,13 @@ interface VirtualTourItem {
 }
 
 const Panorama = ({ image, onLoad }: { image: string; onLoad: () => void }) => {
+  const t = useTranslations("profile.workshopContent"); // Hook ichida aniqlanadi
   let texture;
   try {
     texture = useTexture(image);
   } catch (err) {
     console.error(`Panorama tasvirini yuklashda xatolik (${image}):`, err);
-    return <div className="text-red-500">{t("workshopContent.messages.error")}</div>;
+    return <div className="text-red-500">{t("messages.error")}</div>;
   }
 
   useEffect(() => {
@@ -563,7 +564,7 @@ const Panorama = ({ image, onLoad }: { image: string; onLoad: () => void }) => {
 
   return (
     <Canvas style={{ width: "100%", height: "100%" }}>
-      <Suspense fallback={<div className="text-white text-center">{t("workshopContent.messages.loading")}</div>}>
+      <Suspense fallback={<div className="text-white text-center">{t("messages.loading")}</div>}>
         <mesh>
           <sphereGeometry args={[500, 60, 40]} />
           <meshBasicMaterial map={texture} side={THREE.BackSide} />
@@ -581,7 +582,6 @@ const Panorama = ({ image, onLoad }: { image: string; onLoad: () => void }) => {
     </Canvas>
   );
 };
-
 function WorkshopContent({ userData }: { userData: UserData | null }) {
   const t = useTranslations("profile.workshopContent");
   const [workshopData, setWorkshopData] = useState<WorkshopData | null>(null);
