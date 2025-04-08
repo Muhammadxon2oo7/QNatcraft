@@ -1,43 +1,45 @@
-"use client"
 // app/workshops/page.tsx
 import { HomeIcon } from "lucide-react";
-import { motion } from "framer-motion";
-import CraftCard from "@/components/workshop/CraftCard";
 import { Suspense } from "react";
 import Link from "next/link";
-import { fetchCrafts } from "@/lib/api";
+import CraftCardList from "@/components/workshop/CraftCardList";
 
-// Craft interfeysi
 interface Craft {
   id: number;
-  image: string;
-  title: string;
-  category: string;
+  name: string;
   description: string;
+  img: string;
+  address: string;
+  average_rating: number;
 }
 
-// API’dan ma’lumotlarni olish (server tarafida)
-async function getCrafts(page: number = 1, limit: number = 9, search: string = "", category: string = "") {
+async function getWorkshops() {
   try {
-    const response = await fetchCrafts({ page, limit, search, category });
-    return response;
+    const response = await fetch("https://qqrnatcraft.uz/workshop/workshops/", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    return {
+      crafts: data,
+      total: data.length,
+    };
   } catch (error) {
-    console.error("Error fetching crafts:", error);
+    console.error("Error fetching workshops:", error);
     return { crafts: [], total: 0 };
   }
 }
 
-export default async function Workshops({
-  searchParams,
-}: {
-  searchParams: { page?: string; search?: string; category?: string };
-}) {
-  const page = Number(searchParams.page) || 1;
-  const search = searchParams.search || "";
-  const category = searchParams.category || "";
+export default async function Workshops() {
+  const { crafts, total } = await getWorkshops();
   const limit = 9;
-
-  const { crafts, total } = await getCrafts(page, limit, search, category);
   const totalPages = Math.ceil(total / limit);
 
   return (
@@ -65,17 +67,10 @@ export default async function Workshops({
       {/* Craft Kartalari */}
       <Suspense fallback={<div className="text-center">Yuklanmoqda...</div>}>
         {crafts.length > 0 ? (
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-            layout
-          >
-            {crafts.map((craft) => (
-              <CraftCard key={craft.id} craft={craft} />
-            ))}
-          </motion.div>
+          <CraftCardList crafts={crafts} />
         ) : (
           <div className="text-center text-gray-500 py-12">
-            Hech qanday craft topilmadi.
+            Hech qanday workshop topilmadi.
           </div>
         )}
       </Suspense>

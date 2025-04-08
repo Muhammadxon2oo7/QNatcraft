@@ -39,13 +39,15 @@ interface UserData {
   message?: string;
   profile: ProfileData;
   user_id: number | string;
+  token: string; // Tokenni user ob'ektiga qo'shish
 }
 
 interface AuthContextType {
   user: UserData | null;
   loading: boolean;
   logout: () => void;
-  refreshUser: () => Promise<void>; // Yangi qo'shilgan refreshUser funksiyasi
+  refreshUser: () => Promise<void>;
+  getToken: () => string | null; // Token olish uchun yordamchi metod
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -68,7 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const token = getCookie("accessToken");
     if (!token) {
       setLoading(false);
-      setUser(null); // Token yo'q bo'lsa, user null qilib qo'yiladi
+      setUser(null);
       return;
     }
     try {
@@ -79,7 +81,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           Authorization: `Bearer ${token}`,
         },
       });
-      setUser(response);
+      // Tokenni user ob'ektiga qo'shamiz
+      setUser({ ...response, token });
     } catch (error) {
       console.error("Error fetching user data:", error);
       setUser(null);
@@ -88,10 +91,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // refreshUser funksiyasi qo'shildi
   const refreshUser = async () => {
-    setLoading(true); // Yangilash jarayonida yuklanish holatini ko'rsatish
-    await fetchUserData(); // Foydalanuvchi ma'lumotlarini qayta yuklash
+    setLoading(true);
+    await fetchUserData();
+  };
+
+  const getToken = (): string | null => {
+    return user?.token || null;
   };
 
   useEffect(() => {
@@ -100,11 +106,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = async () => {
     try {
+      const token = getCookie("accessToken") || "";
       await fetchWrapper(`${BACKEND_URL}/accounts/logout/`, {
         method: "POST",
         credentials: "include",
         headers: {
-          Authorization: `Bearer ${getCookie("accessToken") || ""}`,
+          Authorization: `Bearer ${token}`,
         },
       });
     } catch (error) {
@@ -125,7 +132,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, logout, refreshUser }}>
+    <AuthContext.Provider value={{ user, loading, logout, refreshUser, getToken }}>
       {children}
     </AuthContext.Provider>
   );

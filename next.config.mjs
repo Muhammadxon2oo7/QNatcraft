@@ -23,6 +23,17 @@ const nextConfig = withNextIntl()({
         hostname: 'qqrnatcraft.uz',
         pathname: '/media/profile_images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'qqrnatcraft.uz',
+        pathname: '/media/workshop_images/**', // Yangi qo'shilgan yo'l
+      },
+      {
+        protocol: 'https',
+        hostname: 'qqrnatcraft.uz',
+        pathname: '/media/360_images/**',
+      }
+      
     ],
   },
 });

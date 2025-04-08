@@ -6,13 +6,13 @@ import { Camera } from "lucide-react";
 
 interface Craft {
   id: number;
-  image: string;
+  image: string| null;
   title: string;
   category: string;
   description: string;
 }
 
-export default function CraftCard({ craft }: { craft: Craft }) {
+export default function CraftCard({ craft, }: { craft: Craft }) {
   return (
     <Link href={`/workshops/${craft.id}`} passHref>
       <motion.div

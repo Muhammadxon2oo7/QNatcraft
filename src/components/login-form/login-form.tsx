@@ -11,8 +11,6 @@ import { Mail } from "../../../public/img/auth/Mail";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-
-// Import login server action
 import { login as loginAction } from "@/services/auth/login";
 
 export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword: (value: boolean) => void }) {
@@ -30,16 +28,21 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
     try {
       const result = await loginAction(loginData);
       if (result.access && result.refresh) {
-
-        window.location.href = '/'; 
+        window.location.href = "/";
       } else {
         toast.error("Invalid login");
       }
       toast.success(tauth("login.successMessage") || "Tizimga kirish muvaffaqiyatli!");
     } catch (error: any) {
       console.log(error);
-      
       toast.error(error.message);
+    }
+  };
+
+  // Enter tugmasini bosganda submit qilish uchun funksiya
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubmit(e as any); // Formani submit qilish
     }
   };
 
@@ -50,7 +53,6 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          
           <div className="relative">
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
               <Mail />
@@ -61,6 +63,7 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
               type="text"
               value={loginData.email}
               onChange={handleInputChange}
+              onKeyDown={handleKeyDown} // Enter tugmasi uchun handler qo'shildi
               className="rounded-xl p-4 w-full pl-12 h-12 bg-[#f6f6f6]"
               required
               placeholder="Email"
@@ -68,7 +71,6 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
           </div>
         </div>
         <div className="space-y-2">
-          
           <div className="relative">
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
               <Lock />
@@ -79,6 +81,7 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
               type={showPassword ? "text" : "password"}
               value={loginData.password}
               onChange={handleInputChange}
+              onKeyDown={handleKeyDown} // Enter tugmasi uchun handler qo'shildi
               className="rounded-xl p-4 w-full pl-12 h-12 bg-[#f6f6f6]"
               placeholder="parol"
               required
@@ -90,7 +93,7 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
               className="absolute right-3 top-1/2 transform -translate-y-1/2"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <EyeOff className="h-5 w-5" /> : <OpenEye  />}
+              {showPassword ? <EyeOff className="h-5 w-5" /> : <OpenEye />}
               <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
             </Button>
           </div>
@@ -129,7 +132,7 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
         </div>
         <div className="text-center text-sm">
           <span className="text-muted-foreground">Tizimda hali yangimisiz?</span>{" "}
-          <Link href={'/register'} className="text-primary">
+          <Link href={"/register"} className="text-primary">
             Ro'yhatdan o'tish
           </Link>
         </div>

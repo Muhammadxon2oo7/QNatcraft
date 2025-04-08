@@ -24,6 +24,7 @@ const Componay = () => {
 }
 
 interface RawProductType {
+  user: number
   id: number
   category: {
     id: number
@@ -71,6 +72,7 @@ interface ProductType {
   rating?: number
   totalRatings?: number
   isFavorite?: boolean
+  user?: number // Mahsulot egasi ID sini qo'shamiz
 }
 
 export default function ProductDetail() {
@@ -88,8 +90,9 @@ export default function ProductDetail() {
   const controlsRef = useRef<HTMLDivElement>(null)
 
   const params = useParams()
-  const productId = params?.id as string | undefined
-
+  const productId = params?.id 
+  const id = Array.isArray(productId) ? productId[0] : productId;
+  const numericId = Number(id);
   useEffect(() => {
     if (!productId || typeof productId !== "string") {
       setError("Noto'g'ri mahsulot ID")
@@ -125,6 +128,7 @@ export default function ProductDetail() {
           rating: 0,
           totalRatings: 0,
           isFavorite: false,
+          user: data.user , // API dan user ID ni olish (masalan, dummy sifatida 1)
         }
         setProduct(transformedData)
       } catch (err) {
@@ -244,7 +248,8 @@ export default function ProductDetail() {
   if (error || !product) {
     return <div className="flex justify-center items-center py-20 text-red-500">{error || "Mahsulot topilmadi"}</div>
   }
-
+  console.log(product)
+  
   return (
     <div className="container mx-auto px-4 py-8">
       <nav className="flex items-center text-sm text-muted-foreground mb-6">
@@ -431,8 +436,11 @@ export default function ProductDetail() {
           </div>
 
           {/* Description */}
-          <p className="text-muted-foreground">{product.description}</p>
+          <p className="text-muted-foreground">{product.description}
 
+        
+          </p>
+              
           {/* Artisan Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -513,7 +521,7 @@ export default function ProductDetail() {
       </div>
 
  
-      <ContactDialog isOpen={isContactDialogOpen} onOpenChange={setIsContactDialogOpen} />
+      <ContactDialog isOpen={isContactDialogOpen} onOpenChange={setIsContactDialogOpen} productId={numericId}  buyerid={product.user}/>
     </div>
   )
 }

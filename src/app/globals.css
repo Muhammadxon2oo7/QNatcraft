@@ -3,6 +3,64 @@
 @tailwind utilities;
 
 
+
+@layer base {
+  b {
+    @apply font-bold;
+  }
+  i {
+    @apply italic;
+  }
+  u {
+    @apply underline;
+  }
+  mark {
+    @apply bg-yellow-200;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #d1d5db;
+    border-radius: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .highlight {
+    background-color: #e0f7fa;
+    transition: background-color 0.5s ease-out;
+  }
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #d1d5db;
+    border-radius: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .break-words {
+    word-break: break-word; /* Uzun so'zlar avtomatik ravishda pastga tushadi */
+  }
+  .whitespace-pre-wrap {
+    white-space: pre-wrap; /* Bo'shliqlar va yangi qatorlar saqlanadi */
+  }
+}
+
+
 * {
   margin: 0;
   padding: 0;
@@ -32,7 +90,21 @@ section{
   margin-bottom: 140px;
 
 }
+.noscroll{
+  scrollbar-width: 0;
+  scrollbar-base-color: transparent;
+  ::-webkit-scrollbar {
+    display: none;
+}
 
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -243,6 +315,8 @@ header{
 .separator {
   display: none;
 }
+
+
 
 
 @media only screen and (max-width: 768px) {

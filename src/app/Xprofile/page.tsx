@@ -2,21 +2,7 @@
 
 import { useState, useRef, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  BarChart3,
-  Settings,
-  LogOut,
-  Edit,
-  Clock,
-  Package,
-  ShoppingBag,
-  Save,
-  Upload,
-  Star,
-  MapPin,
-  Plus,
-  X,
-} from "lucide-react";
+import {BarChart3,Settings,LogOut,Edit,Clock,Package,ShoppingBag,Save,Upload,Star,MapPin,Plus,X,ZoomIn,ZoomOut,RotateCw,Play, Trash2,} from "lucide-react";
 import { Disciples } from '../../../public/img/profile/Disciples';
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -29,12 +15,17 @@ import { useAuth } from "../../../context/auth-context";
 import fetchWrapperClient from "@/services/fetchWrapperClient";
 import { toast } from "sonner";
 import { OrbitControls, useTexture } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import StatsComponent from "@/components/StatsComponent/StatsComponent";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { TextureLoader } from "three"; // To'g'ri import
+import VirtualTourCard from "@/components/Virtual/VirtualTourCard";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import ProductsContent from "@/components/Xprofile/ProductsContent/ProductsContent";
 
 const sidebarItems = [
   { id: "profile", icon: User },
@@ -45,14 +36,12 @@ const sidebarItems = [
   { id: "orders", icon: Settings },
   { id: "logout", icon: LogOut },
 ];
-
 interface Profession {
   id: number;
   name: string;
   created_at: string;
   updated_at: string;
 }
-
 interface ProfileData {
   id: number | string;
   user_email: string;
@@ -149,7 +138,6 @@ export default function ProfilePage() {
     </ProtectedRoute>
   );
 }
-
 function ProfileContent({ userData }: { userData: UserData | null }) {
   const t = useTranslations("profile.profileContent");
   const [isEditing, setIsEditing] = useState(false);
@@ -335,6 +323,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
                 <Upload className="h-6 w-6 text-white" />
               </div>
             )}
+          
             {isUploading && (
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
                 <span className="text-white">{t("image.uploading")}</span>
@@ -528,261 +517,160 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
   );
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+// workshop start
 interface WorkshopData {
   id?: number | string;
   name: string;
   description: string;
-  image_360?: string;
+  img: string | null;
   address: string;
-  created_at?: string;
-  updated_at?: string;
-  user?: number | string;
+  images_360?: { id: number; image_360: string }[];
   rating?: number;
   reviews?: number;
-  virtual_tours?: string[];
 }
-
 interface VirtualTourItem {
+  id?: number;
   file: File | null;
   preview: string | null;
-  url: string | null;
 }
 
-const Panorama = ({ image, onLoad }: { image: string; onLoad: () => void }) => {
-  const t = useTranslations("profile.workshopContent"); // Hook ichida aniqlanadi
-  let texture;
-  try {
-    texture = useTexture(image);
-  } catch (err) {
-    console.error(`Panorama tasvirini yuklashda xatolik (${image}):`, err);
-    return <div className="text-red-500">{t("messages.error")}</div>;
-  }
+interface UserData {
+  user_id: number | string;
+}
 
-  useEffect(() => {
-    if (texture) onLoad();
-  }, [texture, onLoad]);
-
-  return (
-    <Canvas style={{ width: "100%", height: "100%" }}>
-      <Suspense fallback={<div className="text-white text-center">{t("messages.loading")}</div>}>
-        <mesh>
-          <sphereGeometry args={[500, 60, 40]} />
-          <meshBasicMaterial map={texture} side={THREE.BackSide} />
-        </mesh>
-        <OrbitControls
-          enableZoom={true}
-          enablePan={false}
-          rotateSpeed={0.5}
-          minDistance={1}
-          maxDistance={1000}
-          autoRotate
-          autoRotateSpeed={0.5}
-        />
-      </Suspense>
-    </Canvas>
-  );
-};
-function WorkshopContent({ userData }: { userData: UserData | null }) {
+const WorkshopContent: React.FC<{ userData: UserData | null }> = ({ userData }) => {
   const t = useTranslations("profile.workshopContent");
-  const [workshopData, setWorkshopData] = useState<WorkshopData | null>(null);
+  const [workshop, setWorkshop] = useState<WorkshopData | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string>("");
-  const [successMessage, setSuccessMessage] = useState<string>("");
-  const [isDragging, setIsDragging] = useState(false);
-  const [isDraggingTour, setIsDraggingTour] = useState<number | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const tourFileInputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [editedData, setEditedData] = useState<WorkshopData>({
     name: "",
     description: "",
+    img: "",
     address: "",
-    image_360: "",
-    virtual_tours: [],
-    rating: 0,
-    reviews: 0,
+    images_360: [],
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [virtualTours, setVirtualTours] = useState<VirtualTourItem[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const tourFileInputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  useEffect(() => {
+    fetchWorkshop();
+  }, []);
 
   useEffect(() => {
     tourFileInputRefs.current = Array(virtualTours.length).fill(null);
   }, [virtualTours.length]);
 
-  useEffect(() => {
-    const fetchWorkshopData = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchWrapperClient<WorkshopData[]>("/workshop/workshops/", {
-          method: "GET",
-        });
-        if (data && data.length > 0) {
-          const workshop = data[0];
-          setWorkshopData(workshop);
-          setEditedData({
-            name: workshop.name || "",
-            description: workshop.description || "",
-            address: workshop.address || "",
-            image_360: workshop.image_360 || "",
-            virtual_tours: workshop.virtual_tours || (workshop.image_360 ? [workshop.image_360] : []),
-            rating: workshop.rating || 4.8,
-            reviews: workshop.reviews || 364,
-          });
-          if (workshop.image_360) setImagePreview(workshop.image_360);
-          if (workshop.virtual_tours) {
-            setVirtualTours(workshop.virtual_tours.map((url) => ({ file: null, preview: url, url })));
-          }
-        } else {
-          setWorkshopData(null);
-        }
-      } catch (err: any) {
-        setError(t("messages.error"));
-        console.error(err);
-      } finally {
-        setLoading(false);
+  const fetchWorkshop = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchWrapperClient<WorkshopData>("/workshop/workshops/my_workshop/", { method: "GET" });
+      if (data) {
+        setWorkshop(data);
+        setEditedData({ ...data, images_360: data.images_360 || [] });
+        setImagePreview(data.img || null);
+        setVirtualTours(
+          (data.images_360 || []).map((item) => ({
+            id: item.id,
+            file: null,
+            preview: item.image_360,
+          }))
+        );
       }
-    };
-
-    fetchWorkshopData();
-  }, []);
+    } catch (err) {
+      setError(t("messages.error"));
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setEditedData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleTourImageChange = (index: number, file?: File) => {
-    if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        setError(t("image.errors.tourSize").replace("{index}", String(index + 1)));
-        return;
-      }
-      if (!file.type.startsWith("image/")) {
-        setError(t("image.errors.tourType").replace("{index}", String(index + 1)));
-        return;
-      }
-      const updatedTours = [...virtualTours];
-      updatedTours[index] = { ...updatedTours[index], file, preview: URL.createObjectURL(file) };
-      setVirtualTours(updatedTours);
+  const handleImageChange = (file?: File) => {
+    if (!file || file.size > 10 * 1024 * 1024 || !file.type.startsWith("image/")) {
+      setError(file?.size ? t("image.errors.size") : t("image.errors.type"));
+      return;
     }
+    setImageFile(file);
+    const preview = URL.createObjectURL(file);
+    setImagePreview(preview);
+    setEditedData((prev) => ({ ...prev, img: preview }));
   };
 
-  const handleTourFileInputChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    handleTourImageChange(index, file);
-  };
-
-  const handleTourDragOver = (index: number) => (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDraggingTour(index);
-  };
-
-  const handleTourDragLeave = (index: number) => (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDraggingTour(null);
-  };
-
-  const handleTourDrop = (index: number) => (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDraggingTour(null);
-    const file = e.dataTransfer.files[0];
-    handleTourImageChange(index, file);
-  };
-
-  const addVirtualTour = () => {
-    setVirtualTours((prev) => [...prev, { file: null, preview: null, url: null }]);
-  };
-
-  const removeVirtualTour = (index: number) => {
+  const handleTourImageChange = (index: number, file?: File) => {
+    if (!file || file.size > 10 * 1024 * 1024 || !file.type.startsWith("image/")) {
+      setError(file?.size ? t("image.errors.tourSize").replace("{index}", String(index + 1)) : t("image.errors.tourType"));
+      return;
+    }
     const updatedTours = [...virtualTours];
-    updatedTours.splice(index, 1);
+    updatedTours[index] = { ...updatedTours[index], file, preview: URL.createObjectURL(file) };
     setVirtualTours(updatedTours);
   };
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const file = e.dataTransfer.files[0];
-    handleImageChange(file);
-  };
-  const handleImageChange = (file?: File) => {
-    if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        setError(t("image.errors.size"));
-        return;
-      }
-      if (!file.type.startsWith("image/")) {
-        setError(t("image.errors.type"));
-        return;
-      }
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
-  };
-
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    handleImageChange(file);
-  };
-
   const handleSave = async () => {
-    setError("");
-    setSuccessMessage("");
-
-    if (!userData || !userData.user_id) {
+    if (!userData?.user_id) {
       setError(t("messages.authError"));
-      toast.error(t("messages.authError"));
       return;
     }
-
     try {
       const formData = new FormData();
       formData.append("name", editedData.name);
       formData.append("description", editedData.description);
       formData.append("address", editedData.address);
       formData.append("user", String(userData.user_id));
-      if (imageFile) formData.append("image_360", imageFile);
-      virtualTours.forEach((tour, index) => {
-        if (tour.file) formData.append(`virtual_tours[${index}]`, tour.file);
-        else if (tour.url) formData.append(`virtual_tours[${index}]`, tour.url);
-      });
+      if (imageFile) formData.append("img", imageFile);
 
-      let updatedWorkshop;
-      if (workshopData?.id) {
-        try {
-          await fetchWrapperClient(`/workshop/workshops/${workshopData.id}/`, { method: "DELETE" });
-        } catch (deleteErr: any) {
-          console.warn("DELETE so‘rovi muvaffaqiyatsiz: ", deleteErr.message);
+      const workshopData = workshop?.id
+        ? await fetchWrapperClient<WorkshopData>(`/workshop/workshops/${workshop.id}/`, { method: "PUT", body: formData })
+        : await fetchWrapperClient<WorkshopData>("/workshop/workshops/", { method: "POST", body: formData });
+
+      for (const tour of virtualTours) {
+        if (tour.file) {
+          const tourFormData = new FormData();
+          tourFormData.append("image_360", tour.file);
+          await fetchWrapperClient(`/workshop/workshops/${workshopData.id}/add_image_360/`, {
+            method: "POST",
+            body: tourFormData,
+          });
         }
       }
 
-      updatedWorkshop = await fetchWrapperClient<WorkshopData>("/workshop/workshops/", {
-        method: "POST",
-        body: formData,
+      const updatedWorkshop = await fetchWrapperClient<WorkshopData>(`/workshop/workshops/${workshopData.id}/`, {
+        method: "GET",
       });
-
-      setWorkshopData(updatedWorkshop);
-      setIsEditing(false);
+      setWorkshop(updatedWorkshop);
+      setEditedData({ ...updatedWorkshop, images_360: updatedWorkshop.images_360 || [] });
       setImageFile(null);
-      setImagePreview(updatedWorkshop.image_360 || null);
-      setVirtualTours((updatedWorkshop.virtual_tours || []).map((url) => ({ file: null, preview: url, url })));
-      setSuccessMessage(t("messages.success"));
-      toast.success(t("messages.success"));
-      setTimeout(() => setSuccessMessage(""), 3000);
+      setImagePreview(updatedWorkshop.img || null);
+      setVirtualTours(
+        (updatedWorkshop.images_360 || []).map((item) => ({ id: item.id, file: null, preview: item.image_360 }))
+      );
+      setIsEditing(false);
+      setSuccess(t("messages.success"));
+      setTimeout(() => setSuccess(""), 3000);
     } catch (err: any) {
-      setError(`${t("messages.error")}: ${err.message || "Unknown error"}`);
-      toast.error(t("messages.error"));
+      setError(`${t("messages.error")}: ${err.message}`);
       console.error(err);
     }
   };
@@ -790,18 +678,13 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
   const handleCancel = () => {
     setIsEditing(false);
     setImageFile(null);
-    setImagePreview(workshopData?.image_360 || null);
-    setEditedData({
-      name: workshopData?.name || "",
-      description: workshopData?.description || "",
-      address: workshopData?.address || "",
-      image_360: workshopData?.image_360 || "",
-      virtual_tours: workshopData?.virtual_tours || (workshopData?.image_360 ? [workshopData.image_360] : []),
-      rating: workshopData?.rating || 4.8,
-      reviews: workshopData?.reviews || 364,
-    });
-    setVirtualTours((workshopData?.virtual_tours || []).map((url) => ({ file: null, preview: url, url })));
+    setImagePreview(workshop?.img || null);
+    setEditedData({ ...workshop, images_360: workshop?.images_360 || [] });
+    setVirtualTours((workshop?.images_360 || []).map((item) => ({ id: item.id, file: null, preview: item.image_360 })));
   };
+
+  const addVirtualTour = () => setVirtualTours((prev) => [...prev, { file: null, preview: null }]);
+  const removeVirtualTour = (index: number) => setVirtualTours((prev) => prev.filter((_, i) => i !== index));
 
   if (loading) return <div className="text-center p-8">{t("messages.loading")}</div>;
 
@@ -814,7 +697,7 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsEditing(true)}
-            className="bg-red-800 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-red-900 transition-colors"
+            className="bg-red-800 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-red-900"
           >
             <Edit className="h-4 w-4" />
             {t("buttons.edit")}
@@ -824,41 +707,35 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
 
       {error && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           className="text-red-500 text-center bg-red-50 p-3 rounded-md"
         >
           {error}
         </motion.div>
       )}
-      {successMessage && (
+      {success && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           className="text-green-600 text-center bg-green-50 p-3 rounded-md"
         >
-          {successMessage}
+          {success}
         </motion.div>
       )}
 
-      {workshopData ? (
+      {workshop ? (
         <div className="space-y-6">
           <div className="flex flex-col md:flex-row gap-6">
             <div
               className="w-full md:w-1/3 relative"
-              onDragOver={isEditing ? handleDragOver : undefined}
-              onDragLeave={isEditing ? handleDragLeave : undefined}
-              onDrop={isEditing ? handleDrop : undefined}
+              onDrop={isEditing ? (e) => handleImageChange(e.dataTransfer.files[0]) : undefined}
+              onDragOver={isEditing ? (e) => e.preventDefault() : undefined}
             >
-              {isEditing && isDragging && (
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-md">
-                  <p className="text-white">{t("virtualTours.dragDrop")}</p>
-                </div>
-              )}
               {isEditing ? (
-                <div className="relative cursor-pointer" onClick={() => fileInputRef.current?.click()}>
+                <div onClick={() => fileInputRef.current?.click()} className="cursor-pointer">
                   <img
-                    src={imagePreview || (workshopData.image_360 ? workshopData.image_360 : "/placeholder-workshop.jpg")}
+                    src={imagePreview || workshop.img || "/placeholder-workshop.jpg"}
                     alt="Workshop"
                     className="w-full h-48 object-cover rounded-md"
                   />
@@ -868,15 +745,21 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                 </div>
               ) : (
                 <img
-                  src={imagePreview || (workshopData.image_360 ? workshopData.image_360 : "/placeholder-workshop.jpg")}
+                  src={imagePreview || workshop.img || "/placeholder-workshop.jpg"}
                   alt="Workshop"
                   className="w-full h-48 object-cover rounded-md"
                 />
               )}
-              <input type="file" ref={fileInputRef} onChange={handleFileInputChange} accept="image/*" className="hidden" />
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={(e) => handleImageChange(e.target.files?.[0])}
+                accept="image/*"
+                className="hidden"
+              />
             </div>
-            <div className="flex-1">
-              <div className="mb-4">
+            <div className="flex-1 space-y-4">
+              <div>
                 <label className="text-sm text-gray-500">{t("fields.name.label")}</label>
                 {isEditing ? (
                   <input
@@ -884,26 +767,24 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                     name="name"
                     value={editedData.name}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800 mt-1"
+                    className="w-full p-3 bg-gray-50 rounded-md border focus:ring-2 focus:ring-red-800"
                     placeholder={t("fields.name.placeholder")}
                   />
                 ) : (
-                  <h2 className="text-xl font-bold">{workshopData.name}</h2>
+                  <h2 className="text-xl font-bold">{workshop.name}</h2>
                 )}
               </div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-5 w-5 ${
-                        i < (workshopData.rating || 4.8) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-                      }`}
-                    />
-                  ))}
-                </div>
+              <div className="flex items-center gap-2">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`h-5 w-5 ${
+                      i < (workshop.rating || 4.8) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+                    }`}
+                  />
+                ))}
                 <span className="text-gray-600">
-                  {workshopData.rating || 4.8} ({workshopData.reviews || 364} {t("fields.reviews")})
+                  {workshop.rating || 4.8} ({workshop.reviews || 364} {t("fields.reviews")})
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -914,11 +795,11 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                     name="address"
                     value={editedData.address}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800"
+                    className="w-full p-3 bg-gray-50 rounded-md border focus:ring-2 focus:ring-red-800"
                     placeholder={t("fields.address.placeholder")}
                   />
                 ) : (
-                  <span className="text-gray-600">{workshopData.address}</span>
+                  <span className="text-gray-600">{workshop.address}</span>
                 )}
               </div>
             </div>
@@ -931,163 +812,144 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
                 name="description"
                 value={editedData.description}
                 onChange={handleInputChange}
-                className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800 mt-1"
+                className="w-full p-3 bg-gray-50 rounded-md border focus:ring-2 focus:ring-red-800"
                 rows={5}
                 placeholder={t("fields.description.placeholder")}
               />
             ) : (
-              <p className="text-gray-600 mt-1">{workshopData.description}</p>
+              <p className="text-gray-600">{workshop.description}</p>
             )}
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-2">{t("virtualTours.title")}</h3>
-            {isEditing ? (
-              <div className="space-y-2">
-                {virtualTours.map((tour, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <div
-                      className="relative w-24 h-24 cursor-pointer"
-                      onDragOver={handleTourDragOver(index)}
-                      onDragLeave={handleTourDragLeave(index)}
-                      onDrop={handleTourDrop(index)}
-                      onClick={() => tourFileInputRefs.current[index]?.click()}
-                    >
-                      <div className="w-full h-full bg-gray-50 rounded-md border border-gray-300 flex items-center justify-center">
-                        {tour.preview ? (
-                          <img
-                            src={tour.preview}
-                            alt={`Virtual tour ${index + 1}`}
-                            className="w-full h-full object-cover rounded-md"
-                          />
-                        ) : (
-                          <p className="text-gray-500 text-center text-xs">{t("virtualTours.placeholder")}</p>
-                        )}
-                      </div>
-                      {isDraggingTour === index && (
-                        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-md">
-                          <p className="text-white text-xs">{t("virtualTours.dragDrop")}</p>
-                        </div>
-                      )}
-                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
-                        <Upload className="h-5 w-5 text-white" />
-                      </div>
-                    </div>
-                    <input
-                      type="file"
-                      ref={(el) => {
-                        tourFileInputRefs.current[index] = el;
-                      }}
-                      onChange={handleTourFileInputChange(index)}
-                      accept="image/*"
-                      className="hidden"
-                    />
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => removeVirtualTour(index)}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      <X className="h-5 w-5" />
-                    </motion.button>
-                  </div>
-                ))}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={addVirtualTour}
-                  className="text-red-800 hover:underline flex items-center gap-1"
-                >
-                  <Plus className="h-4 w-4" />
-                  {t("buttons.addTour")}
-                </motion.button>
-              </div>
-            ) : (
-              <div className="flex gap-4 flex-wrap">
-                {(workshopData.virtual_tours || []).map((tour, index) => (
-                  <div key={index} className="relative w-64 h-64">
-                    <Panorama image={tour} onLoad={() => console.log(`Panorama ${index + 1} yuklandi`)} />
-                    <button className="absolute top-1 right-1 bg-gray-200 rounded-full p-1">
-                      <span className="text-xs">3D</span>
-                    </button>
-                  </div>
-                ))}
-                {(workshopData.virtual_tours || []).length === 0 && (
-                  <div className="border border-dashed border-gray-300 rounded-md p-4 text-center">
-                    <button className="text-red-800 hover:underline">{t("virtualTours.addPrompt")}</button>
-                  </div>
-                )}
-              </div>
-            )}
+  <h3 className="text-lg font-semibold mb-2">{t("virtualTours.title")}</h3>
+  {isEditing ? (
+    <div className="space-y-2">
+      {virtualTours.map((tour, index) => (
+        <div key={index} className="flex items-center gap-2">
+          <div
+            className="relative w-24 h-24 cursor-pointer"
+            onDrop={(e) => handleTourImageChange(index, e.dataTransfer.files[0])}
+            onDragOver={(e) => e.preventDefault()}
+            onClick={() => tourFileInputRefs.current[index]?.click()}
+          >
+            <img
+              src={tour.preview || "/placeholder-tour.jpg"}
+              alt={`Tour ${index + 1}`}
+              className="w-full h-full object-cover rounded-md"
+            />
+            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+              <Upload className="h-5 w-5 text-white" />
+            </div>
           </div>
+          <input
+            type="file"
+            ref={(el) => {
+              tourFileInputRefs.current[index] = el;
+            }}
+            
+
+            onChange={(e) => handleTourImageChange(index, e.target.files?.[0])}
+            accept="image/*"
+            className="hidden"
+          />
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            onClick={() => removeVirtualTour(index)}
+            className="text-red-600 hover:text-red-800"
+          >
+            <X className="h-5 w-5" />
+          </motion.button>
+        </div>
+      ))}
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        onClick={addVirtualTour}
+        className="text-red-800 hover:underline flex items-center gap-1"
+      >
+        <Plus className="h-4 w-4" />
+        {t("buttons.addTour")}
+      </motion.button>
+    </div>
+  ) : (
+    <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-5 gap-4">
+      {(workshop?.images_360 || []).length > 0 ? (
+        workshop.images_360?.map((tour) => (
+          <VirtualTourCard key={tour.id} tour={tour.image_360} />
+        ))
+      ) : (
+        <div className="border border-dashed border-gray-300 rounded-md p-4 text-center">
+          <p className="text-gray-500">{t("virtualTours.noTours")}</p>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            onClick={() => setIsEditing(true)}
+            className="mt-2 text-red-800 hover:underline flex items-center gap-1 justify-center"
+          >
+            <Plus className="h-4 w-4" />
+            {t("buttons.addTour")}
+          </motion.button>
+        </div>
+      )}
+    </div>
+  )}
+</div>
         </div>
       ) : (
         <div className="p-8 text-center text-gray-500">
           <p>{t("messages.noData")}</p>
-          {isEditing ? (
+          {isEditing && (
             <div className="space-y-4">
-              <div>
-                <label className="text-sm text-gray-500">{t("fields.name.label")}</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={editedData.name}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800 mt-1"
-                  placeholder={t("fields.name.placeholder")}
+              <input
+                type="text"
+                name="name"
+                value={editedData.name}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-50 rounded-md border focus:ring-2 focus:ring-red-800"
+                placeholder={t("fields.name.placeholder")}
+              />
+              <input
+                type="text"
+                name="address"
+                value={editedData.address}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-50 rounded-md border focus:ring-2 focus:ring-red-800"
+                placeholder={t("fields.address.placeholder")}
+              />
+              <textarea
+                name="description"
+                value={editedData.description}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-50 rounded-md border focus:ring-2 focus:ring-red-800"
+                rows={5}
+                placeholder={t("fields.description.placeholder")}
+              />
+              <div
+                className="relative cursor-pointer"
+                onDrop={(e) => handleImageChange(e.dataTransfer.files[0])}
+                onDragOver={(e) => e.preventDefault()}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <img
+                  src={imagePreview || "/placeholder-workshop.jpg"}
+                  alt="Preview"
+                  className="w-full h-48 object-cover rounded-md"
                 />
-              </div>
-              <div>
-                <label className="text-sm text-gray-500">{t("fields.address.label")}</label>
-                <input
-                  type="text"
-                  name="address"
-                  value={editedData.address}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800 mt-1"
-                  placeholder={t("fields.address.placeholder")}
-                />
-              </div>
-              <div>
-                <label className="text-sm text-gray-500">{t("fields.description.label")}</label>
-                <textarea
-                  name="description"
-                  value={editedData.description}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800 mt-1"
-                  rows={5}
-                  placeholder={t("fields.description.placeholder")}
-                />
-              </div>
-              <div>
-                <label className="text-sm text-gray-500">{t("image.upload")}</label>
-                <div
-                  className="relative cursor-pointer mt-1"
-                  onClick={() => fileInputRef.current?.click()}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                >
-                  <div className="w-full h-48 bg-gray-50 rounded-md border border-gray-300 flex items-center justify-center">
-                    {imagePreview ? (
-                      <img src={imagePreview} alt="Preview" className="w-full h-full object-cover rounded-md" />
-                    ) : (
-                      <p className="text-gray-500">{t("image.upload")}</p>
-                    )}
-                  </div>
-                  {isDragging && (
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-md">
-                      <p className="text-white">{t("virtualTours.dragDrop")}</p>
-                    </div>
-                  )}
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                  <Upload className="h-6 w-6 text-white" />
                 </div>
-                <input type="file" ref={fileInputRef} onChange={handleFileInputChange} accept="image/*" className="hidden" />
               </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={(e) => handleImageChange(e.target.files?.[0])}
+                accept="image/*"
+                className="hidden"
+              />
             </div>
-          ) : (
+          )}
+          {!isEditing && (
             <motion.button
               whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               onClick={() => setIsEditing(true)}
               className="mt-4 text-red-800 hover:underline"
             >
@@ -1098,21 +960,19 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
       )}
 
       {isEditing && (
-        <div className="flex justify-end mt-8 gap-4">
+        <div className="flex justify-end gap-4">
           <motion.button
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
             onClick={handleCancel}
-            className="bg-gray-500 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-gray-600 transition-colors"
+            className="bg-gray-500 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-gray-600"
           >
             <X className="h-4 w-4" />
             {t("buttons.cancel")}
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
             onClick={handleSave}
-            className="bg-green-600 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-green-700 transition-colors"
+            className="bg-green-600 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-green-700"
           >
             <Save className="h-4 w-4" />
             {t("buttons.save")}
@@ -1121,20 +981,19 @@ function WorkshopContent({ userData }: { userData: UserData | null }) {
       )}
     </div>
   );
-}
+};
+// workshop end
 
-function ProductsContent() {
-  const t = useTranslations("profile.productsContent");
-  return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-center">{t("title")}</h1>
-      <div className="p-8 text-center text-gray-500">
-        <ShoppingBag className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-        <p>{t("placeholder")}</p>
-      </div>
-    </div>
-  );
-}
+
+
+
+
+
+
+
+
+
+
 
 function PaymentsContent() {
   const t = useTranslations("profile.paymentsContent");
