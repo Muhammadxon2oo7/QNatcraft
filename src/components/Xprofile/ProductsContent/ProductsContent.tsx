@@ -24,12 +24,14 @@ const SafeImage = ({
   width,
   height,
   className,
+  onClick
 }: {
   src: string;
   alt: string;
   width: number;
   height: number;
-  className?: string;
+  className?: string ;
+  onClick?: () => void; 
 }) => {
   const [imageSrc, setImageSrc] = useState(src);
   const [hasError, setHasError] = useState(false);
@@ -111,7 +113,7 @@ const ProductForm = ({
   isEdit?: boolean;
   initialData: FormData;
   categories: Category[];
-  userAddress?: string;
+  userAddress?: string | null | undefined;
   onSubmit: (data: FormData, images: File[]) => Promise<void>;
   onClose: () => void;
 }) => {
