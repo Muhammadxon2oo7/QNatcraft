@@ -1,17 +1,17 @@
 // import { motion } from "framer-motion";
+
 // import { Reply, Edit, Trash2, Smile } from "lucide-react";
 // import { Button } from "@/components/ui/button";
-// import ReadReceipt from "./ReadReceipt";
-// import { useState, useCallback } from "react";
+// import { useState, useCallback, useMemo } from "react";
 
-// interface Sender {
+// export interface Sender {
 //   id: number;
 //   email: string;
 //   first_name: string;
 //   profile: { profile_image: string };
 // }
 
-// interface Message {
+// export interface Message {
 //   id: number;
 //   sender: Sender;
 //   content?: string;
@@ -21,9 +21,10 @@
 //   isCurrentUser: boolean;
 //   is_read: boolean;
 //   reactions?: { id: number; user: Sender; reaction: string }[];
-//   reply_to?: number | { id: number; sender: Sender; content: string };
-//   isEdited?: boolean;
+//   reply_to?: { id: number; sender: Sender; content: string } | null | number;
+//   updated_at?: string;
 //   created_at: string;
+//   is_edited?: boolean;
 // }
 
 // interface MessageBubbleProps {
@@ -36,7 +37,7 @@
 //   onScrollToMessage: (id: number) => void;
 //   onImageClick: (data: { images: string[]; index: number }) => void;
 //   currentUser: number | string;
-//   messages?: Message[];
+//   messages: Message[];
 // }
 
 // const BASE_URL = "https://qqrnatcraft.uz";
@@ -56,7 +57,7 @@
 //   onScrollToMessage,
 //   onImageClick,
 //   currentUser,
-//   messages = [],
+//   messages,
 // }) => {
 //   const [isHovered, setIsHovered] = useState(false);
 //   const [showReactions, setShowReactions] = useState(false);
@@ -78,9 +79,13 @@
 //     });
 //   }, [message.images, onImageClick]);
 
-//   const replyMessage = typeof message.reply_to === "number"
-//     ? messages.find((msg) => msg.id === message.reply_to)
-//     : message.reply_to;
+//   const replyMessage = useMemo(() => {
+//     if (!message.reply_to) return null;
+//     if (typeof message.reply_to === "number") {
+//       return messages.find((msg) => msg.id === message.reply_to) || null;
+//     }
+//     return message.reply_to;
+//   }, [message.reply_to, messages]);
 
 //   return (
 //     <motion.div
@@ -97,9 +102,9 @@
 //         {replyMessage && (
 //           <div
 //             className="bg-green-100 p-2 rounded-lg text-xs text-gray-600 border-l-4 border-green-300 cursor-pointer hover:bg-green-200 mb-2 w-full"
-//             onClick={() => onScrollToMessage(typeof message.reply_to === "number" ? message.reply_to : message.reply_to!.id)}
+//             onClick={() => onScrollToMessage(replyMessage.id)}
 //           >
-//             <p className="font-medium">{replyMessage.sender?.first_name || "Noma'lum"}</p>
+//             <p className="font-medium">{replyMessage.sender.first_name}</p>
 //             <p className="truncate">{replyMessage.content || "Xabar mavjud emas"}</p>
 //           </div>
 //         )}
@@ -127,19 +132,19 @@
 //             transition={{ duration: 0.2 }}
 //           >
 //             {message.images && message.images.length > 0 && (
-//               <div className="flex flex-wrap gap-2 mb-2">
-//                 {message.images.map((img, idx) => (
-//                   <img
-//                     key={img.id}
-//                     src={getMediaUrl(img.image, "image")}
-//                     alt={`Image ${idx}`}
-//                     className="max-w-[100px] rounded-lg cursor-pointer object-cover"
-//                     onClick={() => handleImageClick(idx)}
-//                     onError={(e) => (e.currentTarget.src = PLACEHOLDER_IMAGE)}
-//                   />
-//                 ))}
-//               </div>
-//             )}
+//   <div className="flex flex-wrap gap-2 mb-2">
+//     {message.images.map((img, idx) => (
+//       <img
+//         key={img.id}
+//         src={getMediaUrl(img.image, "image")}
+//         alt={`Image ${idx}`}
+//         className="max-w-[100px] rounded-lg cursor-pointer object-cover"
+//         onClick={() => handleImageClick(idx)}
+//         onError={(e) => (e.currentTarget.src = PLACEHOLDER_IMAGE)}
+//       />
+//     ))}
+//   </div>
+// )}
 //             {message.voice && (
 //               <audio
 //                 controls
@@ -149,20 +154,15 @@
 //               />
 //             )}
 //             {message.content && (
-//               <p
-//                 className="text-sm whitespace-pre-wrap"
-//                 dangerouslySetInnerHTML={{ __html: message.content.replace(/<(b|i|u|mark)>(.*?)<\/\1>/g, "<$1>$2</$1>").replace(/<(\/?(b|i|u|mark))>/g, "") }}
-//               />
+//               <p className="text-sm whitespace-pre-wrap">{message.content}</p>
 //             )}
 //             <div className="flex justify-between items-center mt-1 text-xs">
 //               <span>
 //                 {message.time}
-//                 {message.isEdited && <span className="ml-1 text-gray-400 italic">(tahrirlandi)</span>}
+//                 {message.is_edited && <span className="ml-1 text-gray-400 italic">(tahrirlandi)</span>}
 //               </span>
-//               {message.isCurrentUser && <ReadReceipt isRead={message.is_read} />}
 //             </div>
 
-//             {/* Tugmalar gradient chiziq bilan */}
 //             {isHovered && (
 //               <motion.div
 //                 className={`absolute top-1/2 transform -translate-y-1/2 flex items-center gap-1 z-10 ${
@@ -220,7 +220,6 @@
 //               </motion.div>
 //             )}
 
-//             {/* Reaksiya tanlash oynasi */}
 //             {showReactions && (
 //               <motion.div
 //                 className={`absolute top-[-35px] flex gap-1 bg-gray-900 bg-opacity-50 p-1 rounded-full z-10 ${
@@ -270,10 +269,15 @@
 
 
 
+
+
+
+
+
 import { motion } from "framer-motion";
 import { Reply, Edit, Trash2, Smile } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 
 export interface Sender {
   id: number;
@@ -283,6 +287,7 @@ export interface Sender {
 }
 
 export interface Message {
+  highlight: boolean;
   id: number;
   sender: Sender;
   content?: string;
@@ -309,6 +314,7 @@ interface MessageBubbleProps {
   onImageClick: (data: { images: string[]; index: number }) => void;
   currentUser: number | string;
   messages: Message[];
+  highlight?: boolean; // Yangi xabar yoki reply uchun highlight
 }
 
 const BASE_URL = "https://qqrnatcraft.uz";
@@ -316,7 +322,13 @@ const PLACEHOLDER_IMAGE = "/placeholder.jpg";
 const PLACEHOLDER_AUDIO = "/placeholder-audio.mp3";
 
 const getMediaUrl = (mediaPath: string | undefined, type: "image" | "voice") =>
-  mediaPath ? (mediaPath.startsWith("http") ? mediaPath : `${BASE_URL}${mediaPath}`) : (type === "image" ? PLACEHOLDER_IMAGE : PLACEHOLDER_AUDIO);
+  mediaPath
+    ? mediaPath.startsWith("http")
+      ? mediaPath
+      : `${BASE_URL}${mediaPath}`
+    : type === "image"
+      ? PLACEHOLDER_IMAGE
+      : PLACEHOLDER_AUDIO;
 
 const MessageBubble: React.FC<MessageBubbleProps> = ({
   message,
@@ -329,34 +341,65 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   onImageClick,
   currentUser,
   messages,
+  highlight = false,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showReactions, setShowReactions] = useState(false);
+  const [isHighlighted, setIsHighlighted] = useState(highlight);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const reactionOptions = ["👍", "❤️", "😂", "😢", "😡", "🔥"];
 
-  const handleReact = useCallback((emoji: string) => {
-    onReact(message.id, emoji);
-    setShowReactions(false);
-  }, [message.id, onReact]);
+  useEffect(() => {
+    if (highlight) {
+      setIsHighlighted(true);
+      const timer = setTimeout(() => setIsHighlighted(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [highlight]);
+
+  const handleReact = useCallback(
+    (emoji: string) => {
+      onReact(message.id, emoji);
+      setShowReactions(false);
+    },
+    [message.id, onReact]
+  );
 
   const handleRemoveReaction = useCallback(() => {
     onRemoveReaction(message.id);
   }, [message.id, onRemoveReaction]);
 
-  const handleImageClick = useCallback((idx: number) => {
-    onImageClick({
-      images: message.images!.map((i) => getMediaUrl(i.image, "image")),
-      index: idx,
-    });
-  }, [message.images, onImageClick]);
+  const handleImageClick = useCallback(
+    (idx: number) => {
+      if (message.images) {
+        onImageClick({
+          images: message.images.map((i) => getMediaUrl(i.image, "image")),
+          index: idx,
+        });
+      }
+    },
+    [message.images, onImageClick]
+  );
 
   const replyMessage = useMemo(() => {
     if (!message.reply_to) return null;
     if (typeof message.reply_to === "number") {
-      return messages.find((msg) => msg.id === message.reply_to) || null;
+      const foundMessage = messages.find((msg) => msg.id === message.reply_to);
+      return foundMessage && foundMessage.sender ? foundMessage : null;
     }
-    return message.reply_to;
+    return message.reply_to && message.reply_to.sender ? message.reply_to : null;
   }, [message.reply_to, messages]);
+
+  const handleTouchEnd = useCallback(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setIsHovered(false), 2000);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   return (
     <motion.div
@@ -367,27 +410,27 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={() => setIsHovered(true)}
-      onTouchEnd={() => setTimeout(() => setIsHovered(false), 2000)}
+      onTouchEnd={handleTouchEnd}
     >
       <div className="max-w-[70%] flex flex-col items-start relative">
         {replyMessage && (
           <div
             className="bg-green-100 p-2 rounded-lg text-xs text-gray-600 border-l-4 border-green-300 cursor-pointer hover:bg-green-200 mb-2 w-full"
-            onClick={() => onScrollToMessage(replyMessage.id)}
+            onClick={() => replyMessage.id && onScrollToMessage(replyMessage.id)}
           >
-            <p className="font-medium">{replyMessage.sender.first_name}</p>
+            <p className="font-medium">{replyMessage.sender?.first_name || "Noma'lum"}</p>
             <p className="truncate">{replyMessage.content || "Xabar mavjud emas"}</p>
           </div>
         )}
         <div className="flex-1 w-full relative">
           <motion.div
-            className={`rounded-lg p-3 ${
+            className={`rounded-lg p-3 shadow w-full break-words relative ${
               message.isCurrentUser
                 ? "bg-blue-500 text-white"
                 : message.is_read
-                ? "bg-white text-gray-800"
-                : "bg-white text-gray-800"
-            } shadow w-full break-words relative`}
+                  ? "bg-white text-gray-800"
+                  : "bg-white text-gray-800"
+            } ${isHighlighted ? "border-2 border-green-400" : ""}`}
             animate={
               isHovered
                 ? {
@@ -395,27 +438,29 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                     background: message.isCurrentUser
                       ? "linear-gradient(135deg, #3B82F6, #60A5FA)"
                       : message.is_read
-                      ? "linear-gradient(135deg, #F3F4F6, #FFFFFF)"
-                      : "linear-gradient(135deg, #ff8581, #ffff)",
+                        ? "linear-gradient(135deg, #F3F4F6, #FFFFFF)"
+                        : "linear-gradient(135deg, #ff8581, #ffff)",
                   }
-                : { boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)" }
+                : isHighlighted
+                  ? { boxShadow: "0 4px 15px rgba(16, 185, 129, 0.5)" }
+                  : { boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)" }
             }
             transition={{ duration: 0.2 }}
           >
             {message.images && message.images.length > 0 && (
-  <div className="flex flex-wrap gap-2 mb-2">
-    {message.images.map((img, idx) => (
-      <img
-        key={img.id}
-        src={getMediaUrl(img.image, "image")}
-        alt={`Image ${idx}`}
-        className="max-w-[100px] rounded-lg cursor-pointer object-cover"
-        onClick={() => handleImageClick(idx)}
-        onError={(e) => (e.currentTarget.src = PLACEHOLDER_IMAGE)}
-      />
-    ))}
-  </div>
-)}
+              <div className="flex flex-wrap gap-2 mb-2">
+                {message.images.map((img, idx) => (
+                  <img
+                    key={img.id}
+                    src={getMediaUrl(img.image, "image")}
+                    alt={`Image ${idx}`}
+                    className="max-w-[100px] rounded-lg cursor-pointer object-cover"
+                    onClick={() => handleImageClick(idx)}
+                    onError={(e) => (e.currentTarget.src = PLACEHOLDER_IMAGE)}
+                  />
+                ))}
+              </div>
+            )}
             {message.voice && (
               <audio
                 controls
@@ -430,7 +475,9 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
             <div className="flex justify-between items-center mt-1 text-xs">
               <span>
                 {message.time}
-                {message.is_edited && <span className="ml-1 text-gray-400 italic">(tahrirlandi)</span>}
+                {message.is_edited && (
+                  <span className="ml-1 text-gray-400 italic">(tahrirlandi)</span>
+                )}
               </span>
             </div>
 
@@ -523,7 +570,9 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                   className={`text-sm rounded-full px-2 py-1 mr-1 cursor-pointer ${
                     reaction.user.id === currentUser ? "bg-blue-200" : "bg-gray-200"
                   }`}
-                  onClick={() => reaction.user.id === currentUser && handleRemoveReaction()}
+                  onClick={() =>
+                    reaction.user.id === currentUser && handleRemoveReaction()
+                  }
                 >
                   {reaction.reaction}
                 </span>
