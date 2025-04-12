@@ -142,13 +142,15 @@ import { useState } from "react";
 interface ContactDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  productId: number;
+  productId: number | undefined;
+  buyerid:number | undefined
 }
 
 export function ContactDialog({
   isOpen,
   onOpenChange,
   productId,
+  buyerid
 }: ContactDialogProps) {
   const router = useRouter();
   const { getToken } = useAuth();
@@ -185,7 +187,7 @@ export function ContactDialog({
       onOpenChange(false);
     } catch (error) {
       console.error("Chat boshlashda xatolik:", error);
-      alert(`Chat boshlashda xatolik: ${error.message || "Noma'lum xato"}`);
+      alert(`Chat boshlashda xatolik: ${error || "Noma'lum xato"}`);
     } finally {
       setIsLoading(false);
     }
