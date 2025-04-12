@@ -14,6 +14,7 @@ interface Profession {
 }
 
 interface ProfileData {
+  is_verified: any;
   id: number | string;
   user_email: string;
   user_first_name: string;
