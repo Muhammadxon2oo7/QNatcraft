@@ -292,7 +292,7 @@ export interface Message {
   isCurrentUser: boolean;
   is_read: boolean;
   reactions?: { id: number; user: Sender; reaction: string }[];
-  reply_to?: { id: number; sender: Sender; content: string } | null;
+  reply_to?: number | { id: number; sender: Sender; content: string } | null;
   updated_at?: string;
   created_at: string;
   is_edited?: boolean;
