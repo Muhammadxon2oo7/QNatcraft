@@ -6,7 +6,7 @@ import { Camera } from "lucide-react";
 
 interface Craft {
   id: number;
-  image: string| null;
+  image: string | 'StaticImport';
   title: string;
   category: string;
   description: string;
