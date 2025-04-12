@@ -849,14 +849,15 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useAuth } from "../../../context/auth-context";
 import { DropResult } from "react-beautiful-dnd";
 
-export interface Sender {
+
+interface Sender {
   id: number;
   email: string;
   first_name: string;
   profile: { profile_image: string };
 }
 
-export interface Message {
+interface Message {
   id: number;
   sender: Sender;
   content?: string;
@@ -871,6 +872,7 @@ export interface Message {
   created_at: string;
   is_edited?: boolean;
 }
+
 interface Contact {
   id: number;
   name: string;
@@ -949,21 +951,21 @@ const ChatPage: React.FC = () => {
         console.error("Token topilmadi");
         return;
       }
-  
+
       const websocket = new WebSocket(`wss://qqrnatcraft.uz/ws/chat/${chatId}/?token=${token}`);
-  
+
       websocket.onopen = () => {
         console.log(`WebSocket ulandi: chat/${chatId}`);
       };
-  
+
       websocket.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(`WebSocket xabari: chat/${chatId}, data=`, data); // Debugging uchun
+        console.log(`WebSocket xabari: chat/${chatId}, data=`, data);
         if (data.error) {
           console.error("WebSocket xatosi:", data.error);
           return;
         }
-      
+
         if (data.type === "chat_message") {
           const { action, message, message_id } = data;
           setChats((prev) =>
@@ -977,15 +979,15 @@ const ChatPage: React.FC = () => {
                           return [
                             ...chat.messages,
                             {
-                              ...message, // Barcha maydonlarni qo‘shish uchun
+                              ...message,
                               time: formatTime(message.created_at),
                               isCurrentUser: message.sender.id === currentUserId,
                               is_edited: !!message.is_edited,
-                              images: message.images || [], // Rasimlar qo‘shildi
-                              content: message.content || null, // Matn qo‘shildi
-                              reactions: message.reactions || [], // Reaksiyalar qo‘shildi
-                              reply_to: message.reply_to || null, // Javob qo‘shildi
-                              is_read: message.is_read || false, // O‘qilganlik statusi qo‘shildi
+                              images: message.images || [],
+                              content: message.content || null,
+                              reactions: message.reactions || [],
+                              reply_to: message.reply_to || null,
+                              is_read: message.is_read || false,
                             },
                           ];
                         case "edit":
@@ -1024,15 +1026,15 @@ const ChatPage: React.FC = () => {
           requestAnimationFrame(() => scrollToBottom());
         }
       };
-  
+
       websocket.onerror = (error) => {
         console.error("WebSocket xatosi:", error);
       };
-  
+
       websocket.onclose = (event) => {
         console.log("WebSocket yopildi:", event.code, event.reason);
       };
-  
+
       setWs(websocket);
     },
     [getToken, currentUserId]
@@ -1089,14 +1091,14 @@ const ChatPage: React.FC = () => {
   // Xabar yuborish
   const handleSendMessage = useCallback(async () => {
     if (!selectedChatId || !ws || (!inputValue.trim() && !selectedImages.length)) return;
-  
+
     if (selectedImages.length > 0) {
       const token = await getToken();
       const formData = new FormData();
       if (inputValue.trim()) formData.append("content", inputValue);
-      if (replyingTo) formData.append("reply_to", replyingTo.id.toString()); // reply_to qo‘shish
+      if (replyingTo) formData.append("reply_to", replyingTo.id.toString());
       selectedImages.forEach((img) => formData.append("images", img));
-  
+
       try {
         const response = await fetch(`https://qqrnatcraft.uz/chat/chats/${selectedChatId}/send-message/`, {
           method: "POST",
@@ -1105,7 +1107,7 @@ const ChatPage: React.FC = () => {
         });
         if (!response.ok) throw new Error("Media yuborishda xato");
         const serverMessage = await response.json();
-  
+
         ws.send(
           JSON.stringify({
             action: "sync_message",
@@ -1125,18 +1127,19 @@ const ChatPage: React.FC = () => {
         messageData.message_id = editingMessage.id;
       }
       if (replyingTo) {
-        messageData.reply_to = replyingTo.id; // reply_to qo‘shish
+        messageData.reply_to = replyingTo.id;
       }
-  
-      console.log("Yuborilayotgan xabar:", messageData); // Debugging uchun
+
+      console.log("Yuborilayotgan xabar:", messageData);
       ws.send(JSON.stringify(messageData));
     }
-  
+
     setInputValue("");
     setSelectedImages([]);
     setReplyingTo(null);
     setEditingMessage(null);
   }, [selectedChatId, ws, inputValue, selectedImages, editingMessage, replyingTo, getToken]);
+
   // Ovozli xabar
   const sendAudioMessage = useCallback(async (audioBlob: Blob) => {
     if (!selectedChatId || !ws) return;
@@ -1258,12 +1261,13 @@ const ChatPage: React.FC = () => {
   useEffect(() => {
     if (selectedChatId && !ws) {
       connectWebSocket(selectedChatId);
-      return () => {
-        if (ws instanceof WebSocket) {
-          ws.close();
-        }
-      };
     }
+
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
   }, [selectedChatId, connectWebSocket, ws]);
 
   useEffect(() => {
@@ -1280,7 +1284,6 @@ const ChatPage: React.FC = () => {
 
   const filteredMessages = useMemo(() =>
     selectedChat?.messages.filter((msg) =>
-      // Agar content mavjud bo‘lsa, qidiruvga mosligini tekshir, aks holda faqat rasimli yoki boshqa xabarni qo‘sh
       msg.content ? msg.content.toLowerCase().includes(searchQuery.toLowerCase()) : true
     ) || [], [selectedChat, searchQuery]);
 
@@ -1398,21 +1401,21 @@ const ChatPage: React.FC = () => {
                         <div className="mb-2 flex flex-wrap gap-2" {...provided.droppableProps} ref={provided.innerRef}>
                           {selectedImages.map((img, idx) => (
                             <Draggable key={idx} draggableId={`image-${idx}`} index={idx}>
-                            {(provided) => (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                style={{ ...provided.draggableProps.style }}
-                                className="relative"
-                              >
-                                <img src={URL.createObjectURL(img)} alt={`Preview ${idx}`} className="max-w-[100px] rounded-lg" />
-                                <Button variant="ghost" size="sm" onClick={() => removeImage(idx)} className="absolute top-0 right-0 p-1">
-                                  <X size={12} />
-                                </Button>
-                              </div>
-                            )}
-                          </Draggable>
+                              {(provided) => (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  style={{ ...provided.draggableProps.style }}
+                                  className="relative"
+                                >
+                                  <img src={URL.createObjectURL(img)} alt={`Preview ${idx}`} className="max-w-[100px] rounded-lg" />
+                                  <Button variant="ghost" size="sm" onClick={() => removeImage(idx)} className="absolute top-0 right-0 p-1">
+                                    <X size={12} />
+                                  </Button>
+                                </div>
+                              )}
+                            </Draggable>
                           ))}
                           {provided.placeholder}
                           <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}><Plus size={16} /></Button>
