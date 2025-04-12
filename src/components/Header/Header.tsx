@@ -158,10 +158,10 @@ export const Header = () => {
                       <ShoppingBag className="h-5 w-5" />
                       {t("sixth")}
                     </Link>
-                    <Link href="/chat" className="flex items-center gap-3">
+                    <a href="/chat" className="flex items-center gap-3">
                       <MessageCircle className="h-5 w-5" />
-                      Chat
-                    </Link>
+                      <a href="/chat">Chat</a>
+                    </a>
                     <Link href="#" className="flex items-center gap-3">
                       <Heart className="h-5 w-5" />
                       Sevimlilar
@@ -216,10 +216,12 @@ export const Header = () => {
         </div>
         <div className="flex gap-[16px] py-[28px] flex-wrap flex-grow justify-end items-center">
           <AnimatedSearchTransform />
+          <Link href='/chat'>
           <Button className="responsive-btn bg-[#f6f6f6] hover:bg-primary flex gap-[8px] text-[#242b3a] hover:text-white">
             <ChatIcon />
             <p className="responsive-text">Chat</p>
           </Button>
+          </Link>
           <Button className="responsive-btn bg-[#f6f6f6] hover:bg-primary">
             <CartIcon />
           </Button>
