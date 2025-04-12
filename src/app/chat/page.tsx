@@ -850,14 +850,14 @@ import { useAuth } from "../../../context/auth-context";
 import { DropResult } from "react-beautiful-dnd";
 
 
-interface Sender {
+export interface Sender {
   id: number;
   email: string;
   first_name: string;
   profile: { profile_image: string };
 }
 
-interface Message {
+export interface Message {
   id: number;
   sender: Sender;
   content?: string;
@@ -867,7 +867,7 @@ interface Message {
   isCurrentUser: boolean;
   is_read: boolean;
   reactions?: { id: number; user: Sender; reaction: string }[];
-  reply_to?: { id: number; sender: Sender; content: string } | null;
+  reply_to?: { id: number; sender: Sender; content: string } | null | number;
   updated_at?: string;
   created_at: string;
   is_edited?: boolean;
