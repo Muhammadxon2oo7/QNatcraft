@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useCallback, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown, ChevronUp, Check, AlertCircle, Search, X } from "lucide-react"
@@ -26,55 +25,41 @@ interface FilterSection {
 }
 
 interface FilterProps {
-  categories?: { id: number; name: string; product_count: number }[]
-  onFilterChange: (selectedCategories: number[], sortByDiscount: boolean, searchTerm?: string) => void
+  categories?: { id: string | number; name: string; product_count: number }[]
+  onFilterChange: (selectedCategories: string[], sortByDiscount: boolean, searchTerm?: string) => void
 }
 
 export default function Filter({ categories, onFilterChange }: FilterProps) {
-  // Use refs to track previous values and prevent unnecessary updates
   const prevCategoriesRef = useRef<typeof categories>()
-  const isFirstRenderRef = useRef(true)
-  const prevSelectedCategoriesRef = useRef<number[]>([])
-  const prevSortByDiscountRef = useRef(false)
-
   const [sections, setSections] = useState<FilterSection[]>([])
   const [sortByDiscount, setSortByDiscount] = useState(false)
   const [loading, setLoading] = useState(!categories)
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [isFocused, setIsFocused] = useState(false)
-
-  // Add a state to track which options are checked
   const [checkedOptions, setCheckedOptions] = useState<Record<string, boolean>>({})
 
-  // Initialize sections from categories
   useEffect(() => {
-    // Skip if categories haven't changed
     if (categories === prevCategoriesRef.current) return
-
     prevCategoriesRef.current = categories
 
     if (!categories) {
-      // If no categories provided, fetch them
       const fetchCategories = async () => {
         try {
           setLoading(true)
           setError(null)
-          const response = await fetch(`/api/categories/`)
-
+          const response = await fetch("https://qqrnatcraft.uz/api/categories/")
           if (!response.ok) {
-            throw new Error(`Failed to fetch categories: ${response.status} ${response.statusText}`)
+            throw new Error(`Failed to fetch categories: ${response.status}`)
           }
-
           const fetchedCategories = await response.json()
-
           setSections([
             {
               id: "craft-types",
               title: "Hunarmandchilik turi",
               expanded: true,
               options: fetchedCategories.map((category: any) => ({
-                id: category.id.toString(),
+                id: String(category.id),
                 label: category.name,
                 count: category.product_count || 0,
                 checked: false,
@@ -82,26 +67,24 @@ export default function Filter({ categories, onFilterChange }: FilterProps) {
             },
           ])
         } catch (error) {
-          console.error("Kategoriyalarni olishda xatolik: ", error)
-          setError("Kategoriyalarni yuklashda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.")
+          console.error("Kategoriyalarni olishda xatolik:", error)
+          setError("Kategoriyalarni yuklashda xatolik yuz berdi.")
         } finally {
           setLoading(false)
         }
       }
-
       fetchCategories()
     } else {
-      // Use provided categories
       setSections([
         {
           id: "craft-types",
           title: "Hunarmandchilik turi",
           expanded: true,
           options: categories.map((category) => ({
-            id: category.id.toString(),
+            id: String(category.id),
             label: category.name,
             count: category.product_count || 0,
-            checked: checkedOptions[category.id.toString()] || false, // Use the tracked state
+            checked: checkedOptions[String(category.id)] || false,
           })),
         },
       ])
@@ -109,113 +92,83 @@ export default function Filter({ categories, onFilterChange }: FilterProps) {
     }
   }, [categories, checkedOptions])
 
-  // Function to get selected categories
   const getSelectedCategories = useCallback(() => {
-    // Use the checkedOptions state to determine selected categories
     return Object.entries(checkedOptions)
       .filter(([_, isChecked]) => isChecked)
-      .map(([id]) => Number.parseInt(id, 10))
+      .map(([id]) => id)
   }, [checkedOptions])
 
-  // toggleSection kodining o'zi to'g'ri
   const toggleSection = useCallback((sectionId: string) => {
     setSections((prev) =>
       produce(prev, (draft) => {
         const section = draft.find((sec) => sec.id === sectionId)
         if (section) section.expanded = !section.expanded
-      }),
+      })
     )
   }, [])
 
-  // Completely rewritten toggleOption function to use the separate checkedOptions state
   const toggleOption = useCallback(
     (sectionId: string, optionId: string) => {
-      console.log(`Toggle option clicked: ${optionId}`)
-
-      // Update the checkedOptions state directly
       setCheckedOptions((prev) => {
         const newValue = !prev[optionId]
-        console.log(`Setting option ${optionId} to ${newValue}`)
-
-        // Create new state with the toggled option
         const newState = { ...prev, [optionId]: newValue }
 
-        // Update sections to reflect the new checked state
         setSections((prevSections) =>
           produce(prevSections, (draft) => {
             const section = draft.find((sec) => sec.id === sectionId)
             if (section) {
               const option = section.options.find((opt) => opt.id === optionId)
-              if (option) {
-                option.checked = newValue
-              }
+              if (option) option.checked = newValue
             }
-          }),
+          })
         )
 
-        // Calculate selected categories from the new state
         const selectedCategories = Object.entries(newState)
           .filter(([_, isChecked]) => isChecked)
-          .map(([id]) => Number.parseInt(id, 10))
+          .map(([id]) => id)
 
-        // Call onFilterChange with the updated categories and current search term
         onFilterChange(selectedCategories, sortByDiscount, searchTerm)
-
         return newState
       })
     },
-    [onFilterChange, sortByDiscount, searchTerm],
+    [onFilterChange, sortByDiscount, searchTerm]
   )
 
   const toggleDiscountFilter = useCallback(() => {
     setSortByDiscount((prev) => {
       const newValue = !prev
-      // Get current selected categories
       const selectedCategories = getSelectedCategories()
-      // Immediately call onFilterChange with the new discount value and current search term
       onFilterChange(selectedCategories, newValue, searchTerm)
       return newValue
     })
   }, [getSelectedCategories, onFilterChange, searchTerm])
 
   const clearAll = useCallback(() => {
-    // Clear the checkedOptions state
     setCheckedOptions({})
-
-    // Clear search term
     setSearchTerm("")
-
-    // Update the sections state to reflect cleared options
     setSections((prev) =>
       produce(prev, (draft) => {
         draft.forEach((section) =>
           section.options.forEach((option) => {
             option.checked = false
-          }),
+          })
         )
-      }),
+      })
     )
-
     setSortByDiscount(false)
-
-    // Call onFilterChange with empty categories and empty search
     onFilterChange([], false, "")
   }, [onFilterChange])
 
-  // Handle search input changes
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newSearchTerm = e.target.value
       setSearchTerm(newSearchTerm)
-
-      // Immediately update the filter with the new search term
       const selectedCategories = getSelectedCategories()
       onFilterChange(selectedCategories, sortByDiscount, newSearchTerm)
     },
-    [getSelectedCategories, onFilterChange, sortByDiscount],
+    [getSelectedCategories, onFilterChange, sortByDiscount]
   )
 
-  // Clear search term
   const clearSearch = useCallback(() => {
     setSearchTerm("")
     const selectedCategories = getSelectedCategories()
@@ -228,44 +181,39 @@ export default function Filter({ categories, onFilterChange }: FilterProps) {
       const selectedCategories = getSelectedCategories()
       onFilterChange(selectedCategories, sortByDiscount, searchTerm)
     },
-    [getSelectedCategories, onFilterChange, searchTerm, sortByDiscount],
+    [getSelectedCategories, onFilterChange, searchTerm, sortByDiscount]
   )
 
   const retryFetch = useCallback(() => {
-    setLoading(true)
-    setError(null)
-
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`/api/categories/`)
-
+        setLoading(true)
+        setError(null)
+        const response = await fetch("https://qqrnatcraft.uz/api/categories/")
         if (!response.ok) {
-          throw new Error(`Failed to fetch categories: ${response.status} ${response.statusText}`)
+          throw new Error(`Failed to fetch categories: ${response.status}`)
         }
-
         const fetchedCategories = await response.json()
-
         setSections([
           {
             id: "craft-types",
             title: "Hunarmandchilik turi",
             expanded: true,
             options: fetchedCategories.map((category: any) => ({
-              id: category.id.toString(),
+              id: String(category.id),
               label: category.name,
               count: category.product_count || 0,
-              checked: checkedOptions[category.id.toString()] || false, // Use tracked state
+              checked: checkedOptions[String(category.id)] || false,
             })),
           },
         ])
       } catch (error) {
-        console.error("Kategoriyalarni olishda xatolik: ", error)
-        setError("Kategoriyalarni yuklashda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.")
+        console.error("Kategoriyalarni olishda xatolik:", error)
+        setError("Kategoriyalarni yuklashda xatolik yuz berdi.")
       } finally {
         setLoading(false)
       }
     }
-
     fetchCategories()
   }, [checkedOptions])
 
@@ -296,10 +244,11 @@ export default function Filter({ categories, onFilterChange }: FilterProps) {
         </div>
       ) : (
         <div className="divide-y divide-gray-200">
-          {/* Modern search input with animation */}
           <form onSubmit={handleSearchSubmit} className="mb-[20px]">
             <div
-              className={`flex flex-wrap p-[4px] rounded-[16px] bg-[#f6f6f6] items-center justify-between transition-all duration-300 ${isFocused ? "ring-2 ring-primary/30" : ""}`}
+              className={`flex flex-wrap p-[4px] rounded-[16px] bg-[#f6f6f6] items-center justify-between transition-all duration-300 ${
+                isFocused ? "ring-2 ring-primary/30" : ""
+              }`}
             >
               <div className="flex w-full relative items-center">
                 <Input
@@ -310,7 +259,6 @@ export default function Filter({ categories, onFilterChange }: FilterProps) {
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                 />
-
                 <AnimatePresence>
                   {searchTerm && (
                     <motion.button
@@ -325,7 +273,6 @@ export default function Filter({ categories, onFilterChange }: FilterProps) {
                     </motion.button>
                   )}
                 </AnimatePresence>
-
                 <Button
                   type="submit"
                   variant="default"
@@ -344,12 +291,12 @@ export default function Filter({ categories, onFilterChange }: FilterProps) {
                 sortByDiscount ? "text-primary" : "text-gray-800"
               }`}
               aria-pressed={sortByDiscount}
-              aria-label="Eng katta chegirmali mahsulotlarni ko'rsatish"
             >
               Eng katta chegirmali
               <Check size={20} className={sortByDiscount ? "text-primary" : "invisible"} />
             </button>
           </div>
+
           {sections.map((section) => (
             <div key={section.id} className="py-4">
               <button
@@ -378,22 +325,19 @@ export default function Filter({ categories, onFilterChange }: FilterProps) {
                       <p className="text-gray-500">Hozircha mavjud emas</p>
                     ) : (
                       section.options.map((option) => {
-                        // Use the checkedOptions state to determine if this option is checked
                         const isChecked = checkedOptions[option.id] || false
-
                         return (
                           <div key={option.id} className="flex items-center space-x-3 p-[5px]">
                             <button
                               type="button"
                               onClick={() => toggleOption(section.id, option.id)}
-                              className={`h-6 w-6 border rounded flex items-center justify-center transition-all focus:outline-none  ${
+                              className={`h-6 w-6 border rounded flex items-center justify-center transition-all focus:outline-none ${
                                 isChecked
                                   ? "bg-primary border-primary focus:ring-2 focus:ring-primary"
                                   : "border-gray-300 hover:border-primary/50"
                               }`}
                               role="checkbox"
                               aria-checked={isChecked}
-                              aria-label={option.label}
                             >
                               {isChecked && <Check size={16} className="text-white" />}
                             </button>
@@ -422,4 +366,3 @@ export default function Filter({ categories, onFilterChange }: FilterProps) {
     </Card>
   )
 }
-

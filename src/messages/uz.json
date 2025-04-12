@@ -262,6 +262,43 @@
           "prompt": "Hisobdan chiqish uchun tasdiqlash",
           "confirm": "Chiqishni tasdiqlash"
         }
-    }
+    },
+    
+      "productcontent": {
+        "title": "Mening mahsulotlarim",
+        "search": "Mahsulot qidirish...",
+        "addButton": "Mahsulot qo'shish",
+        "loading": "Yuklanmoqda...",
+        "noProducts": "Mahsulotlar topilmadi",
+        "form": {
+          "addTitle": "Mahsulot qo'shish",
+          "editTitle": "Mahsulotni tahrirlash",
+          "name": "Mahsulot nomi",
+          "address": "Sizning manzilingiz",
+          "price": "Mahsulot narxi",
+          "category": "Mahsulot kategoriyasi",
+          "description": "Tavsif",
+          "images": "Rasmlar",
+          "selectImages": "Rasmlarni tanlang",
+          "cancel": "Bekor qilish",
+          "submit": "Mahsulotni tasdiqlash",
+          "loadingSubmit": "Yuklanmoqda...",
+          "errors": {
+            "name": "Mahsulot nomi bo'sh bo'lmasligi kerak",
+            "description": "Tavsif bo'sh bo'lmasligi kerak",
+            "price": "Narx to'g'ri kiritilishi kerak",
+            "address": "Manzil bo'sh bo'lmasligi kerak",
+            "category": "Kategoriya tanlanmagan",
+            "images": "Kamida bitta rasm yuklash kerak"
+          }
+        },
+        "confirmDelete": "Mahsulotni o'chirishni tasdiqlaysizmi?",
+        "successAdd": "Mahsulot qo'shildi",
+        "successEdit": "Mahsulot yangilandi",
+        "successDelete": "Mahsulot o'chirildi",
+        "error": "Xatolik yuz berdi"
+      }
+    
+    
   }
   

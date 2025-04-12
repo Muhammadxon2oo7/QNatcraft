@@ -158,7 +158,7 @@ export const Header = () => {
                       <ShoppingBag className="h-5 w-5" />
                       {t("sixth")}
                     </Link>
-                    <Link href="#" className="flex items-center gap-3">
+                    <Link href="/chat" className="flex items-center gap-3">
                       <MessageCircle className="h-5 w-5" />
                       Chat
                     </Link>

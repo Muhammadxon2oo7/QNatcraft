@@ -1,9 +1,27 @@
 "use client";
 
-import { useState, useRef, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {BarChart3,Settings,LogOut,Edit,Clock,Package,ShoppingBag,Save,Upload,Star,MapPin,Plus,X,ZoomIn,ZoomOut,RotateCw,Play, Trash2,} from "lucide-react";
-import { Disciples } from '../../../public/img/profile/Disciples';
+import {
+  BarChart3,
+  Settings,
+  LogOut,
+  Edit,
+  Clock,
+  Package,
+  ShoppingBag,
+  Save,
+  Upload,
+  Star,
+  MapPin,
+  Plus,
+  X,
+  ZoomIn,
+  ZoomOut,
+  RotateCw,
+  Play,
+  Trash2,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { User } from "../../../public/img/auth/user";
@@ -12,22 +30,20 @@ import { CartIcon } from "../../../public/img/header/CartIcon";
 import { Phone } from "../../../public/img/auth/phone";
 import { Pin } from "../../../public/img/auth/Pin";
 import { useAuth } from "../../../context/auth-context";
-import fetchWrapperClient from "@/services/fetchWrapperClient";
-import { toast } from "sonner";
-import { OrbitControls, useTexture } from "@react-three/drei";
-import { Canvas, useLoader } from "@react-three/fiber";
-import * as THREE from "three";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import StatsComponent from "@/components/StatsComponent/StatsComponent";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
-import { TextureLoader } from "three"; // To'g'ri import
-import VirtualTourCard from "@/components/Virtual/VirtualTourCard";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ProductsContent from "@/components/Xprofile/ProductsContent/ProductsContent";
+import fetchWrapperClient from "@/services/fetchWrapperClient";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import VirtualTourCard from "@/components/Virtual/VirtualTourCard";
 
-const sidebarItems = [
+interface SidebarItem {
+  id: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const sidebarItems: SidebarItem[] = [
   { id: "profile", icon: User },
   { id: "workshop", icon: CartIcon },
   { id: "products", icon: CartIcon },
@@ -36,12 +52,14 @@ const sidebarItems = [
   { id: "orders", icon: Settings },
   { id: "logout", icon: LogOut },
 ];
+
 interface Profession {
   id: number;
   name: string;
   created_at: string;
   updated_at: string;
 }
+
 interface ProfileData {
   id: number | string;
   user_email: string;
@@ -59,6 +77,7 @@ interface ProfileData {
   created_at?: string;
   updated_at?: string;
   user?: number | string;
+  is_verified: boolean;
 }
 
 interface UserData {
@@ -70,10 +89,8 @@ interface UserData {
 
 export default function ProfilePage() {
   const t = useTranslations("profile");
-  const [activeTab, setActiveTab] = useState("profile");
   const { user, loading, logout } = useAuth();
-
-  console.log("useAuth user:", user);
+  const [activeTab, setActiveTab] = useState("profile");
 
   if (loading) {
     return <div className="text-center p-8">{t("loading")}</div>;
@@ -83,6 +100,16 @@ export default function ProfilePage() {
     return <div className="text-center p-8 text-red-500">{t("noData")}</div>;
   }
 
+  // is_verified ga qarab ikkita turli UI ko'rsatamiz
+  if (!user.profile.is_verified) {
+    return (
+      <ProtectedRoute>
+        <ProfileContentSimple userData={user} />
+      </ProtectedRoute>
+    );
+  }
+
+  // Agar is_verified true bo'lsa, to'liq profil sahifasi ko'rsatiladi
   return (
     <ProtectedRoute>
       <div className="flex flex-wrap max-w-[1380px] px-[10px] mx-auto">
@@ -138,6 +165,45 @@ export default function ProfilePage() {
     </ProtectedRoute>
   );
 }
+
+// Yangi soddaroq ProfileContentSimple komponenti
+function ProfileContentSimple({ userData }: { userData: UserData }) {
+  const t = useTranslations("profile.profileContent");
+
+  return (
+    <div className="max-w-[1380px] px-[10px] mx-auto py-8">
+      <nav className="flex items-center text-sm text-muted-foreground h-[56px] mb-[70px]">
+        <Link href="/" className="hover:text-primary">
+          {t("breadcrumbs.home")}
+        </Link>
+        <span className="mx-2">/</span>
+        <span className="text-foreground">{t("breadcrumbs.profile")}</span>
+      </nav>
+
+      <div className="bg-white rounded-lg border p-6">
+        <h1 className="text-2xl font-bold mb-6">{t("title")}</h1>
+        <div className="space-y-4">
+          <div>
+            <p className="text-sm text-gray-500 mb-1">{t("fields.user_first_name.label")}</p>
+            <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
+              <User />
+              <span>{userData.profile.user_first_name}</span>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 mb-1">{t("fields.email.label")}</p>
+            <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
+              <Mail />
+              <span>{userData.email}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+// Qolgan komponentlar (ProfileContent, WorkshopContent, va boshqalar) o'zgarishsiz qoladi
+// Faqat ProfileContent va boshqa komponentlarni ushbu faylda saqlashingiz mumkin
 function ProfileContent({ userData }: { userData: UserData | null }) {
   const t = useTranslations("profile.profileContent");
   const [isEditing, setIsEditing] = useState(false);
@@ -983,17 +1049,6 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({ userData }) 
   );
 };
 // workshop end
-
-
-
-
-
-
-
-
-
-
-
 
 function PaymentsContent() {
   const t = useTranslations("profile.paymentsContent");

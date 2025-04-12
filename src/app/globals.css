@@ -122,6 +122,28 @@ div:empty, p:empty {
   display: none;
 }
 
+.chat-date {
+  display: block;
+  text-align: center;
+  margin: 10px 0;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+.pulse { animation: pulse 1.5s infinite; }
+
+.chat-date span {
+  background-color: #e5e7eb;
+  color: #4b5563;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 9999px;
+}
+
 
 @layer base {
   :root {

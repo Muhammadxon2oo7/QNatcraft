@@ -15,17 +15,11 @@ const ITEMS_PER_PAGE = 8
 interface Product {
   id: number
   name: string
-  price: number
-  discount?: number
-  category: {
-    id: number
-    name: string
-    product_count: number
-    description: string
-    image: string | null
-  }
+  price: string // API’da string sifatida kelyapti
+  discount?: string | null // API’da string yoki null
+  category: number // API’da faqat ID kelyapti
   product_images: { id: number; image: string; product: number }[]
-  threed_model?: string
+  threed_model?: string | null
   description?: string
   address?: string
   view_count?: number
@@ -45,7 +39,7 @@ export default function ProductList() {
   const [allProducts, setAllProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [selectedCategories, setSelectedCategories] = useState<number[]>([])
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [sortByDiscount, setSortByDiscount] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -94,7 +88,7 @@ export default function ProductList() {
   }, [])
 
   const handleFilterChange = useCallback(
-    (categories: number[], sortDiscount: boolean, search?: string) => {
+    (categories: string[], sortDiscount: boolean, search?: string) => {
       if (isProcessingFilterChangeRef.current) return
 
       isProcessingFilterChangeRef.current = true
@@ -120,17 +114,22 @@ export default function ProductList() {
       filtered = filtered.filter(
         (product) =>
           product.name?.toLowerCase().includes(searchLower) ||
-          product.category?.name?.toLowerCase().includes(searchLower) ||
           (product.description && product.description.toLowerCase().includes(searchLower))
       )
     }
 
     if (selectedCategories.length > 0) {
-      filtered = filtered.filter((product) => product.category?.id && selectedCategories.includes(product.category.id))
+      filtered = filtered.filter((product) =>
+        product.category !== undefined && selectedCategories.includes(String(product.category))
+      )
     }
 
     if (sortByDiscount) {
-      filtered = filtered.sort((a, b) => (b.discount || 0) - (a.discount || 0))
+      filtered = filtered.sort((a, b) => {
+        const discountA = a.discount ? parseFloat(a.discount) : 0
+        const discountB = b.discount ? parseFloat(b.discount) : 0
+        return discountB - discountA
+      })
     }
 
     return filtered
@@ -145,13 +144,16 @@ export default function ProductList() {
     }
   }, [])
 
-  const calculateOriginalPrice = useCallback((price: number, discount?: number) => {
-    if (!discount) return price
-    return Math.round(price / (1 - discount / 100))
+  const calculateOriginalPrice = useCallback((price: string, discount?: string | null) => {
+    const priceNum = parseFloat(price)
+    if (!discount) return priceNum
+    const discountNum = parseFloat(discount)
+    return Math.round(priceNum / (1 - discountNum / 100))
   }, [])
 
-  const formatPrice = useCallback((price: number) => {
-    return new Intl.NumberFormat("uz-UZ").format(price)
+  const formatPrice = useCallback((price: number | string) => {
+    const priceNum = typeof price === "string" ? parseFloat(price) : price
+    return new Intl.NumberFormat("uz-UZ").format(priceNum)
   }, [])
 
   const retryFetch = useCallback(() => {
@@ -161,11 +163,11 @@ export default function ProductList() {
         setError(null)
 
         const [categoriesResponse, productsResponse] = await Promise.all([
-          fetch("/api/categories/", {
+          fetch("https://qqrnatcraft.uz/api/categories/", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
           }),
-          fetch("/api/products/", {
+          fetch("https://qqrnatcraft.uz/api/products/", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
           }),
@@ -199,7 +201,7 @@ export default function ProductList() {
     <div className="flex flex-col max-w-[100%] md:flex-row gap-[20px] p-[20px]">
       <Filter
         categories={categories.map((cat) => ({
-          id: cat.id,
+          id: String(cat.id),
           name: cat.name,
           product_count: cat.product_count || 0,
         }))}
@@ -257,7 +259,7 @@ export default function ProductList() {
                     <div className="relative">
                       <div className="absolute top-2 left-2 z-10 flex flex-col">
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-white/90 text-gray-700">
-                          • {product.category.name}
+                          • {categories.find((cat) => cat.id === product.category)?.name || "Noma'lum"}
                         </span>
                         {product.discount && (
                           <div className="text-xs font-semibold mt-1 rounded-[46px] bg-white/90 text-gray-700 w-[74px] h-[28px] flex justify-center items-center">

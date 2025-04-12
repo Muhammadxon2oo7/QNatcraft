@@ -261,6 +261,44 @@
       "prompt": "Confirm logout from your account",
       "confirm": "Confirm Logout"
     }
-  }
+  },
+  
+  
+    "productcontent": {
+      "title": "My Products",
+      "search": "Search products...",
+      "addButton": "Add Product",
+      "loading": "Loading...",
+      "noProducts": "No products found",
+      "form": {
+        "addTitle": "Add Product",
+        "editTitle": "Edit Product",
+        "name": "Product Name",
+        "address": "Your Address",
+        "price": "Product Price",
+        "category": "Product Category",
+        "description": "Description",
+        "images": "Images",
+        "selectImages": "Select images",
+        "cancel": "Cancel",
+        "submit": "Confirm Product",
+        "loadingSubmit": "Loading...",
+        "errors": {
+          "name": "Product name cannot be empty",
+          "description": "Description cannot be empty",
+          "price": "Price must be valid",
+          "address": "Address cannot be empty",
+          "category": "Category not selected",
+          "images": "At least one image is required"
+        }
+      },
+      "confirmDelete": "Are you sure you want to delete the product?",
+      "successAdd": "Product added",
+      "successEdit": "Product updated",
+      "successDelete": "Product deleted",
+      "error": "An error occurred"
+    }
+  
+  
 
 }

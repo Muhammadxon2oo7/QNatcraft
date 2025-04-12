@@ -263,7 +263,45 @@
       "prompt": "Hisaptan shıgıw ushın tasdiqlaw",
       "confirm": "Shıgıwdı tasdiqlaw"
     }
-  }
+  },
+  
+  
+    "productcontent": {
+      "title": "Menin' o'nimlerim",
+      "search": "O'nim izlew...",
+      "addButton": "O'nim qosiw",
+      "loading": "Jukleniwde...",
+      "noProducts": "O'nimler tabılmadı",
+      "form": {
+        "addTitle": "O'nim qosiw",
+        "editTitle": "O'nimdi o'zgertiw",
+        "name": "O'nim atı",
+        "address": "Sizin' adresiniz",
+        "price": "O'nim bahası",
+        "category": "O'nim kategoriyası",
+        "description": "Tusindirme",
+        "images": "Suretler",
+        "selectImages": "Suretlerdi saylaw",
+        "cancel": "Biykar qılıw",
+        "submit": "O'nimdi tastıyıqlaw",
+        "loadingSubmit": "Jukleniwde...",
+        "errors": {
+          "name": "O'nim atı bos bolmaslıq kerek",
+          "description": "Tusindirme bos bolmaslıq kerek",
+          "price": "Baha durıs kiritiliwi kerek",
+          "address": "Adres bos bolmaslıq kerek",
+          "category": "Kategoriya saylanbadı",
+          "images": "Keminde bir suret juklew kerek"
+        }
+      },
+      "confirmDelete": "O'nimdi o'shiriwdi tastıyıqlaysiz ba?",
+      "successAdd": "O'nim qosıldı",
+      "successEdit": "O'nim jan'alandı",
+      "successDelete": "O'nim o'shirildi",
+      "error": "Qatelik payda boldı"
+    }
+  
+  
 
 
   }
