@@ -120,7 +120,33 @@
       "verifyButton": "Tastıyıqlaw",
       "changeEmail": "Emaildi ózgertiw",
       "codeResended": "Kod qayta jiberildi"
-    }
+    },
+    "login": {
+        "title": "Tizimge kiriw",
+        "fields": {
+          "email": {
+            "placeholder": "Elektron pochta"
+          },
+          "password": {
+            "placeholder": "Parol"
+          }
+        },
+        "buttons": {
+          "submit": "Kiriw",
+          "forgotPassword": "Paroldı umıttıńız ba?",
+          "showPassword": "Paroldı ko'rsetiw",
+          "hidePassword": "Paroldı jasırıw",
+          "loginWithYatt": "YaTT arqalı kiriw",
+          "loginWithStir": "STIR arqalı kiriw",
+          "register": "Registraciya"
+        },
+        "or": "Yaki",
+        "registerPrompt": "Tizimde hali jańasız ba?",
+        "successMessage": "Tizimge kiriw tabıslı boldı!",
+        "error": {
+          "invalid": "Nadurıs login"
+        }
+      }
 },
 
   "profile": {

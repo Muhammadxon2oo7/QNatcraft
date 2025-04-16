@@ -119,6 +119,32 @@
       "verifyButton": "Tasdiqlash",
       "changeEmail": "Emailni o‘zgartirish",
       "codeResended": "Kod qayta yuborildi"
+      },
+      "login": {
+        "title": "Tizimga kirish",
+        "fields": {
+          "email": {
+            "placeholder": "Email"
+          },
+          "password": {
+            "placeholder": "Parol"
+          }
+        },
+        "buttons": {
+          "submit": "Kirish",
+          "forgotPassword": "Parolni unutdingizmi?",
+          "showPassword": "Parolni ko'rsatish",
+          "hidePassword": "Parolni yashirish",
+          "loginWithYatt": "YaTT orqali kirish",
+          "loginWithStir": "STIR orqali kirish",
+          "register": "Ro'yhatdan o'tish"
+        },
+        "or": "Yoki",
+        "registerPrompt": "Tizimda hali yangimisiz?",
+        "successMessage": "Tizimga kirish muvaffaqiyatli!",
+        "error": {
+          "invalid": "Noto'g'ri login"
+        }
       }
     },
     "profile": {

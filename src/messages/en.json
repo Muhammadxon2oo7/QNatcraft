@@ -119,6 +119,32 @@
       "verifyButton": "Verify",
       "changeEmail": "Change email",
       "codeResended": "Code resent"
+    },
+    "login": {
+      "title": "Sign In",
+      "fields": {
+        "email": {
+          "placeholder": "Email"
+        },
+        "password": {
+          "placeholder": "Password"
+        }
+      },
+      "buttons": {
+        "submit": "Sign In",
+        "forgotPassword": "Forgot Password?",
+        "showPassword": "Show Password",
+        "hidePassword": "Hide Password",
+        "loginWithYatt": "Sign in with YaTT",
+        "loginWithStir": "Sign in with STIR",
+        "register": "Register"
+      },
+      "or": "Or",
+      "registerPrompt": "New to the system?",
+      "successMessage": "Login successful!",
+      "error": {
+        "invalid": "Invalid login"
+      }
     }
 },
   "profile": {

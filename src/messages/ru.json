@@ -120,7 +120,34 @@
       "verifyButton": "Подтвердить",
       "changeEmail": "Изменить email",
       "codeResended": "Код отправлен повторно"
-    }
+    },
+      "login": {
+        "title": "Вход в систему",
+        "fields": {
+          "email": {
+            "placeholder": "Электронная почта"
+          },
+          "password": {
+            "placeholder": "Пароль"
+          }
+        },
+        "buttons": {
+          "submit": "Войти",
+          "forgotPassword": "Забыли пароль?",
+          "showPassword": "Показать пароль",
+          "hidePassword": "Скрыть пароль",
+          "loginWithYatt": "Войти через YaTT",
+          "loginWithStir": "Войти через STIR",
+          "register": "Зарегистрироваться"
+        },
+        "or": "Или",
+        "registerPrompt": "Еще не зарегистрированы?",
+        "successMessage": "Вход выполнен успешно!",
+        "error": {
+          "invalid": "Неверный логин"
+        }
+      }
+    
 },
 "profile": {
     "sidebar": {
