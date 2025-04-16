@@ -190,7 +190,8 @@
           },
           "buttons": {
             "edit": "Tahrirlash",
-            "save": "Saqlash"
+            "save": "Saqlash",
+            "cancel":"Bekor qilish"
           },
           "messages": {
             "success": "Ma'lumotlar muvaffaqiyatli yangilandi!",

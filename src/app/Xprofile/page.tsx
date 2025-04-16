@@ -1341,6 +1341,7 @@
 
 "use client";
 
+
 import { useState, useEffect, Suspense, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -1441,7 +1442,6 @@ export default function ProfilePage() {
     return <div className="text-center p-8 text-red-500">{t("noData")}</div>;
   }
 
-  // is_verified ga qarab ikkita turli UI ko'rsatamiz
   if (!user.profile.is_verified) {
     return (
       <ProtectedRoute>
@@ -1450,7 +1450,6 @@ export default function ProfilePage() {
     );
   }
 
-  // Agar is_verified true bo'lsa, to'liq profil sahifasi ko'rsatiladi
   return (
     <ProtectedRoute>
       <div className="flex flex-wrap max-w-[1380px] px-[10px] mx-auto">
@@ -1507,7 +1506,6 @@ export default function ProfilePage() {
   );
 }
 
-// Yangi ProfileContentSimple komponenti
 function ProfileContentSimple({ userData }: { userData: UserData }) {
   const t = useTranslations("profile.profileContent");
   const [isEditing, setIsEditing] = useState(false);
@@ -1580,6 +1578,17 @@ function ProfileContentSimple({ userData }: { userData: UserData }) {
       setImageFile(file);
       setImagePreview(URL.createObjectURL(file));
     }
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditedData({
+      user_first_name: profileData?.user_first_name || "",
+    });
+    setInputErrors({ user_first_name: "" });
+    setImageFile(null);
+    setImagePreview(null);
+    setError("");
   };
 
   const handleSave = async () => {
@@ -1728,19 +1737,28 @@ function ProfileContentSimple({ userData }: { userData: UserData }) {
 
         <div className="flex justify-end mt-8 gap-4">
           {isEditing ? (
-            <button
-              onClick={handleSave}
-              disabled={isUploading || Object.values(inputErrors).some((err) => err !== "")}
-              className={cn(
-                "bg-green-600 text-white px-6 py-2 rounded-md flex items-center gap-2 transition-colors",
-                (isUploading || Object.values(inputErrors).some((err) => err !== ""))
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-green-700"
-              )}
-            >
-              <Save className="h-4 w-4" />
-              {t("buttons.save")}
-            </button>
+            <>
+              <button
+                onClick={handleCancel}
+                className="bg-gray-500 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-gray-600 transition-colors"
+              >
+                <X className="h-4 w-4" />
+                {t("buttons.cancel")}
+              </button>
+              <button
+                onClick={handleSave}
+                disabled={isUploading || Object.values(inputErrors).some((err) => err !== "")}
+                className={cn(
+                  "bg-green-600 text-white px-6 py-2 rounded-md flex items-center gap-2 transition-colors",
+                  (isUploading || Object.values(inputErrors).some((err) => err !== ""))
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-green-700"
+                )}
+              >
+                <Save className="h-4 w-4" />
+                {t("buttons.save")}
+              </button>
+            </>
           ) : (
             <button
               onClick={() => setIsEditing(true)}
@@ -1817,9 +1835,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setEditedData((prev) => ({ ...prev, [name]: value }));
     const errorMessage = validateInput(name, value);
@@ -1866,6 +1882,28 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
       setImageFile(file);
       setImagePreview(URL.createObjectURL(file));
     }
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditedData({
+      user_first_name: profileData?.user_first_name || "",
+      phone_number: profileData?.phone_number || "",
+      address: profileData?.address || "",
+      experience: String(profileData?.experience || ""),
+      mentees: String(profileData?.mentees || ""),
+      bio: profileData?.bio || "",
+    });
+    setInputErrors({
+      user_first_name: "",
+      phone_number: "",
+      experience: "",
+      mentees: "",
+      bio: "",
+    });
+    setImageFile(null);
+    setImagePreview(null);
+    setError("");
   };
 
   const handleSave = async () => {
@@ -1917,17 +1955,10 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
   };
 
   return (
-    <div
-      className="space-y-6 relative"
-      onDrop={handleDrop}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-    >
+    <div className="space-y-6 relative" onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave}>
       <h1 className="text-2xl font-bold mb-8">{t("title")}</h1>
       {error && <div className="text-red-500 text-center">{error}</div>}
-      {successMessage && (
-        <div className="text-green-600 text-center">{successMessage}</div>
-      )}
+      {successMessage && <div className="text-green-600 text-center">{successMessage}</div>}
       {isDragging && isEditing && (
         <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">
           <p className="text-white text-lg">{t("dragDrop")}</p>
@@ -1947,9 +1978,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
             <img
               src={
                 imagePreview ||
-                (profileData?.profile_image
-                  ? `https://qqrnatcraft.uz${profileData.profile_image}`
-                  : "/img/user.png")
+                (profileData?.profile_image ? `https://qqrnatcraft.uz${profileData.profile_image}` : "/img/user.png")
               }
               alt="Profile"
               className="w-full h-full object-cover"
@@ -1965,24 +1994,14 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
               </div>
             )}
           </div>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileInputChange}
-            className="hidden"
-            accept="image/*"
-          />
-          {isEditing && (
-            <p className="text-xs text-gray-500 mt-2">{t("image.upload")}</p>
-          )}
+          <input type="file" ref={fileInputRef} onChange={handleFileInputChange} className="hidden" accept="image/*" />
+          {isEditing && <p className="text-xs text-gray-500 mt-2">{t("image.upload")}</p>}
         </div>
 
         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <div>
-              <p className="text-sm text-gray-500 mb-1">
-                {t("fields.user_first_name.label")}
-              </p>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.user_first_name.label")}</p>
               {isEditing ? (
                 <div>
                   <input
@@ -1997,9 +2016,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
                     required
                   />
                   {inputErrors.user_first_name && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {inputErrors.user_first_name}
-                    </p>
+                    <p className="text-red-500 text-xs mt-1">{inputErrors.user_first_name}</p>
                   )}
                 </div>
               ) : (
@@ -2011,9 +2028,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
             </div>
 
             <div>
-              <p className="text-sm text-gray-500 mb-1">
-                {t("fields.email.label")}
-              </p>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.email.label")}</p>
               <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                 <Mail />
                 <span>{profileData?.user_email}</span>
@@ -2021,9 +2036,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
             </div>
 
             <div>
-              <p className="text-sm text-gray-500 mb-1">
-                {t("fields.phone_number.label")}
-              </p>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.phone_number.label")}</p>
               {isEditing ? (
                 <div>
                   <input
@@ -2038,9 +2051,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
                     required
                   />
                   {inputErrors.phone_number && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {inputErrors.phone_number}
-                    </p>
+                    <p className="text-red-500 text-xs mt-1">{inputErrors.phone_number}</p>
                   )}
                 </div>
               ) : (
@@ -2054,14 +2065,9 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
 
           <div className="space-y-4">
             <div>
-              <p className="text-sm text-gray-500 mb-1">
-                {t("fields.address.label")}
-              </p>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.address.label")}</p>
               {isEditing ? (
-                <Select
-                  value={editedData.address}
-                  onValueChange={handleSelectChange}
-                >
+                <Select value={editedData.address} onValueChange={handleSelectChange}>
                   <SelectTrigger className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800">
                     <SelectValue placeholder={t("fields.address.placeholder")} />
                   </SelectTrigger>
@@ -2092,9 +2098,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
             </div>
 
             <div>
-              <p className="text-sm text-gray-500 mb-1">
-                {t("fields.experience.label")}
-              </p>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.experience.label")}</p>
               {isEditing ? (
                 <div>
                   <input
@@ -2109,9 +2113,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
                     required
                   />
                   {inputErrors.experience && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {inputErrors.experience}
-                    </p>
+                    <p className="text-red-500 text-xs mt-1">{inputErrors.experience}</p>
                   )}
                 </div>
               ) : (
@@ -2123,9 +2125,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
             </div>
 
             <div>
-              <p className="text-sm text-gray-500 mb-1">
-                {t("fields.mentees.label")}
-              </p>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.mentees.label")}</p>
               {isEditing ? (
                 <div>
                   <input
@@ -2140,9 +2140,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
                     required
                   />
                   {inputErrors.mentees && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {inputErrors.mentees}
-                    </p>
+                    <p className="text-red-500 text-xs mt-1">{inputErrors.mentees}</p>
                   )}
                 </div>
               ) : (
@@ -2171,37 +2169,39 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
               rows={5}
               placeholder={t("Bio...")}
             />
-            {inputErrors.bio && (
-              <p className="text-red-500 text-xs mt-1">{inputErrors.bio}</p>
-            )}
+            {inputErrors.bio && <p className="text-red-500 text-xs mt-1">{inputErrors.bio}</p>}
           </div>
         ) : (
           <div className="p-3 bg-gray-50 rounded-md">
-            <p className="text-gray-600">
-              {profileData?.bio || t("fields.bio.placeholder")}
-            </p>
+            <p className="text-gray-600">{profileData?.bio || t("fields.bio.placeholder")}</p>
           </div>
         )}
       </div>
 
       <div className="flex justify-end mt-8 gap-4">
         {isEditing ? (
-          <button
-            onClick={handleSave}
-            disabled={
-              isUploading || Object.values(inputErrors).some((err) => err !== "")
-            }
-            className={cn(
-              "bg-green-600 text-white px-6 py-2 rounded-md flex items-center gap-2 transition-colors",
-              isUploading ||
-              Object.values(inputErrors).some((err) => err !== "")
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-green-700"
-            )}
-          >
-            <Save className="h-4 w-4" />
-            {t("buttons.save")}
-          </button>
+          <>
+            <button
+              onClick={handleCancel}
+              className="bg-gray-500 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-gray-600 transition-colors"
+            >
+              <X className="h-4 w-4" />
+              {t("buttons.cancel")}
+            </button>
+            <button
+              onClick={handleSave}
+              disabled={isUploading || Object.values(inputErrors).some((err) => err !== "")}
+              className={cn(
+                "bg-green-600 text-white px-6 py-2 rounded-md flex items-center gap-2 transition-colors",
+                (isUploading || Object.values(inputErrors).some((err) => err !== ""))
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-green-700"
+              )}
+            >
+              <Save className="h-4 w-4" />
+              {t("buttons.save")}
+            </button>
+          </>
         ) : (
           <button
             onClick={() => setIsEditing(true)}
@@ -2237,9 +2237,7 @@ interface UserData {
   user_id: number | string;
 }
 
-const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
-  userData,
-}) => {
+const WorkshopContent: React.FC<{ userData: UserData | null }> = ({ userData }) => {
   const t = useTranslations("profile.workshopContent");
   const [workshop, setWorkshop] = useState<WorkshopData | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -2270,10 +2268,7 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
   const fetchWorkshop = async () => {
     setLoading(true);
     try {
-      const data = await fetchWrapperClient<WorkshopData>(
-        "/workshop/workshops/my_workshop/",
-        { method: "GET" }
-      );
+      const data = await fetchWrapperClient<WorkshopData>("/workshop/workshops/my_workshop/", { method: "GET" });
       if (data) {
         setWorkshop(data);
         setEditedData({ ...data, images_360: data.images_360 || [] });
@@ -2289,18 +2284,14 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
         setError(t("messages.noData"));
       }
     } catch (err: any) {
-      setError(
-        t("messages.error") + (err.message ? `: ${err.message}` : "")
-      );
+      setError(t("messages.error") + (err.message ? `: ${err.message}` : ""));
       console.error("Fetch workshop error:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setEditedData((prev) => ({ ...prev, [name]: value }));
   };
@@ -2317,24 +2308,12 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
   };
 
   const handleTourImageChange = (index: number, file?: File) => {
-    if (
-      !file ||
-      file.size > 10 * 1024 * 1024 ||
-      !file.type.startsWith("image/")
-    ) {
-      setError(
-        file?.size
-          ? t("image.errors.tourSize").replace("{index}", String(index + 1))
-          : t("image.errors.tourType")
-      );
+    if (!file || file.size > 10 * 1024 * 1024 || !file.type.startsWith("image/")) {
+      setError(file?.size ? t("image.errors.tourSize").replace("{index}", String(index + 1)) : t("image.errors.tourType"));
       return;
     }
     const updatedTours = [...virtualTours];
-    updatedTours[index] = {
-      ...updatedTours[index],
-      file,
-      preview: URL.createObjectURL(file),
-    };
+    updatedTours[index] = { ...updatedTours[index], file, preview: URL.createObjectURL(file) };
     setVirtualTours(updatedTours);
   };
 
@@ -2352,56 +2331,35 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
       if (imageFile) formData.append("img", imageFile);
 
       const workshopData = workshop?.id
-        ? await fetchWrapperClient<WorkshopData>(
-            `/workshop/workshops/${workshop.id}/`,
-            { method: "PUT", body: formData }
-          )
-        : await fetchWrapperClient<WorkshopData>("/workshop/workshops/", {
-            method: "POST",
-            body: formData,
-          });
+        ? await fetchWrapperClient<WorkshopData>(`/workshop/workshops/${workshop.id}/`, { method: "PUT", body: formData })
+        : await fetchWrapperClient<WorkshopData>("/workshop/workshops/", { method: "POST", body: formData });
 
       for (const tour of virtualTours) {
         if (tour.file) {
           const tourFormData = new FormData();
           tourFormData.append("image_360", tour.file);
-          await fetchWrapperClient(
-            `/workshop/workshops/${workshopData.id}/add_image_360/`,
-            {
-              method: "POST",
-              body: tourFormData,
-            }
-          );
+          await fetchWrapperClient(`/workshop/workshops/${workshopData.id}/add_image_360/`, {
+            method: "POST",
+            body: tourFormData,
+          });
         }
       }
 
-      const updatedWorkshop = await fetchWrapperClient<WorkshopData>(
-        `/workshop/workshops/${workshopData.id}/`,
-        {
-          method: "GET",
-        }
-      );
-      setWorkshop(updatedWorkshop);
-      setEditedData({
-        ...updatedWorkshop,
-        images_360: updatedWorkshop.images_360 || [],
+      const updatedWorkshop = await fetchWrapperClient<WorkshopData>(`/workshop/workshops/${workshopData.id}/`, {
+        method: "GET",
       });
+      setWorkshop(updatedWorkshop);
+      setEditedData({ ...updatedWorkshop, images_360: updatedWorkshop.images_360 || [] });
       setImageFile(null);
       setImagePreview(updatedWorkshop.img || null);
       setVirtualTours(
-        (updatedWorkshop.images_360 || []).map((item) => ({
-          id: item.id,
-          file: null,
-          preview: item.image_360,
-        }))
+        (updatedWorkshop.images_360 || []).map((item) => ({ id: item.id, file: null, preview: item.image_360 }))
       );
       setIsEditing(false);
       setSuccess(t("messages.success"));
       setTimeout(() => setSuccess(""), 3000);
     } catch (err: any) {
-      setError(
-        `${t("messages.error")}: ${err.message || "Unknown error"}`
-      );
+      setError(`${t("messages.error")}: ${err.message || "Unknown error"}`);
       console.error("Save workshop error:", err);
     }
   };
@@ -2410,8 +2368,7 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
     setIsEditing(false);
     setImageFile(null);
     setImagePreview(workshop?.img || null);
-
-    const defaultWorkshop: WorkshopData = {
+    setEditedData({
       id: workshop?.id || "",
       name: workshop?.name || "",
       description: workshop?.description || "",
@@ -2420,9 +2377,7 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
       images_360: workshop?.images_360 || [],
       rating: workshop?.rating || 0,
       reviews: workshop?.reviews || 0,
-    };
-
-    setEditedData(defaultWorkshop);
+    });
     setVirtualTours(
       (workshop?.images_360 || []).map((item) => ({
         id: item.id,
@@ -2430,12 +2385,11 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
         preview: item.image_360,
       }))
     );
+    setError("");
   };
 
-  const addVirtualTour = () =>
-    setVirtualTours((prev) => [...prev, { file: null, preview: null }]);
-  const removeVirtualTour = (index: number) =>
-    setVirtualTours((prev) => prev.filter((_, i) => i !== index));
+  const addVirtualTour = () => setVirtualTours((prev) => [...prev, { file: null, preview: null }]);
+  const removeVirtualTour = (index: number) => setVirtualTours((prev) => prev.filter((_, i) => i !== index));
 
   if (loading) return <div className="text-center p-8">{t("messages.loading")}</div>;
 
@@ -2480,24 +2434,13 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
           <div className="flex flex-col md:flex-row gap-6">
             <div
               className="w-full md:w-1/3 relative"
-              onDrop={
-                isEditing
-                  ? (e) => handleImageChange(e.dataTransfer.files[0])
-                  : undefined
-              }
+              onDrop={isEditing ? (e) => handleImageChange(e.dataTransfer.files[0]) : undefined}
               onDragOver={isEditing ? (e) => e.preventDefault() : undefined}
             >
               {isEditing ? (
-                <div
-                  onClick={() => fileInputRef.current?.click()}
-                  className="cursor-pointer"
-                >
+                <div onClick={() => fileInputRef.current?.click()} className="cursor-pointer">
                   <img
-                    src={
-                      imagePreview ||
-                      workshop.img ||
-                      "/placeholder-workshop.jpg"
-                    }
+                    src={imagePreview || workshop.img || "/placeholder-workshop.jpg"}
                     alt="Workshop"
                     className="w-full h-48 object-cover rounded-md"
                   />
@@ -2507,11 +2450,7 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
                 </div>
               ) : (
                 <img
-                  src={
-                    imagePreview ||
-                    workshop.img ||
-                    "/placeholder-workshop.jpg"
-                  }
+                  src={imagePreview || workshop.img || "/placeholder-workshop.jpg"}
                   alt="Workshop"
                   className="w-full h-48 object-cover rounded-md"
                 />
@@ -2526,9 +2465,7 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
             </div>
             <div className="flex-1 space-y-4">
               <div>
-                <label className="text-sm text-gray-500">
-                  {t("fields.name.label")}
-                </label>
+                <label className="text-sm text-gray-500">{t("fields.name.label")}</label>
                 {isEditing ? (
                   <input
                     type="text"
@@ -2547,15 +2484,12 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
                   <Star
                     key={i}
                     className={`h-5 w-5 ${
-                      i < (workshop?.rating ?? 4.8)
-                        ? "text-yellow-400 fill-yellow-400"
-                        : "text-gray-300"
+                      i < (workshop?.rating ?? 4.8) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
                     }`}
                   />
                 ))}
                 <span className="text-gray-600">
-                  {workshop?.rating ?? 4.8} ({workshop?.reviews ?? 364}{" "}
-                  {t("fields.reviews")})
+                  {workshop?.rating ?? 4.8} ({workshop?.reviews ?? 364} {t("fields.reviews")})
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -2577,9 +2511,7 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
           </div>
 
           <div>
-            <label className="text-sm text-gray-500">
-              {t("fields.description.label")}
-            </label>
+            <label className="text-sm text-gray-500">{t("fields.description.label")}</label>
             {isEditing ? (
               <textarea
                 name="description"
@@ -2595,22 +2527,16 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-2">
-              {t("virtualTours.title")}
-            </h3>
+            <h3 className="text-lg font-semibold mb-2">{t("virtualTours.title")}</h3>
             {isEditing ? (
               <div className="space-y-2">
                 {virtualTours.map((tour, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <div
                       className="relative w-24 h-24 cursor-pointer"
-                      onDrop={(e) =>
-                        handleTourImageChange(index, e.dataTransfer.files[0])
-                      }
+                      onDrop={(e) => handleTourImageChange(index, e.dataTransfer.files[0])}
                       onDragOver={(e) => e.preventDefault()}
-                      onClick={() =>
-                        tourFileInputRefs.current[index]?.click()
-                      }
+                      onClick={() => tourFileInputRefs.current[index]?.click()}
                     >
                       <img
                         src={tour.preview || "/placeholder-tour.jpg"}
@@ -2626,9 +2552,7 @@ const WorkshopContent: React.FC<{ userData: UserData | null }> = ({
                       ref={(el) => {
                         tourFileInputRefs.current[index] = el;
                       }}
-                      onChange={(e) =>
-                        handleTourImageChange(index, e.target.files?.[0])
-                      }
+                      onChange={(e) => handleTourImageChange(index, e.target.files?.[0])}
                       accept="image/*"
                       className="hidden"
                     />

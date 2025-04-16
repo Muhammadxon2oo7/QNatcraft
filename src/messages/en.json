@@ -190,7 +190,8 @@
       },
       "buttons": {
         "edit": "Edit",
-        "save": "Save"
+        "save": "Save",
+        "cancel":"Cancel"
       },
       "messages": {
         "success": "Data successfully updated!",
