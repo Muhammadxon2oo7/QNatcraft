@@ -2694,6 +2694,7 @@ function PaymentsContent() {
       <div className="p-8 text-center text-gray-500">
         <Clock className="h-16 w-16 mx-auto mb-4 text-gray-400" />
         <p>{t("placeholder")}</p>
+        <h4 ><strong>Ushbu funksiya tez orada ishga tushadi</strong></h4>
       </div>
     </div>
   );
@@ -2716,6 +2717,8 @@ function OrdersContent() {
       <div className="p-8 text-center text-gray-500">
         <Settings className="h-16 w-16 mx-auto mb-4 text-gray-400" />
         <p>{t("placeholder")}</p>
+        <h4 ><strong>Ushbu funksiya tez orada ishga tushadi</strong></h4>
+
       </div>
     </div>
   );

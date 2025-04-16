@@ -16,6 +16,7 @@ import { Cube } from "../../../../../public/store/model/Cube"
 import { Group } from "../../../../../public/store/pdp/Group"
 import fetchWrapper from "@/services/fetchwrapper"
 import { ContactDialog } from "@/components/Store/ContactModal/Contact-Modal"
+import { toast } from "sonner"
 
 
 // Dummy component to replace Componay
@@ -249,6 +250,17 @@ export default function ProductDetail() {
     return <div className="flex justify-center items-center py-20 text-red-500">{error || "Mahsulot topilmadi"}</div>
   }
   console.log(product)
+  const showCartToast = () => {
+    toast("ushbu funksiyasi tez orada ishga tushadi!", {
+      style: {
+        background: "#f6f6f6",
+        color: "#820C0F",
+       
+        borderRadius: "8px",
+      },
+      duration: 3000,
+    });
+  };
   
   return (
     <div className="container mx-auto px-4 py-8">
@@ -509,7 +521,7 @@ export default function ProductDetail() {
               Bog'lanish
             </Button>
            
-            <Button variant="outline" className="w-full py-6 px-8 rounded-md">
+            <Button variant="outline" className="w-full py-6 px-8 rounded-md" onClick={showCartToast}>
               <Heart className="w-4 h-4 mr-2" />
               Sotib olish
             </Button>
