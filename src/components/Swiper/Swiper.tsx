@@ -178,7 +178,7 @@ const CustomSwiper = () => {
                     </p>
                     <p
                       style={{ fontSize: 'clamp(10px, 1vw, 0.8rem)' }}
-                      className="font-normal text-gray-500 md:w-[90%] mb-7 md:mb-[28px] mb-[24px]"
+                      className="font-normal text-gray-500 md:w-[90%] md:mb-[28px] mb-[24px]"
                     >
                       {typeof craftsman.bio === 'string' ? craftsman.bio : "Ma'lumot yo'q"}
                     </p>
