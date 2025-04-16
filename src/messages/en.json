@@ -103,7 +103,9 @@
         },
         "password": {
           "first": "Please enter a password",
-          "second": "Password must be at least 5 characters"
+          "second": "Password must be at least 5 characters",
+          "length": "Password must be at least 8 characters long",
+          "complexity": "Password must contain an uppercase letter, a lowercase letter, a number, and a special character"
         },
         "confirmPassword": {
           "first": "Passwords must match"

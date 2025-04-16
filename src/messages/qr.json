@@ -104,7 +104,9 @@
         },
         "password": {
           "first": "Parolni kiriting",
-          "second": "Parol kamida 5 ta belgidan iborat bo'lishi kerak"
+          "second": "Parol kamida 5 ta belgidan iborat bo'lishi kerak",
+        "length": "Parol keminde 8 belgi bolıwı kerek",
+          "complexity": "Parolda bas hárip, kishi hárip, san hám arnawlı belgi bolıwı kerek"
         },
         "confirmPassword": {
           "first": "Parollar mos bo'lishi kerak"

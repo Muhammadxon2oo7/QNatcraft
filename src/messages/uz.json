@@ -103,7 +103,9 @@
             },
             "password":{
               "first":"Parolni kiriting",
-              "second":"Parol kamida 5 ta belgidan iborat bo'lishi kerak"
+              "second":"Parol kamida 5 ta belgidan iborat bo'lishi kerak",
+              "length": "Parol kamida 8 belgi bo‘lishi kerak",
+              "complexity": "Parolda katta harf, kichik harf, raqam va maxsus belgi bo‘lishi kerak"
             },
             "confirmPassword":{
               "first":"Parollar bir xil bo'lishi kerak"
