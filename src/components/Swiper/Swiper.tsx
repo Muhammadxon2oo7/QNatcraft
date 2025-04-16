@@ -219,14 +219,14 @@ const CustomSwiper = () => {
                         </div>
                       )}
                     </div>
-                    <Button className="w-[180px] h-[52px] border-orange-500 flex justify-center items-center">
+                    {/* <Button className="w-[180px] h-[52px] border-orange-500 flex justify-center items-center">
                       <Link href={`/profile/${craftsman.id}`} className="flex gap-2">
                         <span style={{ fontSize: 'clamp(0.875rem, 1vw + 0.875rem, 1rem)' }}>
                           Batafsil
                         </span>
                         <Arrow />
                       </Link>
-                    </Button>
+                    </Button> */}
                   </div>
                   <div className="mt-4 md:mt-0">
                     <Image
