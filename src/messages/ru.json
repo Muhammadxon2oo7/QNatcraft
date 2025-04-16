@@ -140,6 +140,10 @@
     "noData": "Данные отсутствуют или вы не вошли в систему",
     "profileContent": {
       "title": "Мой профиль",
+      "breadcrumbs": {
+        "home": "Главная страница",
+        "profile": "Профиль"
+      },
       "fields": {
         "user_first_name": {
           "label": "Имя и фамилия",

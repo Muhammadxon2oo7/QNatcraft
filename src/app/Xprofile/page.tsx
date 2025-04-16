@@ -166,9 +166,122 @@ export default function ProfilePage() {
   );
 }
 
-// Yangi soddaroq ProfileContentSimple komponenti
+// Yangi ProfileContentSimple komponenti
 function ProfileContentSimple({ userData }: { userData: UserData }) {
   const t = useTranslations("profile.profileContent");
+  const [isEditing, setIsEditing] = useState(false);
+  const [error, setError] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [profileData, setProfileData] = useState<ProfileData | undefined>(userData?.profile);
+  const [editedData, setEditedData] = useState({
+    user_first_name: userData?.profile.user_first_name || "",
+  });
+  const [inputErrors, setInputErrors] = useState({
+    user_first_name: "",
+  });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { refreshUser } = useAuth();
+
+  const validateInput = (name: string, value: string) => {
+    if (name === "user_first_name") {
+      if (!/^[A-Za-z\s]+$/.test(value) && value !== "") {
+        return t("fields.user_first_name.errors.second");
+      }
+    }
+    return "";
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditedData((prev) => ({ ...prev, [name]: value }));
+    const errorMessage = validateInput(name, value);
+    setInputErrors((prev) => ({ ...prev, [name]: errorMessage }));
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (!isEditing) return;
+    const file = e.dataTransfer.files[0];
+    handleImageChange(file);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (isEditing) setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    handleImageChange(file);
+  };
+
+  const handleImageChange = (file?: File) => {
+    if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        setError(t("image.errors.size"));
+        return;
+      }
+      if (!file.type.startsWith("image/")) {
+        setError(t("image.errors.type"));
+        return;
+      }
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSave = async () => {
+    setError("");
+    setSuccessMessage("");
+
+    const hasErrors = Object.values(inputErrors).some((err) => err !== "");
+    if (hasErrors) {
+      setError(t("messages.validationError"));
+      return;
+    }
+
+    try {
+      if (!userData?.profile.id) throw new Error("Profil ID topilmadi");
+
+      const formData = new FormData();
+      formData.append("user_first_name", editedData.user_first_name);
+      if (imageFile) {
+        formData.append("profile_image", imageFile);
+        setIsUploading(true);
+      }
+
+      const updatedProfile = await fetchWrapperClient<ProfileData>(
+        `/accounts/profiles/${userData.profile.id}/`,
+        {
+          method: "PATCH",
+          body: formData,
+        }
+      );
+
+      setProfileData(updatedProfile);
+      setIsUploading(false);
+      setImageFile(null);
+      setImagePreview(null);
+      setIsEditing(false);
+      setSuccessMessage(t("messages.success"));
+      await refreshUser();
+      setTimeout(() => setSuccessMessage(""), 3000);
+    } catch (error: any) {
+      setError(`${t("messages.error")}: ${error.message}`);
+      setIsUploading(false);
+    }
+  };
 
   return (
     <div className="max-w-[1380px] px-[10px] mx-auto py-8">
@@ -182,21 +295,120 @@ function ProfileContentSimple({ userData }: { userData: UserData }) {
 
       <div className="bg-white rounded-lg border p-6">
         <h1 className="text-2xl font-bold mb-6">{t("title")}</h1>
-        <div className="space-y-4">
-          <div>
-            <p className="text-sm text-gray-500 mb-1">{t("fields.user_first_name.label")}</p>
-            <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
-              <User />
-              <span>{userData.profile.user_first_name}</span>
+        {error && <div className="text-red-500 text-center mb-4">{error}</div>}
+        {successMessage && <div className="text-green-600 text-center mb-4">{successMessage}</div>}
+        {isDragging && isEditing && (
+          <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">
+            <p className="text-white text-lg">{t("dragDrop")}</p>
+          </div>
+        )}
+
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="flex-shrink-0">
+            <div
+              className={cn(
+                "w-[146px] h-[146px] rounded-md border border-gray-300 flex items-center justify-center relative overflow-hidden",
+                isEditing && "cursor-pointer hover:bg-gray-100",
+                isUploading && "opacity-50"
+              )}
+              onClick={isEditing ? () => fileInputRef.current?.click() : undefined}
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+            >
+              <img
+                src={
+                  imagePreview ||
+                  (profileData?.profile_image
+                    ? `https://qqrnatcraft.uz${profileData.profile_image}`
+                    : "/img/user.png")
+                }
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+              {isEditing && !isUploading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                  <Upload className="h-6 w-6 text-white" />
+                </div>
+              )}
+              {isUploading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                  <span className="text-white">{t("image.uploading")}</span>
+                </div>
+              )}
+            </div>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileInputChange}
+              className="hidden"
+              accept="image/*"
+            />
+            {isEditing && <p className="text-xs text-gray-500 mt-2">{t("image.upload")}</p>}
+          </div>
+
+          <div className="flex-1 space-y-4">
+            <div>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.user_first_name.label")}</p>
+              {isEditing ? (
+                <div>
+                  <input
+                    type="text"
+                    name="user_first_name"
+                    value={editedData.user_first_name}
+                    onChange={handleInputChange}
+                    className={cn(
+                      "w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800",
+                      inputErrors.user_first_name && "border-red-500"
+                    )}
+                    required
+                  />
+                  {inputErrors.user_first_name && (
+                    <p className="text-red-500 text-xs mt-1">{inputErrors.user_first_name}</p>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
+                  <User />
+                  <span>{profileData?.user_first_name}</span>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.email.label")}</p>
+              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
+                <Mail />
+                <span>{userData.email}</span>
+              </div>
             </div>
           </div>
-          <div>
-            <p className="text-sm text-gray-500 mb-1">{t("fields.email.label")}</p>
-            <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
-              <Mail />
-              <span>{userData.email}</span>
-            </div>
-          </div>
+        </div>
+
+        <div className="flex justify-end mt-8 gap-4">
+          {isEditing ? (
+            <button
+              onClick={handleSave}
+              disabled={isUploading || Object.values(inputErrors).some((err) => err !== "")}
+              className={cn(
+                "bg-green-600 text-white px-6 py-2 rounded-md flex items-center gap-2 transition-colors",
+                (isUploading || Object.values(inputErrors).some((err) => err !== ""))
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-green-700"
+              )}
+            >
+              <Save className="h-4 w-4" />
+              {t("buttons.save")}
+            </button>
+          ) : (
+            <button
+              onClick={() => setIsEditing(true)}
+              className="bg-red-800 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-red-900 transition-colors"
+            >
+              <Edit className="h-4 w-4" />
+              {t("buttons.edit")}
+            </button>
+          )}
         </div>
       </div>
     </div>

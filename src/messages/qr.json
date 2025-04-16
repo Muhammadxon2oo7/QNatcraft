@@ -141,6 +141,10 @@
     "noData": "Málimatlar joq yamasa siz sistemaga kirmegensiz",
     "profileContent": {
       "title": "Meniń profilim",
+      "breadcrumbs": {
+      "home": "Bas bet",
+      "profile": "Profil"
+    },
       "fields": {
         "user_first_name": {
           "label": "Atı familiya",

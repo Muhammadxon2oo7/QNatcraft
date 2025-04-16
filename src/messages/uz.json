@@ -139,6 +139,10 @@
         "noData": "Ma'lumotlar mavjud emas yoki tizimga kirmagansiz",
         "profileContent": {
           "title": "Mening profilim",
+          "breadcrumbs": {
+            "home": "Bosh sahifa",
+            "profile": "Profile"
+          },
           "fields": {
             "user_first_name": {
               "label": "Ism familiya",

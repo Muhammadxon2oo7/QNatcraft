@@ -139,6 +139,10 @@
     "noData": "No data available or you are not logged in",
     "profileContent": {
       "title": "My Profile",
+      "breadcrumbs": {
+      "home": "Home",
+      "profile": "Profile"
+    },
       "fields": {
         "user_first_name": {
           "label": "First Name and Last Name",

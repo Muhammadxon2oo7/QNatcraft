@@ -508,10 +508,7 @@ export default function ProductDetail() {
               <ShoppingBag className="w-4 h-4 mr-2" />
               Bog'lanish
             </Button>
-            <Button variant="outline" className="w-full py-6 px-8 rounded-md">
-              <Heart className="w-4 h-4 mr-2" />
-              Sevimlilarga qo'shish
-            </Button>
+           
             <Button variant="outline" className="w-full py-6 px-8 rounded-md">
               <Heart className="w-4 h-4 mr-2" />
               Sotib olish
