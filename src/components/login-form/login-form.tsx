@@ -47,7 +47,7 @@ export default function LoginForm({ setIsForgotPassword }: { setIsForgotPassword
   };
 
   return (
-    <div className="w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto p-6 space-y-8">
+    <div className="w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto p-6 space-y-8 ">
       <div className="space-y-2 text-center">
         <h1 className="text-2xl font-semibold tracking-tight">Tizimga kirish</h1>
       </div>

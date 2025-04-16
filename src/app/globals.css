@@ -273,6 +273,7 @@ header{
   justify-content: center; /* Gorizontal markazlash (mobil uchun) */
   padding: 20px 4px; /* Mobil uchun padding */
   box-sizing: border-box;
+  overflow-y:scroll;
 }
 
 /* Ichki konteyner uchun */

@@ -29,8 +29,8 @@ const Login = () => {
   };
 
   return (
-    <div className="register">
-      <div className="inner-container rounded-3xl w-full max-w-[580px] bg-white/90 backdrop-blur-md p-6 md:p-8 shadow-lg my-[20px]">
+    <div className="register ">
+      <div className="inner-container rounded-3xl w-full max-w-[580px] bg-white/90 backdrop-blur-md p-6 md:p-8 shadow-lg my-[20px]  ">
         <div className="flex justify-between items-center h-12 mb-6">
           <Button
             variant="outline"
