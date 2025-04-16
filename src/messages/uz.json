@@ -71,7 +71,9 @@
       "third":"Hunarmandchilik turlari",
       "fourth":"Hunarmandlar",
       "fifth":"Ko'rgazmalar 360",
-      "sixth":"Do'kon"
+      "sixth":"Do'kon",
+      "cart_message":"Savatcha funksiyasi tez orada ishga tushadi!",
+      "login":"Kirish"
     },
     "auth":{
       "register":{

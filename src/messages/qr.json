@@ -71,7 +71,10 @@
       "third": "Hunarmanşılıq túrleri",
       "fourth": "Hunarmandlar",
       "fifth": "Kórgazmalar 360",
-      "sixth": "Dükán"
+      "sixth": "Dükán",
+    "cart_message":"Savat funksiyası jaqında iske túsedi!",
+    "login":"Kirish"
+
     },
 "auth": {
   "register": {

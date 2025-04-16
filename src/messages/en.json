@@ -70,7 +70,10 @@
     "third": "Types of Handicrafts",
     "fourth": "Artisans",
     "fifth": "Exhibitions 360",
-    "sixth": "Shop"
+    "sixth": "Shop",
+    "cart_message":"The cart function will be launched soon!",
+    "login":"Login"
+
   },
   "auth": {
   "register": {

@@ -24,8 +24,8 @@ import Navbar from "../Navbar/Navbar";
 import LocaleSwitcher from "./LocaleSwitcher";
 import LocaleSwitcherMobile from "./LocaleSwitcherMobile";
 import { useAuth } from "../../../context/auth-context";
+import { toast } from "sonner";
 
-import { ClientHeader } from "./clientHeader";
 interface UserData {
   id: number;
   user_email: string;
@@ -40,32 +40,41 @@ export const Header = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { user, loading, logout } = useAuth();
 
+  const showCartToast = () => {
+    toast(t("cart_message") || "Savatcha funksiyasi tez orada ishga tushadi!", {
+      style: {
+        background: "#f6f6f6",
+        color: "#820C0F",
+       
+        borderRadius: "8px",
+      },
+      duration: 3000,
+    });
+  };
+
   const renderAuthButton = () => {
     if (loading) {
-      return <span className="text-gray-500">Yuklanmoqda...</span>;
+      return <span className="text-gray-500">{t("loading")}</span>;
     }
 
     if (user) {
       return (
         <div className="flex items-center gap-2">
           <Button
-            className="responsive-btn  w-[clamp(140px, 10vw, 180px)] rounded-[16px]  bg-[#fadee0] "
-            
+            className="responsive-btn w-[clamp(140px, 10vw, 180px)] rounded-[16px] bg-[#fadee0]"
           >
             <Image
-            src={
-              user?.profile?.profile_image
-                ? `https://qqrnatcraft.uz${user.profile.profile_image}`
-                : "/img/user.png"
-            }
-            
-             alt={user.profile.user_first_name || "User"}
+              src={
+                user?.profile?.profile_image
+                  ? `https://qqrnatcraft.uz${user.profile.profile_image}`
+                  : "/img/user.png"
+              }
+              alt={user.profile.user_first_name || "User"}
               height={100}
               width={100}
               className="w-[24px] h-[24px] rounded-full"
-              />
-            <Link href="/Xprofile" className="responsive-text  font-medium text-[18px]  text-[#820C0F]">
-              
+            />
+            <Link href="/Xprofile" className="responsive-text font-medium text-[18px] text-[#820C0F]">
               {user.profile.user_first_name}
             </Link>
           </Button>
@@ -87,7 +96,7 @@ export const Header = () => {
         asChild
       >
         <Link href="/login" className="responsive-text text-white">
-          Kirish
+          {t("login")}
         </Link>
       </Button>
     );
@@ -103,7 +112,7 @@ export const Header = () => {
             <Link href="/profile">{user.user_first_name}</Link>
           </Button>
           <Button className="w-full bg-red-500 text-white" onClick={logout}>
-            Chiqish
+            {t("logout")}
           </Button>
         </div>
       );
@@ -111,15 +120,14 @@ export const Header = () => {
 
     return (
       <Button className="w-full text-white" asChild>
-        <Link href="/login">Kirish</Link>
+        <Link href="/login">{t("login")}</Link>
       </Button>
     );
   };
 
   if (isMobile) {
     return (
-      <ClientHeader>
-<header className="sticky top-0 z-50 w-full border-b bg-white">
+      <header className="sticky top-0 z-50 w-full border-b bg-white">
         <div className="w-full flex h-16 items-center justify-between px-4">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
@@ -131,7 +139,7 @@ export const Header = () => {
             <SheetContent side="left" className="w-full sm:max-w-md p-0">
               <div className="flex h-full flex-col">
                 <SheetHeader className="border-b p-4">
-                  <SheetTitle className="text-left text-2xl">Menyu</SheetTitle>
+                  <SheetTitle className="text-left text-2xl">{t("menu")}</SheetTitle>
                 </SheetHeader>
                 <nav className="flex-1">
                   <div className="flex flex-col divide-y">
@@ -154,21 +162,24 @@ export const Header = () => {
                     ))}
                   </div>
                   <div className="flex flex-col gap-2 p-4 border-t">
-                    <Link href="#" className="flex items-center gap-3">
+                    <button
+                      onClick={showCartToast}
+                      className="flex items-center gap-3 text-[#242b3a] cursor-not-allowed"
+                    >
                       <ShoppingBag className="h-5 w-5" />
                       {t("sixth")}
-                    </Link>
+                    </button>
                     <a href="/chat" className="flex items-center gap-3">
                       <MessageCircle className="h-5 w-5" />
-                      <a href="/chat">Chat</a>
+                      <span>{t("chat") || "Chat"}</span>
                     </a>
                     <Link href="#" className="flex items-center gap-3">
                       <Heart className="h-5 w-5" />
-                      Sevimlilar
+                      {t("favorites") || "Sevimlilar"}
                     </Link>
                     <Link href="#" className="flex items-center gap-3">
                       <Search />
-                      Qidirish
+                      {t("search") || "Qidirish"}
                     </Link>
                   </div>
                   <div className="mt-auto p-4 border-t">
@@ -194,20 +205,17 @@ export const Header = () => {
             ) : (
               <Link href="/login">
                 <LogIn className="h-6 w-6" />
-                <span className="sr-only">Login</span>
+                <span className="sr-only">{t("login")}</span>
               </Link>
             )}
           </Button>
         </div>
       </header>
-      </ClientHeader>
-      
     );
   }
 
   return (
-    <ClientHeader>
-<header className="fixed top-0 left-0 right-0 bg-white min-h-[120px] md:h-[156px] w-full shadow-md z-50">
+    <header className="fixed top-0 left-0 right-0 bg-white min-h-[120px] md:h-[156px] w-full shadow-md z-50">
       <div className="flex flex-wrap max-w-[1380px] mx-auto px-[10px] justify-between items-center">
         <div className="relative w-[140px] md:w-[120px] h-[50px] md:h-[45px]">
           <Link href="/">
@@ -216,15 +224,16 @@ export const Header = () => {
         </div>
         <div className="flex gap-[16px] py-[28px] flex-wrap flex-grow justify-end items-center">
           <AnimatedSearchTransform />
-          <Link href='/chat'>
-          <Button className="responsive-btn bg-[#f6f6f6] hover:bg-primary flex gap-[8px] text-[#242b3a] hover:text-white">
-            <ChatIcon />
-            <p className="responsive-text">Chat</p>
-          </Button>
+          <Link href="/chat">
+            <Button className="responsive-btn bg-[#f6f6f6] hover:bg-primary flex gap-[8px] text-[#242b3a] hover:text-white">
+              <ChatIcon />
+            
+            </Button>
           </Link>
-          <Button className="responsive-btn bg-[#f6f6f6] hover:bg-primary">
-            <CartIcon />
-          </Button>
+          <Button className="responsive-btn bg-[#f6f6f6] hover:bg-[#f6f6f6] relative" onClick={showCartToast}>
+
+<CartIcon />
+</Button>
           <LocaleSwitcher />
           {renderAuthButton()}
         </div>
@@ -235,7 +244,5 @@ export const Header = () => {
         </div>
       </div>
     </header>
-    </ClientHeader>
-    
   );
 };

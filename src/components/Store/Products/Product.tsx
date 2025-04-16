@@ -1,23 +1,26 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef, useMemo } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import Image from "next/image"
-import { ArrowRight, AlertCircle, RefreshCw, Search } from "lucide-react"
+import { ArrowRight, AlertCircle, RefreshCw, Search, Heart } from "lucide-react"
 import { motion } from "framer-motion"
 import Filter from "../Filter/Filter"
 import Link from "next/link"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { PriceTag } from "../../../../public/store/PriceTag"
+import { useAuth } from "../../../../context/auth-context"
+import { toast } from "sonner"
+
 
 const ITEMS_PER_PAGE = 8
 
 interface Product {
   id: number
   name: string
-  price: string // API’da string sifatida kelyapti
-  discount?: string | null // API’da string yoki null
-  category: number // API’da faqat ID kelyapti
+  price: string
+  discount?: string | null
+  category: number
   product_images: { id: number; image: string; product: number }[]
   threed_model?: string | null
   description?: string
@@ -25,6 +28,8 @@ interface Product {
   view_count?: number
   created_at?: string
   updated_at?: string
+  is_liked: boolean
+  like_count: number
 }
 
 interface Category {
@@ -36,15 +41,17 @@ interface Category {
 }
 
 export default function ProductList() {
+  const { user, getToken } = useAuth()
   const [allProducts, setAllProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [sortByDiscount, setSortByDiscount] = useState(false)
+  const [showLikedOnly, setShowLikedOnly] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
-  const isProcessingFilterChangeRef = useRef(false)
+  const [isLiking, setIsLiking] = useState<number | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,14 +59,20 @@ export default function ProductList() {
         setLoading(true)
         setError(null)
 
+        const token = user ? await getToken() : null
+        const headers: HeadersInit = { "Content-Type": "application/json" }
+        if (token) {
+          headers["Authorization"] = `Bearer ${token}`
+        }
+
         const [categoriesResponse, productsResponse] = await Promise.all([
           fetch("https://qqrnatcraft.uz/api/categories/", {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers,
           }),
           fetch("https://qqrnatcraft.uz/api/products/", {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers,
           }),
         ])
 
@@ -77,6 +90,7 @@ export default function ProductList() {
       } catch (error) {
         console.error("Error fetching data:", error)
         setError("Ma'lumotlarni yuklashda xatolik yuz berdi. Iltimos, keyinroq qayta urinib ko'ring.")
+        toast.error("Ma'lumotlarni yuklashda xatolik!")
         setAllProducts([])
         setCategories([])
       } finally {
@@ -85,23 +99,78 @@ export default function ProductList() {
     }
 
     fetchData()
-  }, [])
+  }, [user, getToken])
 
   const handleFilterChange = useCallback(
-    (categories: string[], sortDiscount: boolean, search?: string) => {
-      if (isProcessingFilterChangeRef.current) return
-
-      isProcessingFilterChangeRef.current = true
-      try {
-        setSelectedCategories(categories)
-        setSortByDiscount(sortDiscount)
-        setCurrentPage(1)
-        if (search !== undefined) setSearchTerm(search)
-      } finally {
-        isProcessingFilterChangeRef.current = false
-      }
+    (categories: string[], sortDiscount: boolean, showLiked: boolean, search?: string) => {
+      setSelectedCategories(categories)
+      setSortByDiscount(sortDiscount)
+      setShowLikedOnly(showLiked)
+      setCurrentPage(1)
+      if (search !== undefined) setSearchTerm(search)
     },
     []
+  )
+
+  const toggleLike = useCallback(
+    async (productId: number) => {
+      if (!user) {
+        toast.error("Iltimos, tizimga kiring!")
+        return
+      }
+
+      setIsLiking(productId)
+      try {
+        const token = await getToken()
+        if (!token) {
+          toast.error("Autentifikatsiya tokeni topilmadi. Iltimos, qayta kiring.")
+          return
+        }
+
+        const product = allProducts.find((p) => p.id === productId)
+        const isLiked = product?.is_liked
+
+        const response = await fetch(`https://qqrnatcraft.uz/api/products/${productId}/like/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        })
+
+        if (!response.ok) {
+          const errorData = await response.json()
+          if (response.status === 403) {
+            toast.error("Sizda bu amalni bajarish uchun ruxsat yo‘q.")
+            throw new Error(errorData.detail || "Ruxsat yo‘q")
+          }
+          throw new Error(errorData.detail || `Failed to toggle like: ${response.status}`)
+        }
+
+        const data = await response.json()
+        // Faqat backend javobidan keyin yangilash
+        setAllProducts((prev) =>
+          prev.map((product) =>
+            product.id === productId
+              ? {
+                  ...product,
+                  is_liked: data.status === "liked",
+                  like_count: data.status === "liked" ? product.like_count + 1 : product.like_count - 1,
+                }
+              : product
+          )
+        )
+
+        toast.success(data.status === "liked" ? "Mahsulot yoqdi!" : "Yoqtirish olindi!")
+      } catch (error: any) {
+        console.error("Error toggling like:", error)
+        setError(error.message || "Like qo'shishda xatolik yuz berdi.")
+        toast.error(error.message || "Like qo'shishda xatolik!")
+      } finally {
+        setIsLiking(null)
+      }
+    },
+    [user, getToken, allProducts]
   )
 
   const filteredProducts = useMemo(() => {
@@ -124,6 +193,10 @@ export default function ProductList() {
       )
     }
 
+    if (showLikedOnly) {
+      filtered = filtered.filter((product) => product.is_liked)
+    }
+
     if (sortByDiscount) {
       filtered = filtered.sort((a, b) => {
         const discountA = a.discount ? parseFloat(a.discount) : 0
@@ -133,10 +206,13 @@ export default function ProductList() {
     }
 
     return filtered
-  }, [allProducts, searchTerm, selectedCategories, sortByDiscount])
+  }, [allProducts, searchTerm, selectedCategories, showLikedOnly, sortByDiscount])
 
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
-  const displayedProducts = filteredProducts.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+  const displayedProducts = filteredProducts.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  )
 
   const handleSaveProductToLocal = useCallback((product: Product) => {
     if (typeof window !== "undefined") {
@@ -162,14 +238,20 @@ export default function ProductList() {
         setLoading(true)
         setError(null)
 
+        const token = user ? await getToken() : null
+        const headers: HeadersInit = { "Content-Type": "application/json" }
+        if (token) {
+          headers["Authorization"] = `Bearer ${token}`
+        }
+
         const [categoriesResponse, productsResponse] = await Promise.all([
           fetch("https://qqrnatcraft.uz/api/categories/", {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers,
           }),
           fetch("https://qqrnatcraft.uz/api/products/", {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers,
           }),
         ])
 
@@ -187,6 +269,7 @@ export default function ProductList() {
       } catch (error) {
         console.error("Error fetching data:", error)
         setError("Ma'lumotlarni yuklashda xatolik yuz berdi. Iltimos, keyinroq qayta urinib ko'ring.")
+        toast.error("Ma'lumotlarni yuklashda xatolik!")
         setAllProducts([])
         setCategories([])
       } finally {
@@ -195,7 +278,7 @@ export default function ProductList() {
     }
 
     fetchData()
-  }, [])
+  }, [user, getToken])
 
   return (
     <div className="flex flex-col max-w-[100%] md:flex-row gap-[20px] p-[20px]">
@@ -267,6 +350,24 @@ export default function ProductList() {
                           </div>
                         )}
                       </div>
+                      <motion.button
+                        whileTap={{ scale: user ? 1.2 : 1 }}
+                        disabled={isLiking === product.id || !user}
+                        onClick={() => toggleLike(product.id)}
+                        className={`absolute top-2 right-2 z-10 p-2 rounded-full bg-white/90 hover:bg-white transition-colors ${
+                          isLiking === product.id || !user ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
+                        aria-label={product.is_liked ? "Unlike product" : "Like product"}
+                        title={!user ? "Like qo‘yish uchun tizimga kiring" : ""}
+                      >
+                        <div className="flex items-center gap-1">
+                          <Heart
+                            size={20}
+                            className={product.is_liked && user ? "text-red-500 fill-red-500" : "text-gray-600"}
+                          />
+                          <span className="text-xs font-medium text-gray-600">{product.like_count}</span>
+                        </div>
+                      </motion.button>
                       <div className="aspect-square relative overflow-hidden mb-[12px]">
                         <Image
                           src={product.product_images[0]?.image || "/placeholder.svg"}
