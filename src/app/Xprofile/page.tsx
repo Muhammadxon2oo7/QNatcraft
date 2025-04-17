@@ -1363,6 +1363,7 @@ import {
   RotateCw,
   Play,
   Trash2,
+  Briefcase,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -1379,6 +1380,7 @@ import ProductsContent from "@/components/Xprofile/ProductsContent/ProductsConte
 import fetchWrapperClient from "@/services/fetchWrapperClient";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import VirtualTourCard from "@/components/Virtual/VirtualTourCard";
+import { log } from "console";
 
 interface SidebarItem {
   id: string;
@@ -1411,7 +1413,7 @@ interface ProfileData {
   profile_image?: string | null;
   experience?: number | null;
   mentees?: number | null;
-  profession?: Profession | null;
+  profession?: number | null;
   bio?: string | null;
   latitude?: number | null;
   longitude?: number | null;
@@ -1774,6 +1776,9 @@ function ProfileContentSimple({ userData }: { userData: UserData }) {
   );
 }
 
+
+
+
 function ProfileContent({ userData }: { userData: UserData | null }) {
   const t = useTranslations("profile.profileContent");
   const [isEditing, setIsEditing] = useState(false);
@@ -1787,6 +1792,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
     experience: String(userData?.profile.experience || ""),
     mentees: String(userData?.profile.mentees || ""),
     bio: userData?.profile.bio || "",
+    profession: String(userData?.profile.profession || ""), // profession id sifatida (string)
   });
   const [inputErrors, setInputErrors] = useState({
     user_first_name: "",
@@ -1794,14 +1800,48 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
     experience: "",
     mentees: "",
     bio: "",
+    profession: "",
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [professions, setProfessions] = useState<Profession[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { refreshUser } = useAuth();
+  const { refreshUser, getToken } = useAuth();
+  const token = getToken();
+  useEffect(() => {
+    const fetchProfessions = async () => {
+      try {
+        if (!token) {
+          setError(t("messages.authRequired"));
+          setProfessions([]);
+          return;
+        }
+
+        const data = await fetchWrapperClient<Profession[]>("/accounts/professions/", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (Array.isArray(data)) {
+          setProfessions(data);
+        } else {
+          console.error("API javobi array emas:", data);
+          setError(t("messages.professionsFetchError"));
+          setProfessions([]);
+        }
+      } catch (error: any) {
+        console.error("Kasblarni olishda xatolik:", error);
+        setError(t("messages.professionsFetchError"));
+        setProfessions([]);
+      }
+    };
+    fetchProfessions();
+  }, [token, t]);
 
   const validateInput = (name: string, value: string) => {
     switch (name) {
@@ -1830,6 +1870,11 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
           return t("fields.bio.errors.length");
         }
         return "";
+      case "profession":
+        if (!value) {
+          return t("fields.profession.errors.required");
+        }
+        return "";
       default:
         return "";
     }
@@ -1842,8 +1887,10 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
     setInputErrors((prev) => ({ ...prev, [name]: errorMessage }));
   };
 
-  const handleSelectChange = (value: string) => {
-    setEditedData((prev) => ({ ...prev, address: value }));
+  const handleSelectChange = (name: string, value: string) => {
+    setEditedData((prev) => ({ ...prev, [name]: value }));
+    const errorMessage = validateInput(name, value);
+    setInputErrors((prev) => ({ ...prev, [name]: errorMessage }));
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -1893,6 +1940,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
       experience: String(profileData?.experience || ""),
       mentees: String(profileData?.mentees || ""),
       bio: profileData?.bio || "",
+      profession: String(profileData?.profession || ""),
     });
     setInputErrors({
       user_first_name: "",
@@ -1900,6 +1948,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
       experience: "",
       mentees: "",
       bio: "",
+      profession: "",
     });
     setImageFile(null);
     setImagePreview(null);
@@ -1923,7 +1972,11 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
       Object.entries(editedData).forEach(([key, value]) => {
         if (key === "experience" || key === "mentees") {
           formData.append(key, value ? String(Number(value)) : "");
-        } else {
+        } else if (key === "profession" && value) {
+          formData.append(key, value); // profession id sifatida yuboriladi
+        } else if (key === "user_first_name") {
+          formData.append("user_first_name", value); // user_first_name alohida yuboriladi
+        } else if (value) {
           formData.append(key, value);
         }
       });
@@ -1952,6 +2005,12 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
       setError(`${t("messages.error")}: ${error.message}`);
       setIsUploading(false);
     }
+  };
+
+  const getProfessionName = (id: string | number | undefined) => {
+    if (!id) return t("unknown");
+    const profession = professions.find((p) => p.id === Number(id));
+    return profession?.name || t("unknown");
   };
 
   return (
@@ -2067,7 +2126,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
             <div>
               <p className="text-sm text-gray-500 mb-1">{t("fields.address.label")}</p>
               {isEditing ? (
-                <Select value={editedData.address} onValueChange={handleSelectChange}>
+                <Select value={editedData.address} onValueChange={(value) => handleSelectChange("address", value)}>
                   <SelectTrigger className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800">
                     <SelectValue placeholder={t("fields.address.placeholder")} />
                   </SelectTrigger>
@@ -2096,6 +2155,45 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
                 </div>
               )}
             </div>
+
+            <div>
+              <p className="text-sm text-gray-500 mb-1">{t("fields.profession.label")}</p>
+              {isEditing ? (
+                <div>
+                  <Select
+                    value={editedData.profession}
+                    onValueChange={(value) => handleSelectChange("profession", value)}
+                  >
+                    <SelectTrigger className="w-full p-3 bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-800">
+                      <SelectValue placeholder={t("fields.profession.placeholder")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Array.isArray(professions) && professions.length > 0 ? (
+                        professions.map((profession) => (
+                          <SelectItem key={profession.id} value={String(profession.id)}>
+                            {profession.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <div className="px-2 py-1 text-gray-500">{t("fields.profession.noData")}</div>
+                      )}
+                    </SelectContent>
+                  </Select>
+                  {inputErrors.profession && (
+                    <p className="text-red-500 text-xs mt-1">{inputErrors.profession}</p>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
+                  <Briefcase />
+                  <span>{getProfessionName(profileData?.profession)}</span>
+                </div>
+              )}
+            </div>
+
+
+
+
 
             <div>
               <p className="text-sm text-gray-500 mb-1">{t("fields.experience.label")}</p>
@@ -2167,7 +2265,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
                 inputErrors.bio && "border-red-500"
               )}
               rows={5}
-              placeholder={t("Bio...")}
+              placeholder={t("fields.bio.placeholder")}
             />
             {inputErrors.bio && <p className="text-red-500 text-xs mt-1">{inputErrors.bio}</p>}
           </div>

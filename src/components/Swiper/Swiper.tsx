@@ -14,6 +14,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Left } from '../../../public/img/left';
 import { Right } from '../../../public/img/right';
+import { useTranslations } from 'next-intl';
 
 // Hunarmand ma'lumotlari uchun interface
 interface Craftsman {
@@ -21,7 +22,7 @@ interface Craftsman {
   user_email: string;
   user_first_name: string;
   is_verified: boolean;
-  profession: string | null;
+  profession: string | null; // profession id sifatida keladi
   bio: string | null;
   profile_image: string | null;
   address: string | null;
@@ -36,20 +37,47 @@ interface Craftsman {
   user: number;
 }
 
+// Kasblar uchun interface
+interface Profession {
+  id: number;
+  name: string;
+}
+
 const CustomSwiper = () => {
+  const t = useTranslations('swiper');
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [craftsmen, setCraftsmen] = useState<Craftsman[]>([]);
+  const [professions, setProfessions] = useState<Profession[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // API dan hunarmandlar ma'lumotlarini olish
+  // Kasblarni olish
+  useEffect(() => {
+    const fetchProfessions = async () => {
+      try {
+        const response = await fetch('https://qqrnatcraft.uz/accounts/professions/');
+        if (!response.ok) {
+          throw new Error(t('errors.professionsFetch'));
+        }
+        const data = await response.json();
+        setProfessions(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error('Kasblarni olishda xatolik:', error);
+        setError(t('errors.professionsFetch'));
+      }
+    };
+
+    fetchProfessions();
+  }, [t]);
+
+  // Hunarmandlarni olish
   useEffect(() => {
     const fetchCraftsmen = async () => {
       try {
         setIsLoading(true);
         const response = await fetch('https://qqrnatcraft.uz/accounts/profiles/');
         if (!response.ok) {
-          throw new Error("Ma'lumotlarni olishda xatolik yuz berdi");
+          throw new Error(t('errors.craftsmenFetch'));
         }
         const data = await response.json();
 
@@ -60,18 +88,17 @@ const CustomSwiper = () => {
         setCraftsmen(verifiedCraftsmen);
       } catch (error) {
         console.error('Hunarmandlarni olishda xatolik:', error);
-        setError("Ma'lumotlarni yuklashda xatolik yuz berdi");
+        setError(t('errors.craftsmenFetch'));
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchCraftsmen();
-  }, []);
+  }, [t]);
 
-  // Splide slayderini ma'lumotlar yuklangandan keyin sozlash
+  // Splide slayderini sozlash
   useEffect(() => {
-    // Ma'lumotlar yuklanmagan yoki xatolik bo'lsa, Splide'ni ishga tushirmaymiz
     if (isLoading || error || craftsmen.length === 0) return;
 
     const splideElement = document.querySelector('#splide');
@@ -88,7 +115,7 @@ const CustomSwiper = () => {
       pauseOnHover: false,
       pauseOnFocus: false,
       cover: false,
-      perPage: Math.min(craftsmen.length, 3), // Ma'lumotlar soniga moslash
+      perPage: Math.min(craftsmen.length, 3),
       perMove: 1,
       focus: 'center',
       gap: '1.5rem',
@@ -109,15 +136,21 @@ const CustomSwiper = () => {
 
     splide.mount();
 
-    // Komponent o'chirilganda slayderni tozalash
     return () => {
       splide.destroy();
     };
   }, [isLoading, error, craftsmen]);
 
+  // Profession id bo'yicha nomni topish
+  const getProfessionName = (professionId: string | null) => {
+    if (!professionId) return t('unknown');
+    const profession = professions.find((p) => p.id === Number(professionId));
+    return profession?.name || t('unknown');
+  };
+
   // Yuklanayotgan holat yoki xatolikni ko'rsatish
   if (isLoading) {
-    return <div className="text-center py-10">Ma'lumotlar yuklanmoqda...</div>;
+    return <div className="text-center py-10">{t('loading')}</div>;
   }
 
   if (error) {
@@ -125,7 +158,7 @@ const CustomSwiper = () => {
   }
 
   if (craftsmen.length === 0) {
-    return <div className="text-center py-10">Tasdiqlangan hunarmandlar topilmadi</div>;
+    return <div className="text-center py-10">{t('noCraftsmen')}</div>;
   }
 
   return (
@@ -166,7 +199,7 @@ const CustomSwiper = () => {
                           style={{ fontSize: 'clamp(0.75rem, 1vw + 0.75rem, 0.875rem)' }}
                           className="font-medium leading-none text-white w-full"
                         >
-                          {typeof craftsman.profession === 'string' ? craftsman.profession : 'Hunarmand'}
+                          {getProfessionName(craftsman.profession)}
                         </p>
                       </Badge>
                     </div>
@@ -174,13 +207,13 @@ const CustomSwiper = () => {
                       style={{ fontSize: 'clamp(14px, 1.2vw, 1.6rem)' }}
                       className="font-medium text-[#242b3a]"
                     >
-                      {typeof craftsman.user_first_name === 'string' ? craftsman.user_first_name : 'Noma\'lum'}
+                      {typeof craftsman.user_first_name === 'string' ? craftsman.user_first_name : t('unknown')}
                     </p>
                     <p
                       style={{ fontSize: 'clamp(10px, 1vw, 0.8rem)' }}
                       className="font-normal text-gray-500 md:w-[90%] md:mb-[28px] mb-[24px]"
                     >
-                      {typeof craftsman.bio === 'string' ? craftsman.bio : "Ma'lumot yo'q"}
+                      {typeof craftsman.bio === 'string' ? craftsman.bio : t('noBio')}
                     </p>
                     <div className="flex flex-wrap gap-[12px] md:gap-[16px] mb-7 md:mb-[28px] w-auto">
                       <div className="flex gap-4 md:gap-[16px] items-center">
@@ -191,7 +224,7 @@ const CustomSwiper = () => {
                           style={{ fontSize: 'clamp(11px, 1vw, 2rem)' }}
                           className="font-semibold leading-[140%] text-[#242b3a]"
                         >
-                          {typeof craftsman.experience === 'number' ? `${craftsman.experience} yillik tajriba` : 'Tajriba yo\'q'}
+                          {typeof craftsman.experience === 'number' ? `${craftsman.experience} ${t('yearsExperience')}` : t('noExperience')}
                         </p>
                       </div>
                       <div className="flex gap-4 md:gap-[16px] items-center">
@@ -202,7 +235,7 @@ const CustomSwiper = () => {
                           style={{ fontSize: 'clamp(11px, 1vw, 2rem)' }}
                           className="font-semibold leading-[140%] text-[#242b3a]"
                         >
-                          {typeof craftsman.mentees === 'number' ? `${craftsman.mentees}+ shogirtlar` : 'Shogirtlar yo\'q'}
+                          {typeof craftsman.mentees === 'number' ? `${craftsman.mentees}+ ${t('mentees')}` : t('noMentees')}
                         </p>
                       </div>
                       {typeof craftsman.award === 'string' && craftsman.award && (
@@ -219,19 +252,19 @@ const CustomSwiper = () => {
                         </div>
                       )}
                     </div>
-                    {/* <Button className="w-[180px] h-[52px] border-orange-500 flex justify-center items-center">
+                    <Button className="w-[180px] h-[52px] border-orange-500 flex justify-center items-center">
                       <Link href={`/profile/${craftsman.id}`} className="flex gap-2">
                         <span style={{ fontSize: 'clamp(0.875rem, 1vw + 0.875rem, 1rem)' }}>
-                          Batafsil
+                          {t('details')}
                         </span>
                         <Arrow />
                       </Link>
-                    </Button> */}
+                    </Button> 
                   </div>
                   <div className="mt-4 md:mt-0">
                     <Image
-                      src={typeof craftsman.profile_image === 'string' ? craftsman.profile_image : '/img/craftman.png'}
-                      alt={typeof craftsman.user_first_name === 'string' ? craftsman.user_first_name : 'Hunarmand'}
+                      src={typeof craftsman.profile_image === 'string' ? `${craftsman.profile_image}` : '/img/craftman.png'}
+                      alt={typeof craftsman.user_first_name === 'string' ? craftsman.user_first_name : t('craftsman')}
                       width={542}
                       height={400}
                       className="md:w-[542px] md:h-[400px] w-[100%] h-[250px] rounded-[12px] object-cover"
