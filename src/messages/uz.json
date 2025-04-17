@@ -1,339 +1,374 @@
 {
-    "home": {
-      "mainSection": {
-        "badge":"QQRNATCRAFT",
-        "title": {
-          "first": "Qoraqalpoq hunarmandchiligi –",
-          "second": "tarixiy meros va nafis san’atning uyg‘unligi!"
-        },
-        "description": {
-          "p": "Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback. Opportunity accountable files time key you're harvest.",
-          "button": "Do‘konga o‘tish"
-        }
+  "home": {
+    "mainSection": {
+      "badge": "QQRNATCRAFT",
+      "title": {
+        "first": "Qoraqalpoq hunarmandchiligi –",
+        "second": "tarixiy meros va nafis san’atning uyg‘unligi!"
       },
-      "secondSection":{
-        "badge":"MADANIY MEROS",
-        "title":{
-          "first":"Qoraqalpog’iston hunarmandchiligi -",
-          "second":" madaniy merosi"
-        },
-        "description":"Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
-      },
-      "thirdSection":{
-        "badge":"HUNARMANDCHILIK",
-        "title":"Hunarmandchilik turlari",
-        "description":"Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
-      },
-      "fourthSection":{
-        "badge":"XARITA",
-        "title":"Interaktiv xarita",
-        "description":"Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback.",
-        "region":"Hududlar",
-        "regions":{
-          "first":"Qo`ng`irot tumani",
-          "second":"Mo`ynoq tumani",
-          "third":"Shumanag tumani",
-          "fourth":"Taxtako`pir tumani",
-          "fifth":"Amudaryo tumani",
-          "sixth":"Nukus tumani",
-          "seventh":"Xo`jayli tumani",
-          "eight":"Taxiatosh tumani",
-          "nine":"Beruniy tumani",
-          "ten":"Ellik qal`a tumani",
-          "eleven":"To`rtko`l tumani",
-          "twelve":"Qorao`zak tumani",
-          "thirteen":"Chimboy tumani",
-          "fourteen":"Bo`zatov tumani",
-          "fifteen":"Kegeyli tumani",
-          "sixteen":"Qanliko`l tumani"
-        },
-        "statistic":{
-          "first":"Hunarmandchilik obyektlari",
-          "second":"Hunarmand ustalar",
-          "third":"Hunarmandchilik turlari"
-        }
-        
-      },
-      "fifthSection":{
-        "badge":"HUNARMANDLAR",
-        "title":"Xunarmand ustalar",
-        "description":"Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
-      },
-      "sixthSection":{
-        "badge":"HAQIDA",
-        "title":"Biz haqimizda",
-        "description":"Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
+      "description": {
+        "p": "Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback. Opportunity accountable files time key you're harvest.",
+        "button": "Do‘konga o‘tish"
       }
     },
-    "header":{
-      "first":"Biz haqimizda",
-      "second":"Madaniy me'ros",
-      "third":"Hunarmandchilik turlari",
-      "fourth":"Hunarmandlar",
-      "fifth":"Ko'rgazmalar 360",
-      "sixth":"Do'kon",
-      "cart_message":"Savatcha funksiyasi tez orada ishga tushadi!",
-      "login":"Kirish"
+    "secondSection": {
+      "badge": "MADANIY MEROS",
+      "title": {
+        "first": "Qoraqalpog’iston hunarmandchiligi -",
+        "second": " madaniy merosi"
+      },
+      "description": "Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
     },
-    "auth":{
-      "register":{
-        "title":"Ro’yhatdan o’tish",
-        "name":"Ism sharifingiz (Login)",
-        "email":"Elektron pochta",
-        "password":"Parol oylab toping",
-        "confirmPassword":"Parolni takrorlang",
-        "button":"Ro'yhatdan o'tish",
-        "verificationEntry":"Ro'yhatdan o'tish uchun emailingizni tasdiqlang",
-        "codeIsright":"Ro'yhatdan o'tish muvafqiyatli yakunlandi",
-        "codeIswrong":"Tasdiqlash kodi xato",
-        "codeResended":"Tasdiqlash kodi qayta yuborildi",
-        "loginRecommidation":{
-          "first":"Sizda akkaut bormi?",
-          "second":"Kirish"
-        },
-        "errors":{
-          "input":{
-            "name":{
-              "first":"Ism sharifingiz (Login) kerak",
-              "second":"Kamida 3ta belgidan iborat bo'lishi kerak"
-            },
-            "email":{
-              "first":"Elektron pochta manzilingizni kiriting",
-              "second":"Iltimos, to'g'ri elektron pochta kiriting"
-            },
-            "password":{
-              "first":"Parolni kiriting",
-              "second":"Parol kamida 5 ta belgidan iborat bo'lishi kerak",
-              "length": "Parol kamida 8 belgi bo‘lishi kerak",
-              "complexity": "Parolda katta harf, kichik harf, raqam va maxsus belgi bo‘lishi kerak"
-            },
-            "confirmPassword":{
-              "first":"Parollar bir xil bo'lishi kerak"
-            }
+    "thirdSection": {
+      "badge": "HUNARMANDCHILIK",
+      "title": "Hunarmandchilik turlari",
+      "description": "Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
+    },
+    "fourthSection": {
+      "badge": "XARITA",
+      "title": "Interaktiv xarita",
+      "description": "Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback.",
+      "region": "Hududlar",
+      "regions": {
+        "first": "Qo`ng`irot tumani",
+        "second": "Mo`ynoq tumani",
+        "third": "Shumanag tumani",
+        "fourth": "Taxtako`pir tumani",
+        "fifth": "Amudaryo tumani",
+        "sixth": "Nukus tumani",
+        "seventh": "Xo`jayli tumani",
+        "eight": "Taxiatosh tumani",
+        "nine": "Beruniy tumani",
+        "ten": "Ellik qal`a tumani",
+        "eleven": "To`rtko`l tumani",
+        "twelve": "Qorao`zak tumani",
+        "thirteen": "Chimboy tumani",
+        "fourteen": "Bo`zatov tumani",
+        "fifteen": "Kegeyli tumani",
+        "sixteen": "Qanliko`l tumani"
+      },
+      "statistic": {
+        "first": "Hunarmandchilik obyektlari",
+        "second": "Hunarmand ustalar",
+        "third": "Hunarmandchilik turlari"
+      }
+    },
+    "fifthSection": {
+      "badge": "HUNARMANDLAR",
+      "title": "Xunarmand ustalar",
+      "description": "Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
+    },
+    "sixthSection": {
+      "badge": "HAQIDA",
+      "title": "Biz haqimizda",
+      "description": "Pole reality assassin with marginalised. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
+    },
+"profile": {
+      "loading": "Yuklanmoqda...",
+      "unknown": "Noma'lum",
+      "noBio": "Bio mavjud emas",
+      "errors": {
+        "craftsmanFetch": "Hunarmand ma'lumotlarini olishda xatolik yuz berdi.",
+        "craftsmanNotFound": "Hunarmand topilmadi.",
+        "pleaseLogin": "Iltimos, tizimga kiring!",
+        "noToken": "Autentifikatsiya tokeni topilmadi.",
+        "likeFailed": "Like qo'shishda xatolik yuz berdi."
+      },
+      "yearsExperience": "yil tajriba",
+      "mentees": "shogirdlar",
+      "contact": "Bog'lanish",
+      "store": "Do'kon",
+      "noProducts": "Mahsulot hali joylanmagan",
+      "details": "Batafsil",
+      "like": "Yoqtirish",
+      "unlike": "Yoqtirishni olib tashlash",
+      "liked": "Mahsulot yoqdi!",
+      "unliked": "Yoqtirish olindi!"
+    },
+    "swiper": {
+      "loading": "Yuklanmoqda...",
+      "errors": {
+        "professionsFetch": "Kasblarni olishda xatolik yuz berdi.",
+        "craftsmenFetch": "Hunarmandlarni olishda xatolik yuz berdi."
+      },
+      "unknown": "Noma'lum",
+      "noBio": "Bio mavjud emas",
+      "noCraftsmen": "Hunarmandlar topilmadi",
+      "details": "Batafsil",
+      "viewProfile": "{name} profilini ko'rish",
+      "yearsExperience": "yil tajriba",
+      "mentees": "shogirdlar"
+    }
+  },
+  "header": {
+    "first": "Biz haqimizda",
+    "second": "Madaniy me'ros",
+    "third": "Hunarmandchilik turlari",
+    "fourth": "Hunarmandlar",
+    "fifth": "Ko'rgazmalar 360",
+    "sixth": "Do'kon",
+    "cart_message": "Savatcha funksiyasi tez orada ishga tushadi!",
+    "login": "Kirish"
+  },
+  "auth": {
+    "register": {
+      "title": "Ro’yhatdan o’tish",
+      "name": "Ism sharifingiz (Login)",
+      "email": "Elektron pochta",
+      "password": "Parol oylab toping",
+      "confirmPassword": "Parolni takrorlang",
+      "button": "Ro'yhatdan o'tish",
+      "verificationEntry": "Ro'yhatdan o'tish uchun emailingizni tasdiqlang",
+      "codeIsright": "Ro'yhatdan o'tish muvafqiyatli yakunlandi",
+      "codeIswrong": "Tasdiqlash kodi xato",
+      "codeResended": "Tasdiqlash kodi qayta yuborildi",
+      "loginRecommidation": {
+        "first": "Sizda akkaut bormi?",
+        "second": "Kirish"
+      },
+      "errors": {
+        "input": {
+          "name": {
+            "first": "Ism sharifingiz (Login) kerak",
+            "second": "Kamida 3ta belgidan iborat bo'lishi kerak"
+          },
+          "email": {
+            "first": "Elektron pochta manzilingizni kiriting",
+            "second": "Iltimos, to'g'ri elektron pochta kiriting"
+          },
+          "password": {
+            "first": "Parolni kiriting",
+            "second": "Parol kamida 5 ta belgidan iborat bo'lishi kerak",
+            "length": "Parol kamida 8 belgi bo‘lishi kerak",
+            "complexity": "Parolda katta harf, kichik harf, raqam va maxsus belgi bo‘lishi kerak"
+          },
+          "confirmPassword": {
+            "first": "Parollar bir xil bo'lishi kerak"
           }
         }
-      },
-      "confirm":{
-        "verifyTitle": "Tasdiqlash",
+      }
+    },
+    "confirm": {
+      "verifyTitle": "Tasdiqlash",
       "verifyText": "Emailingizga yuborilgan kodni kiriting:",
       "wrongCode": "Noto‘g‘ri kod kiritildi",
       "resend": "Qayta yuborish",
       "verifyButton": "Tasdiqlash",
       "changeEmail": "Emailni o‘zgartirish",
       "codeResended": "Kod qayta yuborildi"
+    },
+    "login": {
+      "title": "Tizimga kirish",
+      "fields": {
+        "email": {
+          "placeholder": "Email"
+        },
+        "password": {
+          "placeholder": "Parol"
+        }
       },
-      "login": {
-        "title": "Tizimga kirish",
-        "fields": {
-          "email": {
-            "placeholder": "Email"
-          },
-          "password": {
-            "placeholder": "Parol"
-          }
-        },
-        "buttons": {
-          "submit": "Kirish",
-          "forgotPassword": "Parolni unutdingizmi?",
-          "showPassword": "Parolni ko'rsatish",
-          "hidePassword": "Parolni yashirish",
-          "loginWithYatt": "YaTT orqali kirish",
-          "loginWithStir": "STIR orqali kirish",
-          "register": "Ro'yhatdan o'tish"
-        },
-        "or": "Yoki",
-        "registerPrompt": "Tizimda hali yangimisiz?",
-        "successMessage": "Tizimga kirish muvaffaqiyatli!",
-        "error": {
-          "invalid": "Noto'g'ri login"
-        }
+      "buttons": {
+        "submit": "Kirish",
+        "forgotPassword": "Parolni unutdingizmi?",
+        "showPassword": "Parolni ko'rsatish",
+        "hidePassword": "Parolni yashirish",
+        "loginWithYatt": "YaTT orqali kirish",
+        "loginWithStir": "STIR orqali kirish",
+        "register": "Ro'yhatdan o'tish"
+      },
+      "or": "Yoki",
+      "registerPrompt": "Tizimda hali yangimisiz?",
+      "successMessage": "Tizimga kirish muvaffaqiyatli!",
+      "error": {
+        "invalid": "Noto'g'ri login"
       }
+    }
+  },
+  "profile": {
+    "sidebar": {
+      "profile": "Mening profilim",
+      "workshop": "Mening ustaxonam",
+      "products": "Mening mahsulotlarim",
+      "payments": "Tolovlar tarixi",
+      "statistics": "Statistikalar",
+      "orders": "Buyurmalarni boshqarish",
+      "logout": "Profildan chiqish"
     },
-    "profile": {
-        "sidebar": {
-          "profile": "Mening profilim",
-          "workshop": "Mening ustaxonam",
-          "products": "Mening mahsulotlarim",
-          "payments": "Tolovlar tarixi",
-          "statistics": "Statistikalar",
-          "orders": "Buyurmalarni boshqarish",
-          "logout": "Profildan chiqish"
-        },
-        "breadcrumbs": {
-          "home": "Bosh sahifa",
-          "profile": "Profile"
-        },
-        "loading": "Yuklanmoqda...",
-        "noData": "Ma'lumotlar mavjud emas yoki tizimga kirmagansiz",
-        "profileContent": {
-          "title": "Mening profilim",
-          "breadcrumbs": {
-            "home": "Bosh sahifa",
-            "profile": "Profile"
-          },
-          "fields": {
-            "user_first_name": {
-              "label": "Ism familiya",
-              "errors": {
-                "first": "Ism familiya kerak",
-                "second": "Faqat harflar va bo‘shliqlardan iborat bo‘lishi kerak"
-              }
-            },
-            "email": {
-              "label": "Email"
-            },
-            "phone_number": {
-              "label": "Telefon raqam",
-              "errors": {
-                "first": "Telefon raqami kerak",
-                "second": "Telefon raqami +998 bilan boshlanib, 9 ta raqamdan iborat bo‘lishi kerak"
-              }
-            },
-            "address": {
-              "label": "Joylashuv",
-              "placeholder": "Joylashuvni tanlang"
-            },
-            "experience": {
-              "label": "Tajriba",
-              "errors": {
-                "first": "Tajriba kerak",
-                "second": "Faqat raqamlardan iborat bo‘lishi kerak"
-              }
-            },
-            "mentees": {
-              "label": "Shogirtlar",
-              "errors": {
-                "first": "Shogirtlar soni kerak",
-                "second": "Faqat raqamlardan iborat bo‘lishi kerak"
-              }
-            }
-          },
-          "image": {
-            "upload": "Drag-and-drop yoki tanlash orqali rasm yuklang (max 5MB)",
-            "uploading": "Yuklanmoqda...",
-            "errors": {
-              "size": "Fayl hajmi 10MB dan kichik bo‘lishi kerak!",
-              "type": "Faqat rasm fayllarini yuklash mumkin!"
-            }
-          },
-          "buttons": {
-            "edit": "Tahrirlash",
-            "save": "Saqlash",
-            "cancel":"Bekor qilish"
-          },
-          "messages": {
-            "success": "Ma'lumotlar muvaffaqiyatli yangilandi!",
-            "error": "Ma'lumotlarni saqlashda xatolik yuz berdi",
-            "validationError": "Iltimos, barcha maydonlarni to‘g‘ri to‘ldiring!"
-          },
-          "dragDrop": "Rasmni bu yerga tashlang",
-          "unknown": "Noma'lum"
-        },
-        "workshopContent": {
-          "title": "Mening ustaxonam",
-          "buttons": {
-            "edit": "Tahrirlash",
-            "save": "Saqlash",
-            "cancel": "Bekor qilish",
-            "addTour": "Yangi ko‘rgazma qo‘shish",
-            "addWorkshop": "Ustaxona qo‘shish"
-          },
-          "fields": {
-            "name": {
-              "label": "Ustaxona nomi",
-              "placeholder": "Ustaxona nomini kiriting"
-            },
-            "description": {
-              "label": "Ustaxona haqida",
-              "placeholder": "Ustaxona haqida ma'lumot kiriting"
-            },
-            "address": {
-              "label": "Joylashuv",
-              "placeholder": "Joylashuvni kiriting"
-            },
-            "rating": "Baho",
-            "reviews": "ta baho"
-          },
-          "virtualTours": {
-            "title": "Virtual ko‘rgazmalar",
-            "dragDrop": "Rasmni bu yerga tashlang",
-            "placeholder": "Rasmni bu yerga tashlang yoki tanlang",
-            "addPrompt": "Virtual ko‘rgazma qo‘shish"
-          },
-          "image": {
-            "upload": "Rasmni bu yerga tashlang yoki tanlang",
-            "errors": {
-              "size": "Fayl hajmi 10MB dan kichik bo‘lishi kerak!",
-              "type": "Faqat rasm fayllarini yuklash mumkin!",
-              "tourSize": "Virtual ko‘rgazma {index}: Fayl hajmi 10MB dan kichik bo‘lishi kerak!",
-              "tourType": "Virtual ko‘rgazma {index}: Faqat rasm fayllarini yuklash mumkin!"
-            }
-          },
-          "messages": {
-            "loading": "Yuklanmoqda...",
-            "noData": "Ustaxona ma'lumotlari mavjud emas",
-            "success": "Ma'lumotlar muvaffaqiyatli saqlandi!",
-            "error": "Ma'lumotlarni saqlashda xatolik yuz berdi",
-            "authError": "Foydalanuvchi autentifikatsiya qilinmagan. Iltimos, tizimga kiring."
-          }
-        },
-        "productsContent": {
-          "title": "Mening mahsulotlarim",
-          "placeholder": "Mahsulotlar ro'yxati bu yerda ko'rsatiladi"
-        },
-        "paymentsContent": {
-          "title": "Tolovlar tarixi",
-          "placeholder": "To'lovlar tarixi bu yerda ko'rsatiladi"
-        },
-        "statisticsContent": {
-          "title": "Statistikalar"
-        },
-        "ordersContent": {
-          "title": "Buyurmalarni boshqarish",
-          "placeholder": "Buyurtmalar boshqaruvi bu yerda ko'rsatiladi"
-        },
-        "logoutContent": {
-          "title": "Profildan chiqish",
-          "prompt": "Hisobdan chiqish uchun tasdiqlash",
-          "confirm": "Chiqishni tasdiqlash"
-        }
+    "breadcrumbs": {
+      "home": "Bosh sahifa",
+      "profile": "Profile"
     },
-    
-      "productcontent": {
-        "title": "Mening mahsulotlarim",
-        "search": "Mahsulot qidirish...",
-        "addButton": "Mahsulot qo'shish",
-        "loading": "Yuklanmoqda...",
-        "noProducts": "Mahsulotlar topilmadi",
-        "form": {
-          "addTitle": "Mahsulot qo'shish",
-          "editTitle": "Mahsulotni tahrirlash",
-          "name": "Mahsulot nomi",
-          "address": "Sizning manzilingiz",
-          "price": "Mahsulot narxi",
-          "category": "Mahsulot kategoriyasi",
-          "description": "Tavsif",
-          "images": "Rasmlar",
-          "selectImages": "Rasmlarni tanlang",
-          "cancel": "Bekor qilish",
-          "submit": "Mahsulotni tasdiqlash",
-          "loadingSubmit": "Yuklanmoqda...",
+    "loading": "Yuklanmoqda...",
+    "noData": "Ma'lumotlar mavjud emas yoki tizimga kirmagansiz",
+    "profileContent": {
+      "title": "Mening profilim",
+      "breadcrumbs": {
+        "home": "Bosh sahifa",
+        "profile": "Profile"
+      },
+      "fields": {
+        "user_first_name": {
+          "label": "Ism familiya",
           "errors": {
-            "name": "Mahsulot nomi bo'sh bo'lmasligi kerak",
-            "description": "Tavsif bo'sh bo'lmasligi kerak",
-            "price": "Narx to'g'ri kiritilishi kerak",
-            "address": "Manzil bo'sh bo'lmasligi kerak",
-            "category": "Kategoriya tanlanmagan",
-            "images": "Kamida bitta rasm yuklash kerak"
+            "first": "Ism familiya kerak",
+            "second": "Faqat harflar va bo‘shliqlardan iborat bo‘lishi kerak"
           }
         },
-        "confirmDelete": "Mahsulotni o'chirishni tasdiqlaysizmi?",
-        "successAdd": "Mahsulot qo'shildi",
-        "successEdit": "Mahsulot yangilandi",
-        "successDelete": "Mahsulot o'chirildi",
-        "error": "Xatolik yuz berdi"
+        "email": {
+          "label": "Email"
+        },
+        "phone_number": {
+          "label": "Telefon raqam",
+          "errors": {
+            "first": "Telefon raqami kerak",
+            "second": "Telefon raqami +998 bilan boshlanib, 9 ta raqamdan iborat bo‘lishi kerak"
+          }
+        },
+        "address": {
+          "label": "Joylashuv",
+          "placeholder": "Joylashuvni tanlang"
+        },
+        "experience": {
+          "label": "Tajriba",
+          "errors": {
+            "first": "Tajriba kerak",
+            "second": "Faqat raqamlardan iborat bo‘lishi kerak"
+          }
+        },
+        "mentees": {
+          "label": "Shogirtlar",
+          "errors": {
+            "first": "Shogirtlar soni kerak",
+            "second": "Faqat raqamlardan iborat bo‘lishi kerak"
+          }
+        },
+        "profession":{
+          "label": "Kasb"
+        }
+      },
+      "image": {
+        "upload": "Drag-and-drop yoki tanlash orqali rasm yuklang (max 5MB)",
+        "uploading": "Yuklanmoqda...",
+        "errors": {
+          "size": "Fayl hajmi 10MB dan kichik bo‘lishi kerak!",
+          "type": "Faqat rasm fayllarini yuklash mumkin!"
+        }
+      },
+      "buttons": {
+        "edit": "Tahrirlash",
+        "save": "Saqlash",
+        "cancel": "Bekor qilish"
+      },
+      "messages": {
+        "success": "Ma'lumotlar muvaffaqiyatli yangilandi!",
+        "error": "Ma'lumotlarni saqlashda xatolik yuz berdi",
+        "validationError": "Iltimos, barcha maydonlarni to‘g‘ri to‘ldiring!"
+      },
+      "dragDrop": "Rasmni bu yerga tashlang",
+      "unknown": "Noma'lum"
+    },
+    "workshopContent": {
+      "title": "Mening ustaxonam",
+      "buttons": {
+        "edit": "Tahrirlash",
+        "save": "Saqlash",
+        "cancel": "Bekor qilish",
+        "addTour": "Yangi ko‘rgazma qo‘shish",
+        "addWorkshop": "Ustaxona qo‘shish"
+      },
+      "fields": {
+        "name": {
+          "label": "Ustaxona nomi",
+          "placeholder": "Ustaxona nomini kiriting"
+        },
+        "description": {
+          "label": "Ustaxona haqida",
+          "placeholder": "Ustaxona haqida ma'lumot kiriting"
+        },
+        "address": {
+          "label": "Joylashuv",
+          "placeholder": "Joylashuvni kiriting"
+        },
+        "rating": "Baho",
+        "reviews": "ta baho"
+      },
+      "virtualTours": {
+        "title": "Virtual ko‘rgazmalar",
+        "dragDrop": "Rasmni bu yerga tashlang",
+        "placeholder": "Rasmni bu yerga tashlang yoki tanlang",
+        "addPrompt": "Virtual ko‘rgazma qo‘shish"
+      },
+      "image": {
+        "upload": "Rasmni bu yerga tashlang yoki tanlang",
+        "errors": {
+          "size": "Fayl hajmi 10MB dan kichik bo‘lishi kerak!",
+          "type": "Faqat rasm fayllarini yuklash mumkin!",
+          "tourSize": "Virtual ko‘rgazma {index}: Fayl hajmi 10MB dan kichik bo‘lishi kerak!",
+          "tourType": "Virtual ko‘rgazma {index}: Faqat rasm fayllarini yuklash mumkin!"
+        }
+      },
+      "messages": {
+        "loading": "Yuklanmoqda...",
+        "noData": "Ustaxona ma'lumotlari mavjud emas",
+        "success": "Ma'lumotlar muvaffaqiyatli saqlandi!",
+        "error": "Ma'lumotlarni saqlashda xatolik yuz berdi",
+        "authError": "Foydalanuvchi autentifikatsiya qilinmagan. Iltimos, tizimga kiring."
       }
-    
-    
+    },
+    "productsContent": {
+      "title": "Mening mahsulotlarim",
+      "placeholder": "Mahsulotlar ro'yxati bu yerda ko'rsatiladi"
+    },
+    "paymentsContent": {
+      "title": "Tolovlar tarixi",
+      "placeholder": "To'lovlar tarixi bu yerda ko'rsatiladi"
+    },
+    "statisticsContent": {
+      "title": "Statistikalar"
+    },
+    "ordersContent": {
+      "title": "Buyurmalarni boshqarish",
+      "placeholder": "Buyurtmalar boshqaruvi bu yerda ko'rsatiladi"
+    },
+    "logoutContent": {
+      "title": "Profildan chiqish",
+      "prompt": "Hisobdan chiqish uchun tasdiqlash",
+      "confirm": "Chiqishni tasdiqlash"
+    }
+  },
+
+  "productcontent": {
+    "title": "Mening mahsulotlarim",
+    "search": "Mahsulot qidirish...",
+    "addButton": "Mahsulot qo'shish",
+    "loading": "Yuklanmoqda...",
+    "noProducts": "Mahsulotlar topilmadi",
+    "form": {
+      "addTitle": "Mahsulot qo'shish",
+      "editTitle": "Mahsulotni tahrirlash",
+      "name": "Mahsulot nomi",
+      "address": "Sizning manzilingiz",
+      "price": "Mahsulot narxi",
+      "category": "Mahsulot kategoriyasi",
+      "description": "Tavsif",
+      "images": "Rasmlar",
+      "selectImages": "Rasmlarni tanlang",
+      "cancel": "Bekor qilish",
+      "submit": "Mahsulotni tasdiqlash",
+      "loadingSubmit": "Yuklanmoqda...",
+      "errors": {
+        "name": "Mahsulot nomi bo'sh bo'lmasligi kerak",
+        "description": "Tavsif bo'sh bo'lmasligi kerak",
+        "price": "Narx to'g'ri kiritilishi kerak",
+        "address": "Manzil bo'sh bo'lmasligi kerak",
+        "category": "Kategoriya tanlanmagan",
+        "images": "Kamida bitta rasm yuklash kerak"
+      }
+    },
+    "confirmDelete": "Mahsulotni o'chirishni tasdiqlaysizmi?",
+    "successAdd": "Mahsulot qo'shildi",
+    "successEdit": "Mahsulot yangilandi",
+    "successDelete": "Mahsulot o'chirildi",
+    "error": "Xatolik yuz berdi"
   }
-  
+}

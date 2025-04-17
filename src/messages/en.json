@@ -62,7 +62,43 @@
       "badge": "ABOUT US",
       "title": "About Us",
       "description": "Pole reality assassin with marginalized. Revision moments globalize backwards eye gmail. Calculator tiger solutionize initiative pushback."
-    }
+    },
+    "profile": {
+      "loading": "Loading...",
+      "unknown": "Unknown",
+      "noBio": "No bio available",
+      "errors": {
+        "craftsmanFetch": "Error fetching craftsman data.",
+        "craftsmanNotFound": "Craftsman not found.",
+        "pleaseLogin": "Please log in!",
+        "noToken": "Authentication token not found.",
+        "likeFailed": "Error adding like."
+      },
+      "yearsExperience": "years of experience",
+      "mentees": "mentees",
+      "contact": "Contact",
+      "store": "Store",
+      "noProducts": "Products have not been added yet",
+      "details": "Details",
+      "like": "Like",
+      "unlike": "Unlike",
+      "liked": "Product liked!",
+      "unliked": "Like removed!"
+    },
+  "swiper": {
+    "loading": "Loading...",
+    "errors": {
+      "professionsFetch": "Error fetching professions.",
+      "craftsmenFetch": "Error fetching craftsmen."
+    },
+    "unknown": "Unknown",
+    "noBio": "No bio available",
+    "noCraftsmen": "No craftsmen found",
+    "details": "Details",
+    "viewProfile": "View {name}'s profile",
+    "yearsExperience": "years of experience",
+    "mentees": "mentees"
+  }
   },
   "header": {
     "first": "About Us",
@@ -206,6 +242,9 @@
             "first": "Number of mentees is required",
             "second": "Must consist only of numbers"
           }
+        },
+      "profession":{
+          "label": "Profession"
         }
       },
       "image": {

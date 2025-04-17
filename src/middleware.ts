@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
   const cookieStore = cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 
-  const protectedPaths = ['/profile', '/Xprofile'];
+  const protectedPaths = [ '/Xprofile'];
   const isProtectedRoute = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );

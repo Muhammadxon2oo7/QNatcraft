@@ -63,7 +63,43 @@
         "badge": "HAQINDA",
         "title": "Biz haqqında",
         "description": "Real'lıq shınayısı márginallaslandırılğan. Reviziya sholları globalizaciya qarıma-qayşılıqları. Kalkulyator yolu menen şeşim qabıllaw inisiativası."
-      }
+      },
+    "profile": {
+      "loading": "Júkleniwde...",
+      "unknown": "Belgisiz",
+      "noBio": "Bio joq",
+      "errors": {
+        "craftsmanFetch": "Sheber ma'lumatlarin aliwda qatelik júz berdi.",
+        "craftsmanNotFound": "Sheber tabilmadi.",
+        "pleaseLogin": "Ótinish, sistemag'a kirin!",
+        "noToken": "Autentifikaciya tokeni tabilmadi.",
+        "likeFailed": "Like qosiwda qatelik júz berdi."
+      },
+      "yearsExperience": "jil tájiybe",
+      "mentees": "shákirtler",
+      "contact": "Baylanisiw",
+      "store": "Dúkan",
+      "noProducts": "Ónimler áli jaylastrilmagan",
+      "details": "Toliq",
+      "like": "Únatiw",
+      "unlike": "Únatpaqshiliqti alip taslaw",
+      "liked": "Ónim únadi!",
+      "unliked": "Únatpaqshiliq alindi!"
+    },
+  "swiper": {
+    "loading": "Júkleniwde...",
+    "errors": {
+      "professionsFetch": "Kasplardi aliwda qatelik júz berdi.",
+      "craftsmenFetch": "Sheberlerdi aliwda qatelik júz berdi."
+    },
+    "unknown": "Belgisiz",
+    "noBio": "Bio joq",
+    "noCraftsmen": "Sheberler tabilmadi",
+    "details": "Toliq",
+    "viewProfile": "{name} profilin kóriw",
+    "yearsExperience": "jil tájiybe",
+    "mentees": "shákirtler"
+  }
     },
     "header": {
       "first": "Biz haqqında",
@@ -208,6 +244,9 @@
             "first": "Shákirtler sanı kerek",
             "second": "Tek sanlardan ibarat bolıwı kerek"
           }
+        },
+        "profession":{
+          "label": "Kasb"
         }
       },
       "image": {
