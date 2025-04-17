@@ -1,15 +1,12 @@
-
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import Splide from '@splidejs/splide';
 import '@splidejs/splide/css';
 import { Badge } from '@/components/ui/badge';
 import { Dot } from '@/components/dot/Dot';
 import { Litsense } from '../../../public/img/litsense';
-
 import { Cube } from '../../../public/img/cube';
-
 import { Group } from '../../../public/img/group';
 import { Button } from '@/components/ui/button';
 import { Arrow } from '../../../public/img/Arrow';
@@ -51,6 +48,7 @@ const CustomSwiper = () => {
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const splideRef = useRef<Splide | null>(null);
 
   const fetchProfessions = useCallback(async () => {
     try {
@@ -83,16 +81,16 @@ const CustomSwiper = () => {
 
   useEffect(() => {
     Promise.all([fetchProfessions(), fetchCraftsmen()]);
-  }, [fetchProfessions, fetchCraftsmen])
+  }, [fetchProfessions, fetchCraftsmen]);
 
   useEffect(() => {
     if (isLoading || error || craftsmen.length === 0) return;
-  
+
     const splide = new Splide('#splide', {
       type: 'loop',
       autoplay: true,
-      interval: 3000,
-      speed: 800,
+      interval: 3000, // Increased delay for clear transitions
+      speed: 800, // Smooth transition speed
       pauseOnHover: false,
       pauseOnFocus: false,
       perPage: Math.min(craftsmen.length, 3),
@@ -101,13 +99,33 @@ const CustomSwiper = () => {
       gap: '1.5rem',
       padding: '5%',
       pagination: false,
+      waitForTransition: true, // Ensure transitions complete before next move
+      breakpoints: {
+        640: {
+          perPage: 1,
+          gap: '1rem',
+          padding: '2%',
+        },
+        768: {
+          perPage: 2,
+          gap: '1.25rem',
+        },
+        1024: {
+          perPage: Math.min(craftsmen.length, 3),
+        },
+      },
     });
-  
-    splide.on('moved', () => setActiveIndex(splide.index));
+
+    splide.on('move', (newIndex: number) => {
+      setActiveIndex(newIndex); // Update active index before transition starts
+    });
+
     splide.mount();
-  
+    splideRef.current = splide;
+
     return () => {
-      splide.destroy(); // Bu void qaytaradi
+      splide.destroy();
+      splideRef.current = null;
     };
   }, [isLoading, error, craftsmen]);
 
@@ -138,13 +156,13 @@ const CustomSwiper = () => {
   }
 
   return (
-    <div className="mx-auto">
+    <div className="mx-auto  px-4">
       <div id="splide" className="splide">
         <div className="splide__arrows hidden md:block">
-          <button className="splide__arrow splide__arrow--prev">
+          <button className="splide__arrow splide__arrow--prev bg-primary hover:bg-primary-dark transition-colors rounded-full p-3">
             <Left />
           </button>
-          <button className="splide__arrow splide__arrow--next">
+          <button className="splide__arrow splide__arrow--next bg-primary hover:bg-primary-dark transition-colors rounded-full p-3">
             <Right />
           </button>
         </div>
@@ -153,20 +171,22 @@ const CustomSwiper = () => {
             {craftsmen.map((craftsman, index) => (
               <li
                 key={craftsman.id}
-                className={`splide__slide bg-white rounded-3xl p-4 transition-transform duration-300 ${
-                  index === activeIndex ? 'opacity-100 bg-orange-50' : 'opacity-60'
+                className={`splide__slide bg-white rounded-3xl p-4 transition-all duration-500 ease-in-out w-full ${
+                  index === activeIndex
+                    ? 'opacity-100 bg-[#e6c7c9] scale-100 shadow-lg z-10'
+                    : 'opacity-60 bg-white scale-95 shadow-md z-0'
                 }`}
               >
                 <div className="flex flex-col-reverse md:flex-row gap-6">
                   <div className="flex-1">
-                    <Badge className="rounded-full bg-primary text-white inline-flex gap-2 p-3 mb-4">
+                    <Badge className="rounded-full bg-primary text-white inline-flex gap-2 p-3 mb-4 hover:bg-primary">
                       <Dot />
                       <p className="font-medium text-sm">{getProfessionName(craftsman.profession)}</p>
                     </Badge>
                     <h3 className="text-xl font-semibold text-[#242b3a]">
                       {craftsman.user_first_name || t('unknown')}
                     </h3>
-                    <p className="text-gray-500 text-sm mb-6">{craftsman.bio || t('noBio')}</p>
+                    <p className="text-gray-500 text-sm mb-6 line-clamp-3">{craftsman.bio || t('noBio')}</p>
                     <div className="grid grid-cols-2 gap-4 mb-6">
                       <div className="flex items-center gap-3">
                         <div className="rounded-full p-2 bg-white/40">
@@ -194,7 +214,7 @@ const CustomSwiper = () => {
                       )}
                     </div>
                     <Button
-                      className="w-[160px] h-12 border-orange-500 flex gap-2 items-center"
+                      className="w-[160px] h-12 border-orange-500 flex gap-2 items-center hover:bg-primary"
                       aria-label={t('viewProfile', { name: craftsman.user_first_name || t('unknown') })}
                     >
                       <Link href={`/profile/${craftsman.id}`} className="flex gap-2">
@@ -210,6 +230,7 @@ const CustomSwiper = () => {
                       width={400}
                       height={300}
                       className="rounded-2xl object-cover w-full h-[250px] md:h-[300px]"
+                      priority={index === activeIndex}
                     />
                   </div>
                 </div>
