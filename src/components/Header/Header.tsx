@@ -110,7 +110,7 @@ export const Header = () => {
       return (
         <div className="flex flex-col gap-2">
           <Button className="w-full text-white" asChild>
-            <Link href="/profile">{user.user_first_name}</Link>
+            <Link href="/profile">{user?.profile?.user_first_name}</Link>
           </Button>
           <Button className="w-full bg-red-500 text-white" onClick={logout}>
             {t("logout")}
@@ -203,7 +203,7 @@ export const Header = () => {
           <Button variant="ghost" size="icon" className="md:hidden">
             {user ? (
               <Link href="/profile">
-                <span className="text-sm font-medium">{user.user_first_name}</span>
+                <span className="text-sm font-medium">{user?.profile?.user_first_name}</span>
               </Link>
             ) : (
               <Link href="/login">
