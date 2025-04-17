@@ -1341,7 +1341,6 @@
 
 "use client";
 
-
 import { useState, useEffect, Suspense, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -1380,7 +1379,6 @@ import ProductsContent from "@/components/Xprofile/ProductsContent/ProductsConte
 import fetchWrapperClient from "@/services/fetchWrapperClient";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import VirtualTourCard from "@/components/Virtual/VirtualTourCard";
-import { log } from "console";
 
 interface SidebarItem {
   id: string;
@@ -1776,9 +1774,6 @@ function ProfileContentSimple({ userData }: { userData: UserData }) {
   );
 }
 
-
-
-
 function ProfileContent({ userData }: { userData: UserData | null }) {
   const t = useTranslations("profile.profileContent");
   const [isEditing, setIsEditing] = useState(false);
@@ -1792,7 +1787,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
     experience: String(userData?.profile.experience || ""),
     mentees: String(userData?.profile.mentees || ""),
     bio: userData?.profile.bio || "",
-    profession: String(userData?.profile.profession || ""), // profession id sifatida (string)
+    profession: String(userData?.profile.profession || ""),
   });
   const [inputErrors, setInputErrors] = useState({
     user_first_name: "",
@@ -1973,9 +1968,9 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
         if (key === "experience" || key === "mentees") {
           formData.append(key, value ? String(Number(value)) : "");
         } else if (key === "profession" && value) {
-          formData.append(key, value); // profession id sifatida yuboriladi
+          formData.append(key, value);
         } else if (key === "user_first_name") {
-          formData.append("user_first_name", value); // user_first_name alohida yuboriladi
+          formData.append("user_first_name", value);
         } else if (value) {
           formData.append(key, value);
         }
@@ -2007,7 +2002,7 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
     }
   };
 
-  const getProfessionName = (id: string | number | undefined) => {
+  const getProfessionName = (id: number | null | undefined) => {
     if (!id) return t("unknown");
     const profession = professions.find((p) => p.id === Number(id));
     return profession?.name || t("unknown");
@@ -2191,10 +2186,6 @@ function ProfileContent({ userData }: { userData: UserData | null }) {
               )}
             </div>
 
-
-
-
-
             <div>
               <p className="text-sm text-gray-500 mb-1">{t("fields.experience.label")}</p>
               {isEditing ? (
@@ -2329,10 +2320,6 @@ interface VirtualTourItem {
   id?: number;
   file: File | null;
   preview: string | null;
-}
-
-interface UserData {
-  user_id: number | string;
 }
 
 const WorkshopContent: React.FC<{ userData: UserData | null }> = ({ userData }) => {
@@ -2792,7 +2779,7 @@ function PaymentsContent() {
       <div className="p-8 text-center text-gray-500">
         <Clock className="h-16 w-16 mx-auto mb-4 text-gray-400" />
         <p>{t("placeholder")}</p>
-        <h4 ><strong>Ushbu funksiya tez orada ishga tushadi</strong></h4>
+        <h4><strong>Ushbu funksiya tez orada ishga tushadi</strong></h4>
       </div>
     </div>
   );
@@ -2815,8 +2802,7 @@ function OrdersContent() {
       <div className="p-8 text-center text-gray-500">
         <Settings className="h-16 w-16 mx-auto mb-4 text-gray-400" />
         <p>{t("placeholder")}</p>
-        <h4 ><strong>Ushbu funksiya tez orada ishga tushadi</strong></h4>
-
+        <h4><strong>Ushbu funksiya tez orada ishga tushadi</strong></h4>
       </div>
     </div>
   );

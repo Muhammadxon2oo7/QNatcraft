@@ -14,16 +14,15 @@ interface Profession {
 }
 
 interface ProfileData {
-  is_verified: any;
   id: number | string;
   user_email: string;
   user_first_name: string;
   phone_number?: string | null;
   address?: string | null;
-  profile_image?: "/img/user.png";
+  profile_image?: string | null;
   experience?: number | null;
   mentees?: number | null;
-  profession?: Profession | null;
+  profession?: number | null;
   bio?: string | null;
   latitude?: number | null;
   longitude?: number | null;
@@ -31,16 +30,15 @@ interface ProfileData {
   created_at?: string;
   updated_at?: string;
   user?: number | string;
+  is_verified: boolean;
 }
 
 interface UserData {
-  id: any;
-  user_first_name: ReactNode;
   email: string;
   message?: string;
   profile: ProfileData;
   user_id: number | string;
-  token: string; // Tokenni user ob'ektiga qo'shish
+  token:string
 }
 
 interface AuthContextType {
