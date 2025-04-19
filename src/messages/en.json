@@ -51,6 +51,43 @@
         "first": "Handicraft Objects",
         "second": "Handicraft Masters",
         "third": "Types of Handicrafts"
+      },
+      "map":{
+        "badge": "STATISTICS",
+        "title": "Karakalpakstan Craftsmanship Statistics",
+        "description": "Explore the overall statistics for various regions and types of crafts in the Republic of Karakalpakstan. Select a region and craft to get precise data.",
+        "regions": {
+          "title": "Regions",
+          "first": "Kungrad District",
+          "second": "Muynak District",
+          "third": "Shumanay District",
+          "fourth": "Takhtakupyr District",
+          "fifth": "Amudarya District",
+          "sixth": "Nukus District",
+          "seventh": "Khujayli District",
+          "eight": "Takhiatash District",
+          "nine": "Beruniy District",
+          "ten": "Ellikkala District",
+          "eleven": "Turtkul District",
+          "twelve": "Karaozek District",
+          "thirteen": "Chimbay District",
+          "fourteen": "Bozatau District",
+          "fifteen": "Kegeyli District",
+          "sixteen": "Kanlykul District"
+        },
+        "statistic": {
+          "workshops": "Total Workshops",
+          "craftsmen": "Total Craftsmen",
+          "products": "Total Products"
+        },
+        "prompts": {
+          "selectCraft": "Now select a craft",
+          "selectRegion": "Now select a region"
+        },
+        "errors": {
+          "api": "Error loading data"
+        },
+        "loading": "Loading..."
       }
     },
     "fifthSection": {

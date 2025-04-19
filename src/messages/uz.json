@@ -51,6 +51,45 @@
         "first": "Hunarmandchilik obyektlari",
         "second": "Hunarmand ustalar",
         "third": "Hunarmandchilik turlari"
+      },
+      "map":{
+        "badge": "STATISTIKA",
+        "title": "Qoraqalpog‘iston hunarmandchilik statistikasi",
+        "description": "Qoraqalpog‘iston Respublikasining turli hududlari va hunarmandchilik turlari bo‘yicha umumiy statistikani ko‘ring. Hudud va kasbni tanlab, aniq ma’lumotlarni oling.",
+        "regions": {
+          "title": "Hududlar",
+          "first": "Qo‘ng‘irot tumani",
+          "second": "Mo‘ynoq tumani",
+          "third": "Shumanag tumani",
+          "fourth": "Taxtako‘pir tumani",
+          "fifth": "Amudaryo tumani",
+          "sixth": "Nukus tumani",
+          "seventh": "Xo‘jayli tumani",
+          "eight": "Taxiatosh tumani",
+          "nine": "Beruniy tumani",
+          "ten": "Ellik qal‘a tumani",
+          "eleven": "To‘rtko‘l tumani",
+          "twelve": "Qorao‘zak tumani",
+          "thirteen": "Chimboy tumani",
+          "fourteen": "Bo‘zatov tumani",
+          "fifteen": "Kegeyli tumani",
+          "sixteen": "Qanliko‘l tumani"
+        },
+        "statistic": {
+          "workshops": "Jami ustaxonalar",
+          "craftsmen": "Jami hunarmandlar",
+          "products": "Jami mahsulotlar",
+          "experiencedCraftsmen": "Tajribali hunarmandlar",
+    "avgProductPrice": "O‘rtacha mahsulot narxi"
+        },
+        "prompts": {
+          "selectCraft": "Endi kasbni tanlang",
+          "selectRegion": "Endi hududni tanlang"
+        },
+        "errors": {
+          "api": "Ma’lumotlarni yuklashda xatolik yuz berdi"
+        },
+        "loading": "Yuklanmoqda..."
       }
     },
     "fifthSection": {

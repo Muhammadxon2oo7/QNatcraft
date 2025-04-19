@@ -52,6 +52,43 @@
             "first": "Hunarmanşılıq ob'ektleri",
             "second": "Hunarman ustalar",
             "third": "Hunarmanşılıq túrleri"
+        },
+        "map":{
+          "badge": "STATISTIKA",
+          "title": "Qaraqalpaqstan ushın statistika",
+          "description": "Qaraqalpaqstan Respublikasınıń ártúrli rayonları hám ushın turları boyınsha umumiy statistikanı kóriń. Rayon hám kasip saylap, anıq maǵlıwmatlar alıń.",
+          "regions": {
+            "title": "Rayonlar",
+            "first": "Qońırat rayoni",
+            "second": "Moynaq rayoni",
+            "third": "Shumanay rayoni",
+            "fourth": "Taxtakópir rayoni",
+            "fifth": "Amudarya rayoni",
+            "sixth": "Nókis rayoni",
+            "seventh": "Xojeli rayoni",
+            "eight": "Taxiatash rayoni",
+            "nine": "Beruniy rayoni",
+            "ten": "Ellik qala rayoni",
+            "eleven": "Tórtkúl rayoni",
+            "twelve": "Qaraózek rayoni",
+            "thirteen": "Shimbay rayoni",
+            "fourteen": "Bozataw rayoni",
+            "fifteen": "Kegeyli rayoni",
+            "sixteen": "Qanlikól rayoni"
+          },
+          "statistic": {
+            "workshops": "Jami ushaxanalar",
+            "craftsmen": "Jami ushalar",
+            "products": "Jami óyimler"
+          },
+          "prompts": {
+            "selectCraft": "Endi kasip saylań",
+            "selectRegion": "Endi rayonnı saylań"
+          },
+          "errors": {
+            "api": "Maǵlıwmatlardı júklewde qátelik boldı"
+          },
+          "loading": "Júkleniwde..."
         }
       },
       "fifthSection": {
