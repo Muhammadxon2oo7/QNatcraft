@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Button } from "../ui/button";
@@ -5,74 +6,153 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { debounce } from "lodash";
+import { z } from "zod";
 
-// API javob tuzilmalari uchun interfeyslar
-interface Craftsman {
-  id: number;
-  user_email: string;
-  user_first_name: string;
-  is_verified: boolean;
-  profession: number | null;
-  bio: string | null;
-  profile_image: string | null;
-  address: string | null;
-  latitude: number | null;
-  longitude: number | null;
-  phone_number: string | null;
-  experience: number;
-  mentees: number;
-  award: string | null;
-  created_at: string;
-  updated_at: string;
-  user: number;
-}
+// API response validation schemas using Zod
+const CraftsmanSchema = z.object({
+  id: z.number(),
+  user_email: z.string(),
+  user_first_name: z.string(),
+  is_verified: z.boolean(),
+  profession: z.number().nullable(),
+  bio: z.string().nullable(),
+  profile_image: z.string().nullable(),
+  address: z.string().nullable(),
+  latitude: z.number().nullable(),
+  longitude: z.number().nullable(),
+  phone_number: z.string().nullable(),
+  experience: z.number(),
+  mentees: z.number(),
+  award: z.string().nullable(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  user: z.number(),
+});
 
-interface Product {
-  id: number;
-  category: number;
-  user: number;
-  address: string;
-  name: string;
-  price: string;
-}
+const ProductSchema = z.object({
+  id: z.number(),
+  category: z.number(),
+  user: z.number(),
+  address: z.string(),
+  name: z.string(),
+  price: z.string(),
+});
 
-interface Profession {
-  id: number;
-  name: string;
-}
+const ProfessionSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+});
 
-interface Workshop {
-  id: number;
-  address: string;
-}
+const WorkshopSchema = z.object({
+  id: z.number(),
+  user: z.number(),
+  address: z.string(),
+});
 
+// Interfaces
+interface Craftsman extends z.infer<typeof CraftsmanSchema> {}
+interface Product extends z.infer<typeof ProductSchema> {}
+interface Profession extends z.infer<typeof ProfessionSchema> {}
+interface Workshop extends z.infer<typeof WorkshopSchema> {}
 interface Statistics {
   totalWorkshops: number;
   totalCraftsmen: number;
   totalProducts: number;
 }
 
+// Reusable UI components
+const StatisticCard = ({ value, label }: { value: number; label: string }) => (
+  <div className="rounded-xl px-5 py-4 bg-[#f6f6f6] flex flex-col items-center text-center w-full max-w-[325px] shadow-sm hover:shadow-md transition-shadow duration-300">
+    <p className="font-bold text-4xl bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent">{value}</p>
+    <span className="font-medium text-lg text-[#242b3a] mt-2">{label}</span>
+  </div>
+);
+
+const RegionButton = ({
+  region,
+  isSelected,
+  isActive,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  setButtonRef,
+}: {
+  region: { id: string; name: string };
+  isSelected: boolean;
+  isActive: boolean;
+  onClick: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  setButtonRef: (node: HTMLButtonElement | null) => void;
+}) => (
+  <Button
+    ref={setButtonRef}
+    disabled={!isActive}
+    className={cn(
+      "min-w-[160px] lg:w-full h-12 rounded-lg px-4 py-2 text-left transition-all duration-300 snap-center",
+      isSelected
+        ? "bg-gradient-to-r from-[#9e1114] to-[#530607] text-white"
+        : "bg-[#f6f6f6] text-[#242b3a] hover:bg-[#e0e0e0]",
+      !isSelected && isActive && "hover:bg-[#e0e0e0]",
+      !isActive && "opacity-50 cursor-not-allowed"
+    )}
+    onClick={onClick}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+    title={!isActive ? "No craftsmen available in this region" : ""}
+  >
+    {region.name}
+  </Button>
+);
+
+const CraftButton = ({
+  craft,
+  isSelected,
+  isActive,
+  onClick,
+}: {
+  craft: string;
+  isSelected: boolean;
+  isActive: boolean;
+  onClick: () => void;
+}) => (
+  <Button
+    disabled={!isActive}
+    className={cn(
+      "rounded-lg px-4 py-2 min-w-[160px] h-12 shadow-none transition-all duration-300 snap-center",
+      isSelected
+        ? "bg-gradient-to-r from-[#9e1114] to-[#530607] text-white"
+        : "bg-[#f6f6f6] text-[#242b3a] hover:bg-[#e0e0e0]",
+      !isActive && "opacity-50 cursor-not-allowed"
+    )}
+    onClick={onClick}
+    title={!isActive ? "This craft is not available in the selected region" : ""}
+  >
+    {craft}
+  </Button>
+);
+
 const QoraqalpogistonMap = () => {
   const tfourth = useTranslations("home.fourthSection.map");
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [selectedCraft, setSelectedCraft] = useState<string | null>(null);
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
-  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
-  const [typeOfCrafts, setTypeOfCrafts] = useState<string[]>([]);
-  const [statistics, setStatistics] = useState<Statistics | null>(null);
+  const [statistics, setStatistics] = useState<Statistics>({ totalWorkshops: 0, totalCraftsmen: 0, totalProducts: 0 });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [toastShown, setToastShown] = useState<{ [key: string]: boolean }>({});
+  const shownToasts = useRef<Set<string>>(new Set());
   const [cachedData, setCachedData] = useState<{
-    craftsmen?: Craftsman[];
-    products?: Product[];
-    professions?: Profession[];
-    workshops?: Workshop[];
-  }>({});
+    craftsmen: Craftsman[];
+    products: Product[];
+    professions: Profession[];
+    workshops: Workshop[];
+  }>({ craftsmen: [], products: [], professions: [], workshops: [] });
   const [activeRegions, setActiveRegions] = useState<string[]>([]);
+  const [allCrafts, setAllCrafts] = useState<string[]>([]);
   const [activeCrafts, setActiveCrafts] = useState<string[]>([]);
   const selectedButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  // Hududlar ro‘yxati (UI uchun, barchasi ko‘rinadi)
+  // Region list
   const regions = useMemo(
     () => [
       { id: "Qo`ng`irot tumani", name: tfourth("regions.first") },
@@ -84,7 +164,7 @@ const QoraqalpogistonMap = () => {
       { id: "Xo`jayli tumani", name: tfourth("regions.seventh") },
       { id: "Taxiatosh tumani", name: tfourth("regions.eight") },
       { id: "Beruniy tumani", name: tfourth("regions.nine") },
-      { id: "Ellik qal`a tumani", name: tfourth("regions.ten") },
+      { id: "Ellik qal`a tumani", name: "Ellik qal`a tumani" },
       { id: "To`rtko`l tumani", name: tfourth("regions.eleven") },
       { id: "Qorao`zak tumani", name: tfourth("regions.twelve") },
       { id: "Chimboy tumani", name: tfourth("regions.thirteen") },
@@ -95,42 +175,85 @@ const QoraqalpogistonMap = () => {
     [tfourth]
   );
 
-  // Hudud nomlarini normallashtirish
-  const normalizeRegion = (region: string | null): string => {
-    if (!region) return "";
-    const regionMap: { [key: string]: string } = {
-      Beruniy: "Beruniy tumani",
-      "Mo`ynoq": "Mo`ynoq tumani",
-      Toshkent: "Tashkent",
-      Qoraqalpogiston: "Qoraqalpog'iston",
-      Qayer: "Qoraqalpog'iston",
-      Kegeyli: "Kegeyli tumani",
-      Nukus: "Nukus tumani",
-    };
-    return regionMap[region] || region;
-  };
-
-  // Dinamik hudud nomlarini olish
-  const getRegionDisplayName = (regionId: string): string => {
-    const region = regions.find((r) => r.id === regionId);
-    return region ? region.name : regionId;
-  };
-
-  // Kasb va kategoriya mosliklari
+  // Profession to category mapping
   const professionToCategoryMap: { [key: string]: string } = {
     Zargar: "Zargarlik",
     Tikuvchi: "Kiyim-kechak",
+    Temirchi: "Temirchilik",
+    Kulol: "Kulolchilik",
+    "Yog'och ustasi": "Yog‘och ishlari",
+    "To'quvchi": "To‘quvchilik",
+    // Gilamdo‘z: "Gilamdo‘zlik",
+    Naqqosh: "Naqqoshlik",
+    "Charm ustasi": "Charm ishlari",
   };
 
-  // API’dan ma'lumotlarni olish va keshlash
+  // Normalize region names
+  const normalizeRegion = useCallback(
+    (region: string | null): string => {
+      if (!region) return "";
+      const regionMap: { [key: string]: string } = {
+        Beruniy: "Beruniy tumani",
+        "Mo`ynoq": "Mo`ynoq tumani",
+        Toshkent: "Toshkent",
+        Qoraqalpogiston: "Qoraqalpog'iston",
+        Qayer: "Qoraqalpog'iston",
+        Kegeyli: "Kegeyli tumani",
+        Nukus: "Nukus tumani",
+        "Qong'irot": "Qo`ng`irot tumani",
+      };
+      const normalized = regionMap[region] || region;
+      return regions.find(r => r.id === normalized || normalized.includes(r.id.replace(" tumani", "")))?.id || normalized;
+    },
+    [regions]
+  );
+
+  // Get display name for region
+  const getRegionDisplayName = useCallback(
+    (regionId: string): string => {
+      const region = regions.find(r => r.id === regionId);
+      return region ? region.name : regionId;
+    },
+    [regions]
+  );
+
+  // Index data for performance
+  const indexData = useCallback(
+    (craftsmen: Craftsman[], professions: Profession[]) => {
+      const professionMap = new Map(professions.map(p => [p.id, p.name]));
+      const craftsmenByProfession = new Map<number, Craftsman[]>();
+      const craftsmenByRegion = new Map<string, Craftsman[]>();
+      const craftsmenByUser = new Map<number, Craftsman>();
+
+      craftsmen
+        .filter(c => c.is_verified)
+        .forEach(c => {
+          craftsmenByUser.set(c.user, c);
+          if (c.profession) {
+            const currentProfession = craftsmenByProfession.get(c.profession) || [];
+            craftsmenByProfession.set(c.profession, [...currentProfession, c]);
+          }
+          const region = normalizeRegion(c.address);
+          if (region) {
+            const currentRegion = craftsmenByRegion.get(region) || [];
+            craftsmenByRegion.set(region, [...currentRegion, c]);
+          }
+        });
+
+      return { professionMap, craftsmenByProfession, craftsmenByRegion, craftsmenByUser };
+    },
+    [normalizeRegion]
+  );
+
+  // Fetch and validate data from API
   const fetchData = useCallback(
     async (forceRefresh = false) => {
       if (
         !forceRefresh &&
-        cachedData.craftsmen &&
-        cachedData.products &&
-        cachedData.professions &&
-        cachedData.workshops
+        cachedData.craftsmen.length &&
+        cachedData.products.length &&
+        cachedData.professions.length &&
+        cachedData.workshops.length
       ) {
         return cachedData;
       }
@@ -146,396 +269,274 @@ const QoraqalpogistonMap = () => {
         ]);
 
         if (!craftsmenRes.ok || !productsRes.ok || !professionsRes.ok || !workshopsRes.ok) {
-          throw new Error("API javobida xato");
+          throw new Error("API response error");
         }
 
         const [craftsmenData, productsData, professionsData, workshopsData] = await Promise.all([
-          craftsmenRes.json() as Promise<Craftsman[]>,
-          productsRes.json() as Promise<Product[]>,
-          professionsRes.json() as Promise<Profession[]>,
-          workshopsRes.json() as Promise<Workshop[]>,
+          craftsmenRes.json().then(data => CraftsmanSchema.array().parse(data)),
+          productsRes.json().then(data => ProductSchema.array().parse(data)),
+          professionsRes.json().then(data => ProfessionSchema.array().parse(data)),
+          workshopsRes.json().then(data => WorkshopSchema.array().parse(data)),
         ]);
 
-        // Faqat is_verified: true bo‘lgan profillarni filtrlaymiz
-        const verifiedCraftsmen = craftsmenData.filter((craftsman) => craftsman.is_verified);
-
-        // Kasblarni aniqlash
+        // Set all crafts, sorted alphabetically
         const crafts = Array.from(
           new Set(
-            verifiedCraftsmen
-              .filter((craftsman) => craftsman.profession !== null)
-              .map((craftsman) => {
-                const professionName = professionsData.find(
-                  (prof) => prof.id === craftsman.profession
-                )?.name;
-                return professionName
-                  ? professionToCategoryMap[professionName] || professionName
-                  : "";
-              })
-              .filter((name) => name !== "")
+            professionsData.map(p => professionToCategoryMap[p.name] || p.name)
           )
-        );
+        ).sort();
+        setAllCrafts(crafts);
 
-        if (!crafts.length && verifiedCraftsmen.length) {
-          console.warn("No valid professions found due to missing profession data");
-        }
-
-        setTypeOfCrafts(crafts);
-        setActiveCrafts(crafts);
-
-        // Dinamik hududlarni aniqlash
-        const allRegions = Array.from(
-          new Set(
-            verifiedCraftsmen
-              .filter((craftsman) => craftsman.address !== null)
-              .map((craftsman) => normalizeRegion(craftsman.address))
-              .filter((region) => region !== "")
-          )
-        );
-        setActiveRegions(allRegions);
-
-        const newData = {
-          craftsmen: verifiedCraftsmen,
-          products: productsData,
-          professions: professionsData,
-          workshops: workshopsData,
-        };
+        const newData = { craftsmen: craftsmenData, products: productsData, professions: professionsData, workshops: workshopsData };
         setCachedData(newData);
-
         return newData;
-      } catch (error: Error) {
-        console.error("API xatosi:", error.message);
+      } catch (error) {
+        console.error("API error:", error);
         setError(tfourth("errors.api"));
-        if (!toastShown["api-error"]) {
-          toast.error(tfourth("errors.api"), { id: "api-error", duration: 4000 });
-          setToastShown((prev) => ({ ...prev, "api-error": true }));
-        }
+        showToast("api-error", tfourth("errors.api"));
         return null;
       } finally {
         setLoading(false);
       }
     },
-    [tfourth, toastShown]
+    [tfourth]
   );
 
-  // Faol hududlarni yangilash (kasb tanlanganda)
-  const updateActiveRegions = useCallback(
-    (profession: string | null, craftsmenData: Craftsman[], professionsData: Profession[]) => {
+  // Show toast notifications
+  const showToast = useCallback((key: string, message: string, type: "info" | "warning" = "info") => {
+    if (!shownToasts.current.has(key)) {
+      toast[type](message, { id: key, duration: 4000, position: "top-right" });
+      shownToasts.current.add(key);
+    }
+  }, []);
+
+  // Calculate active regions
+  const calculateActiveRegions = useCallback(
+    (craftsmen: Craftsman[], professions: Profession[], profession: string | null) => {
+      const { professionMap } = indexData(craftsmen, professions);
       if (!profession) {
-        const allRegions = Array.from(
-          new Set(
-            craftsmenData
-              .filter((craftsman) => craftsman.is_verified && craftsman.address !== null)
-              .map((craftsman) => normalizeRegion(craftsman.address))
-              .filter((region) => region !== "")
-          )
-        );
-        setActiveRegions(allRegions);
-        return;
+        return Array.from(new Set(craftsmen.filter(c => c.is_verified && c.address).map(c => normalizeRegion(c.address)).filter(Boolean)));
       }
 
-      const mappedProfession =
-        Object.keys(professionToCategoryMap).find(
-          (key) => professionToCategoryMap[key] === profession
-        ) || profession;
-
-      const activeRegions = Array.from(
+      const mappedProfession = Object.keys(professionToCategoryMap).find(key => professionToCategoryMap[key] === profession) || profession;
+      return Array.from(
         new Set(
-          craftsmenData
-            .filter(
-              (craftsman) =>
-                craftsman.is_verified &&
-                craftsman.address !== null &&
-                craftsman.profession !== null &&
-                professionsData.find((prof) => prof.id === craftsman.profession)?.name ===
-                  mappedProfession
-            )
-            .map((craftsman) => normalizeRegion(craftsman.address))
-            .filter((region) => region !== "")
+          craftsmen
+            .filter(c => c.is_verified && c.address && c.profession && professionMap.get(c.profession) === mappedProfession)
+            .map(c => normalizeRegion(c.address))
+            .filter(Boolean)
         )
       );
-      setActiveRegions(activeRegions);
-
-      // Agar tanlangan hudud faol hududlar ro‘yxatida bo‘lmasa, uni null qilish
-      if (selectedRegion && !activeRegions.includes(selectedRegion)) {
-        setSelectedRegion(null);
-      }
     },
-    [selectedRegion]
+    [indexData, normalizeRegion]
   );
 
-  // Faol kasblarni yangilash (hudud tanlanganda)
-  const updateActiveCrafts = useCallback(
-    (region: string | null, craftsmenData: Craftsman[], professionsData: Profession[]) => {
+  // Calculate active crafts
+  const calculateActiveCrafts = useCallback(
+    (craftsmen: Craftsman[], professions: Profession[], region: string | null) => {
+      const { professionMap } = indexData(craftsmen, professions);
       if (!region) {
-        const allCrafts = Array.from(
+        return Array.from(
           new Set(
-            craftsmenData
-              .filter((craftsman) => craftsman.is_verified && craftsman.profession !== null)
-              .map((craftsman) => {
-                const professionName = professionsData.find(
-                  (prof) => prof.id === craftsman.profession
-                )?.name;
-                return professionName
-                  ? professionToCategoryMap[professionName] || professionName
-                  : "";
+            craftsmen
+              .filter(c => c.is_verified && c.profession)
+              .map(c => {
+                const name = professionMap.get(c.profession!);
+                return name ? professionToCategoryMap[name] || name : "";
               })
-              .filter((name) => name !== "")
+              .filter(Boolean)
           )
         );
-        setActiveCrafts(allCrafts);
-        return;
       }
 
-      const activeCrafts = Array.from(
+      return Array.from(
         new Set(
-          craftsmenData
-            .filter(
-              (craftsman) =>
-                craftsman.is_verified &&
-                craftsman.profession !== null &&
-                normalizeRegion(craftsman.address) === region
-            )
-            .map((craftsman) => {
-              const professionName = professionsData.find(
-                (prof) => prof.id === craftsman.profession
-              )?.name;
-              return professionName
-                ? professionToCategoryMap[professionName] || professionName
-                : "";
+          craftsmen
+            .filter(c => c.is_verified && c.profession && normalizeRegion(c.address) === region)
+            .map(c => {
+              const name = professionMap.get(c.profession!);
+              return name ? professionToCategoryMap[name] || name : "";
             })
-            .filter((name) => name !== "")
+            .filter(Boolean)
         )
       );
-      setActiveCrafts(activeCrafts);
-
-      // Agar tanlangan kasb faol kasblar ro‘yxatida bo‘lmasa, uni null qilish
-      if (clickedIndex !== null && !activeCrafts.includes(typeOfCrafts[clickedIndex])) {
-        setClickedIndex(null);
-      }
     },
-    [typeOfCrafts, clickedIndex]
+    [indexData, normalizeRegion]
   );
 
-  // Statistika hisoblash
+  // Calculate statistics
   const calculateStatistics = useCallback(
     (
-      craftsmenData: Craftsman[],
-      productsData: Product[],
-      professionsData: Profession[],
-      workshopsData: Workshop[],
+      craftsmen: Craftsman[],
+      products: Product[],
+      professions: Profession[],
+      workshops: Workshop[],
       region: string | null,
       profession: string | null
-    ) => {
+    ): Statistics => {
+      const { professionMap, craftsmenByUser } = indexData(craftsmen, professions);
       let totalCraftsmen = 0;
       let totalProducts = 0;
       let totalWorkshops = 0;
 
-      const verifiedCraftsmen = craftsmenData.filter((craftsman) => craftsman.is_verified);
+      const verifiedCraftsmen = craftsmen.filter(c => c.is_verified);
+      const mappedProfession = profession
+        ? Object.keys(professionToCategoryMap).find(key => professionToCategoryMap[key] === profession) || profession
+        : null;
 
       if (region && profession) {
-        const mappedProfession =
-          Object.keys(professionToCategoryMap).find(
-            (key) => professionToCategoryMap[key] === profession
-          ) || profession;
-
-        // Hunarmandlar
         totalCraftsmen = verifiedCraftsmen.filter(
-          (craftsman) =>
-            normalizeRegion(craftsman.address) === region &&
-            craftsman.profession !== null &&
-            professionsData.find((prof) => prof.id === craftsman.profession)?.name ===
-              mappedProfession
+          c =>
+            normalizeRegion(c.address) === region &&
+            c.profession &&
+            professionMap.get(c.profession) === mappedProfession
         ).length;
 
-        // Mahsulotlar
-        const professionEntry = professionsData.find((prof) => prof.name === profession);
+        const professionEntry = professions.find(p => p.name === mappedProfession);
         totalProducts = professionEntry
-          ? productsData.filter(
-              (product) =>
-                normalizeRegion(product.address) === region &&
-                product.category === professionEntry.id
-            ).length
+          ? products.filter(p => normalizeRegion(p.address) === region && p.category === professionEntry.id).length
           : 0;
 
-        // Workshoplar
-        totalWorkshops = workshopsData.filter(
-          (workshop) => normalizeRegion(workshop.address) === region
-        ).length;
+        totalWorkshops = workshops.filter(w => {
+          const craftsman = craftsmenByUser.get(w.user);
+          return (
+            normalizeRegion(w.address) === region &&
+            craftsman?.is_verified &&
+            craftsman.profession &&
+            professionMap.get(craftsman.profession) === mappedProfession
+          );
+        }).length;
 
-        // Ma'lumot topilmaganda xabar
-        const toastKey = `${region}-${profession}`;
-        if (totalCraftsmen === 0 && totalProducts === 0 && !toastShown[toastKey]) {
-          toast.warning(tfourth("prompts.noData", { region: getRegionDisplayName(region), profession }), {
-            id: toastKey,
-            duration: 4000,
-            position: "top-right",
-          });
-          setToastShown((prev) => ({ ...prev, [toastKey]: true }));
+        if (totalCraftsmen === 0 && totalProducts === 0 && totalWorkshops === 0) {
+          showToast(
+            `no-data-${region}-${profession}`,
+            tfourth("prompts.noData", { region: getRegionDisplayName(region), profession }),
+            "warning"
+          );
+        } else if (totalProducts === 0) {
+          showToast(
+            `no-products-${region}-${profession}`,
+            tfourth("prompts.noProducts", { profession }),
+            "warning"
+          );
         }
       } else if (region) {
-        // Faqat hudud tanlanganda
-        totalCraftsmen = verifiedCraftsmen.filter(
-          (craftsman) => normalizeRegion(craftsman.address) === region
-        ).length;
-        totalProducts = productsData.filter(
-          (product) => normalizeRegion(product.address) === region
-        ).length;
-        totalWorkshops = workshopsData.filter(
-          (workshop) => normalizeRegion(workshop.address) === region
-        ).length;
+        totalCraftsmen = verifiedCraftsmen.filter(c => normalizeRegion(c.address) === region).length;
+        totalProducts = products.filter(p => normalizeRegion(p.address) === region).length;
+        totalWorkshops = workshops.filter(w => normalizeRegion(w.address) === region).length;
 
-        // Ma'lumot topilmaganda xabar
-        const toastKey = `region-${region}`;
-        if (totalCraftsmen === 0 && totalProducts == 0 && totalWorkshops === 0 && !toastShown[toastKey]) {
-          toast.warning(tfourth("prompts.noDataRegion", { region: getRegionDisplayName(region) }), {
-            id: toastKey,
-            duration: 4000,
-            position: "top-right",
-          });
-          setToastShown((prev) => ({ ...prev, [toastKey]: true }));
+        if (totalCraftsmen === 0 && totalProducts === 0 && totalWorkshops === 0) {
+          showToast(
+            `no-data-region-${region}`,
+            tfourth("prompts.noDataRegion", { region: getRegionDisplayName(region) }),
+            "warning"
+          );
         }
       } else if (profession) {
-        // Faqat kasb tanlanganda
-        const mappedProfession =
-          Object.keys(professionToCategoryMap).find(
-            (key) => professionToCategoryMap[key] === profession
-          ) || profession;
         totalCraftsmen = verifiedCraftsmen.filter(
-          (craftsman) =>
-            craftsman.profession !== null &&
-            professionsData.find((prof) => prof.id === craftsman.profession)?.name ===
-              mappedProfession
+          c => c.profession && professionMap.get(c.profession) === mappedProfession
         ).length;
-        const professionEntry = professionsData.find((prof) => prof.name === profession);
-        totalProducts = professionEntry
-          ? productsData.filter((product) => product.category === professionEntry.id).length
-          : 0;
-        totalWorkshops = workshopsData.length; // Kasb bo‘yicha umumiy ustaxonalar
 
-        // Ma'lumot topilmaganda xabar
-        const toastKey = `profession-${profession}`;
-        if (totalCraftsmen === 0 && totalProducts === 0 && !toastShown[toastKey]) {
-          toast.warning(tfourth("prompts.noDataProfession", { profession }), {
-            id: toastKey,
-            duration: 4000,
-            position: "top-right",
-          });
-          setToastShown((prev) => ({ ...prev, [toastKey]: true }));
+        const professionEntry = professions.find(p => p.name === mappedProfession);
+        totalProducts = professionEntry ? products.filter(p => p.category === professionEntry.id).length : 0;
+
+        totalWorkshops = workshops.filter(w => {
+          const craftsman = craftsmenByUser.get(w.user);
+          return craftsman?.is_verified && craftsman.profession && professionMap.get(craftsman.profession) === mappedProfession;
+        }).length;
+
+        if (totalCraftsmen === 0 && totalProducts === 0 && totalWorkshops === 0) {
+          showToast(
+            `no-data-profession-${profession}`,
+            tfourth("prompts.noDataProfession", { profession }),
+            "warning"
+          );
+        } else if (totalProducts === 0) {
+          showToast(`no-products-${profession}`, tfourth("prompts.noProducts", { profession }), "warning");
         }
       } else {
-        // Hech narsa tanlanmagan bo‘lsa
         totalCraftsmen = verifiedCraftsmen.length;
-        totalProducts = productsData.length;
-        totalWorkshops = workshopsData.length;
+        totalProducts = products.length;
+        totalWorkshops = workshops.length;
       }
 
-      setStatistics({
-        totalWorkshops,
-        totalCraftsmen,
-        totalProducts,
-      });
+      return { totalWorkshops, totalCraftsmen, totalProducts };
     },
-    [tfourth, toastShown]
+    [tfourth, normalizeRegion, getRegionDisplayName, indexData]
   );
 
-  // Statistika yangilash uchun debounce qilingan funksiya
-  const debouncedUpdateStatistics = useMemo(
-    () =>
-      debounce(async (region: string | null, professionIndex: number | null) => {
-        const data = await fetchData();
-        if (data) {
-          const { craftsmen, products, professions, workshops } = data;
-          calculateStatistics(
-            craftsmen || [],
-            products || [],
-            professions || [],
-            workshops || [],
-            region,
-            professionIndex !== null ? typeOfCrafts[professionIndex] : null
-          );
-          // Faol hududlar va kasblarni yangilash
-          updateActiveRegions(
-            professionIndex !== null ? typeOfCrafts[professionIndex] : null,
-            craftsmen || [],
-            professions || []
-          );
-          updateActiveCrafts(region, craftsmen || [], professions || []);
-        }
-      }, 300),
-    [fetchData, calculateStatistics, typeOfCrafts, updateActiveRegions, updateActiveCrafts]
+  // Update statistics
+  const updateStatistics = useCallback(
+    async (region: string | null, profession: string | null) => {
+      const data = await fetchData();
+      if (!data) return;
+
+      const { craftsmen, products, professions, workshops } = data;
+      const stats = calculateStatistics(craftsmen, products, professions, workshops, region, profession);
+      setStatistics(stats);
+
+      setActiveRegions(calculateActiveRegions(craftsmen, professions, profession));
+      setActiveCrafts(calculateActiveCrafts(craftsmen, professions, region));
+    },
+    [fetchData, calculateStatistics, calculateActiveRegions, calculateActiveCrafts]
   );
 
-  // Tanlovlar o‘zgarganda statistikani yangilash va toast xabarlarni boshqarish
+  const debouncedUpdateStatistics = useMemo(() => debounce(updateStatistics, 300), [updateStatistics]);
+
+  // Update statistics when selections change
   useEffect(() => {
-    debouncedUpdateStatistics(selectedRegion, clickedIndex);
+    debouncedUpdateStatistics(selectedRegion, selectedCraft);
 
-    // Faqat bir marta ko‘rsatiladigan toast xabarlar
-    const regionToastKey = `region-select-${selectedRegion || "none"}`;
-    const craftToastKey = `craft-select-${clickedIndex ?? "none"}`;
-
-    if (selectedRegion && clickedIndex === null && !toastShown[regionToastKey]) {
-      toast.info(tfourth("prompts.selectCraft"), {
-        id: regionToastKey,
-        duration: 3000,
-        position: "top-center",
-      });
-      setToastShown((prev) => ({ ...prev, [regionToastKey]: true }));
-    } else if (!selectedRegion && clickedIndex !== null && !toastShown[craftToastKey]) {
-      toast.info(tfourth("prompts.selectRegion"), {
-        id: craftToastKey,
-        duration: 3000,
-        position: "top-center",
-      });
-      setToastShown((prev) => ({ ...prev, [craftToastKey]: true }));
+    if (selectedRegion && !selectedCraft) {
+      showToast(`region-select-${selectedRegion}`, tfourth("prompts.selectCraft"));
+    } else if (!selectedRegion && selectedCraft) {
+      showToast(`craft-select-${selectedCraft}`, tfourth("prompts.selectRegion"));
     }
-  }, [selectedRegion, clickedIndex, debouncedUpdateStatistics, tfourth, toastShown]);
 
-  // Dastlabki ma'lumotlarni olish
-  useEffect(() => {
-    fetchData(true);
     return () => {
       debouncedUpdateStatistics.cancel();
     };
+  }, [selectedRegion, selectedCraft, debouncedUpdateStatistics, tfourth]);
+
+  // Fetch initial data
+  useEffect(() => {
+    fetchData(true);
   }, [fetchData]);
 
-  // Hudud tugmasini scroll qilish
+  // Scroll to selected region button
   const setButtonRef = useCallback(
-    (node: HTMLButtonElement | null, regionId: string) => {
-      if (node && selectedRegion === regionId) {
+    (node: HTMLButtonElement | null) => {
+      if (node && selectedRegion === node.dataset.regionId) {
         selectedButtonRef.current = node;
+        node.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
       }
     },
     [selectedRegion]
   );
 
-  useEffect(() => {
-    if (selectedButtonRef.current) {
-      selectedButtonRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
-    }
-  }, [selectedRegion]);
+  // Handle craft selection
+  const handleCraftClick = useCallback(
+    (craft: string) => {
+      if (!activeCrafts.includes(craft)) return;
+      const newCraft = selectedCraft === craft ? null : craft;
+      setSelectedCraft(newCraft);
+      debouncedUpdateStatistics(selectedRegion, newCraft);
+    },
+    [selectedCraft, activeCrafts, selectedRegion, debouncedUpdateStatistics]
+  );
 
-  // Kasb tanlash
-  const handleClick = (index: number) => {
-    if (!activeCrafts.includes(typeOfCrafts[index])) return;
-    const newIndex = index === clickedIndex ? null : index;
-    setClickedIndex(newIndex);
-    debouncedUpdateStatistics(selectedRegion, newIndex);
-  };
+  // Handle region selection
+  const handleRegionClick = useCallback(
+    (regionId: string) => {
+      if (!activeRegions.includes(regionId)) return;
+      const newRegion = selectedRegion === regionId ? null : regionId;
+      setSelectedRegion(newRegion);
+      debouncedUpdateStatistics(newRegion, selectedCraft);
+    },
+    [selectedRegion, activeRegions, selectedCraft, debouncedUpdateStatistics]
+  );
 
-  // Hudud tanlash
-  const handleRegionClick = (regionId: string) => {
-    if (!activeRegions.includes(regionId)) return;
-    const newRegion = selectedRegion === regionId ? null : regionId;
-    setSelectedRegion(newRegion);
-    debouncedUpdateStatistics(newRegion, clickedIndex);
-  };
-
-  // Xato holati
+  // Error state
   if (error) {
     return (
       <div className="text-center py-10 text-lg text-red-600">
@@ -544,13 +545,13 @@ const QoraqalpogistonMap = () => {
           onClick={() => fetchData(true)}
           className="mt-4 bg-gradient-to-r from-[#9e1114] to-[#530607] text-white"
         >
-          Qayta urinish
+          Try Again
         </Button>
       </div>
     );
   }
 
-  // Yuklanish holati
+  // Loading state
   if (loading && !statistics) {
     return (
       <div className="text-center py-10 text-lg text-[#242b3a] animate-pulse">
@@ -561,65 +562,47 @@ const QoraqalpogistonMap = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Kasblar ro‘yxati */}
+      {/* Crafts list */}
       <div className="flex gap-3 overflow-x-auto no-scrollbar mb-6 py-2 snap-x snap-mandatory">
-        {typeOfCrafts.map((item, index) => (
-          <Button
-            key={index}
-            onClick={() => handleClick(index)}
-            disabled={!activeCrafts.includes(item)}
-            className={cn(
-              "rounded-lg px-4 py-2 min-w-[160px] h-12 shadow-none transition-all duration-300 snap-center",
-              clickedIndex === index
-                ? "bg-gradient-to-r from-[#9e1114] to-[#530607] text-white"
-                : "bg-[#f6f6f6] text-[#242b3a] hover:bg-[#e0e0e0]",
-              !activeCrafts.includes(item) && "opacity-50 cursor-not-allowed"
-            )}
-          >
-            {item}
-          </Button>
+        {allCrafts.map(craft => (
+          <CraftButton
+            key={craft}
+            craft={craft}
+            isSelected={selectedCraft === craft}
+            isActive={activeCrafts.includes(craft)}
+            onClick={() => handleCraftClick(craft)}
+          />
         ))}
       </div>
 
-      {/* Asosiy kontent */}
+      {/* Main content */}
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* Hududlar paneli */}
+        {/* Regions panel */}
         <div className="lg:w-1/4 bg-[#f6f6f6] rounded-xl p-4 h-fit lg:h-[744px] overflow-y-auto no-scrollbar">
           <p className="font-semibold text-lg text-[#242b3a] mb-4 border-b border-gray-300 pb-4 hidden lg:block">
             {tfourth("regions.title")}
           </p>
           <div className="flex lg:flex-col gap-2 overflow-x-auto no-scrollbar lg:overflow-y-auto snap-x snap-mandatory lg:snap-none">
-            {regions.map((region) => (
-              <Button
+            {regions.map(region => (
+              <RegionButton
                 key={region.id}
-                ref={(node) => setButtonRef(node, region.id)}
-                disabled={!activeRegions.includes(region.id)}
-                className={cn(
-                  "min-w-[160px] lg:w-full h-12 rounded-lg px-4 py-2 text-left transition-all duration-300 snap-center",
-                  selectedRegion === region.id
-                    ? "bg-gradient-to-r from-[#9e1114] to-[#530607] text-white"
-                    : "bg-[#f6f6f6] text-[#242b3a] hover:bg-[#e0e0e0]",
-                  hoveredRegion === region.id &&
-                    selectedRegion !== region.id &&
-                    activeRegions.includes(region.id) &&
-                    "bg-[#e0e0e0]",
-                  !activeRegions.includes(region.id) && "opacity-50 cursor-not-allowed"
-                )}
+                region={region}
+                isSelected={selectedRegion === region.id}
+                isActive={activeRegions.includes(region.id)}
                 onClick={() => handleRegionClick(region.id)}
                 onMouseEnter={() => setHoveredRegion(region.id)}
                 onMouseLeave={() => setHoveredRegion(null)}
-              >
-                {region.name}
-              </Button>
+                setButtonRef={node => setButtonRef(node)}
+              />
             ))}
           </div>
         </div>
 
-        {/* Xarita va statistika */}
-        <div className="lg:w-3/4 flex flex-col items-center">
+        {/* Map and statistics */}
+        <div className="lg:w-3/4 flex flex-col items-center h-fit">
           <div className="w-full max-w-[650px] mb-6 relative">
-            {/* SVG xarita uchun joy */}
-            <div className="w-full h-[400px] bg-gray-100 rounded-xl flex items-center justify-center">
+            {/* Placeholder for SVG map */}
+            <div className="w-full h-[600px] rounded-xl flex items-center justify-center">
             <svg
 xmlns="http://www.w3.org/2000/svg"
 viewBox="0 0 919 659"
@@ -877,50 +860,34 @@ className="w-full h-auto"
   />
 </g>
 </svg>
-
             </div>
           </div>
 
-          {/* Statistika kartalari */}
+          {/* Statistics cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full max-w-[1024px] place-items-center">
-            {statistics &&
-              [
-                {
-                  value: statistics.totalWorkshops,
-                  label: tfourth("statistic.workshops"),
-                },
-                {
-                  value: statistics.totalCraftsmen,
-                  label: tfourth("statistic.craftsmen"),
-                },
-                {
-                  value: statistics.totalProducts,
-                  label: tfourth("statistic.products"),
-                },
-              ].map((item, index) => (
-                <div
-                  key={index}
-                  className="rounded-xl px-5 py-4 bg-[#f6f6f6] flex flex-col items-center text-center w-full max-w-[325px] shadow-sm hover:shadow-md transition-shadow duration-300"
-                >
-                  <p className="font-bold text-4xl bg-gradient-to-br from-[#9e1114] to-[#530607] bg-clip-text text-transparent animate-[fadeIn_0.5s_ease-in]">
-                    {item.value}
-                  </p>
-                  <span className="font-medium text-lg text-[#242b3a] mt-2">
-                    {item.label}
-                  </span>
-                </div>
-              ))}
+            <StatisticCard value={statistics.totalWorkshops} label={tfourth("statistic.workshops")} />
+            <StatisticCard value={statistics.totalCraftsmen} label={tfourth("statistic.craftsmen")} />
+            <StatisticCard value={statistics.totalProducts} label={tfourth("statistic.products")} />
           </div>
         </div>
       </div>
+
+      {/* Additional CSS for animations */}
+      <style jsx>{`
+        .craft-button,
+        .region-button {
+          transition: opacity 0.3s ease, background-color 0.3s ease;
+        }
+        .craft-button:disabled,
+        .region-button:disabled {
+          opacity: 0.5;
+        }
+      `}</style>
     </div>
   );
 };
 
 export default QoraqalpogistonMap;
-
-
-
  // qongirot                     d="M382.38,384.62s-7.13,3.63-9.26,6-2.62,7.26-2.62,7.26-8-.88-9.88-2.63-6.74,0-6.74,0,1.24,6.37-1.26,8.21a2.89,2.89,0,0,1-2,.5c-2.4-.15-5.24-2.36-6-2.84-1-.62-6.74-.87-6.74-.87a17.78,17.78,0,0,1-1.5,4.75c-1,1.75-4.41,1.66-4.41,1.66l-2.22-2.41-1.5,4s3,1.75,2.5,4.25-3.5-1-4.75.5,2.5,2.25,1.25,7-5,1.75-5,1.75a41.67,41.67,0,0,1-6.75.5c-4,0-13-4-17.5-4.75s-10.25,5.25-10.25,5.25l-3.5,2v3.75a56.59,56.59,0,0,1,7.25,5.25c2,2,6.5,1.25,6.5,1.25s3.75,5.75,4.25,10.25,6.75,11,6.75,11l1,4s10.75,5.5,9.5,8.75-5.75.25-5.75.25-3.75,1.5-5.25.75-.75-10.75-.75-10.75l-6-9.5-11.5-2.5L282,450.5s-3.25-3-4.25-3,0-4-3-5.5-8,2-8,2l-1,6.75s-2.5-4.5-5.5-1.75,2.5,5.75,3.5,8.5-.25,4.75-.75,7.5.75,9.5-1.25,12-7-.75-7-.75l-1.5,3.5S256.75,484,255,486s-1.75-.75-8-.75S240,488,235.5,489s-10.75-8.5-29,0-15,18.25-18.25,24.5-7.75,4-13.25,7S169.12,551,171.75,560c5.5,6.5,2.25,11.5,2.25,11.5l1.75,13L181,592c3.25,0,4.5-1.75,6.5-1.5s.5,4.5-2,5.5-7.75,3-7.75,7-2.08,4-2.08,4-99.34-8.33-100.34-7.67,1-488.9,1-488.9L323.67,35c.35.31.76.65,1.23,1,0,0-3,3.87-3,7.24s-.26,7.63-1.13,10.13-5.75,8.74-8.13,12.5-5.5,9.12-6.87,15-2.75,6.87-2.63,9.87.86,4.25,0,5.5-2.62-.37-3.24,1.5-5.26,12.37-5.38,13.63.38,2.74,0,3.74-1.25-.87-2.12,2.13-3.76,10.13-3.63,15.75.75,9.5,2.63,13.25,4.74,8.5,5.5,12.13a13.26,13.26,0,0,1,.24,5.5h-2l-4.87,8.74s-1,9.13,0,10.88a32.65,32.65,0,0,1,2.5,10c0,2.25-1,10.75,0,13.5s7.5,11,7.5,15.25v21.5c0,3,4.75,8.5,4.75,11.25v5.75s-5.5-3.75-6.25,5.5.5,9.75,2,12.75L310,297.5s8.75-2.25,8,6c0,0-7.5,1.25-10.5,2.75s-8.75,4-10.25,10.25a95,95,0,0,0-2,11s4.75,6.25,24.5,8,25.25,0,25.25,0,2.75,7,6.75,7.5,10.75-1.75,10.75-1.75l1.75,1.82h7s2.5,1.05,2.5,5v6.06h5.78c.52,1.41,1,2.74,1.35,3.76C382,361.25,382.38,384.62,382.38,384.62Z M342.62,45.85v7.77s-3.74,3.76-4.24,4.13,0,7.13,0,7.13l-1.63.37L336,68.5l-2.25,2.25V76.5l-1.37,2.25-.63,11.5s-4.87,3.25-5.13,3.63.13,15.37.26,19.12,2.74,4.75,2.74,4.75l-.24,4.63s-5.88,4.5-7.5,10.37,1.12,16.37,1.37,21.13,1.65,19,1.65,19l-9.52,7.87h-8.56a51.15,51.15,0,0,1-6.2-3.13c-2.87-1.74-10.37-5-10.37-5l4.87-8.74h2a13.26,13.26,0,0,0-.24-5.5c-.76-3.63-3.63-8.38-5.5-12.13s-2.5-7.63-2.63-13.25,2.75-12.75,3.63-15.75,1.74-1.13,2.12-2.13-.12-2.5,0-3.74,4.75-11.76,5.38-13.63,2.37-.25,3.24-1.5.13-2.5,0-5.5,1.26-4,2.63-9.87,4.5-11.26,6.87-15,7.26-10,8.13-12.5,1.13-6.76,1.13-10.13,3-7.24,3-7.24C328.37,38.62,335.09,42.3,342.62,45.85Z"
  
  
