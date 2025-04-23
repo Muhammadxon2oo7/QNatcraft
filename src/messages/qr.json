@@ -379,39 +379,53 @@
   
   
     "productcontent": {
-      "title": "Menin' o'nimlerim",
-      "search": "O'nim izlew...",
-      "addButton": "O'nim qosiw",
-      "loading": "Jukleniwde...",
-      "noProducts": "O'nimler tabılmadı",
-      "form": {
-        "addTitle": "O'nim qosiw",
-        "editTitle": "O'nimdi o'zgertiw",
-        "name": "O'nim atı",
-        "address": "Sizin' adresiniz",
-        "price": "O'nim bahası",
-        "category": "O'nim kategoriyası",
-        "description": "Tusindirme",
-        "images": "Suretler",
-        "selectImages": "Suretlerdi saylaw",
-        "cancel": "Biykar qılıw",
-        "submit": "O'nimdi tastıyıqlaw",
-        "loadingSubmit": "Jukleniwde...",
-        "errors": {
-          "name": "O'nim atı bos bolmaslıq kerek",
-          "description": "Tusindirme bos bolmaslıq kerek",
-          "price": "Baha durıs kiritiliwi kerek",
-          "address": "Adres bos bolmaslıq kerek",
-          "category": "Kategoriya saylanbadı",
-          "images": "Keminde bir suret juklew kerek"
-        }
-      },
-      "confirmDelete": "O'nimdi o'shiriwdi tastıyıqlaysiz ba?",
-      "successAdd": "O'nim qosıldı",
-      "successEdit": "O'nim jan'alandı",
-      "successDelete": "O'nim o'shirildi",
-      "error": "Qatelik payda boldı"
-    }
+    "title": "Meniń mahsuldarım",
+    "search": "Mahsulattı izlew...",
+    "addButton": "Mahsul qosıw",
+    "loading": "Júkleniwde...",
+    "noProducts": "Mahsuldar tabılmadı",
+    "form": {
+      "addTitle": "Jańa mahsul qosıw",
+      "editTitle": "Mahsuldı ózgertiw",
+      "name": "Mahsul atı",
+      "address": "Manzil",
+      "price": "Bahası",
+      "category": "Kategoriya",
+      "discount": "Shegirim",
+      "images": "Súwretler",
+      "threedModel": "3D model",
+      "description": "Sıpatlama",
+      "categoryPlaceholder": "Kategoriyanı saylań",
+      "descriptionPlaceholder": "Mahsul haqqında qısqasha málimat kirit...",
+      "imageDropText": "Súwretlerdi bul jerge taslań yaki",
+      "imageSelectText": "saylań",
+      "addImageButton": "Súwret qosıw",
+      "threedModelDropText": "3D modeldi (.glb yamasa .gltf) bul jerge taslań yaki",
+      "threedModelSelectText": "saylań",
+      "fileLabel": "Fayl",
+      "cancel": "Qaytarıw",
+      "submit": "Saqlaw",
+      "loadingSubmit": "Saqlanıwda...",
+      "errors": {
+        "name": "Mahsul atı kiritiliwi shart",
+        "description": "Sıpatlama kiritiliwi shart",
+        "price": "Bahası kiritiliwi shart hám durıs bolıwı kerek",
+        "address": "Manzil kiritiliwi shart",
+        "category": "Kategoriya saylanıwı shart",
+        "images": "Keminde bir súwret qosılıwı shart",
+        "invalid3DModel": "Tek .glb yamasa .gltf formatındaǵı 3D modellar qabıl etiledi"
+      }
+    },
+    "error": "Qáte",
+    "errorCategories": "Kategoriyalardı júklewde qáte boldı",
+    "errorProducts": "Mahsuldardı júklewde qáte boldı",
+    "errorDelete": "Mahsuldı óshiriwde qáte boldı",
+    "errorServer": "Server qátesi",
+    "confirmDelete": "Bul mahsuldı óshiriwge isenimlimisiz?",
+    "successDelete": "Mahsul tabıslı óshirildi",
+    "successAdd": "Mahsul tabıslı qosıldı",
+    "successEdit": "Mahsul tabıslı ózgertildi"
+  }
   
   
 

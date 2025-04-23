@@ -377,40 +377,55 @@
   
   
     "productcontent": {
-      "title": "My Products",
-      "search": "Search products...",
-      "addButton": "Add Product",
-      "loading": "Loading...",
-      "noProducts": "No products found",
-      "form": {
-        "addTitle": "Add Product",
-        "editTitle": "Edit Product",
-        "name": "Product Name",
-        "address": "Your Address",
-        "price": "Product Price",
-        "category": "Product Category",
-        "description": "Description",
-        "images": "Images",
-        "selectImages": "Select images",
-        "cancel": "Cancel",
-        "submit": "Confirm Product",
-        "loadingSubmit": "Loading...",
-        "errors": {
-          "name": "Product name cannot be empty",
-          "description": "Description cannot be empty",
-          "price": "Price must be valid",
-          "address": "Address cannot be empty",
-          "category": "Category not selected",
-          "images": "At least one image is required"
-        }
-      },
-      "confirmDelete": "Are you sure you want to delete the product?",
-      "successAdd": "Product added",
-      "successEdit": "Product updated",
-      "successDelete": "Product deleted",
-      "error": "An error occurred"
-    }
+    "title": "My Products",
+    "search": "Search products...",
+    "addButton": "Add Product",
+    "loading": "Loading...",
+    "noProducts": "No products found",
+    "form": {
+      "addTitle": "Add New Product",
+      "editTitle": "Edit Product",
+      "name": "Product Name",
+      "address": "Address",
+      "price": "Price",
+      "category": "Category",
+      "discount": "Discount",
+      "images": "Images",
+      "threedModel": "3D Model",
+      "description": "Description",
+      "categoryPlaceholder": "Select a category",
+      "descriptionPlaceholder": "Enter a brief description of the product...",
+      "imageDropText": "Drag and drop images here or",
+      "imageSelectText": "select",
+      "addImageButton": "Add Image",
+      "threedModelDropText": "Drag and drop 3D model (.glb or .gltf) here or",
+      "threedModelSelectText": "select",
+      "fileLabel": "File",
+      "cancel": "Cancel",
+      "submit": "Save",
+      "loadingSubmit": "Saving...",
+      "errors": {
+        "name": "Product name is required",
+        "description": "Description is required",
+        "price": "Price is required and must be valid",
+        "address": "Address is required",
+        "category": "Category must be selected",
+        "images": "At least one image is required",
+        "invalid3DModel": "Only .glb or .gltf 3D models are accepted"
+      }
+    },
+    "error": "Error",
+    "errorCategories": "Error loading categories",
+    "errorProducts": "Error loading products",
+    "errorDelete": "Error deleting product",
+    "errorServer": "Server error",
+    "confirmDelete": "Are you sure you want to delete this product?",
+    "successDelete": "Product successfully deleted",
+    "successAdd": "Product successfully added",
+    "successEdit": "Product successfully edited"
+  }
   
   
 
 }
+

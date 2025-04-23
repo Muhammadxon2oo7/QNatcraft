@@ -82,7 +82,7 @@ const CraftsmanCard = ({
         <div className="flex-1 flex flex-col justify-between">
           <div>
             <Badge
-              className="rounded-full bg-primary text-white inline-flex gap-2 p-2 sm:p-3 mb-4 hover:bg-primary/90"
+              className="rounded-full bg-primary text-white inline-flex gap-2 p-2 sm:p-3 mb-4 hover:bg-primary"
               aria-label={t("professionBadge", { profession: getProfessionName(craftsman.profession) })}
             >
               <Dot />
@@ -298,7 +298,7 @@ const CustomSwiper = () => {
         {/* Navigatsiya tugmalari */}
         <div className="swiper-arrows hidden md:flex absolute top-1/2 w-full justify-between transform -translate-y-1/2 px-4 sm:px-6 z-30">
           <button
-            className="swiper-arrow-prev bg-primary hover:bg-primary/90 transition-colors rounded-full p-2 sm:p-3"
+            className="swiper-arrow-prev bg-primary hover:bg-primary transition-colors rounded-full p-2 sm:p-3"
             aria-label={t("previousSlide")}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
@@ -306,7 +306,7 @@ const CustomSwiper = () => {
             </svg>
           </button>
           <button
-            className="swiper-arrow-next bg-primary hover:bg-primary/90 transition-colors rounded-full p-2 sm:p-3"
+            className="swiper-arrow-next bg-primary hover:bg-primary transition-colors rounded-full p-2 sm:p-3"
             aria-label={t("nextSlide")}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
