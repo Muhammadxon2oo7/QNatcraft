@@ -61,7 +61,7 @@ export default async function Workshops() {
 
       {/* Sarlavha */}
       <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-800">
-        Biz bilan san’at olamini virtual sayohat qiling!
+        Biz bilan san’at olamiga virtual sayohat qiling!
       </h1>
 
       {/* Craft Kartalari */}
