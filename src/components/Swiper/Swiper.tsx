@@ -47,7 +47,7 @@ const ProfessionSchema = z.object({
 interface Craftsman extends z.infer<typeof CraftsmanSchema> {}
 interface Profession extends z.infer<typeof ProfessionSchema> {}
 
-// Alohida karta komponenti (UI yangi kodga moslashtirildi)
+// Alohida karta komponenti
 const CraftsmanCard = ({
   craftsman,
   isActive,
@@ -62,7 +62,7 @@ const CraftsmanCard = ({
   isNext: boolean;
   isPrev: boolean;
   isVisible: boolean;
-  getProfessionName: (professionId: number | null) => string;
+  getProfessionName: (professionId: number | null | undefined) => string; // Type updated to include undefined
   t: (key: string, params?: any) => string;
 }) => {
   const cardClass = isActive
@@ -209,9 +209,9 @@ const CustomSwiper = () => {
     Promise.all([fetchProfessions(), fetchCraftsmen()]);
   }, [fetchProfessions, fetchCraftsmen]);
 
-  // Kasb nomini olish
+  // Kasb nomini olish (Type updated to handle undefined)
   const getProfessionName = useCallback(
-    (professionId: number | null) => {
+    (professionId: number | null | undefined) => {
       if (!professionId) return t("unknown");
       const profession = professions.find((p) => p.id === professionId);
       return profession?.name || t("unknown");
@@ -219,7 +219,7 @@ const CustomSwiper = () => {
     [professions, t]
   );
 
-  // Swiper sozlamalari (yangi kodga moslashtirildi)
+  // Swiper sozlamalari
   const swiperSettings = useMemo(
     () => ({
       modules: [Navigation, Autoplay],
@@ -269,7 +269,7 @@ const CustomSwiper = () => {
     );
   }
 
-  // Yetarli hunarmand yo‘q holati (yangi kodga moslashtirildi)
+  // Yetarli hunarmand yo‘q holati
   if (craftsmen.length < 2) {
     return (
       <div className="text-center py-10">
@@ -310,7 +310,7 @@ const CustomSwiper = () => {
             </SwiperSlide>
           );
         })}
-        {/* Navigatsiya tugmalari (yangi kodga moslashtirildi) */}
+        {/* Navigatsiya tugmalari */}
         <div className="swiper-arrows hidden md:flex absolute top-1/2 w-full justify-between transform -translate-y-1/2 px-4 sm:px-6 z-30">
           <button
             className="swiper-arrow-prev bg-primary hover:bg-primary transition-colors rounded-full p-2 sm:p-3"
