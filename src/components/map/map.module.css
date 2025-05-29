@@ -1,0 +1,24 @@
+.container {
+    @apply container mx-auto px-4 py-8;
+  }
+  .craftButton, .regionButton {
+    @apply rounded-lg px-4 py-2 min-w-[160px] h-12 transition-all duration-300;
+  }
+  .craftButton:disabled, .regionButton:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+  .selected {
+    @apply bg-gradient-to-r from-[#9e1114] to-[#530607] text-white;
+  }
+  .active {
+    @apply bg-[#f6f6f6] text-[#242b3a] hover:bg-[#e0e0e0];
+  }
+  .region-path {
+    transition: fill 0.3s ease;
+  }
+  .region-path.selected {
+    fill: url(#regionGradient);
+  }
+  .region-path.hovered:not(.selected) {
+    fill: url(#regionGradient-hover);
+  }

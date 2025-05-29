@@ -17,37 +17,37 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-// API javoblarini validatsiya qilish uchun Zod sxemalari
+// API javoblarini validatsiya qilish uchun Zod sxemalari (moslashuvchan qilingan)
 const CraftsmanSchema = z.object({
   id: z.number(),
-  user_email: z.string(),
-  user_first_name: z.string(),
-  is_verified: z.boolean(),
-  profession: z.number().nullable(),
-  bio: z.string().nullable(),
-  profile_image: z.string().nullable(),
-  address: z.string().nullable(),
-  latitude: z.number().nullable(),
-  longitude: z.number().nullable(),
-  phone_number: z.string().nullable(),
-  experience: z.number(),
-  mentees: z.number(),
-  award: z.string().nullable(),
-  created_at: z.string(),
-  updated_at: z.string(),
-  user: z.number(),
+  user_email: z.string().nullable().optional(),
+  user_first_name: z.string().nullable().optional(),
+  is_verified: z.boolean().optional().default(false),
+  profession: z.number().nullable().optional(),
+  bio: z.string().nullable().optional(),
+  profile_image: z.string().nullable().optional(),
+  address: z.string().nullable().optional(),
+  latitude: z.number().nullable().optional(),
+  longitude: z.number().nullable().optional(),
+  phone_number: z.string().nullable().optional(),
+  experience: z.number().optional().default(0),
+  mentees: z.number().optional().default(0),
+  award: z.string().nullable().optional(),
+  created_at: z.string().nullable().optional(),
+  updated_at: z.string().nullable().optional(),
+  user: z.number().optional(),
 });
 
 const ProfessionSchema = z.object({
   id: z.number(),
-  name: z.string(),
+  name: z.string().nullable().optional().default("Unknown"),
 });
 
 // Interfeyslar
 interface Craftsman extends z.infer<typeof CraftsmanSchema> {}
 interface Profession extends z.infer<typeof ProfessionSchema> {}
 
-// Alohida karta komponenti
+// Alohida karta komponenti (UI yangi kodga moslashtirildi)
 const CraftsmanCard = ({
   craftsman,
   isActive,
@@ -161,12 +161,19 @@ const CustomSwiper = () => {
   const fetchProfessions = useCallback(async () => {
     try {
       const response = await fetch("https://qqrnatcraft.uz/accounts/professions/");
-      if (!response.ok) throw new Error(t("errors.professionsFetch"));
+      if (!response.ok) {
+        console.error("Professions fetch failed:", response.status, response.statusText);
+        throw new Error(t("errors.professionsFetch"));
+      }
       const data = await response.json();
       const validatedData = ProfessionSchema.array().parse(data);
       setProfessions(validatedData);
     } catch (error) {
-      console.error("Professions fetch error:", error);
+      if (error instanceof z.ZodError) {
+        console.error("Zod validation error for professions:", error.errors);
+      } else {
+        console.error("Professions fetch error:", error);
+      }
       setError(t("errors.professionsFetch"));
     }
   }, [t]);
@@ -176,13 +183,21 @@ const CustomSwiper = () => {
     try {
       setIsLoading(true);
       const response = await fetch("https://qqrnatcraft.uz/accounts/profiles/");
-      if (!response.ok) throw new Error(t("errors.craftsmenFetch"));
+      if (!response.ok) {
+        console.error("Craftsmen fetch failed:", response.status, response.statusText);
+        throw new Error(t("errors.craftsmenFetch"));
+      }
       const data = await response.json();
+      console.log("API response data:", data);
       const validatedData = CraftsmanSchema.array().parse(data);
       const verifiedCraftsmen = validatedData.filter((craftsman) => craftsman.is_verified);
       setCraftsmen(verifiedCraftsmen);
     } catch (error) {
-      console.error("Craftsmen fetch error:", error);
+      if (error instanceof z.ZodError) {
+        console.error("Zod validation error for craftsmen:", error.errors);
+      } else {
+        console.error("Craftsmen fetch error:", error);
+      }
       setError(t("errors.craftsmenFetch"));
     } finally {
       setIsLoading(false);
@@ -204,7 +219,7 @@ const CustomSwiper = () => {
     [professions, t]
   );
 
-  // Swiper sozlamalari
+  // Swiper sozlamalari (yangi kodga moslashtirildi)
   const swiperSettings = useMemo(
     () => ({
       modules: [Navigation, Autoplay],
@@ -254,7 +269,7 @@ const CustomSwiper = () => {
     );
   }
 
-  // Yetarli hunarmand yo‘q holati
+  // Yetarli hunarmand yo‘q holati (yangi kodga moslashtirildi)
   if (craftsmen.length < 2) {
     return (
       <div className="text-center py-10">
@@ -295,7 +310,7 @@ const CustomSwiper = () => {
             </SwiperSlide>
           );
         })}
-        {/* Navigatsiya tugmalari */}
+        {/* Navigatsiya tugmalari (yangi kodga moslashtirildi) */}
         <div className="swiper-arrows hidden md:flex absolute top-1/2 w-full justify-between transform -translate-y-1/2 px-4 sm:px-6 z-30">
           <button
             className="swiper-arrow-prev bg-primary hover:bg-primary transition-colors rounded-full p-2 sm:p-3"
