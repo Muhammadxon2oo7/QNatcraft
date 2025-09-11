@@ -1,8 +1,153 @@
+// "use client";
+
+// import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+// import fetchWrapper from "@/services/fetchwrapper";
+// import { useRouter } from "next/navigation";
+
+// const BACKEND_URL = "https://qqrnatcraft.uz";
+
+// interface Profession {
+//   id: number;
+//   name: string;
+//   created_at: string;
+//   updated_at: string;
+// }
+
+// interface ProfileData {
+//   id: number | string;
+//   user_email: string;
+//   user_first_name: string;
+//   phone_number?: string | null;
+//   address?: string | null;
+//   profile_image?: string | null;
+//   experience?: number | null;
+//   mentees?: number | null;
+//   profession?: number | null;
+//   bio?: string | null;
+//   latitude?: number | null;
+//   longitude?: number | null;
+//   award?: string | null;
+//   created_at?: string;
+//   updated_at?: string;
+//   user?: number | string;
+//   is_verified: boolean;
+// }
+
+// interface UserData {
+//   email: string;
+//   message?: string;
+//   profile: ProfileData;
+//   user_id: number | string;
+//   token:string
+// }
+
+// interface AuthContextType {
+//   user: UserData | null;
+//   loading: boolean;
+//   logout: () => void;
+//   refreshUser: () => Promise<void>;
+//   getToken: () => string | null; // Token olish uchun yordamchi metod
+// }
+
+// const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// const getCookie = (name: string) => {
+//   const cookies = document.cookie.split("; ");
+//   for (const cookie of cookies) {
+//     const [cookieName, cookieValue] = cookie.split("=");
+//     if (cookieName === name) return decodeURIComponent(cookieValue);
+//   }
+//   return null;
+// };
+
+// export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+//   const [user, setUser] = useState<UserData | null>(null);
+//   const [loading, setLoading] = useState(true);
+//   const router = useRouter();
+
+//   const fetchUserData = async () => {
+//     const token = getCookie("accessToken");
+//     if (!token) {
+//       setLoading(false);
+//       setUser(null);
+//       return;
+//     }
+//     try {
+//       const response = await fetchWrapper<UserData>("/accounts/profile/me/", {
+//         method: "GET",
+//         credentials: "include",
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       });
+//       // Tokenni user ob'ektiga qo'shamiz
+//       setUser({ ...response, token });
+//     } catch (error) {
+//       console.error("Error fetching user data:", error);
+//       setUser(null);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const refreshUser = async () => {
+//     setLoading(true);
+//     await fetchUserData();
+//   };
+
+//   const getToken = (): string | null => {
+//     return user?.token || null;
+//   };
+
+//   useEffect(() => {
+//     fetchUserData();
+//   }, []);
+
+//   const logout = async () => {
+//     try {
+//       const token = getCookie("accessToken") || "";
+//       await fetchWrapper(`${BACKEND_URL}/accounts/logout/`, {
+//         method: "POST",
+//         credentials: "include",
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       });
+//     } catch (error) {
+//       console.error("Logout error:", error);
+//     } finally {
+//       const deleteCookie = (name: string, path: string) => {
+//         document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}; SameSite=Strict;`;
+//       };
+//       deleteCookie("accessToken", "/");
+//       deleteCookie("refreshToken", "/");
+//       deleteCookie("accessToken", "/accounts");
+//       deleteCookie("refreshToken", "/accounts");
+
+//       setUser(null);
+//       router.push("/login");
+//       router.refresh();
+//     }
+//   };
+
+//   return (
+//     <AuthContext.Provider value={{ user, loading, logout, refreshUser, getToken }}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// };
+
+// export const useAuth = () => {
+//   const context = useContext(AuthContext);
+//   if (!context) throw new Error("useAuth must be used within an AuthProvider");
+//   return context;
+// };
 "use client";
 
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import fetchWrapper from "@/services/fetchwrapper";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const BACKEND_URL = "https://qqrnatcraft.uz";
 
@@ -38,7 +183,7 @@ interface UserData {
   message?: string;
   profile: ProfileData;
   user_id: number | string;
-  token:string
+  token: string;
 }
 
 interface AuthContextType {
@@ -46,7 +191,7 @@ interface AuthContextType {
   loading: boolean;
   logout: () => void;
   refreshUser: () => Promise<void>;
-  getToken: () => string | null; // Token olish uchun yordamchi metod
+  getToken: () => string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -80,10 +225,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           Authorization: `Bearer ${token}`,
         },
       });
-      // Tokenni user ob'ektiga qo'shamiz
       setUser({ ...response, token });
     } catch (error) {
       console.error("Error fetching user data:", error);
+      toast.error("Foydalanuvchi ma'lumotlarini yuklashda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
       setUser(null);
     } finally {
       setLoading(false);
@@ -113,8 +258,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           Authorization: `Bearer ${token}`,
         },
       });
+      toast.success("Chiqish muvaffaqiyatli amalga oshirildi.");
     } catch (error) {
       console.error("Logout error:", error);
+      toast.error("Chiqishda xatolik yuz berdi.");
     } finally {
       const deleteCookie = (name: string, path: string) => {
         document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}; SameSite=Strict;`;

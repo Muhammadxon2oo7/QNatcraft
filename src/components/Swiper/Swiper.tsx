@@ -421,7 +421,7 @@ const CraftsmanCard = ({
           <div>
             <Badge
               className="rounded-full bg-primary text-white inline-flex gap-2 p-2 md:p-2.5 mb-4 hover:bg-primary"
-              aria-label={t("professionBadge", { profession: getProfessionName(craftsman.profession) })}
+             
             >
               <Dot aria-hidden="true" />
               <p className="font-medium text-[clamp(12px,1.5vw,14px)]">{getProfessionName(craftsman.profession)}</p>
@@ -463,7 +463,7 @@ const CraftsmanCard = ({
           </div>
           <Button
             className="w-[140px] h-9 md:h-10 border-orange-500 flex gap-2 items-center hover:bg-primary"
-            aria-label={t("viewDetails", { name: craftsman.user_first_name || t("unknown") })}
+            
           >
             <Link href={`/profile/${craftsman.id}`} className="flex gap-2 items-center">
               <span className="text-[clamp(12px,1.5vw,14px)]">{t("details")}</span>
@@ -604,7 +604,7 @@ const CustomSwiper = () => {
         <Button
           onClick={() => Promise.all([fetchProfessions(), fetchCraftsmen()])}
           className="mt-4 bg-primary hover:bg-primary/90 text-[clamp(12px,1.5vw,14px)]"
-          aria-label={t("retry")}
+         
         >
           {t("retry")}
         </Button>
@@ -624,7 +624,7 @@ const CustomSwiper = () => {
   }
 
   return (
-    <div className="mx-auto px-4 sm:px-6 lg:px-8" role="region" aria-label={t("craftsmenSwiper")}>
+    <div className="mx-auto px-4 sm:px-6 lg:px-8" role="region" >
       <Swiper
         {...swiperSettings}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
@@ -656,7 +656,7 @@ const CustomSwiper = () => {
         <div className="swiper-arrows flex absolute top-1/2 w-full justify-between transform -translate-y-1/2 px-2 sm:px-4 z-30">
           <button
             className="swiper-arrow-prev bg-primary  rounded-full p-2 sm:p-2.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            aria-label={t("previousSlide")}
+            
           >
             <svg
               className="w-5 h-5 sm:w-6 sm:h-6 text-white"
@@ -670,7 +670,7 @@ const CustomSwiper = () => {
           </button>
           <button
             className="swiper-arrow-next bg-primary  rounded-full p-2 sm:p-2.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            aria-label={t("nextSlide")}
+          
           >
             <svg
               className="w-5 h-5 sm:w-6 sm:h-6 text-white"

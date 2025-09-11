@@ -91,8 +91,7 @@ section{
 }
 .section{
   scroll-margin-top: 340px;
-  margin-bottom: 140px;
-
+  margin-bottom: 50px;
 }
 .noscroll{
   scrollbar-width: 0;
@@ -348,46 +347,7 @@ header{
 
 
 
-@media only screen and (max-width: 768px) {
 
-  .separator {
-    display: inline;
-    color: rgba(255, 255, 255, 0.2);
-  }
-  section{
-    max-width: 100%;
-    scroll-margin-top:80px;
-    margin-bottom: 80px;
-  }
-  .section{
-    padding-top:30px;
-  }
-  .section-title{
-    flex-direction: column;
-    height: auto;
-    max-width: 100%;
-    margin-bottom: 48px;
-  }
-  .section-title div:first-child{
-    width: 100%;
-    
-  }
-  .section-title div:last-child{
-    width: 100%;
-  }
-  .section-title div:last-child p{
-    width: 100%;
-  }
-  .badge{
-    max-width: 200px;
-  }
-  .banner{
-    height: 230px;
-  }
-  .res-description{
-    width: unset;
-  }
-}
 @media only screen and (max-width: 1279px) {
   .nav-link {
     font-size: clamp(10px, 0.9vw, 16px);
@@ -420,4 +380,45 @@ header{
 #madaniymeros,
 #Hunarmandchilikturlari {
   scroll-margin-top: 256px; /* Header balandligiga moslang */
+}
+@media only screen and (max-width: 768px) {
+
+  .separator {
+    display: inline;
+    color: rgba(255, 255, 255, 0.2);
+  }
+  section{
+    max-width: 100%;
+    scroll-margin-top:80px;
+    margin-bottom: 0;
+    margin-bottom: 10px;
+  }
+  .section{
+    padding-top:30px;
+  }
+  .section-title{
+    flex-direction: column;
+    height: auto;
+    max-width: 100%;
+    margin-bottom: 48px;
+  }
+  .section-title div:first-child{
+    width: 100%;
+    
+  }
+  .section-title div:last-child{
+    width: 100%;
+  }
+  .section-title div:last-child p{
+    width: 100%;
+  }
+  .badge{
+    max-width: 200px;
+  }
+  .banner{
+    height: 230px;
+  }
+  .res-description{
+    width: unset;
+  }
 }

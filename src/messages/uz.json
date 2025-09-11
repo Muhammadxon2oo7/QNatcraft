@@ -147,7 +147,8 @@
     "fifth": "Ko'rgazmalar 360",
     "sixth": "Do'kon",
     "cart_message": "Savatcha funksiyasi tez orada ishga tushadi!",
-    "login": "Kirish"
+    "login": "Kirish",
+    "menu":"bu menyu"
   },
   "auth": {
     "register": {
