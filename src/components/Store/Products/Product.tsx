@@ -530,23 +530,21 @@ export default function ProductList() {
   }, [fetchData])
 
 
-// Sheet ochilganda body skrolini ochiq qoldirish
-  useEffect(() => {
+useEffect(() => {
     if (isFilterOpen) {
-      // Body skrolini yoqish
-      document.body.style.overflow = "auto";
-      // Agar boshqa elementlarda overflow: hidden qo‘llanilgan bo‘lsa, ularni ham ochamiz
-      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto !important";
+      document.documentElement.style.overflow = "auto !important";
+      // Paddingni layout shift oldini olish uchun
+      document.body.style.paddingRight = "0px";
     } else {
-      // Sheet yopilganda standart holatga qaytarish
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
+      document.body.style.paddingRight = "";
     }
-
-    // Komponent o‘chirilganda tozalash
     return () => {
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
   }, [isFilterOpen]);
 
@@ -667,26 +665,32 @@ export default function ProductList() {
         />
       </div>
 
-      {/* Mobile Filter Trigger */}
-      <div className="md:hidden sticky top-[64px] z-20 bg-white py-2 px-4 shadow-md">
-        <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+      {/* Mobile Filter Trigger - z-index yuqori qilindi */}
+      <div className="md:hidden sticky top-[64px] z-30 bg-white py-2 px-4 shadow-md w-[95%] mx-auto">
+        <Sheet modal={false} open={isFilterOpen} onOpenChange={setIsFilterOpen}>
           <SheetTrigger asChild>
             <Button variant="outline" className="w-full flex items-center justify-center gap-2 text-base">
               <FilterIcon size={20} /> Filter
             </Button>
           </SheetTrigger>
-          <SheetContent side="bottom" className="h-auto max-h-[50vh] rounded-t-xl p-4 overflow-y-auto">
-            <SheetTitle className="sr-only">Filterlar</SheetTitle>
-            <SheetDescription className="sr-only">Filterlar ro‘yxati</SheetDescription>
-            <Filter
-              categories={categories.map((cat) => ({
-                id: String(cat.id),
-                name: cat.name,
-                product_count: cat.product_count || 0,
-              }))}
-              onFilterChange={handleFilterChange}
-            />
-          </SheetContent>
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+          >
+            <SheetContent side="bottom" className="h-auto max-h-[60vh] xs:max-h-[55vh] rounded-t-xl p-4 overflow-y-auto z-40 w-[95%] mx-auto">
+              <SheetTitle className="sr-only">Filterlar</SheetTitle>
+              <SheetDescription className="sr-only">Filterlar ro‘yxati</SheetDescription>
+              <Filter
+                categories={categories.map((cat) => ({
+                  id: String(cat.id),
+                  name: cat.name,
+                  product_count: cat.product_count || 0,
+                }))}
+                onFilterChange={handleFilterChange}
+              />
+            </SheetContent>
+          </motion.div>
         </Sheet>
       </div>
 

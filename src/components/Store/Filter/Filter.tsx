@@ -423,7 +423,7 @@ export default function Filter({ categories, onFilterChange }: FilterProps) {
   const [isFocused, setIsFocused] = useState(false)
   const [filterCategories, setFilterCategories] = useState<FilterOption[]>([])
 
-  useEffect(() => {
+useEffect(() => {
     if (categories) {
       setFilterCategories(categories.map((cat) => ({
         id: String(cat.id),
@@ -432,6 +432,7 @@ export default function Filter({ categories, onFilterChange }: FilterProps) {
       })))
       setLoading(false)
     } else {
+      // Fetch only if not provided (optimized)
       const fetchCategories = async () => {
         try {
           setLoading(true)
@@ -455,7 +456,7 @@ export default function Filter({ categories, onFilterChange }: FilterProps) {
     }
   }, [categories])
 
-  const handleFilterChange = useCallback(() => {
+const handleFilterChange = useCallback(() => {
     const selected = selectedCategory ? [selectedCategory] : []
     onFilterChange(selected, sortByDiscount, showLikedOnly, searchTerm)
   }, [selectedCategory, sortByDiscount, showLikedOnly, searchTerm, onFilterChange])
