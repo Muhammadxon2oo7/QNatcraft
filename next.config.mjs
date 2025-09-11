@@ -1,6 +1,13 @@
 import withNextIntl from 'next-intl/plugin';
+import withPWA from 'next-pwa';
 
-const nextConfig = withNextIntl()({
+const withIntl = withNextIntl();
+
+const nextConfig = withPWA({
+  dest: 'public', // service worker qayerga yaratilishini belgilaydi
+  register: true,
+  skipWaiting: true,
+})(withIntl({
   images: {
     remotePatterns: [
       {
@@ -26,16 +33,15 @@ const nextConfig = withNextIntl()({
       {
         protocol: 'https',
         hostname: 'qqrnatcraft.uz',
-        pathname: '/media/workshop_images/**', // Yangi qo'shilgan yo'l
+        pathname: '/media/workshop_images/**',
       },
       {
         protocol: 'https',
         hostname: 'qqrnatcraft.uz',
         pathname: '/media/360_images/**',
       }
-      
     ],
   },
-});
+}));
 
 export default nextConfig;
