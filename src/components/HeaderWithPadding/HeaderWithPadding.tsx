@@ -2,9 +2,11 @@
 
 import { useEffect, useState, ReactNode } from "react";
 import { Header } from "@/components/Header/Header";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export function HeaderWithPadding({ children }: { children: ReactNode }) {
   const [headerHeight, setHeaderHeight] = useState(0);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
     const updateHeaderHeight = () => {
@@ -21,7 +23,9 @@ export function HeaderWithPadding({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
-      <main style={{ paddingTop: `${headerHeight}px` }}>{children}</main>
+      <main style={{ paddingTop: isDesktop ? `${headerHeight + 50}px` : 0 }}>
+        {children}
+      </main>
     </>
   );
 }
