@@ -422,3 +422,13 @@ header{
     width: unset;
   }
 }
+/* Sheet ochilganda body skrolini ochiq qoldirish */
+body {
+  overflow: auto !important;
+}
+
+/* Sheet ichidagi kontentni skrol qilish imkoniyati */
+.sheet-content {
+  overflow-y: auto !important;
+  max-height: 50vh; /* Filter oynasining balandligi */
+}
