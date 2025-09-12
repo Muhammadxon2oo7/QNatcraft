@@ -666,7 +666,7 @@ useEffect(() => {
       </div>
 
       {/* Mobile Filter Trigger - z-index yuqori qilindi */}
-      <div className="md:hidden sticky top-[64px] z-30 bg-white py-2 px-4 shadow-md w-[95%] mx-auto">
+      <div className="md:hidden sticky top-[64px] z-30 bg-white py-2 px-4 shadow-md w-[100%] rounded-lg mx-auto">
         <Sheet modal={false} open={isFilterOpen} onOpenChange={setIsFilterOpen}>
           <SheetTrigger asChild>
             <Button variant="outline" className="w-full flex items-center justify-center gap-2 text-base">

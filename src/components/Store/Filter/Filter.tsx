@@ -574,14 +574,14 @@ const handleFilterChange = useCallback(() => {
               <Button
                 variant={showLikedOnly ? "default" : "outline"}
                 onClick={toggleLikedFilter}
-                className="flex-1 text-sm h-9"
+                className="flex-1 text-sm h-9 w-[46%]"
               >
                 <Heart size={16} className="mr-2" /> Yoqtirganlarim
               </Button>
               <Button
                 variant={sortByDiscount ? "default" : "outline"}
                 onClick={toggleDiscountFilter}
-                className="flex-1 text-sm h-9"
+                className="flex-1 text-sm h-9 w-[46%]"
               >
                 <Check size={16} className="mr-2" /> Chegirmali
               </Button>
