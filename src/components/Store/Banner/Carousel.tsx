@@ -121,146 +121,163 @@
 //     </div>
 //   );
 // }
+"use client";
 
+import { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
-"use client"
-
-import { Splide, SplideSlide, SplideRef } from '@splidejs/react-splide';
-import '@splidejs/react-splide/css';
-import { useState, useRef, lazy } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dot } from '@/components/dot/Dot';
-import { motion } from 'framer-motion';
-
-// Lazy image for performance
-const LazyImage = lazy(() => import('next/image'));
+import { Button } from "@/components/ui/button";
+import { Dot } from "@/components/dot/Dot";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 const slides = [
   {
     id: 1,
-    image: '/store/banner_f.png',
-    title: 'Ramazon oyi munosabati bilan barcha kulolchilik ishlarga 30% chegirma!',
-    description: 'Qoriniyoz ota kulolchilik ustaxonasi - sizga bundan-da foydali takliflar berishga tayyor!',
-    category: 'Kulolchilik',
+    image: "/store/banner_f.png",
+    title: "Ramazon oyi munosabati bilan barcha kulolchilik ishlarga 30% chegirma!",
+    description:
+      "Qoriniyoz ota kulolchilik ustaxonasi - sizga bundan-da foydali takliflar berishga tayyor!",
+    category: "Kulolchilik",
   },
   {
     id: 2,
-    image: '/store/banner_f.png',
-    title: 'Ramazon oyi munosabati bilan barcha kulolchilik ishlarga 30% chegirma!',
-    description: 'Qoriniyoz ota kulolchilik ustaxonasi - sizga bundan-da foydali takliflar berishga tayyor!',
-    category: 'Kulolchilik',
+    image: "/store/banner_f.png",
+    title: "Yangi dizayndagi buyumlar – faqat ushbu haftada maxsus narxlarda!",
+    description: "Uy uchun zamonaviy kulolchilik mahsulotlarini tanlang va buyurtma bering.",
+    category: "Design",
   },
   {
     id: 3,
-    image: '/store/banner_f.png',
-    title: 'Ramazon oyi munosabati bilan barcha kulolchilik ishlarga 30% chegirma!',
-    description: 'Qoriniyoz ota kulolchilik ustaxonasi - sizga bundan-da foydali takliflar berishga tayyor!',
-    category: 'Kulolchilik',
+    image: "/store/banner_f.png",
+    title: "Mahsulotlarimiz endi onlayn – buyurtma berish yanada qulay!",
+    description: "O‘zingizga yoqqan mahsulotni tanlang, bir necha bosqichda buyurtma qiling.",
+    category: "Online Shop",
   },
   {
     id: 4,
-    image: '/store/banner_f.png',
-    title: 'Ramazon oyi munosabati bilan barcha kulolchilik ishlarga 30% chegirma!',
-    description: 'Qoriniyoz ota kulolchilik ustaxonasi - sizga bundan-da foydali takliflar berishga tayyor!',
-    category: 'Kulolchilik',
+    image: "/store/banner_f.png",
+    title: "Ramazon oyi munosabati bilan barcha kulolchilik ishlarga 30% chegirma!",
+    description:
+      "Qoriniyoz ota kulolchilik ustaxonasi - sizga bundan-da foydali takliflar berishga tayyor!",
+    category: "Kulolchilik",
   },
   {
     id: 5,
-    image: '/store/banner_f.png',
-    title: 'Ramazon oyi munosabati bilan barcha kulolchilik ishlarga 30% chegirma!',
-    description: 'Qoriniyoz ota kulolchilik ustaxonasi - sizga bundan-da foydali takliflar berishga tayyor!',
-    category: 'Kulolchilik',
+    image: "/store/banner_f.png",
+    title: "Yangi dizayndagi buyumlar – faqat ushbu haftada maxsus narxlarda!",
+    description: "Uy uchun zamonaviy kulolchilik mahsulotlarini tanlang va buyurtma bering.",
+    category: "Design",
   },
   {
     id: 6,
-    image: '/store/banner_f.png',
-    title: 'Ramazon oyi munosabati bilan barcha kulolchilik ishlarga 30% chegirma!',
-    description: 'Qoriniyoz ota kulolchilik ustaxonasi - sizga bundan-da foydali takliflar berishga tayyor!',
-    category: 'Kulolchilik',
+    image: "/store/banner_f.png",
+    title: "Mahsulotlarimiz endi onlayn – buyurtma berish yanada qulay!",
+    description: "O‘zingizga yoqqan mahsulotni tanlang, bir necha bosqichda buyurtma qiling.",
+    category: "Online Shop",
   },
 ];
 
-export default function Carousel() {
-  const splideRef = useRef<SplideRef | null>(null);
+export default function CardSwiper() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [swiperInstance, setSwiperInstance] = useState<any>(null);
 
   return (
-    <motion.div 
-      className="relative w-full mx-auto"
-      initial={{ y: 50, opacity: 0 }}
+    <motion.div
+      className="relative w-full mx-auto max-w-[1920px] px-2 sm:px-4"
+      initial={{ y: 40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <Splide
-        ref={splideRef}
-        options={{
-          type: 'loop',
-          perPage: 1,
-          perMove: 1,
-          focus: 'center',
-          autoplay: true,
-          interval: 3000, // Slowed for better UX
-          arrows: false,
-          pagination: false,
-          drag: true,
-          gap: '0.5rem',
-          lazyLoad: 'nearby', // Optimized loading
-          breakpoints: {
-            640: { perPage: 1, gap: '0.5rem' },
-            768: { perPage: 2, gap: '0.75rem' },
-            1024: { perPage: 2, gap: '1rem' },
-            1280: { perPage: 3, gap: '1rem' },
-            1536: { perPage: 4, gap: '1.25rem' },
-          },
+      <Swiper
+        modules={[Pagination, Autoplay]}
+        spaceBetween={16}
+        slidesPerView={1.1}
+        breakpoints={{
+          640: { slidesPerView: 1.5 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
         }}
-        onMoved={(splide) => setActiveIndex(splide.index)}
+        centeredSlides={true}
+        loop={true}
+        autoplay={{ delay: 3500, disableOnInteraction: false }}
+        onSwiper={setSwiperInstance}
+        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+        className="!pb-16 custom-swiper flex items-center"
+        style={{ paddingTop: "50px" }}
       >
-        {slides.map((slide) => (
-          <SplideSlide key={slide.id}>
-            <div
-              className="relative flex h-[280px] xs:h-[320px] sm:h-[360px] md:h-[420px] lg:h-[460px] bg-[#f9f6f1] rounded-xl shadow-md overflow-hidden w-full"
-              style={{
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            >
-              <LazyImage
-                src={slide.image}
-                alt={slide.title}
-                fill
-                className="object-cover"
-              />
-              <div className="relative z-10 flex flex-col w-full sm:w-[60%] md:w-[50%] p-4 sm:p-6 md:p-8 lg:p-12">
-                <span className="flex items-center gap-2 text-xs sm:text-sm font-medium text-gray-600 bg-gray-200 px-2 py-1 rounded-full w-fit mb-2 md:mb-4">
-                  <Dot /> {slide.category}
-                </span>
-                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#242b3a] leading-tight">
-                  {slide.title}
-                </h2>
-                <p className="text-sm md:text-base lg:text-lg text-[#242b3a] mb-4 md:mb-8 lg:mb-12">
-                  {slide.description}
-                </p>
-                <Button
-                  variant={'default'}
-                  className="text-white w-full sm:w-[220px] md:w-[260px] rounded-[16px] h-9 sm:h-10 md:h-[52px] px-4 text-sm md:text-base"
-                >
-                  Mahsulotlarni ko‘rish
-                </Button>
-              </div>
-            </div>
-          </SplideSlide>
-        ))}
-      </Splide>
+        {slides.map((slide, index) => {
+          const isActive = index === activeIndex;
+          return (
+            <SwiperSlide key={slide.id}>
+              <motion.div
+                className={`relative flex w-full rounded-2xl shadow-lg overflow-hidden group transition-all duration-300 ease-in-out ${
+                  isActive ? "scale-105" : "scale-90 opacity-70"
+                }`}
+                style={{
+                  transformOrigin: "bottom center",
+                  height: "clamp(250px, 50vw, 420px)",
+                }}
+              >
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 90vw, (max-width: 1280px) 33vw, 25vw"
+                  priority
+                />
 
-      <div className="absolute bottom-2 xs:bottom-3 md:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1 xs:gap-1.5 md:gap-2 bg-gray-300 rounded-full px-2 py-1 md:px-4 md:py-2">
+                {/* Gradient Overlay + Content */}
+                <div className="relative z-10 flex flex-col justify-end h-full p-3 sm:p-5 md:p-6 lg:p-8 xl:p-10 bg-gradient-to-t from-black/70 via-black/40 to-transparent w-full">
+                  <span className="flex items-center gap-2 text-[9px] sm:text-xs md:text-sm font-medium text-white bg-black/40 px-2 sm:px-3 py-1 rounded-full w-fit backdrop-blur-sm mb-2">
+                    <Dot /> {slide.category}
+                  </span>
+
+                  <h2 className="text-white font-extrabold text-[clamp(16px,2vw,28px)] drop-shadow-md leading-tight line-clamp-2">
+                    {slide.title}
+                  </h2>
+
+                  <p className="text-white/80 text-[clamp(12px,1.4vw,18px)] mt-2 mb-3 line-clamp-3">
+                    {slide.description}
+                  </p>
+
+                  <Button
+                    variant="default"
+                    className="bg-[#8B0000] hover:bg-[#a50000] text-white w-fit px-3 sm:px-5 md:px-6 py-1.5 sm:py-2 md:py-3 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 text-[clamp(12px,1.3vw,16px)]"
+                  >
+                    Mahsulotlarni ko‘rish
+                  </Button>
+                </div>
+              </motion.div>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+
+      {/* ✅ Custom Pagination Dots (Splide style) */}
+      <motion.div
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-black/50 px-4 py-2 rounded-full backdrop-blur-md"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.3 }}
+      >
         {slides.map((_, index) => (
           <button
             key={index}
-            className={`h-2 w-2 xs:h-2.5 xs:w-2.5 md:h-3 md:w-3 rounded-full transition-all duration-300 ease-in-out ${activeIndex === index ? 'bg-[#8B0000] opacity-100 md:w-4' : 'bg-white opacity-50'}`}
-            onClick={() => splideRef.current?.go(index)}
+            onClick={() => swiperInstance?.slideToLoop(index)}
+            className={`h-2 w-2 md:h-3 md:w-3 rounded-full transition-all duration-300 ${
+              activeIndex === index
+                ? "bg-[#8B0000] scale-125 shadow-md"
+                : "bg-white/70 hover:bg-white/90"
+            }`}
+            aria-label={`Slayd ${index + 1} ga o‘tish`}
           />
         ))}
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
