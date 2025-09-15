@@ -1230,6 +1230,8 @@
 // };
 
 // export default ChatPage;
+
+
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
@@ -1512,7 +1514,8 @@ const ChatPage: React.FC = () => {
             <MessageList
               messages={selectedChat.messages}
               currentUserId={currentUserId}
-              wsConnection={wsConnections.get(selectedChatId!)}
+              wsConnection={wsConnections.get(selectedChatId!) ?? null}
+
               messagesEndRef={messagesEndRef}
               isAtBottomRef={isAtBottomRef}
               scrollToBottom={scrollToBottom}
@@ -1526,9 +1529,10 @@ const ChatPage: React.FC = () => {
 
             <MessageInput
               chatId={selectedChatId!}
-              wsConnection={wsConnections.get(selectedChatId!)}
+             wsConnection={wsConnections.get(selectedChatId!) ?? null}
+
               scrollToBottom={scrollToBottom}
-              getToken={getToken}
+                getToken={getToken} 
               replyingTo={replyingTo}
               setReplyingTo={setReplyingTo}
               editingMessage={editingMessage}

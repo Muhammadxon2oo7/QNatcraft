@@ -281,7 +281,8 @@ interface MessageInputProps {
   chatId: number;
   wsConnection: WebSocket | null;
   scrollToBottom: () => void;
-  getToken: () => Promise<string | null>;
+getToken: () => string | null;
+
   replyingTo: Message | null;
   setReplyingTo: (message: Message | null) => void;
   editingMessage: Message | null;
