@@ -133,6 +133,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       router.refresh();
     }
   };
+  const refreshToken = async () => {
+  const refreshToken = getCookie("refreshToken");
+  if (!refreshToken) return false;
+  try {
+    const response = await fetch(`${BACKEND_URL}/accounts/refresh/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh: refreshToken }),
+    });
+    if (!response.ok) throw new Error("Token refresh failed");
+    const { access } = await response.json();
+    document.cookie = `accessToken=${access}; path=/; SameSite=Strict`;
+    await fetchUserData();
+    return true;
+  } catch (error) {
+    console.error("Token refresh failed:", error);
+    toast.error("Sessiya muddati tugadi. Iltimos, qayta kiring.");
+    logout();
+    return false;
+  }
+};
+
+const wrappedGetToken = async () => {
+  let token = getCookie("accessToken");
+  if (!token) {
+    const refreshed = await refreshToken();
+    if (!refreshed) return null;
+    token = getCookie("accessToken");
+  }
+  return token;
+};
 
   return (
     <AuthContext.Provider value={{ user, loading, logout, refreshUser, getToken }}>
