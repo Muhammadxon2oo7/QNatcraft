@@ -146,7 +146,12 @@
       "fifth": "Kórgazmalar 360",
       "sixth": "Dükán",
     "cart_message":"Savat funksiyası jaqında iske túsedi!",
-    "login":"Kirish"
+    "login":"Kirish",
+  "loading": "Loading...",
+"logout": "Logout",
+"chat": "Chat",
+"favorites": "Favorites",
+"search": "Search"
 
     },
 "auth": {
@@ -425,7 +430,11 @@
     "successDelete": "Mahsul tabıslı óshirildi",
     "successAdd": "Mahsul tabıslı qosıldı",
     "successEdit": "Mahsul tabıslı ózgertildi"
-  }
+  },
+"LocaleSwitcher": {
+  "label": "QQ"
+}
+
   
   
 

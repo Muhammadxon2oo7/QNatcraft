@@ -145,7 +145,12 @@
     "fifth": "Exhibitions 360",
     "sixth": "Shop",
     "cart_message":"The cart function will be launched soon!",
-    "login":"Login"
+    "login":"Login",
+  "loading": "Loading...",
+"logout": "Logout",
+"chat": "Chat",
+"favorites": "Favorites",
+"search": "Search"
 
   },
   "auth": {
@@ -423,7 +428,11 @@
     "successDelete": "Product successfully deleted",
     "successAdd": "Product successfully added",
     "successEdit": "Product successfully edited"
-  }
+  },
+"LocaleSwitcher": {
+  "label": "Language"
+}
+
   
   
 

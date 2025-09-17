@@ -148,7 +148,11 @@
     "sixth": "Do'kon",
     "cart_message": "Savatcha funksiyasi tez orada ishga tushadi!",
     "login": "Kirish",
-    "menu":"bu menyu"
+    "loading": "Yuklanmoqda...",
+    "logout": "Chiqish",
+    "chat": "Chat",
+    "favorites": "Sevimlilar",
+    "search": "Qidirish"
   },
   "auth": {
     "register": {
@@ -424,5 +428,8 @@
     "successDelete": "Mahsulot muvaffaqiyatli o'chirildi",
     "successAdd": "Mahsulot muvaffaqiyatli qo'shildi",
     "successEdit": "Mahsulot muvaffaqiyatli tahrirlandi"
-  }
+  },
+"LocaleSwitcher": {
+  "label": "Til"
+}
 }

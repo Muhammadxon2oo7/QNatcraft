@@ -1,87 +1,9 @@
-// import React, { useCallback } from "react";
-// import Image from "next/image";
-// import { Button } from "@/components/ui/button";
-// import { Search, ChevronLeft } from "lucide-react";
-// import { Contact } from "./types";
-
-// const BASE_URL = "https://qqrnatcraft.uz";
-// const PLACEHOLDER_IMAGE = "/placeholder.jpg";
-
-// interface ChatHeaderProps {
-//   contact: Contact;
-//   onSearch?: (query: string) => void;
-//   onBack?: () => void;
-// }
-
-// const getImageUrl = (imagePath: string) =>
-//   imagePath
-//     ? imagePath.startsWith("http")
-//       ? imagePath
-//       : `${BASE_URL}${imagePath}`
-//     : PLACEHOLDER_IMAGE;
-
-// const ChatHeader: React.FC<ChatHeaderProps> = ({ contact, onSearch, onBack }) => {
-//   const [searchQuery, setSearchQuery] = React.useState("");
-
-//   const handleSearch = useCallback(
-//     (e: React.ChangeEvent<HTMLInputElement>) => {
-//       const value = e.target.value;
-//       setSearchQuery(value);
-//       onSearch?.(value);
-//     },
-//     [onSearch]
-//   );
-
-//   return (
-//     <div className="p-4 border-b bg-white flex items-center justify-between flex-wrap">
-//       <div className="flex items-center">
-//         {onBack && (
-//           <Button variant="ghost" size="sm" onClick={onBack} aria-label="Back to chat list" className="mr-2">
-//             <ChevronLeft size={20} />
-//           </Button>
-//         )}
-//         <Image
-//           src={getImageUrl(contact.avatar)}
-//           alt={contact.name}
-//           width={40}
-//           height={40}
-//           className="rounded-full mr-3"
-//           style={{ objectFit: 'contain' }}
-//         />
-//         <div>
-//           <h3 className="font-semibold text-sm sm:text-base">{contact.name}</h3>
-//           <p className="text-xs sm:text-sm text-gray-500">
-//             {contact.status === "online" ? "Online" : "Offline"}
-//           </p>
-//         </div>
-//       </div>
-//       <div className="flex items-center space-x-2 mt-2 sm:mt-0">
-//         <input
-//           type="text"
-//           value={searchQuery}
-//           onChange={handleSearch}
-//           placeholder="Xabarni qidirish..."
-//           className="border rounded-lg px-2 py-1 text-xs sm:text-sm w-full sm:w-auto"
-//           aria-label="Search messages"
-//         />
-//         <Button variant="ghost" size="sm" aria-label="Search">
-//           <Search size={20} />
-//         </Button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ChatHeader;
-
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Search } from "lucide-react";
 import { Contact } from "./types";
-
-const BASE_URL = "https://qqrnatcraft.uz";
-const PLACEHOLDER_IMAGE = "/placeholder.jpg";
+import { getMediaUrl } from "@/utils/helpers";
 
 interface ChatHeaderProps {
   contact: Contact;
@@ -90,47 +12,40 @@ interface ChatHeaderProps {
   setSearchQuery: (query: string) => void;
 }
 
-const getImageUrl = (imagePath: string) =>
-  imagePath
-    ? imagePath.startsWith("http")
-      ? imagePath
-      : `${BASE_URL}${imagePath}`
-    : PLACEHOLDER_IMAGE;
-
 const ChatHeader: React.FC<ChatHeaderProps> = ({ contact, onBack, searchQuery, setSearchQuery }) => {
   return (
-    <div className="p-4 border-b bg-white flex items-center justify-between">
-      <div className="flex items-center">
+    <div className="p-3 sm:p-4 border-b bg-white flex items-center justify-between shadow-sm">
+      <div className="flex items-center space-x-3">
         {onBack && (
-          <Button variant="ghost" size="sm" onClick={onBack} aria-label="Back to chat list" className="mr-2">
-            <ChevronLeft size={20} />
+          <Button variant="ghost" size="icon" onClick={onBack} aria-label="Back to chat list" className="hover:bg-gray-100">
+            <ChevronLeft size={24} className="text-gray-600" />
           </Button>
         )}
         <Image
-          src={getImageUrl(contact.avatar)}
+          src={getMediaUrl(contact.avatar, "image")}
           alt={contact.name}
-          width={40}
-          height={40}
-          className="rounded-full mr-3 object-cover"
+          width={48}
+          height={48}
+          className="rounded-full object-cover border-2 border-gray-200"
         />
         <div>
-          <h3 className="font-semibold text-base">{contact.name}</h3>
+          <h3 className="font-semibold text-lg sm:text-xl text-gray-800">{contact.name}</h3>
           <p className="text-sm text-gray-500">
             {contact.status === "online" ? "Online" : "Offline"}
           </p>
         </div>
       </div>
       <div className="flex items-center space-x-2">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Xabarni qidirish..."
-          className="border rounded-lg px-2 py-1 text-sm w-40 md:w-auto"
-        />
-        <Button variant="ghost" size="sm" aria-label="Search">
-          <Search size={20} />
-        </Button>
+        <div className="relative">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Xabarni qidirish..."
+            className="border rounded-full px-4 py-2 text-sm bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all w-32 sm:w-48 md:w-64"
+          />
+          <Search size={20} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+        </div>
       </div>
     </div>
   );
