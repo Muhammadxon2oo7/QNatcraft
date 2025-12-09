@@ -262,10 +262,10 @@
 //       setError(null);
 //       try {
 //         const [craftsmenRes, productsRes, professionsRes, workshopsRes] = await Promise.all([
-//           fetch("https://qqrnatcraft.uz/accounts/profiles/"),
-//           fetch("https://qqrnatcraft.uz/api/products/"),
-//           fetch("https://qqrnatcraft.uz/accounts/professions/"),
-//           fetch("https://qqrnatcraft.uz/workshop/workshops/"),
+//           fetch("https://api.qqcraft.uz/accounts/profiles/"),
+//           fetch("https://api.qqcraft.uz/api/products/"),
+//           fetch("https://api.qqcraft.uz/accounts/professions/"),
+//           fetch("https://api.qqcraft.uz/workshop/workshops/"),
 //         ]);
 
 //         if (!craftsmenRes.ok || !productsRes.ok || !professionsRes.ok || !workshopsRes.ok) {

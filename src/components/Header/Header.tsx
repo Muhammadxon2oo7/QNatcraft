@@ -71,7 +71,7 @@
 //             <Image
 //               src={
 //                 user?.profile?.profile_image
-//                   ? `https://qqrnatcraft.uz${user.profile.profile_image}`
+//                   ? `https://api.qqcraft.uz${user.profile.profile_image}`
 //                   : "/img/user.png"
 //               }
 //               alt={`${user.profile.user_first_name} profil rasmi`}
@@ -390,7 +390,7 @@ export const Header = () => {
             <Image
               src={
                 user?.profile?.profile_image
-                  ? `https://qqrnatcraft.uz${user.profile.profile_image}`
+                  ? `https://api.qqcraft.uz${user.profile.profile_image}`
                   : "/img/user.png"
               }
               alt={`${user.profile.user_first_name} profil rasmi`}

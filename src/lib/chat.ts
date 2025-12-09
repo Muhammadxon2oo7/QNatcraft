@@ -23,7 +23,7 @@ export interface Chat {
     is_read: boolean;
   }
   
-  const CHAT_API_BASE_URL = "https://qqrnatcraft.uz/chat/chats/";
+  const CHAT_API_BASE_URL = "https://api.qqcraft.uz/chat/chats/";
   
   const getHeaders = (token: string) => ({
     "Content-Type": "application/json",

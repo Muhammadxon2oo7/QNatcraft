@@ -2,7 +2,7 @@
 
 export const handleLogout = async () => {
    
-    const response = await fetch('https://qqrnatcraft.uz/accounts/logout', {
+    const response = await fetch('https://api.qqcraft.uz/accounts/logout', {
       method: 'POST',
     });
   

@@ -6,7 +6,7 @@ export interface ConfirmEmailType {
 }
 
 export const confirmEmail = async ({ confirmation_code, email }: ConfirmEmailType) => {
-  const res = await fetch("https://qqrnatcraft.uz/accounts/confirm-email/", {
+  const res = await fetch("https://api.qqcraft.uz/accounts/confirm-email/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

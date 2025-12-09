@@ -165,7 +165,7 @@ export function ContactDialog({
 
     setIsLoading(true);
     try {
-      const response = await fetch("https://qqrnatcraft.uz/chat/chats/", {
+      const response = await fetch("https://api.qqcraft.uz/chat/chats/", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

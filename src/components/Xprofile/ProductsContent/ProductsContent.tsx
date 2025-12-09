@@ -11,7 +11,7 @@
 // import fetchWrapperClient from "@/services/fetchWrapperClient";
 // import { useAuth } from "../../../../context/auth-context";
 
-// const BASE_URL = "https://qqrnatcraft.uz";
+// const BASE_URL = "https://api.qqcraft.uz";
 // const PLACEHOLDER_IMAGE = "/placeholder.jpg";
 
 // const getMediaUrl = (mediaPath: string | undefined) => {
@@ -904,7 +904,7 @@ import { toast } from "sonner";
 import { useAuth } from "../../../../context/auth-context";
 
 
-const BASE_URL = "https://qqrnatcraft.uz";
+const BASE_URL = "https://api.qqcraft.uz";
 const PLACEHOLDER_IMAGE = "/placeholder.jpg";
 const ITEMS_PER_PAGE = 4;
 
@@ -1488,7 +1488,7 @@ export default function ProductsContent() {
         setLoading(true);
         const token = memoizedGetToken();
         if (!token) throw new Error(t("errorAuth"));
-        const response = await fetch(`https://qqrnatcraft.uz/api${url}`, {
+        const response = await fetch(`https://api.qqcraft.uz/api${url}`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -1520,7 +1520,7 @@ export default function ProductsContent() {
       try {
         const token = memoizedGetToken();
         if (!token) throw new Error(t("errorAuth"));
-        const response = await fetch(`https://qqrnatcraft.uz/api/products/${productId}/`, {
+        const response = await fetch(`https://api.qqcraft.uz/api/products/${productId}/`, {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -1568,7 +1568,7 @@ export default function ProductsContent() {
       const url = selectedProduct ? `/products/${selectedProduct.id}/` : "/products/";
       const method = selectedProduct ? "PUT" : "POST";
 
-      const response = await fetch(`https://qqrnatcraft.uz/api${url}`, {
+      const response = await fetch(`https://api.qqcraft.uz/api${url}`, {
         method,
         body: data,
         headers: { Authorization: `Bearer ${token}` },

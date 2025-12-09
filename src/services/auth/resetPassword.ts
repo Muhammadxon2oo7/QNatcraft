@@ -1,7 +1,7 @@
 "use server";
 
 export const resetPassword = async (data: { email: string; new_password: string }) => {
-  const res = await fetch("https://qqrnatcraft.uz/accounts/password-reset-confirm/", {
+  const res = await fetch("https://api.qqcraft.uz/accounts/password-reset-confirm/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

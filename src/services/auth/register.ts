@@ -9,7 +9,7 @@ export interface RegisterType {
 }
 
 export const register = async (registerData: RegisterType) => {
-  const res = await fetch("https://qqrnatcraft.uz/accounts/register/", {
+  const res = await fetch("https://api.qqcraft.uz/accounts/register/", {
     headers: {
       "Content-Type": "application/json",
     },

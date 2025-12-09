@@ -6,7 +6,7 @@ import fetchWrapper from "@/services/fetchwrapper";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-const BACKEND_URL = "https://qqrnatcraft.uz";
+const BACKEND_URL = "https://api.qqcraft.uz";
 
 interface Profession {
   id: number;

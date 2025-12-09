@@ -18,7 +18,7 @@ interface Craft {
 
 async function getCraft(id: string) {
   try {
-    const response = await fetch(`https://qqrnatcraft.uz/workshop/workshops/${id}/`, {
+    const response = await fetch(`https://api.qqcraft.uz/workshop/workshops/${id}/`, {
       headers: {
         "Content-Type": "application/json",
       },

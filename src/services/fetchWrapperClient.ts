@@ -11,7 +11,7 @@ export interface ErrorData {
 }
 
 const fetchWrapperClient = async <T>(url: string, options: FetchOptions = {}): Promise<T> => {
-  const BASE_URL = "https://qqrnatcraft.uz";
+  const BASE_URL = "https://api.qqcraft.uz";
 
   const defaultHeaders: HeadersInit = {};
   // Agar body FormData bo‘lmasa, Content-Type qo‘shiladi

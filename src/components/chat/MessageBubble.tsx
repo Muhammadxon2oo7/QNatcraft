@@ -42,7 +42,7 @@ interface MessageBubbleProps {
   highlight?: boolean; // Yangi xabar yoki reply uchun highlight
 }
 
-const BASE_URL = "https://qqrnatcraft.uz";
+const BASE_URL = "https://api.qqcraft.uz";
 const PLACEHOLDER_IMAGE = "/placeholder.jpg";
 const PLACEHOLDER_AUDIO = "/placeholder-audio.mp3";
 

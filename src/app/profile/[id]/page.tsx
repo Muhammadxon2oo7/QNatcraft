@@ -68,7 +68,7 @@ const CraftsmanProfile = () => {
     const fetchCraftsman = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`https://qqrnatcraft.uz/main/craftsmens/${id}`, {
+        const response = await fetch(`https://api.qqcraft.uz/main/craftsmens/${id}`, {
           headers: { 'Content-Type': 'application/json' },
         });
         if (!response.ok) {
@@ -101,7 +101,7 @@ const CraftsmanProfile = () => {
           return;
         }
 
-        const response = await fetch(`https://qqrnatcraft.uz/api/products/${productId}/like/`, {
+        const response = await fetch(`https://api.qqcraft.uz/api/products/${productId}/like/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

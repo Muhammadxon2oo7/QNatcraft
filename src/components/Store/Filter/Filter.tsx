@@ -50,7 +50,7 @@
 //         try {
 //           setLoading(true)
 //           setError(null)
-//           const response = await fetch("https://qqrnatcraft.uz/api/categories/")
+//           const response = await fetch("https://api.qqcraft.uz/api/categories/")
 //           if (!response.ok) {
 //             throw new Error(`Failed to fetch categories: ${response.status}`)
 //           }
@@ -201,7 +201,7 @@
 //       try {
 //         setLoading(true)
 //         setError(null)
-//         const response = await fetch("https://qqrnatcraft.uz/api/categories/")
+//         const response = await fetch("https://api.qqcraft.uz/api/categories/")
 //         if (!response.ok) {
 //           throw new Error(`Failed to fetch categories: ${response.status}`)
 //         }
@@ -437,7 +437,7 @@ useEffect(() => {
         try {
           setLoading(true)
           setError(null)
-          const response = await fetch("https://qqrnatcraft.uz/api/categories/")
+          const response = await fetch("https://api.qqcraft.uz/api/categories/")
           if (!response.ok) throw new Error(`Status: ${response.status}`)
           const data = await response.json()
           setFilterCategories(data.map((category: any) => ({
@@ -494,7 +494,7 @@ const handleFilterChange = useCallback(() => {
       try {
         setLoading(true)
         setError(null)
-        const response = await fetch("https://qqrnatcraft.uz/api/categories/")
+        const response = await fetch("https://api.qqcraft.uz/api/categories/")
         if (!response.ok) throw new Error(`Status: ${response.status}`)
         const data = await response.json()
         setFilterCategories(data.map((category: any) => ({

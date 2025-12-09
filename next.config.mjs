@@ -22,22 +22,22 @@ const nextConfig = withPWA({
       },
       {
         protocol: 'https',
-        hostname: 'qqrnatcraft.uz',
+        hostname: 'api.qqcraft.uz',
         pathname: '/media/product_images/**',
       },
       {
         protocol: 'https',
-        hostname: 'qqrnatcraft.uz',
+        hostname: 'api.qqcraft.uz',
         pathname: '/media/profile_images/**',
       },
       {
         protocol: 'https',
-        hostname: 'qqrnatcraft.uz',
+        hostname: 'api.qqcraft.uz',
         pathname: '/media/workshop_images/**',
       },
       {
         protocol: 'https',
-        hostname: 'qqrnatcraft.uz',
+        hostname: 'api.qqcraft.uz',
         pathname: '/media/360_images/**',
       }
     ],

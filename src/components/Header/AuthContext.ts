@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BACKEND_URL = "https://qqrnatcraft.uz";
+const BACKEND_URL = "https://api.qqcraft.uz";
 
 // Cookie-dan token olish funksiyasi
 const getCookie = (name: string) => {

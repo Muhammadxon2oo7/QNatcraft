@@ -98,7 +98,7 @@ export const Footer = () => {
         {/* Bottom section */}
         <div className="flex flex-col sm:flex-row justify-between items-center mt-4 sm:mt-6 gap-2 sm:gap-4">
           <p className="font-light text-sm sm:text-base lg:text-lg text-white/60 text-center sm:text-left">
-            © QQRNatcraft.uz Barcha huquqlar himoyalangan
+            © api.qqcraft.uz Barcha huquqlar himoyalangan
           </p>
           <p className="font-light text-sm sm:text-base lg:text-lg text-white/60 text-center sm:text-right">
             Sayt <span className="font-normal text-white">E-investment</span> tomonidan ishlab chiqilgan!

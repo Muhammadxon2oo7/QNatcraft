@@ -160,7 +160,7 @@
 //   // API’dan kasblarni olish
 //   const fetchProfessions = useCallback(async () => {
 //     try {
-//       const response = await fetch("https://qqrnatcraft.uz/accounts/professions/");
+//       const response = await fetch("https://api.qqcraft.uz/accounts/professions/");
 //       if (!response.ok) {
 //         console.error("Professions fetch failed:", response.status, response.statusText);
 //         throw new Error(t("errors.professionsFetch"));
@@ -182,7 +182,7 @@
 //   const fetchCraftsmen = useCallback(async () => {
 //     try {
 //       setIsLoading(true);
-//       const response = await fetch("https://qqrnatcraft.uz/accounts/profiles/");
+//       const response = await fetch("https://api.qqcraft.uz/accounts/profiles/");
 //       if (!response.ok) {
 //         console.error("Craftsmen fetch failed:", response.status, response.statusText);
 //         throw new Error(t("errors.craftsmenFetch"));
@@ -504,7 +504,7 @@ const CustomSwiper = () => {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
-      const response = await fetch("https://qqrnatcraft.uz/accounts/professions/", { signal: controller.signal });
+      const response = await fetch("https://api.qqcraft.uz/accounts/professions/", { signal: controller.signal });
       clearTimeout(timeoutId);
       if (!response.ok) throw new Error(t("errors.professionsFetch"));
       const data = await response.json();
@@ -527,7 +527,7 @@ const CustomSwiper = () => {
       setIsLoading(true);
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
-      const response = await fetch("https://qqrnatcraft.uz/accounts/profiles/", { signal: controller.signal });
+      const response = await fetch("https://api.qqcraft.uz/accounts/profiles/", { signal: controller.signal });
       clearTimeout(timeoutId);
       if (!response.ok) throw new Error(t("errors.craftsmenFetch"));
       const data = await response.json();

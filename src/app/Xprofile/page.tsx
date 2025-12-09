@@ -329,7 +329,7 @@
 //                 src={
 //                   imagePreview ||
 //                   (profileData?.profile_image
-//                     ? `https://qqrnatcraft.uz${profileData.profile_image}`
+//                     ? `https://api.qqcraft.uz${profileData.profile_image}`
 //                     : "/img/user.png")
 //                 }
 //                 alt="Profile"
@@ -691,7 +691,7 @@
 //             <img
 //               src={
 //                 imagePreview ||
-//                 (profileData?.profile_image ? `https://qqrnatcraft.uz${profileData.profile_image}` : "/img/user.png")
+//                 (profileData?.profile_image ? `https://api.qqcraft.uz${profileData.profile_image}` : "/img/user.png")
 //               }
 //               alt="Profile"
 //               className="w-full h-full object-cover"

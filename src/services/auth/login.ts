@@ -12,7 +12,7 @@ export const login = async (loginData: { email: string; password: string }) => {
   cookies().delete("accessToken");
   cookies().delete("refreshToken");
 
-  const res = await fetch("https://qqrnatcraft.uz/accounts/login/", {
+  const res = await fetch("https://api.qqcraft.uz/accounts/login/", {
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -71,7 +71,7 @@ export const login = async (loginData: { email: string; password: string }) => {
 //     const email = document.getElementById('login-email').value;
 //     const password = document.getElementById('login-password').value;
 
-//     fetch('https://qqrnatcraft.uz/accounts/login/', {
+//     fetch('https://api.qqcraft.uz/accounts/login/', {
 //         method: 'POST',
 //         headers: {
 //             'Content-Type': 'application/json'

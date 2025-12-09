@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
 
     // Tokenni tekshirish uchun API so‘rovi
     try {
-      const response = await fetch('https://qqrnatcraft.uz/accounts/profile/me/', {
+      const response = await fetch('https://api.qqcraft.uz/accounts/profile/me/', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${accessToken}`,

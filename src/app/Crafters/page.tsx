@@ -126,7 +126,7 @@ export default function CraftersDirectory() {
     const fetchCraftsmen = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('https://qqrnatcraft.uz/accounts/profiles/', { cache: 'no-store' });
+        const response = await fetch('https://api.qqcraft.uz/accounts/profiles/', { cache: 'no-store' });
         if (!response.ok) {
           throw new Error("Ma'lumotlarni olishda xatolik yuz berdi");
         }

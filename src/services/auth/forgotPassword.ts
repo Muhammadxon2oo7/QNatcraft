@@ -1,7 +1,7 @@
 "use server";
 
 export const forgotPassword = async (email: string) => {
-  const res = await fetch("https://qqrnatcraft.uz/accounts/password-reset-request/", {
+  const res = await fetch("https://api.qqcraft.uz/accounts/password-reset-request/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

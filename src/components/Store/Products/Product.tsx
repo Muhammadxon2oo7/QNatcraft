@@ -66,11 +66,11 @@
 //         }
 
 //         const [categoriesResponse, productsResponse] = await Promise.all([
-//           fetch("https://qqrnatcraft.uz/api/categories/", {
+//           fetch("https://api.qqcraft.uz/api/categories/", {
 //             method: "GET",
 //             headers,
 //           }),
-//           fetch("https://qqrnatcraft.uz/api/products/", {
+//           fetch("https://api.qqcraft.uz/api/products/", {
 //             method: "GET",
 //             headers,
 //           }),
@@ -130,7 +130,7 @@
 //         const product = allProducts.find((p) => p.id === productId)
 //         const isLiked = product?.is_liked
 
-//         const response = await fetch(`https://qqrnatcraft.uz/api/products/${productId}/like/`, {
+//         const response = await fetch(`https://api.qqcraft.uz/api/products/${productId}/like/`, {
 //           method: "POST",
 //           headers: {
 //             "Content-Type": "application/json",
@@ -245,11 +245,11 @@
 //         }
 
 //         const [categoriesResponse, productsResponse] = await Promise.all([
-//           fetch("https://qqrnatcraft.uz/api/categories/", {
+//           fetch("https://api.qqcraft.uz/api/categories/", {
 //             method: "GET",
 //             headers,
 //           }),
-//           fetch("https://qqrnatcraft.uz/api/products/", {
+//           fetch("https://api.qqcraft.uz/api/products/", {
 //             method: "GET",
 //             headers,
 //           }),
@@ -501,8 +501,8 @@ export default function ProductList() {
       if (token) headers["Authorization"] = `Bearer ${token}`
 
       const [categoriesResponse, productsResponse] = await Promise.all([
-        fetch("https://qqrnatcraft.uz/api/categories/", { method: "GET", headers }),
-        fetch("https://qqrnatcraft.uz/api/products/", { method: "GET", headers }),
+        fetch("https://api.qqcraft.uz/api/categories/", { method: "GET", headers }),
+        fetch("https://api.qqcraft.uz/api/products/", { method: "GET", headers }),
       ])
 
       if (!categoriesResponse.ok || !productsResponse.ok) {
@@ -571,7 +571,7 @@ useEffect(() => {
       try {
         const token = await getToken()
         if (!token) throw new Error("Autentifikatsiya tokeni topilmadi.")
-        const response = await fetch(`https://qqrnatcraft.uz/api/products/${productId}/like/`, {
+        const response = await fetch(`https://api.qqcraft.uz/api/products/${productId}/like/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
