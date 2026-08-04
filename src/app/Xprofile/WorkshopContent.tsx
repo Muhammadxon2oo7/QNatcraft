@@ -229,7 +229,7 @@
 //               {isEditing ? (
 //                 <div onClick={() => fileInputRef.current?.click()} className="cursor-pointer">
 //                   <img
-//                     src={imagePreview || workshop.img || "/placeholder-workshop.jpg"}
+//                     src={imagePreview || workshop.img || "/placeholder.jpg"}
 //                     alt="Workshop"
 //                     className="w-full h-48 object-cover rounded-md"
 //                   />
@@ -239,7 +239,7 @@
 //                 </div>
 //               ) : (
 //                 <img
-//                   src={imagePreview || workshop.img || "/placeholder-workshop.jpg"}
+//                   src={imagePreview || workshop.img || "/placeholder.jpg"}
 //                   alt="Workshop"
 //                   className="w-full h-48 object-cover rounded-md"
 //                 />
@@ -422,7 +422,7 @@
 //                 onClick={() => fileInputRef.current?.click()}
 //               >
 //                 <img
-//                   src={imagePreview || "/placeholder-workshop.jpg"}
+//                   src={imagePreview || "/placeholder.jpg"}
 //                   alt="Preview"
 //                   className="w-full h-48 object-cover rounded-md"
 //                 />
@@ -491,6 +491,7 @@ interface WorkshopData {
   images_360?: { id: number; image_360: string }[];
   rating?: number;
   reviews?: number;
+  is_owner?: boolean;
 }
 
 interface VirtualTourItem {
@@ -534,7 +535,15 @@ export default function WorkshopContent({ userData }: WorkshopContentProps) {
   const fetchWorkshop = async () => {
     setLoading(true);
     try {
-      const data = await fetchWrapperClient<WorkshopData>("/workshop/workshops/my_workshop/", { method: "GET" });
+      // my_workshop/ ustaxona bo'lmasa 404 qaytaradi va DevTools uni qizil xato deb ko'rsatadi.
+      // Ro'yxat esa har doim 200 beradi — o'zimiznikini backend hisoblaydigan is_owner bo'yicha topamiz.
+      const list = await fetchWrapperClient<WorkshopData[] | { results: WorkshopData[] }>(
+        "/workshop/workshops/",
+        { method: "GET" }
+      );
+      const items = Array.isArray(list) ? list : list?.results ?? [];
+      const data = items.find((w) => w.is_owner) ?? null;
+
       if (data) {
         setWorkshop(data);
         setEditedData({ ...data, images_360: data.images_360 || [] });
@@ -547,11 +556,19 @@ export default function WorkshopContent({ userData }: WorkshopContentProps) {
           }))
         );
       } else {
-        setError(t("messages.noData"));
+        setWorkshop(null);
+        setError("");
       }
     } catch (err: any) {
-      setError(t("messages.error") + (err.message ? `: ${err.message}` : ""));
-      console.error("Fetch workshop error:", err);
+      // 404 — foydalanuvchida hali ustaxona yo'q. Bu nosozlik emas, oddiy bo'sh holat:
+      // pastdagi forma orqali yangi ustaxona yaratiladi (POST /workshop/workshops/).
+      if (err?.status === 404) {
+        setWorkshop(null);
+        setError("");
+      } else {
+        setError(t("messages.error") + (err.message ? `: ${err.message}` : ""));
+        console.error("Fetch workshop error:", err);
+      }
     } finally {
       setLoading(false);
     }
@@ -706,7 +723,7 @@ export default function WorkshopContent({ userData }: WorkshopContentProps) {
               {isEditing ? (
                 <div onClick={() => fileInputRef.current?.click()} className="cursor-pointer">
                   <img
-                    src={imagePreview || workshop.img || "/placeholder-workshop.jpg"}
+                    src={imagePreview || workshop.img || "/placeholder.jpg"}
                     alt="Workshop"
                     className="w-full h-48 object-cover rounded-md"
                   />
@@ -716,7 +733,7 @@ export default function WorkshopContent({ userData }: WorkshopContentProps) {
                 </div>
               ) : (
                 <img
-                  src={imagePreview || workshop.img || "/placeholder-workshop.jpg"}
+                  src={imagePreview || workshop.img || "/placeholder.jpg"}
                   alt="Workshop"
                   className="w-full h-48 object-cover rounded-md"
                 />
@@ -899,7 +916,7 @@ export default function WorkshopContent({ userData }: WorkshopContentProps) {
                 onClick={() => fileInputRef.current?.click()}
               >
                 <img
-                  src={imagePreview || "/placeholder-workshop.jpg"}
+                  src={imagePreview || "/placeholder.jpg"}
                   alt="Preview"
                   className="w-full h-48 object-cover rounded-md"
                 />

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ReactNode } from "react";
@@ -23,8 +23,12 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "SmartQnatCraft",
   description: "SmartQnatCraft",
-  manifest: "/manifest.json", // ✅ BU YERGA QO'SHILADI
-  themeColor: "#000000", // ✅ Brauzer rangini belgilaydi (mobil Chrome bar)
+  manifest: "/manifest.json",
+};
+
+// Next.js 14 da themeColor metadata emas, viewport eksportida bo'lishi kerak.
+export const viewport: Viewport = {
+  themeColor: "#000000", // Mobil brauzer paneli rangi
 };
 
 

@@ -77,7 +77,7 @@ export default async function CraftDetail({ params }: { params: { id: string } }
             className="object-cover rounded-lg"
             sizes="(max-width: 100%) 100vw, 100%"
             placeholder="blur"
-            blurDataURL="/placeholder.svg"
+            blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjYiPjxyZWN0IHdpZHRoPSI4IiBoZWlnaHQ9IjYiIGZpbGw9IiNGNkY2RjYiLz48L3N2Zz4="
           />
           <Link href="/xprofile">
             <button className="absolute top-4 right-4 flex items-center gap-2 px-5 py-2 bg-red-800 text-white rounded-md hover:bg-red-900 transition-colors">

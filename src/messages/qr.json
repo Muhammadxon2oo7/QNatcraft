@@ -425,6 +425,7 @@
     "errorCategories": "Kategoriyalardı júklewde qáte boldı",
     "errorProducts": "Mahsuldardı júklewde qáte boldı",
     "errorDelete": "Mahsuldı óshiriwde qáte boldı",
+    "errorDiscount": "Shegirme 0 den 100 ge shekem procent bolıwı kerek",
     "errorServer": "Server qátesi",
     "confirmDelete": "Bul mahsuldı óshiriwge isenimlimisiz?",
     "successDelete": "Mahsul tabıslı óshirildi",

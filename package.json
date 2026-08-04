@@ -41,6 +41,7 @@
     "d3-geo": "^3.1.1",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.5.2",
+    "emoji-mart": "^5.6.0",
     "framer-motion": "^12.6.3",
     "glidejs": "^2.1.0",
     "immer": "^10.1.1",

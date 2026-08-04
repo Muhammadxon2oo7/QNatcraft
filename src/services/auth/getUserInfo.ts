@@ -33,15 +33,17 @@ interface UserData {
 
 export async function getUserInfoAction(): Promise<UserData | null> {
   try {
-    const data = await fetchWrapper<UserData[]>("accounts/profiles/", {
+    // accounts/profiles/ — bu BARCHA profillar ro'yxati, data[0] noto'g'ri foydalanuvchini
+    // qaytarardi. accounts/profile/me/ tokendagi foydalanuvchining o'zini qaytaradi.
+    const data = await fetchWrapper<UserData | UserData[]>("accounts/profile/me/", {
       method: "GET",
       credentials: "include",
     });
 
-    if (Array.isArray(data) && data.length > 0) {
-      return data[0];
+    if (Array.isArray(data)) {
+      return data.length > 0 ? data[0] : null;
     }
-    return null;
+    return data ?? null;
   } catch (error) {
     console.error("Foydalanuvchi maʼlumotlarini olishda xatolik:", error);
     return null;

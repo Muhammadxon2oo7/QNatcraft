@@ -30,7 +30,7 @@ export default function CraftCard({ craft, }: { craft: Craft }) {
             className="object-cover rounded-lg"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
             placeholder="blur"
-            blurDataURL="/placeholder.svg"
+            blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjYiPjxyZWN0IHdpZHRoPSI4IiBoZWlnaHQ9IjYiIGZpbGw9IiNGNkY2RjYiLz48L3N2Zz4="
           />
           {/* 360° CAMERA ikonkasi */}
           <div className="absolute top-4 left-4 flex items-center gap-1 bg-white/80 rounded-full px-2 py-1 text-xs text-gray-600">

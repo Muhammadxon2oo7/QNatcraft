@@ -1284,6 +1284,8 @@ const ProductForm = ({
                   placeholder="0 %"
                   className="mt-1 block w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-red-800 bg-white text-gray-900 border-gray-300"
                   step="0.01"
+                  min="0"
+                  max="100"
                   autoComplete="off"
                   whileFocus={{ scale: 1.02 }}
                   ref={refs.discount}
@@ -1561,7 +1563,15 @@ export default function ProductsContent() {
       data.append("price", parseFloat(formData.price).toFixed(2));
       data.append("address", formData.address.trim());
       data.append("category", String(formData.category));
-      if (formData.discount) data.append("discount", parseFloat(formData.discount).toFixed(2));
+      // Backendda discount = DecimalField(max_digits=5, decimal_places=2) va u foizda o'lchanadi,
+      // ya'ni 100 dan katta qiymat mantiqan ham, sxema bo'yicha ham noto'g'ri.
+      if (formData.discount) {
+        const discount = parseFloat(formData.discount);
+        if (Number.isNaN(discount) || discount < 0 || discount > 100) {
+          throw new Error(t("errorDiscount"));
+        }
+        data.append("discount", discount.toFixed(2));
+      }
       if (formData.threed_model) data.append("threed_model", formData.threed_model);
       images.forEach((image) => data.append("images", image));
 

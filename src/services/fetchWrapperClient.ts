@@ -56,7 +56,12 @@ const fetchWrapperClient = async <T>(url: string, options: FetchOptions = {}): P
       window.location.href = "/login";
     }
 
-    throw new Error(errorMessage);
+    // Statusni xatoga biriktiramiz — chaqiruvchi 404 ni (masalan "hali ma'lumot yo'q")
+    // haqiqiy nosozlikdan ajrata olishi uchun.
+    throw Object.assign(new Error(errorMessage), {
+      status: response.status,
+      details: errorDetails,
+    });
   }
 
   if (contentType && contentType.includes("application/json")) {

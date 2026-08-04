@@ -7,7 +7,15 @@ const nextConfig = withPWA({
   dest: 'public', // service worker qayerga yaratilishini belgilaydi
   register: true,
   skipWaiting: true,
+  // Dev rejimda service worker eski JS ni keshdan berib, o'zgarishlar ko'rinmay qolardi.
+  disable: process.env.NODE_ENV === 'development',
 })(withIntl({
+  async redirects() {
+    return [
+      // O'z profilim /Xprofile kabinetida ochiladi.
+      { source: '/profile/me', destination: '/Xprofile', permanent: false },
+    ];
+  },
   images: {
     remotePatterns: [
       {

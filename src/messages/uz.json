@@ -423,6 +423,7 @@
     "errorCategories": "Kategoriyalarni yuklashda xato yuz berdi",
     "errorProducts": "Mahsulotlarni yuklashda xato yuz berdi",
     "errorDelete": "Mahsulotni o'chirishda xato yuz berdi",
+    "errorDiscount": "Chegirma 0 dan 100 gacha foiz bo'lishi kerak",
     "errorServer": "Server xatosi",
     "confirmDelete": "Haqiqatan ham bu mahsulotni o'chirmoqchimisiz?",
     "successDelete": "Mahsulot muvaffaqiyatli o'chirildi",

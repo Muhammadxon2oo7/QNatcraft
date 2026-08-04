@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -31,9 +31,31 @@ interface Craftsman {
   experience: number;
   mentees: number;
   award: string | null;
-  profession: { id: number; name: string };
+  profession: { id: number; name: string } | null;
   products: Product[];
 }
+
+// /accounts/profiles/{id}/ javobi — /main/craftsmens/ dagidan maydon nomlari farq qiladi
+interface AccountProfile {
+  id: number;
+  user_email: string;
+  user_first_name: string;
+  bio: string | null;
+  profile_image: string | null;
+  address: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  phone_number: string | null;
+  experience: number | null;
+  mentees: number | null;
+  award: string | null;
+  profession: number | null;
+}
+
+const API = 'https://api.qqcraft.uz';
+
+const asArray = <T,>(data: any): T[] =>
+  Array.isArray(data) ? data : Array.isArray(data?.results) ? data.results : [];
 
 interface Product {
   id: number;
@@ -56,26 +78,79 @@ interface Product {
 const CraftsmanProfile = () => {
   const t = useTranslations('home.profile');
   const { id } = useParams();
+  const router = useRouter();
   const { user, getToken } = useAuth();
   const [craftsman, setCraftsman] = useState<Craftsman | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isLiking, setIsLiking] = useState<number | null>(null);
 
+  // /profile/me — o'z profilim /Xprofile kabinetida ochiladi.
+  const isMe = id === 'me';
+  const resolvedId = isMe ? undefined : id;
+
   useEffect(() => {
-    if (!id) return;
+    if (isMe) {
+      router.replace('/Xprofile');
+      return;
+    }
+    if (!resolvedId) return;
+
+    // Hunarmand sifatida ro'yxatdan o'tmagan foydalanuvchini (profession = null)
+    // /main/craftsmens/ qaytarmaydi — 404 beradi. Bunday holda hisob profilidan yig'amiz.
+    const buildFromAccountProfile = async (): Promise<Craftsman> => {
+      const res = await fetch(`${API}/accounts/profiles/${resolvedId}/`);
+      if (!res.ok) throw new Error(t('errors.craftsmanFetch'));
+      const p: AccountProfile = await res.json();
+
+      let profession: Craftsman['profession'] = null;
+      if (p.profession != null) {
+        const list = await fetch(`${API}/accounts/professions/`);
+        if (list.ok) {
+          profession =
+            asArray<{ id: number; name: string }>(await list.json()).find(
+              (x) => x.id === p.profession
+            ) ?? null;
+        }
+      }
+
+      // Bu ochiq profil — mahsulotlar faqat /main/craftsmens/ javobida keladi,
+      // hunarmand bo'lmagan foydalanuvchida esa umuman bo'lmaydi.
+      return {
+        products: [],
+        id: p.id,
+        first_name: p.user_first_name,
+        email: p.user_email,
+        bio: p.bio ?? '',
+        profile_image: p.profile_image ?? '',
+        address: p.address,
+        latitude: p.latitude,
+        longitude: p.longitude,
+        phone_number: p.phone_number,
+        experience: p.experience ?? 0,
+        mentees: p.mentees ?? 0,
+        award: p.award,
+        profession,
+      };
+    };
 
     const fetchCraftsman = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`https://api.qqcraft.uz/main/craftsmens/${id}`, {
+        setError(null);
+
+        const response = await fetch(`${API}/main/craftsmens/${resolvedId}/`, {
           headers: { 'Content-Type': 'application/json' },
         });
-        if (!response.ok) {
-          throw new Error(t('errors.craftsmanFetch'));
+
+        if (response.ok) {
+          const data: Craftsman = await response.json();
+          setCraftsman({ ...data, products: data.products ?? [] });
+          return;
         }
-        const data: Craftsman = await response.json();
-        setCraftsman(data);
+        if (response.status !== 404) throw new Error(t('errors.craftsmanFetch'));
+
+        setCraftsman(await buildFromAccountProfile());
       } catch (error) {
         setError(t('errors.craftsmanFetch'));
       } finally {
@@ -84,7 +159,7 @@ const CraftsmanProfile = () => {
     };
 
     fetchCraftsman();
-  }, [id, t]);
+  }, [resolvedId, isMe, router, t]);
 
   const toggleLike = useCallback(
     async (productId: number) => {

@@ -137,7 +137,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const refreshToken = getCookie("refreshToken");
   if (!refreshToken) return false;
   try {
-    const response = await fetch(`${BACKEND_URL}/accounts/refresh/`, {
+    const response = await fetch(`${BACKEND_URL}/accounts/token/refresh/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refresh: refreshToken }),

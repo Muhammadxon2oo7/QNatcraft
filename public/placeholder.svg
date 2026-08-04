@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Rasm mavjud emas">
+  <rect width="400" height="300" fill="#F6F6F6"/>
+  <g fill="none" stroke="#D1D5DB" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="118" y="98" width="164" height="122" rx="10"/>
+    <path d="M118 186l38-34a12 12 0 0 1 16 0l30 27"/>
+    <path d="M196 196l34-30a12 12 0 0 1 16 0l36 32"/>
+  </g>
+  <circle cx="243" cy="132" r="13" fill="#E0E0E0"/>
+</svg>

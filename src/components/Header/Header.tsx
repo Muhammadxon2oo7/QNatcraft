@@ -175,7 +175,7 @@
 //                     { href: "#madaniymeros", label: t("second") },
 //                     { href: "#Hunarmandchilikturlari", label: t("third") },
 //                     { href: "#", label: t("fourth") },
-//                     { href: "/korgazmalar", label: t("fifth") },
+//                     { href: "/workshops", label: t("fifth") },
 //                   ].map((item) => (
 //                     <Link
 //                       key={item.href}
@@ -493,7 +493,7 @@ export const Header = () => {
                         { href: "#madaniymeros", label: t("second") },
                         { href: "#Hunarmandchilikturlari", label: t("third") },
                         { href: "#", label: t("fourth") },
-                        { href: "/korgazmalar", label: t("fifth") },
+                        { href: "/workshops", label: t("fifth") },
                       ].map((item) => (
                         <Link
                           key={item.href}

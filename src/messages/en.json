@@ -423,6 +423,7 @@
     "errorCategories": "Error loading categories",
     "errorProducts": "Error loading products",
     "errorDelete": "Error deleting product",
+    "errorDiscount": "Discount must be a percentage between 0 and 100",
     "errorServer": "Server error",
     "confirmDelete": "Are you sure you want to delete this product?",
     "successDelete": "Product successfully deleted",
